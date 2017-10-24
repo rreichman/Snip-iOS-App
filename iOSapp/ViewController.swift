@@ -10,19 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var labelName: UILabel!
+    @IBAction func buttonToNextScreen(_ sender: Any) {
+        print("button click")
+        self.performSegue(withIdentifier: "secondViewSegue", sender : self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        print("first view has loaded")
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func testButton(_ sender: Any) {
-        
     }
 }
