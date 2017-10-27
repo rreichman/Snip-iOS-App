@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Snip-->
+        <!--Table View Controller-->
         <scene sceneID="Ug2-A5-XLg">
             <objects>
                 <tableViewController id="HBx-tT-6gJ" customClass="TableViewController" customModule="iOSapp" sceneMemberID="viewController">
@@ -70,14 +70,14 @@
                             <outlet property="delegate" destination="HBx-tT-6gJ" id="RtR-WG-lUc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Snip" id="gtC-tI-eNw">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="uhL-L7-adE"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Y2D-xA-hQo"/>
+                    <navigationItem key="navigationItem" id="gtC-tI-eNw">
+                        <barButtonItem key="leftBarButtonItem" title="Button" id="uhL-L7-adE"/>
+                        <barButtonItem key="rightBarButtonItem" title="Button" id="Y2D-xA-hQo"/>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x77-yD-nkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="681" y="236"/>
+            <point key="canvasLocation" x="526" y="235"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aS6-j3-fwU">

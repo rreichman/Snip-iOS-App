@@ -27,8 +27,6 @@ class TableViewController: UITableViewController {
         return shoppingList.count
     }
     
-    // TODO:: probably need static Home Bar (like twtr) for UI to make sense
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         print("here")
@@ -58,8 +56,36 @@ class TableViewController: UITableViewController {
         return cell
     }
     
+    private func turnNavigationBarTitleIntoButton(title: String)
+    {
+        let button =  UIButton(type: .custom)
+        let buttonHeight = self.navigationController!.navigationBar.frame.size.height
+        // 0.8 is arbitrary ratio of bar to be clickable
+        let buttonWidth = self.navigationController!.navigationBar.frame.size.width * 0.8
+        button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize : 18)
+        button.addTarget(self,
+                         action: #selector(self.buttonAction),
+                         for: .touchUpInside)
+        self.navigationItem.titleView = button
+    }
+    
+    @objc func buttonAction(sender: Any)
+    {
+        print("Got it!")
+        // This is a nice additional margin so that the cell isn't too crowded with the top of the page. Probably there's a better way to do this but not too important.
+        let additionalMarginAtBottomOfNavigationBar = CGFloat(20)
+        // Bring the content to the top of the screen in a nice animated way.
+        let heightOfTopOfPage = -self.navigationController!.navigationBar.frame.size.height - additionalMarginAtBottomOfNavigationBar
+        tableView.setContentOffset(CGPoint(x : 0, y : heightOfTopOfPage), animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        turnNavigationBarTitleIntoButton(title: "Home")
         
         print("table view has loaded")
     }
