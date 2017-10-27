@@ -32,15 +32,15 @@ class TableViewController: UITableViewController {
         print("here")
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
         
-        /*var paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.hyphenationFactor = 1.0
-        var attributedString = NSMutableAttributedString(cell.cellText.text)
-        attributedString.addAttribute(name : NSMutableParagraphStyle, value: paragraphStyle, range: NSMakeRange(start, length))*/
-        
         cell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
         cell.cellText.numberOfLines = 0;
-        cell.cellText.text = shoppingList[indexPath.row]
         tableView.allowsSelection = false
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.hyphenationFactor = 1.0
+        let attributedString = NSMutableAttributedString(string: shoppingList[indexPath.row], attributes: [NSAttributedStringKey.paragraphStyle:paragraphStyle])
+        cell.cellText.attributedText = attributedString
+        cell.cellText.font = cell.cellText.font.withSize(14)
         
         cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
         cell.cellHeadline.text = headlines[indexPath.row]
