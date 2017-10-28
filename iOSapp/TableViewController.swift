@@ -13,46 +13,66 @@ let secondString = "In a summary of their findings, the research team wrote, \"R
 let thirdString = "The research suggests that to protect your privacy, it’s a good idea to pay a bit extra for ad-free versions of apps and switch off location sharing features whenever possible."
 let snipString = firstString + "\n\n" + secondString + "\n\n" + thirdString
 
-class TableViewController: UITableViewController {
-    let shoppingList = [
+class TableViewController: UITableViewController
+{
+    var imageUrlList = [String]()
+    var shoppingList = [
         snipString,
         "Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread", "Milk", "Eggs", "Honey", "Veggies", "fdsajfdasjkjdfshhjksdfkadfshjkdsfajkhfdsajfdasjkjdfshhjksdfkadfshjkdsfajkhfdsajfdasjkjdfshhjksdfkadfshjkdsfajkh",
-        "Pizza", "Lettuce"]
-    let headlines = [
-        "Headline1", "Headline2", "Headline3", "Headline4", "Headline5", "Headline6", "Headline7", "Headline8", "Headline9"]
-    //let shoppingList = ["Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread Bread", "Milk", "Eggs", "Honey", "Veggies"]
+        "Pizza","Lettuce","Cabbage", "Onion"]
+    
+    var headlines = [
+        "Headline1", "Headline2", "Headline3", "Headline4", "Headline5", "Headline6", "Headline7", "Headline8", "Headline9", "Headline10", "Headline11"]
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return shoppingList.count
+        return imageUrlList.count
+    }
+    
+    func deleteRowSafelyFromTable(indexPath: IndexPath)
+    {
+        shoppingList.remove(at: indexPath[1])
+        headlines.remove(at: indexPath[1])
+        imageUrlList.remove(at: indexPath[1])
+        self.tableView.reloadData()
+    }
+    
+    func getCellTextStyle(textList : [String], indexPath: IndexPath) -> NSMutableAttributedString
+    {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.hyphenationFactor = 1.0
+        return NSMutableAttributedString(string: textList[indexPath[1]], attributes: [NSAttributedStringKey.paragraphStyle:paragraphStyle])
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        print("here")
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
+        
+        tableView.allowsSelection = false
         
         cell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
         cell.cellText.numberOfLines = 0;
-        tableView.allowsSelection = false
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.hyphenationFactor = 1.0
-        let attributedString = NSMutableAttributedString(string: shoppingList[indexPath.row], attributes: [NSAttributedStringKey.paragraphStyle:paragraphStyle])
-        cell.cellText.attributedText = attributedString
+        cell.cellText.attributedText = getCellTextStyle(textList: shoppingList, indexPath: indexPath)
         cell.cellText.font = cell.cellText.font.withSize(14)
         
         cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
-        cell.cellHeadline.text = headlines[indexPath.row]
-        
-        var imageName = "dogImage"
-        if (indexPath.row % 2 == 1)
+        cell.cellHeadline.text = headlines[indexPath[1]]
+    
+        do
         {
-            imageName = "mapImage"
+            print("getting image number \(indexPath[0])")
+            print("getting image number \(indexPath[1])")
+            _ = try cell.cellImage.imageFromServerURL(urlString: imageUrlList[indexPath[1]])
         }
-        let loadedImage = UIImage(named:imageName)
-        cell.cellImage.image = loadedImage
-        
+        catch is ProgramError
+        {
+            deleteRowSafelyFromTable(indexPath: indexPath)
+        }
+        catch
+        {
+            // All is good
+        }
+
         return cell
     }
     
@@ -86,6 +106,18 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         turnNavigationBarTitleIntoButton(title: "Home")
+        
+        imageUrlList = ["https://www.pizza.com/a.jpg",
+                        "https://www.pizza.com/a.jpg",
+                        "https://upload.wikimedia.org/wikipedia/commons/7/79/San_Francisco–Oakland_Bay_Bridge-_New_and_Old_bridges.jpg",
+                        "https://upload.wikimedia.org/wikipedia/commons/d/da/SF_From_Marin_Highlands3.jpg",
+                        "https://upload.wikimedia.org/wikipedia/commons/4/43/San_Francisco_%28Sunset%29.jpg",
+                        "https://upload.wikimedia.org/wikipedia/commons/3/3b/San_Francisco_%28Evening%29.jpg",
+                        "https://cdn.pixabay.com/photo/2017/01/14/12/58/san-francisco-1979443_960_720.jpg",
+                        "http://www.publicdomainpictures.net/pictures/160000/velka/san-francisco-neighborhood-1459695606m8F.jpg",
+                        "https://cdn.pixabay.com/photo/2016/12/09/09/22/san-francisco-1893985_960_720.jpg",
+                        "https://static.pexels.com/photos/7653/pexels-photo.jpeg",
+                        "https://cdn.pixabay.com/photo/2017/04/08/00/31/usa-2212202_960_720.jpg"]
         
         print("table view has loaded")
     }
