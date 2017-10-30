@@ -7,8 +7,8 @@
 //
 
 import UIKit
-
-let imageCache = NSCache<NSString, UIImage>()
+// This is from the Cache pod. Documentation here: https://github.com/hyperoslo/Cache
+import Cache
 
 extension UIImageView
 {
@@ -27,19 +27,19 @@ extension UIImageView
     
     public func imageFromServerURL(urlString: String) throws -> Error
     {
-        /*
-        // First check if there is an image in the cache
-        if let cachedImage = imageCache.object(forKey: urlString as NSString)
+        // I don't want it taking the data from a previous image.
+        self.image = nil
+        
+        let storage = AppCache.shared.getStorage()
+        if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
         {
-            self.image = cachedImage   
-            return
-        }*/
-        print("before async land")
+            print("using cache with image " + urlString)
+            self.image = cachedImage
+            return NoError()
+        }
 
-        print("url string is " + urlString)
         if !isUrlValid(urlString: urlString)
         {
-            print("nil URL")
             throw ProgramError(errorMessage: "Invalid URL")
         }
         let url = NSURL(string: urlString)! as URL
@@ -55,7 +55,8 @@ extension UIImageView
                 // Cache to image so it doesn't need to be reloaded every time the user scrolls and table cells are re-used.
                 if let image = UIImage(data: data!)
                 {
-                    //imageCache.setObject(image, forKey: urlString as NSString)
+                    let wrapper = ImageWrapper(image : image)
+                    try? storage.setObject(wrapper, forKey: urlString)
                     self.image = image
                 }
             })
