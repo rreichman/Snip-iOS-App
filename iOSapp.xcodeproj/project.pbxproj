@@ -362,10 +362,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/ReadMoreTextView/ReadMoreTextView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReadMoreTextView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

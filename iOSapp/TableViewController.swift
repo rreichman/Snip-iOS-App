@@ -13,6 +13,8 @@ class TableViewController: UITableViewController
 {
     let feedDataSource = FeedDataSource()
     
+    let firstPostText = "12345678901234567890123456789012345678901234567890 This is an interesting introduction to something which is gibbrish and not very interesting. abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG abc def ghi jkl mno pqr stu vwx yza bcd efg hij klm nop qrs tuv wxy zab cde fgh ijk lmn opq rst uvw xyz ABC DEF GHI JKL MNO PQR STU VWX YZA BCD EFG"
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -28,17 +30,17 @@ class TableViewController: UITableViewController
     {
         // TODO:: handle situation of no internet connection. As part of this, cache headlines and texts in addition to the already-cached images
         feedDataSource.addPost(
-            headline: "headline1", text: "text1", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/pizza.png")
+            headline: "headline1", text: firstPostText, imageURL: "https://cdn.pixabay.com/photo/2016/08/31/17/41/sunrise-1634197_1280.jpg")
         feedDataSource.addPost(
-            headline: "headline2", text: "text2", imageURL: "https://upload.wikimedia.org/wikipedia/commons/7/79/San_Francisco–Oakland_Bay_Bridge-_New_and_Old_bridges.jpg")
+            headline: "headline2", text: "text2", imageURL: "https://cdn.pixabay.com/photo/2013/09/15/05/27/sunrise-182302_1280.jpg")
         feedDataSource.addPost(
             headline: "headline3", text: "text3", imageURL: "https://static.pexels.com/photos/7653/pexels-photo.jpeg")
         feedDataSource.addPost(
             headline: "headline4", text: "text4", imageURL: "https://cdn.pixabay.com/photo/2017/04/08/00/31/usa-2212202_960_720.jpg")
         feedDataSource.addPost(
-            headline: "headline5", text: "text5", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
+            headline: "headline5", text: "text5", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/pizza.png")
         feedDataSource.addPost(
-            headline: "headline6", text: "text6", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
+            headline: "headline6", text: "text6", imageURL: "https://upload.wikimedia.org/wikipedia/commons/7/79/San_Francisco–Oakland_Bay_Bridge-_New_and_Old_bridges.jpg")
         feedDataSource.addPost(
             headline: "headline7", text: "text7", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
         feedDataSource.addPost(
