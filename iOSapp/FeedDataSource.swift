@@ -12,6 +12,7 @@ import ReadMoreTextView
 class FeedDataSource: NSObject, UITableViewDataSource
 {
     var postDataArray: [PostData] = []
+    var _tableView: UITableView = UITableView()
     
     public func getLinkAttributesForWebsite(linkWebsite : String) -> [String : Any]
     {
@@ -21,58 +22,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
             ] as! [String : Any]
         return linkAttributes
     }
-    
-    /*private func addReadMoreToLabel(label : UILabel)
-    {
-        //let readMoreText = " ...Read More" as String;
-        let mutableLabelString = label.attributedText?.mutableCopy() as! NSMutableAttributedString
-        let MAX_LENGTH_FOR_PREVIEW = 40
-        let PREVIEW_SIZE = 20
-        let len = mutableLabelString.length
-        
-        if (len >= MAX_LENGTH_FOR_PREVIEW)
-        {
-            let partialString : NSMutableAttributedString = mutableLabelString.attributedSubstring(from : NSMakeRange(0, PREVIEW_SIZE)) as! NSMutableAttributedString
-            let restOfString : NSMutableAttributedString = mutableLabelString.attributedSubstring(from : NSMakeRange(PREVIEW_SIZE, mutableLabelString.length)) as! NSMutableAttributedString
-            partialString.append(restOfString)
-            label.attributedText = partialString
-        }
-        else
-        {
-            NSLog("No need for 'Read More'...")
-        }
-        
-        /*if (lengthForString >= 30)
-        {
-            NSInteger lengthForVisibleString = [self fitString:label.text intoLabel:label];
-            NSMutableString *mutableString = [[NSMutableString alloc] initWithString:label.text];
-            NSString *trimmedString = [mutableString stringByReplacingCharactersInRange:NSMakeRange(lengthForVisibleString, (label.text.length - lengthForVisibleString)) withString:@""];
-            NSInteger readMoreLength = readMoreText.length;
-            NSString *trimmedForReadMore = [trimmedString stringByReplacingCharactersInRange:NSMakeRange((trimmedString.length - readMoreLength), readMoreLength) withString:@""];
-            NSMutableAttributedString *answerAttributed = [[NSMutableAttributedString alloc] initWithString:trimmedForReadMore attributes:@{
-                NSFontAttributeName : label.font
-                }];
-            
-            NSMutableAttributedString *readMoreAttributed = [[NSMutableAttributedString alloc] initWithString:readMoreText attributes:@{
-                NSFontAttributeName : Font(TWRegular, 12.),
-                NSForegroundColorAttributeName : White
-                }];
-            
-            [answerAttributed appendAttributedString:readMoreAttributed];
-            label.attributedText = answerAttributed;
-            
-            UITagTapGestureRecognizer *readMoreGesture = [[UITagTapGestureRecognizer alloc] initWithTarget:self action:@selector(readMoreDidClickedGesture:)];
-            readMoreGesture.tag = 1;
-            readMoreGesture.numberOfTapsRequired = 1;
-            [label addGestureRecognizer:readMoreGesture];
-            
-            label.userInteractionEnabled = YES;
-        }
-        else {
-            
-            NSLog(@"No need for 'Read More'...");
-        }*/
-    }*/
     
     public func addPost(headline : String, text : String, imageURL : String)
     {
@@ -122,35 +71,70 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return postDataArray.count
     }
     
+    @objc func textLabelPressed(sender: UITapGestureRecognizer)
+    {
+        let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
+        let cell = _tableView.cellForRow(at: indexPath!) as! MealTableViewCell
+        let cellOriginalText = cell.cellText.text
+        
+        cell.shouldTruncateText = !cell.shouldTruncateText
+        setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!)
+        
+        let cellUpdatedText = cell.cellText.text
+        if (cellUpdatedText != cellOriginalText)
+        {
+            _tableView.reloadData()
+        }
+        print("pressed label")
+    }
+    
+    func makeCellClickable(tableViewCell : MealTableViewCell)
+    {
+        let singleTapRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        tableViewCell.cellText.isUserInteractionEnabled = true
+        tableViewCell.cellText.addGestureRecognizer(singleTapRecognizer)
+    }
+    
+    func setCellText(tableViewCell : MealTableViewCell, postDataArray : [PostData], indexPath : IndexPath)
+    {
+        let postData = postDataArray[indexPath[1]]
+        
+        tableViewCell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
+        tableViewCell.cellText.numberOfLines = 0;
+        
+        let cellFont = UIFont(name: "Helvetica", size: 14)
+        // TODO:: handle font failure?
+        tableViewCell.cellText.font = cellFont
+        
+        let rowWidth = tableViewCell.cellText.bounds.size.width
+        let sizeOfRowInChars = floor(Float(rowWidth) / Float(getWIdthOfSingleChar(font: cellFont!)))
+        
+        var textAfterTruncation : String = getTextAfterTruncation(text: postData._text, contentSizeOfRow: sizeOfRowInChars)
+        if (!tableViewCell.shouldTruncateText)
+        {
+            textAfterTruncation = postData._text
+        }
+        tableViewCell.cellText.attributedText = getCellTextStyle(cellText: textAfterTruncation, indexPath: indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        _tableView = tableView
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
-        let currentPostData = postDataArray[indexPath[1]]
+        let postData = postDataArray[indexPath[1]]
         tableView.allowsSelection = false
         
-        cell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
-        cell.cellText.numberOfLines = 0;
-        let cellFont = UIFont(name: "Helvetica", size: 14)
-        if (!(cellFont != nil))
-        {
-            return cell
-        }
-        cell.cellText.font = cellFont
-        
-        let rowWidth = cell.cellText.bounds.size.width
-        let sizeOfRowInChars = floor(Float(rowWidth) / Float(getWIdthOfSingleChar(font: cellFont!)))
-        
-        let textAfterTruncation : String = getTextAfterTruncation(text: currentPostData._text, contentSizeOfRow: sizeOfRowInChars)
-        cell.cellText.attributedText = getCellTextStyle(cellText: textAfterTruncation, indexPath: indexPath)
+        makeCellClickable(tableViewCell : cell)
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath)
         
         cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
-        cell.cellHeadline.text = currentPostData._headline
+        cell.cellHeadline.text = postData._headline
         
         do
         {
-            _ = try cell.cellImage.imageFromServerURL(urlString: currentPostData._imageURL)
+            _ = try cell.cellImage.imageFromServerURL(urlString: postData._imageURL)
         }
         catch is ProgramError
         {
@@ -184,7 +168,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func loadMorePostsToTable()
     {
-        // TODO:: actually get data from website instead of adding spam
+        // TODO:: actually get data from website instead of adding noise
         addPost(
             headline: "headline9", text: "text1", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/pizza.png")
         addPost(

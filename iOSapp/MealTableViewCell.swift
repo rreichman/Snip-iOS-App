@@ -13,6 +13,7 @@ class MealTableViewCell: UITableViewCell
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var cellText: UILabel!
     @IBOutlet weak var cellHeadline: UILabel!
+    var shouldTruncateText: Bool = true
     
     override func awakeFromNib()
     {
