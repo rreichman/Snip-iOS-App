@@ -21,15 +21,138 @@ class TableViewController: UITableViewController
         
         turnNavigationBarTitleIntoButton(title: "Home")
         
-        loadDataFromWebIntoFeed()
-        
-        tableView.dataSource = feedDataSource
+        if feedDataSource.postDataArray.count == 0
+        {
+            getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
+            
+            //loadDataFromWebIntoFeed()
+            sleep(3)
+            tableView.dataSource = feedDataSource
+        }
+        // TODO:: Animation of loading data
     }
     
-    func loadDataFromWebIntoFeed()
+    func loadDataFromWebIntoFeed(resultArray: [[String : Any]])
     {
+        print("callback called")
+        for postAsJson in resultArray
+        {
+            print("iterating in result array")
+            let newPost = PostData(
+                id : postAsJson["id"] as! Int,
+                author : SnipAuthor(authorData: postAsJson["author"] as! [String : Any]),
+                headline : postAsJson["title"] as! String,
+                text : postAsJson["body"] as! String,
+                date : postAsJson["date"] as! String,
+                image : SnipImage(imageData: postAsJson["image"] as! [String : Any]))
+            
+            feedDataSource.addPost(newPost: newPost)
+        }
+    }
+    
+    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [[String : Any]]) -> ())
+    {
+        let URL_STRING = "https://www.snip.today/"
+        let url: URL = URL(string: URL_STRING)!
+        var urlRequest: URLRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //fetching the data from the url
+        URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
+            print(response as Any)
+            print(error as Any)
+
+            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [[String : Any]]
+            {
+                print("in json")
+                completionHandler(jsonObj)
+            }
+            
+            print("after json parse")
+        }).resume()
+    }
+    
+    /*func getSnipsFromWeb(completionHandler: @escaping (_ resultArray: NSArray) -> ())
+    {
+        //let urlPath = "https://www.snip.today"
+        let urlPath = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x44f588aeeb8c44471439d1270b3603c66a9262f1&address=0x76b6bb812a3718689d4c1d6123e4c8d20f3ecdf8&tag=latest&apikey=YourApiKeyToken"
+        print(urlPath)
+        let url: NSURL = NSURL(string: urlPath)!
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: url as URL, completionHandler: {data, response, error -> Void in
+            print("Task completed")
+            if (error != nil)
+            {
+                print(error?.localizedDescription as Any)
+            }
+            var jsonResult: NSDictionary = NSDictionary()
+            do
+            {
+                try jsonResult = JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            }
+            catch let error as NSError
+            {
+                print("JSON Error \(error.localizedDescription)")
+            }
+            catch
+            {
+                
+            }
+            let resultsArray = jsonResult["genres"] as! NSArray
+            completionHandler(resultsArray)
+        })
+        task.resume()
+    }*/
+    
+    /*func startConnection()
+    {
+        let urlPath: String = "https://www.snip.today"
+        var url: NSURL = NSURL(string: urlPath)!
+        var request: NSURLRequest = NSURLRequest(url: url as URL)
+        var connection: NSURLConnection = NSURLConnection(request: request as URLRequest, delegate: self, startImmediately: false)!
+        connection.start()
+    }
+    
+    func connection(connection: NSURLConnection!, didReceiveData data: NSData!)
+    {
+        self.data.append(_:data as Data)
+    }
+    
+    func connectionDidFinishLoading(connection: NSURLConnection!) {
+        //var err: NSError
+        print("here")
+        var jsonResult: NSDictionary = NSDictionary()
+        // throwing an error on the line below (can't figure out where the error message is)
+        do
+        {
+            try jsonResult = JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+        }
+        catch// is NSError
+        {
+        
+        }
+        print(jsonResult)
+    }*/
+    
+    /*func getJSON(urlToRequest: String) -> NSData{
+        return NSData(contentsOfURL: NSURL(string: urlToRequest) as! URL)
+    }
+    
+    func parseJSON(inputData: NSData) -> NSDictionary{
+        var error: NSError?
+        var boardsDictionary: NSDictionary = JSONSerialization.JSONObjectWithData(inputData, options: JSONSerialization.ReadingOptions.MutableContainers) as! NSDictionary
+        
+        return boardsDictionary
+    }*/
+    
+    /*func loadDataFromWebIntoFeed()
+    {
+        print("hello")
         // TODO:: handle situation of no internet connection. As part of this, cache headlines and texts in addition to the already-cached images
-        feedDataSource.addPost(
+        /*feedDataSource.addPost(
             headline: "headline1", text: firstPostText, imageURL: "https://cdn.pixabay.com/photo/2016/08/31/17/41/sunrise-1634197_1280.jpg")
         feedDataSource.addPost(
             headline: "headline2", text: "text2", imageURL: "https://cdn.pixabay.com/photo/2013/09/15/05/27/sunrise-182302_1280.jpg")
@@ -44,8 +167,8 @@ class TableViewController: UITableViewController
         feedDataSource.addPost(
             headline: "headline7", text: "text7", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
         feedDataSource.addPost(
-            headline: "headline8", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
-    }
+            headline: "headline8", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")*/
+    }*/
     
     // Perhaps this can be non-objc with some modifications
     @objc func buttonAction(sender: Any)

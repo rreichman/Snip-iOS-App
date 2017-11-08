@@ -23,9 +23,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return linkAttributes
     }
     
-    public func addPost(headline : String, text : String, imageURL : String)
+    public func addPost(newPost : PostData)
     {
-        let newPost = PostData(headline: headline, text: text, imageURL: imageURL)
         postDataArray.append(newPost)
     }
     
@@ -41,7 +40,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let NUMBER_OF_ROWS_TO_TRUNCATE = 5
         let NUMBER_OF_ROWS_IN_PREVIEW = 2
         
-        let READ_MORE_TEXT = " ... Read More"
+        let READ_MORE_TEXT = "... Read More"
         
         let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(contentSizeOfRow) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
 
@@ -50,8 +49,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         if (text.count >= MAX_LENGTH_TO_TRUNCATE)
         {
             truncatedText = String(text.prefix(PREVIEW_SIZE))
-            // Get text until the last space
-            truncatedText = String(truncatedText.prefix(getLastIndexOfSubstringInString(originalString: truncatedText, substring: " ")))
             truncatedText.append(READ_MORE_TEXT)
         }
         
@@ -120,7 +117,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         _tableView = tableView
-        handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
+        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
         let postData = postDataArray[indexPath[1]]
@@ -134,7 +131,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         do
         {
-            _ = try cell.cellImage.imageFromServerURL(urlString: postData._imageURL)
+            _ = try cell.cellImage.imageFromServerURL(urlString: postData._image._imageURL)
         }
         catch is ProgramError
         {
@@ -169,7 +166,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func loadMorePostsToTable()
     {
         // TODO:: actually get data from website instead of adding noise
-        addPost(
+        /*addPost(
             headline: "headline9", text: "text1", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/pizza.png")
         addPost(
             headline: "headline10", text: "text2", imageURL: "https://upload.wikimedia.org/wikipedia/commons/7/79/San_Francisco–Oakland_Bay_Bridge-_New_and_Old_bridges.jpg")
@@ -184,7 +181,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         addPost(
             headline: "headline15", text: "text7", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
         addPost(
-            headline: "headline16", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
+            headline: "headline16", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")*/
     }
     
     func deleteRowSafelyFromTable(currentLocation : Int)
