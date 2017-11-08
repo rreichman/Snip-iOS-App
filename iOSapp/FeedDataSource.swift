@@ -150,7 +150,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.hyphenationFactor = 1.0
-        return NSMutableAttributedString(string: cellText, attributes: [NSAttributedStringKey.paragraphStyle:paragraphStyle])
+        let text : NSAttributedString = NSAttributedString(htmlString : cellText)!
+        let mutableText : NSMutableAttributedString = text.mutableCopy() as! NSMutableAttributedString
+        mutableText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
+        
+        return mutableText
     }
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)

@@ -21,11 +21,13 @@ class TableViewController: UITableViewController
         
         turnNavigationBarTitleIntoButton(title: "Home")
         
+        // TODO:: Perhaps need more advanced logic here
         if feedDataSource.postDataArray.count == 0
         {
             getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
             
             //loadDataFromWebIntoFeed()
+
             sleep(3)
             tableView.dataSource = feedDataSource
         }
