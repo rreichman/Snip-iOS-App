@@ -33,7 +33,7 @@ extension UIImageView
         let storage = AppCache.shared.getStorage()
         if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
         {
-            print("using cache with image " + urlString)
+            //print("using cache with image " + urlString)
             self.image = cachedImage
             return NoError()
         }

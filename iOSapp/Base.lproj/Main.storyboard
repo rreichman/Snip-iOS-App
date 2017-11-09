@@ -27,35 +27,52 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WX6-kI-ID7">
-                                            <rect key="frame" x="16" y="11" width="343" height="204.5"/>
+                                            <rect key="frame" x="16" y="11" width="343" height="205"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="WX6-kI-ID7" secondAttribute="height" multiplier="359:214" id="YEQ-hl-BF2"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnL-R5-mlu">
-                                            <rect key="frame" x="16" y="256" width="343" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="990" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnL-R5-mlu">
+                                            <rect key="frame" x="16" y="258" width="343" height="19"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <font key="NSFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Yj-2v9">
-                                            <rect key="frame" x="16" y="230" width="343" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="999" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Yj-2v9">
+                                            <rect key="frame" x="16" y="230" width="343" height="18"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <font key="NSFont" size="15" name=".SFNSDisplay"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="3g7-xY-nzz"/>
-                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="top" secondItem="ODU-Yj-2v9" secondAttribute="bottom" constant="5" id="6ya-kL-UIW"/>
-                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="7U8-c4-3sc"/>
-                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="C4F-OU-X8b"/>
-                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="top" secondItem="iTo-GQ-6ZM" secondAttribute="topMargin" id="IH2-DB-7VE"/>
-                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="JVb-hg-MJy"/>
-                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="bottom" secondItem="iTo-GQ-6ZM" secondAttribute="bottomMargin" id="TBM-AO-yDB"/>
-                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="10" id="kU0-nY-j0V"/>
-                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="olR-UW-eQW"/>
-                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="ugB-xD-DPi"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="trailing" secondItem="ODU-Yj-2v9" secondAttribute="trailing" id="30L-Cf-VEW"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="leading" secondItem="ODU-Yj-2v9" secondAttribute="leading" id="8Kw-dy-x0t"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="CJW-Im-JuK"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="leading" secondItem="WX6-kI-ID7" secondAttribute="leading" id="CQs-fn-ozN"/>
+                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="top" secondItem="iTo-GQ-6ZM" secondAttribute="topMargin" id="CVJ-7b-T3j"/>
+                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="Q5S-1G-8xP"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="Qn8-jj-KLk"/>
+                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="Sn0-9E-asr"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="TEG-uY-S5C"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leadingMargin" id="lA8-jB-K0b"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="top" secondItem="ODU-Yj-2v9" secondAttribute="bottom" constant="10" id="mFZ-id-8Sd"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="trailing" secondItem="WX6-kI-ID7" secondAttribute="trailing" id="nqw-gW-E6C"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="oOF-V7-pHg"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="14.5" id="tsq-Up-z1O"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="cnL-R5-mlu" secondAttribute="bottom" constant="-3" id="vUG-GP-39j"/>
+                                        <constraint firstItem="cnL-R5-mlu" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" id="vcU-Ih-SAJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

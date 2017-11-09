@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ReadMoreTextView
 
 class FeedDataSource: NSObject, UITableViewDataSource
 {
@@ -28,39 +27,35 @@ class FeedDataSource: NSObject, UITableViewDataSource
         postDataArray.append(newPost)
     }
     
-    public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
+    public func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : UIFont) -> NSAttributedString
     {
-        return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
-    }
-    
-    public func getTextAfterTruncation(text : String, contentSizeOfRow: Float) -> String
-    {
-        var truncatedText = text
         // Above this number of rows we want to truncate the snippet because it's too long
         let NUMBER_OF_ROWS_TO_TRUNCATE = 5
         let NUMBER_OF_ROWS_IN_PREVIEW = 2
         
-        let READ_MORE_TEXT = "... Read More"
+        let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More")
         
-        let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(contentSizeOfRow) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
+        let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
 
-        let PREVIEW_SIZE = Int(floor(Float(contentSizeOfRow) * Float(NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.count
+        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length
         
-        if (text.count >= MAX_LENGTH_TO_TRUNCATE)
+        let truncatedText = NSMutableAttributedString()
+        if (text.length >= MAX_LENGTH_TO_TRUNCATE)
         {
-            truncatedText = String(text.prefix(PREVIEW_SIZE))
+            let substring = text.attributedSubstring(from: NSRange(location: 0,length: PREVIEW_SIZE))
+            truncatedText.append(substring)
             truncatedText.append(READ_MORE_TEXT)
         }
+        truncatedText.addAttribute(NSAttributedStringKey.font, value: font, range: NSRange(location: 0,length: truncatedText.length))
         
         return truncatedText
     }
     
-    func getWIdthOfSingleChar(font : UIFont) -> Int
+    func getWidthOfSingleChar(string : NSAttributedString) -> Float
     {
-        let fontAttributes = [NSAttributedStringKey.font: font]
-        let myText = "a"
-        
-        return Int((myText as NSString).size(withAttributes: fontAttributes).width)
+        let NUMBER_OF_CHARS_TO_CHECK = 20
+        let firstXChars : NSAttributedString = string.attributedSubstring(from: NSRange(location: 0,length: NUMBER_OF_CHARS_TO_CHECK))
+        return (Float(firstXChars.size().width) / Float(NUMBER_OF_CHARS_TO_CHECK))
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -71,17 +66,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
     @objc func textLabelPressed(sender: UITapGestureRecognizer)
     {
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
+        print(indexPath![0])
+        print(indexPath![1])
         let cell = _tableView.cellForRow(at: indexPath!) as! MealTableViewCell
-        let cellOriginalText = cell.cellText.text
         
-        cell.shouldTruncateText = !cell.shouldTruncateText
-        setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!)
-        
-        let cellUpdatedText = cell.cellText.text
-        if (cellUpdatedText != cellOriginalText)
-        {
-            _tableView.reloadData()
-        }
+        setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!, shouldTruncate: !cell.isTruncated)
         print("pressed label")
     }
     
@@ -92,26 +81,29 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewCell.cellText.addGestureRecognizer(singleTapRecognizer)
     }
     
-    func setCellText(tableViewCell : MealTableViewCell, postDataArray : [PostData], indexPath : IndexPath)
+    func setCellText(tableViewCell : MealTableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
     {
         let postData = postDataArray[indexPath[1]]
         
         tableViewCell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
         tableViewCell.cellText.numberOfLines = 0;
         
-        let cellFont = UIFont(name: "Helvetica", size: 14)
-        // TODO:: handle font failure?
-        tableViewCell.cellText.font = cellFont
-        
+        let cellFont : UIFont = UIFont(name: "Helvetica", size: 13)!
+        tableViewCell.cellText.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
         let rowWidth = tableViewCell.cellText.bounds.size.width
-        let sizeOfRowInChars = floor(Float(rowWidth) / Float(getWIdthOfSingleChar(font: cellFont!)))
-        
-        var textAfterTruncation : String = getTextAfterTruncation(text: postData._text, contentSizeOfRow: sizeOfRowInChars)
-        if (!tableViewCell.shouldTruncateText)
+        let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.cellText.attributedText!)
+        let sizeOfRowInChars = Float(rowWidth) / widthOfSingleChar
+    
+        if (shouldTruncate)
         {
-            textAfterTruncation = postData._text
+            let textAfterTruncation : NSAttributedString = getTextAfterTruncation(text: tableViewCell.cellText.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
+            tableViewCell.cellText.attributedText = textAfterTruncation
+            tableViewCell.isTruncated = true
         }
-        tableViewCell.cellText.attributedText = getCellTextStyle(cellText: textAfterTruncation, indexPath: indexPath)
+        else
+        {
+            tableViewCell.isTruncated = false
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -124,11 +116,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableView.allowsSelection = false
         
         makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath)
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: true)
         
         cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
         cell.cellHeadline.text = postData._headline
-        
+    
         do
         {
             _ = try cell.cellImage.imageFromServerURL(urlString: postData._image._imageURL)
@@ -146,11 +138,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return cell
     }
     
-    func getCellTextStyle(cellText : String, indexPath: IndexPath) -> NSMutableAttributedString
+    func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) -> NSMutableAttributedString
     {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.hyphenationFactor = 1.0
-        let text : NSAttributedString = NSAttributedString(htmlString : cellText)!
+        let text : NSAttributedString = NSAttributedString(htmlString : cellText, font : font)!
         let mutableText : NSMutableAttributedString = text.mutableCopy() as! NSMutableAttributedString
         mutableText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
         
@@ -188,9 +180,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
             headline: "headline16", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")*/
     }
     
-    func deleteRowSafelyFromTable(currentLocation : Int)
+    /*func deleteRowSafelyFromTable(currentLocation : Int)
     {
         // Need data reload?
         //postDataArray.remove(at: currentLocation)
-    }
+    }*/
+    
+    /*public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
+     {
+     return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
+     }*/
 }
