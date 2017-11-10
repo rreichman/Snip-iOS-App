@@ -66,7 +66,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let NUMBER_OF_ROWS_TO_TRUNCATE = 6
         let NUMBER_OF_ROWS_IN_PREVIEW = 2
         
-        let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More")
+        let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
         let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 7
         
         let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
