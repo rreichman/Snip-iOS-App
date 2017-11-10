@@ -64,20 +64,25 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         // Above this number of rows we want to truncate the snippet because it's too long
         let NUMBER_OF_ROWS_TO_TRUNCATE = 6
-        let NUMBER_OF_ROWS_IN_PREVIEW = 3
+        let NUMBER_OF_ROWS_IN_PREVIEW = 2
         
         let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More")
+        let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 7
         
         let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
 
-        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length
+        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
         
-        let truncatedText = NSMutableAttributedString()
+        var truncatedText = NSMutableAttributedString()
         if (text.length >= MAX_LENGTH_TO_TRUNCATE)
         {
             let substring = text.attributedSubstring(from: NSRange(location: 0,length: PREVIEW_SIZE))
             truncatedText.append(substring)
             truncatedText.append(READ_MORE_TEXT)
+        }
+        else
+        {
+            truncatedText = text.mutableCopy() as! NSMutableAttributedString
         }
         truncatedText.addAttribute(NSAttributedStringKey.font, value: font, range: NSRange(location: 0,length: truncatedText.length))
         
@@ -86,7 +91,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func getWidthOfSingleChar(string : NSAttributedString) -> Float
     {
-        let NUMBER_OF_CHARS_TO_CHECK = 20
+        let NUMBER_OF_CHARS_TO_CHECK = min(60,string.length)
         let firstXChars : NSAttributedString = string.attributedSubstring(from: NSRange(location: 0,length: NUMBER_OF_CHARS_TO_CHECK))
         return (Float(firstXChars.size().width) / Float(NUMBER_OF_CHARS_TO_CHECK))
     }
@@ -101,11 +106,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
         print(indexPath![0])
         print(indexPath![1])
-        //let cell = _tableView.cellForRow(at: indexPath!) as! MealTableViewCell
         
-        //cell.shouldTruncate = false
-        
-        //setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!, shouldTruncate: false)
         if (setOfCellsNotToTruncate.contains(indexPath![1]))
         {
             print("removing cell \(indexPath![1])")
@@ -116,27 +117,31 @@ class FeedDataSource: NSObject, UITableViewDataSource
             print("adding cell \(indexPath![1])")
             setOfCellsNotToTruncate.insert(indexPath![1])
         }
+        
         print("reloading cell \(indexPath![1])")
-        _tableView.beginUpdates()
-        _tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
-        _tableView.endUpdates()
+        UIView.performWithoutAnimation
+        {
+            _tableView.beginUpdates()
+            _tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
+            _tableView.endUpdates()
+        }
 
         print("pressed label")
     }
     
     func makeCellClickable(tableViewCell : MealTableViewCell)
     {
-        let singleTapRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.cellText.isUserInteractionEnabled = true
-        tableViewCell.cellText.addGestureRecognizer(singleTapRecognizer)
+        tableViewCell.cellText.addGestureRecognizer(singleTapRecognizerText)
+        let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        tableViewCell.cellHeadline.isUserInteractionEnabled = true
+        tableViewCell.cellHeadline.addGestureRecognizer(singleTapRecognizerHeadline)
     }
     
     func setCellText(tableViewCell : MealTableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
     {
         let postData = postDataArray[indexPath[1]]
-        
-        tableViewCell.cellText.lineBreakMode = NSLineBreakMode.byTruncatingMiddle;
-        tableViewCell.cellText.numberOfLines = 0;
         
         let cellFont : UIFont = UIFont(name: "Helvetica", size: 13)!
         tableViewCell.cellText.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
@@ -149,6 +154,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
             let textAfterTruncation : NSAttributedString = getTextAfterTruncation(text: tableViewCell.cellText.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
             tableViewCell.cellText.attributedText = textAfterTruncation
         }
+        tableViewCell.cellText.isEditable = false
     }
     
     func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) -> NSMutableAttributedString
