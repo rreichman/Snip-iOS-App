@@ -29,4 +29,29 @@ final class AppCache
     {
         return storage
     }
+    
+    func insertPostDataIntoCache(postData : PostData)
+    {
+        do
+        {
+            try storage.setObject(postData, forKey: String(postData._id))
+        }
+        catch
+        {
+            print("error inserting post data into cache")
+        }
+    }
+    
+    func getPostDataFromCache(id : Int) -> PostData
+    {
+        do
+        {
+            let postData : PostData = try storage.object(ofType: PostData.self, forKey: String(id))
+            return postData
+        }
+        catch
+        {
+            return PostData()
+        }
+    }
 }

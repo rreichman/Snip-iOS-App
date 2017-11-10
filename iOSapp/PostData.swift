@@ -8,8 +8,9 @@
 
 import UIKit
 
-class PostData
+class PostData : Encodable, Decodable
 {
+    var _postJson : [String : Any]
     var _id : Int
     var _author : SnipAuthor
     var _headline : String
@@ -20,6 +21,7 @@ class PostData
     
     init()
     {
+        _postJson = [:]
         _id = 0
         _author = SnipAuthor()
         _headline = ""
@@ -28,14 +30,45 @@ class PostData
         _image = SnipImage()
     }
     
-    init(id : Int, author : SnipAuthor, headline : String, text : String, date : String, image : SnipImage)
+    init(postJson : [String : Any])
     {
-        _id = id
-        _author = author
-        _headline = headline
-        _text = text
-        _date = date
-        _image = image
+        _postJson = postJson
+        
+        _id = _postJson["id"] as! Int
+        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
+        _headline = _postJson["title"] as! String
+        _text = _postJson["body"] as! String
+        _date = _postJson["date"] as! String
+        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
+    }
+   
+    // TODO:: use this, there is bad duplicate code here
+    func loadRawJsonIntoVariables()
+    {
+        _id = _postJson["id"] as! Int
+        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
+        _headline = _postJson["title"] as! String
+        _text = _postJson["body"] as! String
+        _date = _postJson["date"] as! String
+        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
+    }
+    
+    func encode(to encoder: Encoder) throws
+    {
+        var container = encoder.singleValueContainer()
+        try container.encode(_postJson)
+    }
+    
+    required init(from decoder: Decoder) throws
+    {
+        _postJson = try decoder.singleValueContainer() as! [String : Any]
+        
+        _id = _postJson["id"] as! Int
+        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
+        _headline = _postJson["title"] as! String
+        _text = _postJson["body"] as! String
+        _date = _postJson["date"] as! String
+        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
     }
 }
 
