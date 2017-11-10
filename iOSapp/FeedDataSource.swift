@@ -26,7 +26,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         makeCellClickable(tableViewCell : cell)
         setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
         
-        cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
+        cell.cellHeadline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.cellHeadline.text = postData._headline
         
         do
@@ -62,16 +62,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     public func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : UIFont) -> NSAttributedString
     {
-        // Above this number of rows we want to truncate the snippet because it's too long
-        let NUMBER_OF_ROWS_TO_TRUNCATE = 6
-        let NUMBER_OF_ROWS_IN_PREVIEW = 2
-        
         let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
         let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 7
         
-        let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_TO_TRUNCATE)))
+        let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
 
-        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
+        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
         
         var truncatedText = NSMutableAttributedString()
         if (text.length >= MAX_LENGTH_TO_TRUNCATE)
@@ -101,8 +97,44 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return postDataArray.count
     }
     
+    //typealias CompletionHandler = (_ success:Bool) -> Void
+    
+    func myCompletionHandler(_ success: Bool)
+    {
+        print("here")
+    }
+    
+    func handleClickedLink(linkURL : NSURL)
+    {
+        
+        //UIApplication.shared.open(URL(linkURL), options: [], completionHandler: CompletionHandler)
+        //let resolvedURL : URL = URL(fileURLWithPath: linkURL.absoluteString!)
+        //UIApplication.shared.open(resolvedURL, options: [:], completionHandler: myCompletionHandler)
+        UIApplication.shared.open(linkURL as URL, options: [:], completionHandler: nil)
+    }
+    
     @objc func textLabelPressed(sender: UITapGestureRecognizer)
     {
+        // TODO:: this function should be organized
+        // TODO:: this will fail for headline
+        let textView : UITextView = sender.view as! UITextView
+        let layoutManager : NSLayoutManager = textView.layoutManager
+        var location : CGPoint = sender.location(in: textView)
+        location.x -= textView.textContainerInset.left;
+        location.y -= textView.textContainerInset.top;
+        let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+    
+        //var attributes : MTLAttributeDescriptorArray = textView.attributedText.attributes(at: characterIndex, effectiveRange: NSRange(location: characterIndex, length: characterIndex + 1))
+        var attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
+        for attribute in attributes
+        {
+            if attribute.key._rawValue == "NSLink"
+            {
+                handleClickedLink(linkURL: attribute.value as! NSURL)
+                return
+            }
+        }
+        
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
         print(indexPath![0])
         print(indexPath![1])
@@ -143,7 +175,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         let postData = postDataArray[indexPath[1]]
         
-        let cellFont : UIFont = UIFont(name: "Helvetica", size: 13)!
+        let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
         tableViewCell.cellText.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
         let rowWidth = tableViewCell.cellText.bounds.size.width
         let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.cellText.attributedText!)
@@ -161,6 +193,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.hyphenationFactor = 1.0
+        paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
         let text : NSAttributedString = NSAttributedString(htmlString : cellText, font : font)!
         let mutableText : NSMutableAttributedString = text.mutableCopy() as! NSMutableAttributedString
         mutableText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
@@ -173,37 +206,10 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let SPARE_ROWS_UNTIL_MORE_SCROLL = 3
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
-            loadMorePostsToTable()
-            tableView.reloadData()
+            //loadMorePostsToTable()
+            //tableView.reloadData()
         }
     }
-    
-    func loadMorePostsToTable()
-    {
-        // TODO:: actually get data from website instead of adding noise
-        /*addPost(
-            headline: "headline9", text: "text1", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/pizza.png")
-        addPost(
-            headline: "headline10", text: "text2", imageURL: "https://upload.wikimedia.org/wikipedia/commons/7/79/San_Francisco–Oakland_Bay_Bridge-_New_and_Old_bridges.jpg")
-        addPost(
-            headline: "headline11", text: "text3", imageURL: "https://static.pexels.com/photos/7653/pexels-photo.jpeg")
-        addPost(
-            headline: "headline12", text: "text4", imageURL: "https://cdn.pixabay.com/photo/2017/04/08/00/31/usa-2212202_960_720.jpg")
-        addPost(
-            headline: "headline13", text: "text5", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
-        addPost(
-            headline: "headline14", text: "text6", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
-        addPost(
-            headline: "headline15", text: "text7", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")
-        addPost(
-            headline: "headline16", text: "text8", imageURL: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")*/
-    }
-    
-    /*func deleteRowSafelyFromTable(currentLocation : Int)
-    {
-        // Need data reload?
-        //postDataArray.remove(at: currentLocation)
-    }*/
     
     /*public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
      {

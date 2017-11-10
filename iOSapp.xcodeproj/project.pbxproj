@@ -24,6 +24,7 @@
 		7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA35D0A1FA70B7A006306FD /* AppCache.swift */; };
 		7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* TableViewController.swift */; };
 		7DF3927F1FB39F2600CECC45 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3927E1FB39F2600CECC45 /* NSAttributedString+Extensions.swift */; };
+		7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DA35D0A1FA70B7A006306FD /* AppCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCache.swift; sourceTree = "<group>"; };
 		7DF3927E1FB39F2600CECC45 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
+		7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVariables.swift; sourceTree = "<group>"; };
 		91348999CB5C8264EC947068 /* Pods-iOSapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp.debug.xcconfig"; sourceTree = "<group>"; };
 		9AE570903396E22B76BAE2B1 /* Pods-iOSappUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSappUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSappUITests/Pods-iOSappUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9C3BA537D8BE27682F6F903E /* Pods-iOSappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSappTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSappTests/Pods-iOSappTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */,
 				7D44B5701FA6ECCA005482C9 /* PostData.swift */,
 				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
+				7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */,
 				7DF3927F1FB39F2600CECC45 /* NSAttributedString+Extensions.swift in Sources */,
 				7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,

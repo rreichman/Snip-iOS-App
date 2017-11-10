@@ -73,7 +73,7 @@ class TableViewController: UITableViewController
         button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize : 18)
+        button.titleLabel?.font = SystemVariables().NAVIGATION_BAR_TITLE_FONT
         button.addTarget(self,
                          action: #selector(self.buttonAction),
                          for: .touchUpInside)
@@ -87,6 +87,7 @@ class TableViewController: UITableViewController
         {
             print("iterating in result array")
             let newPost = PostData(postJson : postAsJson)
+            let appCache = AppCache.shared
             
             feedDataSource.addPost(newPost: newPost)
         }
@@ -94,8 +95,7 @@ class TableViewController: UITableViewController
     
     func getJsonFromURL(completionHandler: @escaping (_ resultArray: [[String : Any]]) -> ())
     {
-        let URL_STRING = "https://www.snip.today/"
-        let url: URL = URL(string: URL_STRING)!
+        let url: URL = URL(string: SystemVariables().URL_STRING)!
         var urlRequest: URLRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = "GET"
