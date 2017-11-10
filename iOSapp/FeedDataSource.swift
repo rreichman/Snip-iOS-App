@@ -12,6 +12,39 @@ class FeedDataSource: NSObject, UITableViewDataSource
 {
     var postDataArray: [PostData] = []
     var _tableView: UITableView = UITableView()
+    var setOfCellsNotToTruncate : Set<Int> = Set<Int>()
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        _tableView = tableView
+        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
+        let postData = postDataArray[indexPath[1]]
+        tableView.allowsSelection = false
+        
+        makeCellClickable(tableViewCell : cell)
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
+        
+        cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
+        cell.cellHeadline.text = postData._headline
+        
+        do
+        {
+            _ = try cell.cellImage.imageFromServerURL(urlString: postData._image._imageURL)
+        }
+        catch is ProgramError
+        {
+            // TODO:: currently doesn't handle failed loads of data
+            // deleteRowSafelyFromTable(currentLocation: indexPath[1])
+        }
+        catch
+        {
+            // All is good
+        }
+        
+        return cell
+    }
     
     public func getLinkAttributesForWebsite(linkWebsite : String) -> [String : Any]
     {
@@ -30,8 +63,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
     public func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : UIFont) -> NSAttributedString
     {
         // Above this number of rows we want to truncate the snippet because it's too long
-        let NUMBER_OF_ROWS_TO_TRUNCATE = 5
-        let NUMBER_OF_ROWS_IN_PREVIEW = 2
+        let NUMBER_OF_ROWS_TO_TRUNCATE = 6
+        let NUMBER_OF_ROWS_IN_PREVIEW = 3
         
         let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More")
         
@@ -68,9 +101,26 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
         print(indexPath![0])
         print(indexPath![1])
-        let cell = _tableView.cellForRow(at: indexPath!) as! MealTableViewCell
+        //let cell = _tableView.cellForRow(at: indexPath!) as! MealTableViewCell
         
-        setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!, shouldTruncate: !cell.isTruncated)
+        //cell.shouldTruncate = false
+        
+        //setCellText(tableViewCell: cell, postDataArray: postDataArray, indexPath: indexPath!, shouldTruncate: false)
+        if (setOfCellsNotToTruncate.contains(indexPath![1]))
+        {
+            print("removing cell \(indexPath![1])")
+            setOfCellsNotToTruncate.remove(indexPath![1])
+        }
+        else
+        {
+            print("adding cell \(indexPath![1])")
+            setOfCellsNotToTruncate.insert(indexPath![1])
+        }
+        print("reloading cell \(indexPath![1])")
+        _tableView.beginUpdates()
+        _tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
+        _tableView.endUpdates()
+
         print("pressed label")
     }
     
@@ -98,44 +148,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             let textAfterTruncation : NSAttributedString = getTextAfterTruncation(text: tableViewCell.cellText.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
             tableViewCell.cellText.attributedText = textAfterTruncation
-            tableViewCell.isTruncated = true
         }
-        else
-        {
-            tableViewCell.isTruncated = false
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        _tableView = tableView
-        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
-        let postData = postDataArray[indexPath[1]]
-        tableView.allowsSelection = false
-        
-        makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: true)
-        
-        cell.cellHeadline.font = UIFont.boldSystemFont(ofSize: cell.cellHeadline.font.pointSize)
-        cell.cellHeadline.text = postData._headline
-    
-        do
-        {
-            _ = try cell.cellImage.imageFromServerURL(urlString: postData._image._imageURL)
-        }
-        catch is ProgramError
-        {
-            // TODO:: currently doesn't handle failed loads of data
-            // deleteRowSafelyFromTable(currentLocation: indexPath[1])
-        }
-        catch
-        {
-            // All is good
-        }
-        
-        return cell
     }
     
     func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) -> NSMutableAttributedString
