@@ -14,6 +14,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
     var _tableView: UITableView = UITableView()
     var setOfCellsNotToTruncate : Set<Int> = Set<Int>()
     
+    func removePaddingFromTextView(textView : UITextView)
+    {
+        textView.textContainerInset = UIEdgeInsets.zero
+        textView.textContainer.lineFragmentPadding = 0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         _tableView = tableView
@@ -22,6 +28,10 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
         let postData = postDataArray[indexPath[1]]
         tableView.allowsSelection = false
+        
+        let imageDescriptionAttributes = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
+        cell.cellImageDescription.attributedText = NSAttributedString(string : "but the image description doesn't at all", attributes: imageDescriptionAttributes)
+        removePaddingFromTextView(textView: cell.cellImageDescription)
         
         makeCellClickable(tableViewCell : cell)
         setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
@@ -63,11 +73,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
     public func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : UIFont) -> NSAttributedString
     {
         let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
-        let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 7
+        //let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 4
         
         let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
 
-        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
+        let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length// - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
         
         var truncatedText = NSMutableAttributedString()
         if (text.length >= MAX_LENGTH_TO_TRUNCATE)
@@ -97,8 +107,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return postDataArray.count
     }
     
-    //typealias CompletionHandler = (_ success:Bool) -> Void
-    
     func myCompletionHandler(_ success: Bool)
     {
         print("here")
@@ -106,51 +114,52 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleClickedLink(linkURL : NSURL)
     {
-        
-        //UIApplication.shared.open(URL(linkURL), options: [], completionHandler: CompletionHandler)
-        //let resolvedURL : URL = URL(fileURLWithPath: linkURL.absoluteString!)
-        //UIApplication.shared.open(resolvedURL, options: [:], completionHandler: myCompletionHandler)
         UIApplication.shared.open(linkURL as URL, options: [:], completionHandler: nil)
     }
     
-    @objc func textLabelPressed(sender: UITapGestureRecognizer)
+    // Returns if the operation was handled
+    func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
     {
-        // TODO:: this function should be organized
-        // TODO:: this will fail for headline
         let textView : UITextView = sender.view as! UITextView
         let layoutManager : NSLayoutManager = textView.layoutManager
         var location : CGPoint = sender.location(in: textView)
         location.x -= textView.textContainerInset.left;
         location.y -= textView.textContainerInset.top;
         let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-    
-        //var attributes : MTLAttributeDescriptorArray = textView.attributedText.attributes(at: characterIndex, effectiveRange: NSRange(location: characterIndex, length: characterIndex + 1))
+        
         var attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
         for attribute in attributes
         {
             if attribute.key._rawValue == "NSLink"
             {
                 handleClickedLink(linkURL: attribute.value as! NSURL)
+                return true
+            }
+        }
+        return false
+    }
+    
+    @objc func textLabelPressed(sender: UITapGestureRecognizer)
+    {
+        if sender.view is UITextView
+        {
+            if (handleClickOnTextView(sender: sender))
+            {
                 return
             }
         }
         
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
-        print(indexPath![0])
-        print(indexPath![1])
         
         if (setOfCellsNotToTruncate.contains(indexPath![1]))
         {
-            print("removing cell \(indexPath![1])")
             setOfCellsNotToTruncate.remove(indexPath![1])
         }
         else
         {
-            print("adding cell \(indexPath![1])")
             setOfCellsNotToTruncate.insert(indexPath![1])
         }
-        
-        print("reloading cell \(indexPath![1])")
+    
         UIView.performWithoutAnimation
         {
             _tableView.beginUpdates()
@@ -178,6 +187,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
         tableViewCell.cellText.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
         let rowWidth = tableViewCell.cellText.bounds.size.width
+        // For some reason the row width expands when I click read more. why? constraints missing?
         let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.cellText.attributedText!)
         let sizeOfRowInChars = Float(rowWidth) / widthOfSingleChar
     
@@ -187,6 +197,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
             tableViewCell.cellText.attributedText = textAfterTruncation
         }
         tableViewCell.cellText.isEditable = false
+        removePaddingFromTextView(textView: tableViewCell.cellText)
     }
     
     func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) -> NSMutableAttributedString

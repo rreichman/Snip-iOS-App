@@ -80,20 +80,24 @@ class TableViewController: UITableViewController
         self.navigationItem.titleView = button
     }
     
-    func loadDataFromWebIntoFeed(resultArray: [[String : Any]])
+    func loadDataFromWebIntoFeed(resultArray: [String : Any])
     {
+        let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
+        // TODO:: also handle next posts in infinite scroll
         print("callback called")
-        for postAsJson in resultArray
+        for postAsJson in postsAsJson
         {
             print("iterating in result array")
+            //print(postAsJson["title"])
+            //print(postAsJson["image"])
             let newPost = PostData(postJson : postAsJson)
-            let appCache = AppCache.shared
+            //let appCache = AppCache.shared
             
             feedDataSource.addPost(newPost: newPost)
         }
     }
     
-    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [[String : Any]]) -> ())
+    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [String : Any]) -> ())
     {
         let url: URL = URL(string: SystemVariables().URL_STRING)!
         var urlRequest: URLRequest = URLRequest(url: url)
@@ -106,9 +110,10 @@ class TableViewController: UITableViewController
             print(response as Any)
             print(error as Any)
 
-            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [[String : Any]]
+            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
             {
                 print("in json")
+                //print(jsonObj)
                 completionHandler(jsonObj)
             }
             

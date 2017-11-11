@@ -72,10 +72,10 @@ class PostData : Encodable, Decodable
     }
 }
 
-class SnipAuthor
+public class SnipAuthor
 {
-    public var _authorUsername : String
-    public var _authorName : String
+    var _authorUsername : String
+    var _authorName : String
     
     init()
     {
@@ -96,10 +96,10 @@ class SnipAuthor
     }
 }
 
-class SnipImage
+public class SnipImage
 {
-    public var _imageURL : String
-    public var _imageDescription : String
+    var _imageURL : String
+    var _imageDescription : String
     
     init()
     {

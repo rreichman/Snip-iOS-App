@@ -14,6 +14,8 @@ public class SystemVariables
     let NAVIGATION_BAR_TITLE_FONT = UIFont.boldSystemFont(ofSize : 18)
     let HEADLINE_TEXT_FONT = UIFont.boldSystemFont(ofSize: 14)
     let CELL_TEXT_FONT = UIFont(name: "Helvetica", size: 13)
+    let IMAGE_DESCRIPTION_TEXT_FONT = UIFont(name: "Helvetica", size: 10)
+    let IMAGE_DESCRIPTION_COLOR = UIColor.gray
     
     // The spacing between lines in the text
     let LINE_SPACING_IN_TEXT = CGFloat(2)

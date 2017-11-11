@@ -25,46 +25,56 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="399.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WX6-kI-ID7">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WX6-kI-ID7" userLabel="Image">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="223.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="WX6-kI-ID7" secondAttribute="height" multiplier="359:214" id="YEQ-hl-BF2"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="999" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Yj-2v9">
-                                            <rect key="frame" x="5" y="234" width="365" height="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="990" verticalCompressionResistancePriority="990" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Yj-2v9">
+                                            <rect key="frame" x="7" y="260.5" width="361" height="18"/>
                                             <attributedString key="attributedText">
-                                                <fragment content="Label">
+                                                <fragment content="Headline">
                                                     <attributes>
                                                         <font key="NSFont" size="15" name=".SFNSDisplay"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
                                             </attributedString>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX">
-                                            <rect key="frame" x="0.0" y="256" width="375" height="144"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLw-yP-rEN" userLabel="Image Description">
+                                            <rect key="frame" x="246.5" y="224.5" width="127.5" height="33"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" misplaced="YES" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Body">
+                                            <rect key="frame" x="5" y="274" width="365" height="126"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="bLu-9Z-gCX" secondAttribute="trailing" id="3LX-te-dFc"/>
-                                        <constraint firstAttribute="bottom" secondItem="bLu-9Z-gCX" secondAttribute="bottom" id="6LT-Ez-4MD"/>
-                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="5" id="LjY-JT-Ma0"/>
-                                        <constraint firstAttribute="trailing" secondItem="ODU-Yj-2v9" secondAttribute="trailing" constant="5" id="MCD-SB-Eqa"/>
-                                        <constraint firstItem="bLu-9Z-gCX" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" id="Sph-jg-o3J"/>
-                                        <constraint firstAttribute="trailing" secondItem="WX6-kI-ID7" secondAttribute="trailing" id="YYb-kS-I86"/>
-                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" id="bVT-OG-XRE"/>
-                                        <constraint firstItem="bLu-9Z-gCX" firstAttribute="top" secondItem="ODU-Yj-2v9" secondAttribute="bottom" constant="4" id="h5C-5C-bKa"/>
-                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="10" id="k1O-Vm-mDO" userLabel="Cell Headline.top = Cell Image.bottom + 5"/>
-                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="top" secondItem="iTo-GQ-6ZM" secondAttribute="top" id="tUE-L4-Cm3"/>
+                                        <constraint firstAttribute="bottom" secondItem="bLu-9Z-gCX" secondAttribute="bottom" constant="5" id="0mQ-9J-7Od"/>
+                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="top" secondItem="iTo-GQ-6ZM" secondAttribute="top" id="6mP-bU-o9q"/>
+                                        <constraint firstAttribute="trailing" secondItem="ODU-Yj-2v9" secondAttribute="trailing" constant="7" id="AN4-Zw-d4S"/>
+                                        <constraint firstItem="jLw-yP-rEN" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="1" id="BPe-Tc-noA" userLabel="Image Description.top = Image.bottom"/>
+                                        <constraint firstAttribute="trailing" secondItem="bLu-9Z-gCX" secondAttribute="trailing" constant="7" id="Gqy-MB-Sgi"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="jLw-yP-rEN" secondAttribute="bottom" constant="3" id="Jfd-Vw-qai"/>
+                                        <constraint firstAttribute="trailing" secondItem="jLw-yP-rEN" secondAttribute="trailing" constant="1" id="Kvx-7b-XbE" userLabel="trailing = Image Description.trailing"/>
+                                        <constraint firstItem="bLu-9Z-gCX" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="LzD-Wa-uV2"/>
+                                        <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="PXR-GL-doa"/>
+                                        <constraint firstItem="bLu-9Z-gCX" firstAttribute="top" secondItem="ODU-Yj-2v9" secondAttribute="bottom" constant="5" id="VcB-SN-j2Q"/>
+                                        <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" id="nbz-v8-tJa"/>
+                                        <constraint firstAttribute="trailing" secondItem="WX6-kI-ID7" secondAttribute="trailing" id="vXD-qp-H9G"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cellHeadline" destination="ODU-Yj-2v9" id="ULK-1E-1UC"/>
                                     <outlet property="cellImage" destination="WX6-kI-ID7" id="De7-ui-3BQ"/>
+                                    <outlet property="cellImageDescription" destination="jLw-yP-rEN" id="Ct6-Cb-0o0"/>
                                     <outlet property="cellText" destination="bLu-9Z-gCX" id="xgy-dO-QFv"/>
                                 </connections>
                             </tableViewCell>
