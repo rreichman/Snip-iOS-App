@@ -8,8 +8,21 @@
 
 import UIKit
 
-extension NSAttributedString
+extension NSMutableAttributedString
 {
+    internal convenience init?(htmlString: String)
+    {
+        guard let data = htmlString.data(using: String.Encoding.utf16, allowLossyConversion: false) else {
+            return nil
+        }
+        
+        guard let attributedString = try? NSMutableAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) else {
+            return nil
+        }
+        
+        self.init(attributedString: attributedString)
+    }
+    
     internal convenience init?(htmlString: String, font : UIFont)
     {
         guard let data = htmlString.data(using: String.Encoding.utf16, allowLossyConversion: false) else {

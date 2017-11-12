@@ -10,10 +10,11 @@ import UIKit
 
 class MealTableViewCell: UITableViewCell
 {
-    @IBOutlet weak var cellImage: UIImageView!
-    @IBOutlet weak var cellImageDescription: UITextView!
-    @IBOutlet weak var cellText: UITextView!
-    @IBOutlet weak var cellHeadline: UILabel!
+    @IBOutlet weak var postImage: UIImageView!
+    @IBOutlet weak var imageDescription: UITextView!
+    @IBOutlet weak var postTimeAndWriter: UITextView!
+    @IBOutlet weak var body: UITextView!
+    @IBOutlet weak var headline: UILabel!
     
     override func awakeFromNib()
     {
