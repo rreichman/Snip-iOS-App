@@ -129,14 +129,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.imageDescription.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().IMAGE_DESCRIPTION_COLOR]
         removePaddingFromTextView(textView: cell.imageDescription)
         
-        var imageDescriptionNewFrame = cell.imageDescription.frame
-        imageDescriptionNewFrame.size.height = cell.imageDescription.attributedText.size().height
-        
-        cell.imageDescription.frame = imageDescriptionNewFrame
-        
-        let aspectRatioTextViewConstraint = NSLayoutConstraint(item: cell.imageDescription, attribute: .height, relatedBy: .equal, toItem: cell.imageDescription, attribute: .width, multiplier: cell.imageDescription.bounds.height/cell.imageDescription.bounds.width, constant: 1)
-        cell.imageDescription.addConstraint(aspectRatioTextViewConstraint)
-        
         print(cell.imageDescription.frame.width)
         print(cell.imageDescription.frame.height)
         print(cell.imageDescription.attributedText.size())
