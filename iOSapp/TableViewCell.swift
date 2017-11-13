@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MealTableViewCell: UITableViewCell
+class TableViewCell: UITableViewCell
 {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var imageDescription: UITextView!

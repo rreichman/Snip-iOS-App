@@ -25,7 +25,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
-        //let dateAsDataStructure = dateFormatter.date(from : "2005-07-14 07:08:09")
         let dateAsDataStructure = dateFormatter.date(from : postData._date)
         // TODO:: use this for tests
         /*let calendar = NSCalendar.current
@@ -105,45 +104,27 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return displayedTime + ", by " + postData._author._authorName
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func fillImageDescription(cell : TableViewCell, postData : PostData)
     {
-        _tableView = tableView
-        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
-     
-        // TODO:: organize this function
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MealTableViewCell
-        let postData = postDataArray[indexPath[1]]
-        tableView.allowsSelection = false
-        
         let imageDescriptionAttributes = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
-        print(postData._image._imageDescription)
         let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : postData._image._imageDescription)!
-        
         imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
-        // TODO:: fix the size of the text view
-        print("size before assignment: \(imageDescriptionString.size())")
         
         cell.imageDescription.attributedText = imageDescriptionString
         // Make the link in image description gray
         cell.imageDescription.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().IMAGE_DESCRIPTION_COLOR]
         removePaddingFromTextView(textView: cell.imageDescription)
-        
-        print(cell.imageDescription.frame.width)
-        print(cell.imageDescription.frame.height)
-        print(cell.imageDescription.attributedText.size())
-        
-        
+    }
+    
+    func fillPublishTimeAndWriterInfo(cell : TableViewCell, postData : PostData)
+    {
         let publishTimeAndWriterAttributes = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
         cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromPostData(postData : postData), attributes: publishTimeAndWriterAttributes)
         removePaddingFromTextView(textView: cell.postTimeAndWriter)
-        
-        makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
-        
-        cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
-        cell.headline.text = postData._headline
-        
+    }
+    
+    func getPostImage(cell : TableViewCell, postData : PostData)
+    {
         do
         {
             _ = try cell.postImage.imageFromServerURL(urlString: postData._image._imageURL)
@@ -157,6 +138,47 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             // All is good
         }
+    }
+    
+    func addReferencesToPost(cell : TableViewCell, postData: PostData)
+    {
+        for reference in postData._relatedLinks
+        {
+            print(reference["link"])
+            print(reference["title"])
+            
+            let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            textView.textAlignment = NSTextAlignment.center
+            textView.textColor = UIColor.blue
+            //textField.borderStyle = UITextBorderStyle.line
+            textView.attributedText = NSAttributedString(string: "reference")
+            cell.body.insertSubview(textView, belowSubview: cell.body)
+            // TODO:: add constraint so that the subview is lower
+            
+            print("here")
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        _tableView = tableView
+        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
+        let postData = postDataArray[indexPath[1]]
+        tableView.allowsSelection = false
+        
+        getPostImage(cell: cell, postData: postData)
+        fillImageDescription(cell: cell, postData: postData)
+        fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
+        
+        makeCellClickable(tableViewCell : cell)
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
+        
+        cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
+        cell.headline.text = postData._headline
+        
+        addReferencesToPost(cell : cell, postData: postData)
         
         return cell
     }
@@ -275,7 +297,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         print("pressed label")
     }
     
-    func makeCellClickable(tableViewCell : MealTableViewCell)
+    func makeCellClickable(tableViewCell : TableViewCell)
     {
         let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.body.isUserInteractionEnabled = true
@@ -285,7 +307,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewCell.headline.addGestureRecognizer(singleTapRecognizerHeadline)
     }
     
-    func setCellText(tableViewCell : MealTableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
+    func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
     {
         let postData = postDataArray[indexPath[1]]
         

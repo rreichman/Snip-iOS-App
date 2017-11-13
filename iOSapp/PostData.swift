@@ -18,6 +18,7 @@ class PostData : Encodable, Decodable
     // TODO: perhaps store the date as something else in the future (not sure)
     var _date : String
     var _image : SnipImage
+    var _relatedLinks : [[String : Any]]
     
     init()
     {
@@ -28,6 +29,7 @@ class PostData : Encodable, Decodable
         _text = ""
         _date = ""
         _image = SnipImage()
+        _relatedLinks = []
     }
     
     init(postJson : [String : Any])
@@ -40,6 +42,7 @@ class PostData : Encodable, Decodable
         _text = _postJson["body"] as! String
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
+        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
     }
    
     // TODO:: use this, there is bad duplicate code here
@@ -51,6 +54,7 @@ class PostData : Encodable, Decodable
         _text = _postJson["body"] as! String
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
+        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
     }
     
     func encode(to encoder: Encoder) throws
@@ -69,6 +73,7 @@ class PostData : Encodable, Decodable
         _text = _postJson["body"] as! String
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
+        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
     }
 }
 
