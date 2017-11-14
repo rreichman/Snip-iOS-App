@@ -13,6 +13,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     var postDataArray: [PostData] = []
     var _tableView: UITableView = UITableView()
     var setOfCellsNotToTruncate : Set<Int> = Set<Int>()
+    //var referencesConstraint : NSLayoutConstraint = NSLayoutConstraint()
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
@@ -33,40 +34,63 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.text = postData._headline
         
-        turnLikeImageIntoButton(cell: cell)
+        turnLikeAndDislikeIntoButtons(cell: cell)
         
         return cell
     }
     
     @objc func handleClickOnLike(sender : UITapGestureRecognizer)
     {
-        var imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
+        handleClickOnLikeDislike(isLikeButton: true, sender: sender)
+    }
+    
+    @objc func handleClickOnDislike(sender : UITapGestureRecognizer)
+    {
+        handleClickOnLikeDislike(isLikeButton: false, sender: sender)
+    }
+    
+    func handleClickOnLikeDislike(isLikeButton : Bool, sender : UITapGestureRecognizer)
+    {
         // TODO:: handle errors here
+        
+        let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
+        let tableViewCell : TableViewCell = sender.view?.superview?.superview as! TableViewCell
+        var otherButton : UIImageViewWithMetadata = tableViewCell.dislikeButton
+        
+        if (!isLikeButton)
+        {
+            otherButton = tableViewCell.likeButton
+        }
         
         if (imageViewWithMetadata.isClicked)
         {
-            imageViewWithMetadata.image = #imageLiteral(resourceName: "thumbsUp")
             imageViewWithMetadata.isClicked = false
-            // TODO:: Manage unlike click
+            imageViewWithMetadata.image = imageViewWithMetadata.unclickedImage
+            // TODO:: Manage unlike/undislike click
         }
         else
         {
-            imageViewWithMetadata.image = #imageLiteral(resourceName: "thumbsUpClicked")
             imageViewWithMetadata.isClicked = true
-            // TODO:: Manage like click
+            imageViewWithMetadata.image = imageViewWithMetadata.clickedImage
+            otherButton.image = otherButton.unclickedImage
+            // TODO:: manage like/dislike click
         }
     }
     
-    func turnLikeImageIntoButton(cell : TableViewCell)
+    func turnLikeAndDislikeIntoButtons(cell : TableViewCell)
     {
         let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
         cell.likeButton.isUserInteractionEnabled = true
         cell.likeButton.addGestureRecognizer(likeButtonClickRecognizer)
+        
+        let dislikeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDislike(sender:)))
+        cell.dislikeButton.isUserInteractionEnabled = true
+        cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
     }
     
     func fillImageDescription(cell : TableViewCell, postData : PostData)
     {
-        let imageDescriptionAttributes = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
+        let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
         let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : postData._image._imageDescription)!
         imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
         
@@ -78,7 +102,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func fillPublishTimeAndWriterInfo(cell : TableViewCell, postData : PostData)
     {
-        let publishTimeAndWriterAttributes = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
+        let publishTimeAndWriterAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
         cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData._date, author : postData._author._authorName), attributes: publishTimeAndWriterAttributes)
         removePaddingFromTextView(textView: cell.postTimeAndWriter)
     }
@@ -91,8 +115,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
         catch is ProgramError
         {
-            // TODO:: currently doesn't handle failed loads of data
-            // deleteRowSafelyFromTable(currentLocation: indexPath[1])
+            // Currently doesn't handle failed loads of data
         }
         catch
         {
@@ -115,9 +138,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
             isFirstReference = false
             
             let title : String = reference["title"] as! String
-            let referenceAttributes = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT]
+            let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!]
             let referenceString = NSMutableAttributedString(string: reference["title"] as! String, attributes: referenceAttributes)
-            referenceString.addAttribute(.link, value: reference["link"], range: NSRange(location:0, length: title.count))
+            referenceString.addAttribute(.link, value: reference["link"]!, range: NSRange(location:0, length: title.count))
                 
             allReferencesString.append(referenceString)
         }
@@ -202,7 +225,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         location.y -= textView.textContainerInset.top;
         let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         
-        var attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
+        let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
         for attribute in attributes
         {
             if attribute.key._rawValue == "NSLink"
@@ -260,16 +283,25 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewCell.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
     }
     
+    func setStateOfReferencesHeightConstraint(references : UITextView, state : Bool)
+    {
+        for constraint in references.constraints
+        {
+            if constraint.identifier == "referencesHeightConstraint"
+            {
+                constraint.isActive = state
+            }
+        }
+    }
+    
     func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
     {
         let postData = postDataArray[indexPath[1]]
         
         let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
         tableViewCell.body.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
-        addReferencesStrings(cell : tableViewCell, postData: postData)
         
         let rowWidth = tableViewCell.body.bounds.size.width
-        // For some reason the row width expands when I click read more. why? constraints missing?
         let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.body.attributedText!)
         let sizeOfRowInChars = Float(rowWidth) / widthOfSingleChar
     
@@ -277,13 +309,22 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             let textAfterTruncation : NSAttributedString = getTextAfterTruncation(text: tableViewCell.body.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
             tableViewCell.body.attributedText = textAfterTruncation
+            tableViewCell.references.attributedText = NSAttributedString()
+            //Label.addConstraint(NSLayoutConstraint(item: Label, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 21))
+            //referencesConstraint = NSLayoutConstraint(item: tableViewCell.references, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 5)
+            //tableViewCell.references.addConstraint(referencesConstraint)
+            //print(tableViewCell.references.constraints)
+            
             tableViewCell.likeButton.isHidden = true
-            tableViewCell.references.isHidden = true
+            tableViewCell.dislikeButton.isHidden = true
+            setStateOfReferencesHeightConstraint(references: tableViewCell.references, state: true)
         }
         else
         {
+            setStateOfReferencesHeightConstraint(references: tableViewCell.references, state: false)
+            addReferencesStrings(cell : tableViewCell, postData: postData)
             tableViewCell.likeButton.isHidden = false
-            tableViewCell.references.isHidden = false
+            tableViewCell.dislikeButton.isHidden = false
         }
         
         tableViewCell.body.isEditable = false
@@ -296,7 +337,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         paragraphStyle.hyphenationFactor = 1.0
         paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
         let text = NSMutableAttributedString(htmlString : cellText, font : font)!
-        //let mutableText : NSMutableAttributedString = text.mutableCopy() as! NSMutableAttributedString
         text.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
         
         return text
@@ -309,18 +349,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         print(currentRow)
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
-            //print("superview: \(tableView.superview)")
-            //print("superview: \(tableView.superview?.superview)")
-            //var tbv : UITableView = tableView.superview?.superview as! UITableView
-            print(tableView.dataSource)
-            print(tableView.delegate)
-            var tableViewController : TableViewController = tableView.delegate as! TableViewController
+            let tableViewController : TableViewController = tableView.delegate as! TableViewController
             tableViewController.loadMorePosts()
         }
     }
-    
-    /*public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
-     {
-     return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
-     }*/
 }

@@ -19,27 +19,10 @@ func getTimeAndWriterStringFromDateString(dateString : String, author : String) 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    print(dateFormatter.timeZone)
+    print(dateFormatter.locale)
     let dateAsDataStructure = dateFormatter.date(from : dateString)
-    if (dateAsDataStructure == nil)
-    {
-        print("weird date error")
-        return "date error"
-    }
-    // TODO:: use this for tests
-    /*let calendar = NSCalendar.current
-     var componentSet = Set<Calendar.Component>()
-     componentSet.insert(Calendar.Component.year)
-     componentSet.insert(Calendar.Component.month)
-     componentSet.insert(Calendar.Component.day)
-     componentSet.insert(Calendar.Component.hour)
-     componentSet.insert(Calendar.Component.minute)
-     
-     let components = calendar.dateComponents(componentSet, from: dateAsDataStructure!)
-     let year = components.year
-     let month = components.month
-     let day = components.day
-     let hour = components.hour
-     let minutes = components.minute*/
     
     var displayedTime = ""
     let dateDifferenceInDays = Date().days(from: dateAsDataStructure!)
@@ -102,6 +85,30 @@ func getTimeAndWriterStringFromDateString(dateString : String, author : String) 
     }
     return displayedTime + ", by " + author
 }
+
+public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
+{
+    return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
+}
+
+
+// TODO:: use this for tests
+/*let calendar = NSCalendar.current
+ var componentSet = Set<Calendar.Component>()
+ componentSet.insert(Calendar.Component.year)
+ componentSet.insert(Calendar.Component.month)
+ componentSet.insert(Calendar.Component.day)
+ componentSet.insert(Calendar.Component.hour)
+ componentSet.insert(Calendar.Component.minute)
+ 
+ let components = calendar.dateComponents(componentSet, from: dateAsDataStructure!)
+ let year = components.year
+ let month = components.month
+ let day = components.day
+ let hour = components.hour
+ let minutes = components.minute*/
+
+
 
 /*
  Constrainsts stuff

@@ -11,4 +11,6 @@ import UIKit
 public class UIImageViewWithMetadata : UIImageView
 {
     var isClicked : Bool = false
+    var clickedImage : UIImage = UIImage()
+    var unclickedImage : UIImage = UIImage()
 }

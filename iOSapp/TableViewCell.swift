@@ -17,10 +17,15 @@ class TableViewCell: UITableViewCell
     @IBOutlet weak var headline: UILabel!
     @IBOutlet weak var references: UITextView!
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
+    @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
     
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        likeButton.unclickedImage = #imageLiteral(resourceName: "thumbsUp")
+        likeButton.clickedImage = #imageLiteral(resourceName: "thumbsUpClicked")
+        dislikeButton.unclickedImage = #imageLiteral(resourceName: "thumbsDown")
+        dislikeButton.clickedImage = #imageLiteral(resourceName: "thumbsDownClicked")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)
