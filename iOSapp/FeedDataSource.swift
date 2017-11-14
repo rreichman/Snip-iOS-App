@@ -17,7 +17,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         _tableView = tableView
-        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
+        handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
         let postData = postDataArray[indexPath[1]]
@@ -304,11 +304,18 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
     {
-        let SPARE_ROWS_UNTIL_MORE_SCROLL = 3
+        let SPARE_ROWS_UNTIL_MORE_SCROLL = 2
+        print(postDataArray.count)
+        print(currentRow)
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
-            //loadMorePostsToTable()
-            //tableView.reloadData()
+            //print("superview: \(tableView.superview)")
+            //print("superview: \(tableView.superview?.superview)")
+            //var tbv : UITableView = tableView.superview?.superview as! UITableView
+            print(tableView.dataSource)
+            print(tableView.delegate)
+            var tableViewController : TableViewController = tableView.delegate as! TableViewController
+            tableViewController.loadMorePosts()
         }
     }
     

@@ -11,9 +11,63 @@ import Cache
 
 class TableViewController: UITableViewController
 {
+    var currentUrlString = SystemVariables().URL_STRING
     let feedDataSource = FeedDataSource()
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
+    
+    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [String : Any]) -> ())
+    {
+        let url: URL = URL(string: currentUrlString)!
+        var urlRequest: URLRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //fetching the data from the url
+        URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
+            print(response as Any)
+            print(error as Any)
+            
+            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+            {
+                print("in json")
+                //print(jsonObj)
+                completionHandler(jsonObj)
+            }
+            
+            print("after json parse")
+        }).resume()
+    }
+    
+    func getNextPage(next_page : Int) -> String
+    {
+        return SystemVariables().URL_STRING + "?page=" + String(next_page)
+    }
+    
+    func loadDataFromWebIntoFeed(resultArray: [String : Any])
+    {
+        let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
+        print("callback called")
+        for postAsJson in postsAsJson
+        {
+            currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
+            print("iterating in result array")
+            let newPost = PostData(postJson : postAsJson)
+            //let appCache = AppCache.shared
+            
+            feedDataSource.addPost(newPost: newPost)
+        }
+        DispatchQueue.main.async {
+            self.tableView.dataSource = self.feedDataSource
+            self.tableView.reloadData()
+        }
+    }
+    
+    public func loadMorePosts()
+    {
+        getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
+    }
     
     override func viewDidLoad()
     {
@@ -26,10 +80,6 @@ class TableViewController: UITableViewController
         if feedDataSource.postDataArray.count == 0
         {
             getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
-
-            // TODO:: Animation of loading data, probably signaling instead of sleep
-            sleep(3)
-            tableView.dataSource = feedDataSource
         }
     }
     
@@ -78,46 +128,5 @@ class TableViewController: UITableViewController
                          action: #selector(self.buttonAction),
                          for: .touchUpInside)
         self.navigationItem.titleView = button
-    }
-    
-    func loadDataFromWebIntoFeed(resultArray: [String : Any])
-    {
-        let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
-        // TODO:: also handle next posts in infinite scroll
-        print("callback called")
-        for postAsJson in postsAsJson
-        {
-            print("iterating in result array")
-            //print(postAsJson["title"])
-            //print(postAsJson["image"])
-            let newPost = PostData(postJson : postAsJson)
-            //let appCache = AppCache.shared
-            
-            feedDataSource.addPost(newPost: newPost)
-        }
-    }
-    
-    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [String : Any]) -> ())
-    {
-        let url: URL = URL(string: SystemVariables().URL_STRING)!
-        var urlRequest: URLRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        //fetching the data from the url
-        URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            print(response as Any)
-            print(error as Any)
-
-            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-            {
-                print("in json")
-                //print(jsonObj)
-                completionHandler(jsonObj)
-            }
-            
-            print("after json parse")
-        }).resume()
     }
 }

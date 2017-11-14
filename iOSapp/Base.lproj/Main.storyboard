@@ -32,7 +32,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="990" verticalCompressionResistancePriority="990" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Yj-2v9">
-                                            <rect key="frame" x="7" y="242.5" width="361" height="18"/>
+                                            <rect key="frame" x="7" y="242.5" width="361" height="17.5"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Headline">
                                                     <attributes>
@@ -44,7 +44,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="303" width="361" height="67.5"/>
+                                            <rect key="frame" x="7" y="302.5" width="361" height="68"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -59,7 +59,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Time &amp; Writer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6n-jC-V9c" userLabel="Time and Writer">
-                                            <rect key="frame" x="7" y="263.5" width="98.5" height="33"/>
+                                            <rect key="frame" x="7" y="263" width="98.5" height="33"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -71,7 +71,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsUp" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-di-gCj" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="338" y="367" width="25" height="25"/>
+                                            <rect key="frame" x="338" y="366.5" width="25" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="ipP-Wk-uIl"/>
                                             </constraints>

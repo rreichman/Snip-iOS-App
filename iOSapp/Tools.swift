@@ -20,6 +20,11 @@ func getTimeAndWriterStringFromDateString(dateString : String, author : String) 
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     let dateAsDataStructure = dateFormatter.date(from : dateString)
+    if (dateAsDataStructure == nil)
+    {
+        print("weird date error")
+        return "date error"
+    }
     // TODO:: use this for tests
     /*let calendar = NSCalendar.current
      var componentSet = Set<Calendar.Component>()

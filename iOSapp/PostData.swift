@@ -20,19 +20,7 @@ class PostData : Encodable, Decodable
     var _image : SnipImage
     var _relatedLinks : [[String : Any]]
     var _isLiked : Bool
-    
-    func turnUserVoteIntoIsLiked(postJson : [String : Any])
-    {
-        let userVoteString : String = _postJson["user_vote"] as! String
-        if (userVoteString == "")
-        {
-            _isLiked = false
-        }
-        else
-        {
-            _isLiked = true
-        }
-    }
+    var _isDisliked : Bool
     
     init()
     {
@@ -45,6 +33,7 @@ class PostData : Encodable, Decodable
         _image = SnipImage()
         _relatedLinks = []
         _isLiked = false
+        _isDisliked = false
     }
     
     init(postJson : [String : Any])
@@ -58,8 +47,8 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        _isLiked = false
-        turnUserVoteIntoIsLiked(postJson: _postJson)
+        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
+        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
     }
    
     // TODO:: use this, there is bad duplicate code here
@@ -72,7 +61,8 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        turnUserVoteIntoIsLiked(postJson: _postJson)
+        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
+        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
     }
     
     func encode(to encoder: Encoder) throws
@@ -92,7 +82,8 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        _isLiked = false // This is bad
+        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
+        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
         // TODO:: insert user vote here
     }
 }
