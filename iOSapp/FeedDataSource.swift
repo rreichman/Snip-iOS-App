@@ -14,94 +14,54 @@ class FeedDataSource: NSObject, UITableViewDataSource
     var _tableView: UITableView = UITableView()
     var setOfCellsNotToTruncate : Set<Int> = Set<Int>()
     
-    func removePaddingFromTextView(textView : UITextView)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        textView.textContainerInset = UIEdgeInsets.zero
-        textView.textContainer.lineFragmentPadding = 0
+        _tableView = tableView
+        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
+        let postData = postDataArray[indexPath[1]]
+        tableView.allowsSelection = false
+        
+        getPostImage(cell: cell, postData: postData)
+        fillImageDescription(cell: cell, postData: postData)
+        fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
+        
+        makeCellClickable(tableViewCell : cell)
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
+        
+        cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
+        cell.headline.text = postData._headline
+        
+        turnLikeImageIntoButton(cell: cell)
+        
+        return cell
     }
     
-    func getTimeAndWriterStringFromPostData(postData : PostData) -> String
+    @objc func handleClickOnLike(sender : UITapGestureRecognizer)
     {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
-        let dateAsDataStructure = dateFormatter.date(from : postData._date)
-        // TODO:: use this for tests
-        /*let calendar = NSCalendar.current
-        var componentSet = Set<Calendar.Component>()
-        componentSet.insert(Calendar.Component.year)
-        componentSet.insert(Calendar.Component.month)
-        componentSet.insert(Calendar.Component.day)
-        componentSet.insert(Calendar.Component.hour)
-        componentSet.insert(Calendar.Component.minute)
-
-        let components = calendar.dateComponents(componentSet, from: dateAsDataStructure!)
-        let year = components.year
-        let month = components.month
-        let day = components.day
-        let hour = components.hour
-        let minutes = components.minute*/
-
-        var displayedTime = ""
-        let dateDifferenceInDays = Date().days(from: dateAsDataStructure!)
-        if (dateDifferenceInDays < 30)
+        var imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
+        // TODO:: handle errors here
+        
+        if (imageViewWithMetadata.isClicked)
         {
-            if (dateDifferenceInDays == 0)
-            {
-                let dateDifferenceInHours = Date().hours(from: dateAsDataStructure!)
-                if (dateDifferenceInHours == 0)
-                {
-                    let dateDifferenceInMinutes = Date().minutes(from: dateAsDataStructure!)
-                    if (dateDifferenceInMinutes == 0)
-                    {
-                        let dateDifferenceInSeconds = Date().seconds(from: dateAsDataStructure!)
-                        displayedTime.append(String(dateDifferenceInSeconds))
-                        displayedTime.append(" secs ago")
-                    }
-                    else
-                    {
-                        displayedTime.append(String(dateDifferenceInMinutes))
-                        if (dateDifferenceInMinutes == 1)
-                        {
-                            displayedTime.append(" min ago")
-                        }
-                        else
-                        {
-                            displayedTime.append(" mins ago")
-                        }
-                    }
-                }
-                else
-                {
-                    displayedTime.append(String(dateDifferenceInHours))
-                    if (dateDifferenceInHours == 1)
-                    {
-                        displayedTime.append(" hour ago")
-                    }
-                    else
-                    {
-                        displayedTime.append(" hours ago")
-                    }
-                }
-            }
-            else
-            {
-                displayedTime.append(String(dateDifferenceInDays))
-                if (dateDifferenceInDays == 1)
-                {
-                    displayedTime.append(" day ago")
-                }
-                else
-                {
-                    displayedTime.append(" days ago")
-                }
-            }
+            imageViewWithMetadata.image = #imageLiteral(resourceName: "thumbsUp")
+            imageViewWithMetadata.isClicked = false
+            // TODO:: Manage unlike click
         }
         else
         {
-            displayedTime = String(postData._date.prefix(10))
+            imageViewWithMetadata.image = #imageLiteral(resourceName: "thumbsUpClicked")
+            imageViewWithMetadata.isClicked = true
+            // TODO:: Manage like click
         }
-        return displayedTime + ", by " + postData._author._authorName
+    }
+    
+    func turnLikeImageIntoButton(cell : TableViewCell)
+    {
+        let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
+        cell.likeButton.isUserInteractionEnabled = true
+        cell.likeButton.addGestureRecognizer(likeButtonClickRecognizer)
     }
     
     func fillImageDescription(cell : TableViewCell, postData : PostData)
@@ -119,7 +79,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func fillPublishTimeAndWriterInfo(cell : TableViewCell, postData : PostData)
     {
         let publishTimeAndWriterAttributes = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
-        cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromPostData(postData : postData), attributes: publishTimeAndWriterAttributes)
+        cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData._date, author : postData._author._authorName), attributes: publishTimeAndWriterAttributes)
         removePaddingFromTextView(textView: cell.postTimeAndWriter)
     }
     
@@ -140,47 +100,35 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
     }
     
-    func addReferencesToPost(cell : TableViewCell, postData: PostData)
+    func addReferencesStrings(cell: TableViewCell, postData: PostData)
     {
+        var isFirstReference : Bool = true
+        
+        let allReferencesString = NSMutableAttributedString()
+        
         for reference in postData._relatedLinks
         {
-            print(reference["link"])
-            print(reference["title"])
+            if (!isFirstReference)
+            {
+                allReferencesString.append(NSAttributedString(string : "\n"))
+            }
+            isFirstReference = false
             
-            let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-            textView.textAlignment = NSTextAlignment.center
-            textView.textColor = UIColor.blue
-            //textField.borderStyle = UITextBorderStyle.line
-            textView.attributedText = NSAttributedString(string: "reference")
-            cell.body.insertSubview(textView, belowSubview: cell.body)
-            // TODO:: add constraint so that the subview is lower
-            
-            print("here")
+            let title : String = reference["title"] as! String
+            let referenceAttributes = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT]
+            let referenceString = NSMutableAttributedString(string: reference["title"] as! String, attributes: referenceAttributes)
+            referenceString.addAttribute(.link, value: reference["link"], range: NSRange(location:0, length: title.count))
+                
+            allReferencesString.append(referenceString)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        _tableView = tableView
-        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
-        let postData = postDataArray[indexPath[1]]
-        tableView.allowsSelection = false
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_REFERENCES
+        allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
         
-        getPostImage(cell: cell, postData: postData)
-        fillImageDescription(cell: cell, postData: postData)
-        fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
-        
-        makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
-        
-        cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
-        cell.headline.text = postData._headline
-        
-        addReferencesToPost(cell : cell, postData: postData)
-        
-        return cell
+        cell.references.attributedText = allReferencesString
+        cell.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
+        removePaddingFromTextView(textView: cell.references)
     }
     
     public func getLinkAttributesForWebsite(linkWebsite : String) -> [String : Any]
@@ -302,9 +250,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.body.isUserInteractionEnabled = true
         tableViewCell.body.addGestureRecognizer(singleTapRecognizerText)
+        
         let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.headline.isUserInteractionEnabled = true
         tableViewCell.headline.addGestureRecognizer(singleTapRecognizerHeadline)
+        
+        let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        tableViewCell.postTimeAndWriter.isUserInteractionEnabled = true
+        tableViewCell.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
     }
     
     func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
@@ -313,6 +266,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
         tableViewCell.body.attributedText = getCellTextStyle(cellText: postData._text, indexPath: indexPath, font : cellFont)
+        addReferencesStrings(cell : tableViewCell, postData: postData)
+        
         let rowWidth = tableViewCell.body.bounds.size.width
         // For some reason the row width expands when I click read more. why? constraints missing?
         let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.body.attributedText!)
@@ -322,7 +277,15 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             let textAfterTruncation : NSAttributedString = getTextAfterTruncation(text: tableViewCell.body.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
             tableViewCell.body.attributedText = textAfterTruncation
+            tableViewCell.likeButton.isHidden = true
+            tableViewCell.references.isHidden = true
         }
+        else
+        {
+            tableViewCell.likeButton.isHidden = false
+            tableViewCell.references.isHidden = false
+        }
+        
         tableViewCell.body.isEditable = false
         removePaddingFromTextView(textView: tableViewCell.body)
     }

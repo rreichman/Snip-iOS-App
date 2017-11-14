@@ -15,6 +15,8 @@ class TableViewCell: UITableViewCell
     @IBOutlet weak var postTimeAndWriter: UITextView!
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var headline: UILabel!
+    @IBOutlet weak var references: UITextView!
+    @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     
     override func awakeFromNib()
     {

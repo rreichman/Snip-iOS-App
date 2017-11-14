@@ -19,6 +19,20 @@ class PostData : Encodable, Decodable
     var _date : String
     var _image : SnipImage
     var _relatedLinks : [[String : Any]]
+    var _isLiked : Bool
+    
+    func turnUserVoteIntoIsLiked(postJson : [String : Any])
+    {
+        let userVoteString : String = _postJson["user_vote"] as! String
+        if (userVoteString == "")
+        {
+            _isLiked = false
+        }
+        else
+        {
+            _isLiked = true
+        }
+    }
     
     init()
     {
@@ -30,6 +44,7 @@ class PostData : Encodable, Decodable
         _date = ""
         _image = SnipImage()
         _relatedLinks = []
+        _isLiked = false
     }
     
     init(postJson : [String : Any])
@@ -43,6 +58,8 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
+        _isLiked = false
+        turnUserVoteIntoIsLiked(postJson: _postJson)
     }
    
     // TODO:: use this, there is bad duplicate code here
@@ -55,6 +72,7 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
+        turnUserVoteIntoIsLiked(postJson: _postJson)
     }
     
     func encode(to encoder: Encoder) throws
@@ -74,6 +92,8 @@ class PostData : Encodable, Decodable
         _date = _postJson["date"] as! String
         _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
         _relatedLinks = _postJson["related_links"] as! [[String : Any]]
+        _isLiked = false // This is bad
+        // TODO:: insert user vote here
     }
 }
 

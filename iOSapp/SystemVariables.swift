@@ -19,6 +19,9 @@ public class SystemVariables
     let IMAGE_DESCRIPTION_COLOR = UIColor.gray
     let PUBLISH_TIME_AND_WRITER_FONT = UIFont(name: "Helvetica", size: 10)
     let PUBLISH_TIME_AND_WRITER_COLOR = UIColor.gray
+    let REFERENCES_FONT = UIFont(name: "Helvetica", size: 11)
+    let REFERENCES_COLOR = UIColor.gray
+    let LINE_SPACING_IN_REFERENCES = CGFloat(4)
     
     // The spacing between lines in the text
     let LINE_SPACING_IN_TEXT = CGFloat(2)

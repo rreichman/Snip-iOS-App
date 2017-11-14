@@ -44,7 +44,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="302.5" width="361" height="92"/>
+                                            <rect key="frame" x="7" y="303" width="361" height="67.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -64,30 +64,49 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" misplaced="YES" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Mv-5f-woU" userLabel="References">
+                                            <rect key="frame" x="8" y="367" width="360" height="28"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsUp" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-di-gCj" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
+                                            <rect key="frame" x="338" y="367" width="25" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="25" id="ipP-Wk-uIl"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="bLu-9Z-gCX" secondAttribute="bottom" constant="5" id="0mQ-9J-7Od"/>
                                         <constraint firstItem="WX6-kI-ID7" firstAttribute="top" secondItem="iTo-GQ-6ZM" secondAttribute="top" id="6mP-bU-o9q"/>
                                         <constraint firstItem="K6n-jC-V9c" firstAttribute="top" secondItem="ODU-Yj-2v9" secondAttribute="bottom" constant="3" id="7gK-96-EJu"/>
                                         <constraint firstAttribute="trailing" secondItem="ODU-Yj-2v9" secondAttribute="trailing" constant="7" id="AN4-Zw-d4S"/>
                                         <constraint firstItem="jLw-yP-rEN" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="1" id="BPe-Tc-noA" userLabel="Image Description.top = Image.bottom"/>
+                                        <constraint firstItem="3Mv-5f-woU" firstAttribute="top" secondItem="bLu-9Z-gCX" secondAttribute="bottom" constant="-7" id="DcN-i3-Yis"/>
                                         <constraint firstAttribute="trailing" secondItem="bLu-9Z-gCX" secondAttribute="trailing" constant="7" id="Gqy-MB-Sgi"/>
                                         <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="jLw-yP-rEN" secondAttribute="bottom" constant="3" id="Jfd-Vw-qai"/>
                                         <constraint firstAttribute="trailing" secondItem="jLw-yP-rEN" secondAttribute="trailing" constant="1" id="Kvx-7b-XbE" userLabel="trailing = Image Description.trailing"/>
                                         <constraint firstItem="bLu-9Z-gCX" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="LzD-Wa-uV2"/>
                                         <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="PXR-GL-doa"/>
                                         <constraint firstItem="bLu-9Z-gCX" firstAttribute="top" secondItem="K6n-jC-V9c" secondAttribute="bottom" constant="6" id="RER-rO-gUJ"/>
+                                        <constraint firstItem="yNo-di-gCj" firstAttribute="width" secondItem="yNo-di-gCj" secondAttribute="height" multiplier="256:256" id="S3i-qJ-GDv"/>
+                                        <constraint firstItem="3Mv-5f-woU" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="8" id="XBb-Dx-3S6"/>
+                                        <constraint firstAttribute="bottom" secondItem="yNo-di-gCj" secondAttribute="bottom" constant="8" id="dV4-ga-rDL"/>
+                                        <constraint firstAttribute="trailing" secondItem="yNo-di-gCj" secondAttribute="trailing" constant="12" id="jPK-mY-rgh"/>
                                         <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" id="nbz-v8-tJa"/>
                                         <constraint firstItem="K6n-jC-V9c" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="poK-nT-DJp"/>
                                         <constraint firstAttribute="trailing" secondItem="WX6-kI-ID7" secondAttribute="trailing" id="vXD-qp-H9G"/>
+                                        <constraint firstAttribute="bottom" secondItem="3Mv-5f-woU" secondAttribute="bottom" constant="8" id="vpM-yd-JKA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="body" destination="bLu-9Z-gCX" id="xgy-dO-QFv"/>
                                     <outlet property="headline" destination="ODU-Yj-2v9" id="ULK-1E-1UC"/>
                                     <outlet property="imageDescription" destination="jLw-yP-rEN" id="Ct6-Cb-0o0"/>
+                                    <outlet property="likeButton" destination="yNo-di-gCj" id="dPC-M9-zP9"/>
                                     <outlet property="postImage" destination="WX6-kI-ID7" id="De7-ui-3BQ"/>
                                     <outlet property="postTimeAndWriter" destination="K6n-jC-V9c" id="2el-Wu-ik2"/>
+                                    <outlet property="references" destination="3Mv-5f-woU" id="XBN-KR-Qci"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -122,4 +141,7 @@
             <point key="canvasLocation" x="-90" y="235"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="thumbsUp" width="128" height="128"/>
+    </resources>
 </document>
