@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vSY-wT-Kae">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fgP-QP-zIp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -7,6 +7,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -60,7 +61,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Time &amp; Writer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6n-jC-V9c" userLabel="Time and Writer">
-                                            <rect key="frame" x="7" y="263" width="98.5" height="33"/>
+                                            <rect key="frame" x="7" y="263" width="361" height="33"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -75,9 +76,9 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsUp" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-di-gCj" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="300" y="388" width="25" height="25"/>
+                                            <rect key="frame" x="294" y="384" width="27" height="27"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="ipP-Wk-uIl"/>
+                                                <constraint firstAttribute="height" constant="27" id="ipP-Wk-uIl"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-bx-V8F" userLabel="cellBorder">
@@ -89,9 +90,9 @@
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsDown" translatesAutoresizingMaskIntoConstraints="NO" id="Y0x-gh-37C" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="339" y="388" width="25" height="25"/>
+                                            <rect key="frame" x="337" y="384" width="27" height="27"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="SR4-Qm-bq0"/>
+                                                <constraint firstAttribute="height" constant="27" id="SR4-Qm-bq0"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -113,14 +114,15 @@
                                         <constraint firstItem="yNo-di-gCj" firstAttribute="width" secondItem="yNo-di-gCj" secondAttribute="height" multiplier="256:256" id="S3i-qJ-GDv"/>
                                         <constraint firstItem="3Mv-5f-woU" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="8" id="XBb-Dx-3S6"/>
                                         <constraint firstItem="Y0x-gh-37C" firstAttribute="width" secondItem="Y0x-gh-37C" secondAttribute="height" multiplier="256:256" id="aIV-xI-Z59"/>
-                                        <constraint firstItem="wlN-bx-V8F" firstAttribute="top" secondItem="yNo-di-gCj" secondAttribute="bottom" constant="5" id="cig-sV-Ued"/>
+                                        <constraint firstItem="wlN-bx-V8F" firstAttribute="top" secondItem="yNo-di-gCj" secondAttribute="bottom" constant="7" id="cig-sV-Ued"/>
                                         <constraint firstItem="Y0x-gh-37C" firstAttribute="trailing" secondItem="iTo-GQ-6ZM" secondAttribute="trailingMargin" constant="5" id="dNp-ld-FBk"/>
-                                        <constraint firstItem="Y0x-gh-37C" firstAttribute="leading" secondItem="yNo-di-gCj" secondAttribute="trailing" constant="14" id="fWG-fa-Zf4"/>
+                                        <constraint firstItem="Y0x-gh-37C" firstAttribute="leading" secondItem="yNo-di-gCj" secondAttribute="trailing" constant="16" id="fWG-fa-Zf4"/>
                                         <constraint firstItem="wlN-bx-V8F" firstAttribute="top" secondItem="3Mv-5f-woU" secondAttribute="bottom" constant="3" id="lZT-lp-7am"/>
                                         <constraint firstItem="WX6-kI-ID7" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" id="nbz-v8-tJa"/>
-                                        <constraint firstItem="wlN-bx-V8F" firstAttribute="top" secondItem="Y0x-gh-37C" secondAttribute="bottom" constant="5" id="nor-Z0-LsL"/>
+                                        <constraint firstItem="wlN-bx-V8F" firstAttribute="top" secondItem="Y0x-gh-37C" secondAttribute="bottom" constant="7" id="nor-Z0-LsL"/>
                                         <constraint firstItem="K6n-jC-V9c" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="poK-nT-DJp"/>
                                         <constraint firstAttribute="trailing" secondItem="WX6-kI-ID7" secondAttribute="trailing" id="vXD-qp-H9G"/>
+                                        <constraint firstAttribute="trailing" secondItem="K6n-jC-V9c" secondAttribute="trailing" constant="7" id="yxg-Mh-sYz"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -140,14 +142,41 @@
                             <outlet property="delegate" destination="HBx-tT-6gJ" id="RtR-WG-lUc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="gtC-tI-eNw">
-                        <barButtonItem key="leftBarButtonItem" title="Button" id="uhL-L7-adE"/>
-                        <barButtonItem key="rightBarButtonItem" title="Button" id="Y2D-xA-hQo"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="gtC-tI-eNw"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x77-yD-nkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="525.60000000000002" y="234.33283358320841"/>
+            <point key="canvasLocation" x="684" y="234"/>
+        </scene>
+        <!--Splash Screen View Controller-->
+        <scene sceneID="yLJ-4l-csu">
+            <objects>
+                <viewController id="fgP-QP-zIp" customClass="SplashScreenViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ul5-0I-cKz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yof-I2-61X">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Yof-I2-61X" firstAttribute="trailing" secondItem="m1X-Gb-RDH" secondAttribute="trailing" id="JdI-K5-xm4"/>
+                            <constraint firstItem="Yof-I2-61X" firstAttribute="top" secondItem="ul5-0I-cKz" secondAttribute="top" id="KeS-HJ-Vgg"/>
+                            <constraint firstItem="Yof-I2-61X" firstAttribute="bottom" secondItem="m1X-Gb-RDH" secondAttribute="bottom" id="dJs-O3-nBE"/>
+                            <constraint firstItem="Yof-I2-61X" firstAttribute="leading" secondItem="m1X-Gb-RDH" secondAttribute="leading" id="tVy-jH-kij"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="m1X-Gb-RDH"/>
+                    </view>
+                    <connections>
+                        <outlet property="splashScreenImage" destination="Yof-I2-61X" id="crn-US-PHG"/>
+                        <segue destination="vSY-wT-Kae" kind="show" identifier="segueToTableView" id="DCP-ed-inW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1T6-8I-fiv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-882.39999999999998" y="233.43328335832086"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aS6-j3-fwU">

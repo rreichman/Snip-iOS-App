@@ -10,81 +10,84 @@ import UIKit
 
 class PostData : Encodable, Decodable
 {
-    var _postJson : [String : Any]
-    var _id : Int
-    var _author : SnipAuthor
-    var _headline : String
-    var _text : String
-    // TODO: perhaps store the date as something else in the future (not sure)
-    var _date : String
-    var _image : SnipImage
-    var _relatedLinks : [[String : Any]]
-    var _isLiked : Bool
-    var _isDisliked : Bool
+    var postJson : [String : Any]
+    var id : Int
+    var author : SnipAuthor
+    var headline : String
+    var text : String
+    // Perhaps store the date as something else in the future (not sure)
+    var date : String
+    var image : SnipImage
+    var relatedLinks : [[String : Any]]
+    var isLiked : Bool
+    var isDisliked : Bool
     
     init()
     {
-        _postJson = [:]
-        _id = 0
-        _author = SnipAuthor()
-        _headline = ""
-        _text = ""
-        _date = ""
-        _image = SnipImage()
-        _relatedLinks = []
-        _isLiked = false
-        _isDisliked = false
+        postJson = [:]
+        id = 0
+        author = SnipAuthor()
+        headline = ""
+        text = ""
+        date = ""
+        image = SnipImage()
+        relatedLinks = []
+        isLiked = false
+        isDisliked = false
     }
     
-    init(postJson : [String : Any])
+    init(receivedPostJson : [String : Any])
     {
-        _postJson = postJson
+        postJson = receivedPostJson
         
-        _id = _postJson["id"] as! Int
-        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
-        _headline = _postJson["title"] as! String
-        _text = _postJson["body"] as! String
-        _date = _postJson["date"] as! String
-        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
-        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
-        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
+        // These are default inits
+        id = 0
+        author = SnipAuthor()
+        headline = ""
+        text = ""
+        date = ""
+        image = SnipImage()
+        relatedLinks = []
+        isLiked = false
+        isDisliked = false
+        
+        loadRawJsonIntoVariables()
     }
    
-    // TODO:: use this, there is bad duplicate code here
     func loadRawJsonIntoVariables()
     {
-        _id = _postJson["id"] as! Int
-        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
-        _headline = _postJson["title"] as! String
-        _text = _postJson["body"] as! String
-        _date = _postJson["date"] as! String
-        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
-        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
-        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
+        id = postJson["id"] as! Int
+        author = SnipAuthor(authorData: postJson["author"] as! [String : Any])
+        headline = postJson["title"] as! String
+        text = postJson["body"] as! String
+        date = postJson["date"] as! String
+        image = SnipImage(imageData: postJson["image"] as! [String : Any])
+        relatedLinks = postJson["related_links"] as! [[String : Any]]
+        isLiked = (postJson["votes"] as! [String : Bool])["like"]!
+        isDisliked = (postJson["votes"] as! [String : Bool])["dislike"]!
     }
     
     func encode(to encoder: Encoder) throws
     {
         var container = encoder.singleValueContainer()
-        try container.encode(_postJson)
+        try container.encode(postJson)
     }
     
     required init(from decoder: Decoder) throws
     {
-        _postJson = try decoder.singleValueContainer() as! [String : Any]
+        postJson = try decoder.singleValueContainer() as! [String : Any]
         
-        _id = _postJson["id"] as! Int
-        _author = SnipAuthor(authorData: _postJson["author"] as! [String : Any])
-        _headline = _postJson["title"] as! String
-        _text = _postJson["body"] as! String
-        _date = _postJson["date"] as! String
-        _image = SnipImage(imageData: _postJson["image"] as! [String : Any])
-        _relatedLinks = _postJson["related_links"] as! [[String : Any]]
-        _isLiked = (_postJson["votes"] as! [String : Bool])["like"]!
-        _isDisliked = (_postJson["votes"] as! [String : Bool])["dislike"]!
-        // TODO:: insert user vote here
+        id = 0
+        author = SnipAuthor()
+        headline = ""
+        text = ""
+        date = ""
+        image = SnipImage()
+        relatedLinks = []
+        isLiked = false
+        isDisliked = false
+        
+        loadRawJsonIntoVariables()
     }
 }
 

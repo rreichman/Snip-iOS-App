@@ -11,63 +11,8 @@ import Cache
 
 class TableViewController: UITableViewController
 {
-    var currentUrlString = SystemVariables().URL_STRING
-    let feedDataSource = FeedDataSource()
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
-    
-    func getJsonFromURL(completionHandler: @escaping (_ resultArray: [String : Any]) -> ())
-    {
-        let url: URL = URL(string: currentUrlString)!
-        var urlRequest: URLRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        //fetching the data from the url
-        URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            print(response as Any)
-            print(error as Any)
-            
-            if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-            {
-                print("in json")
-                //print(jsonObj)
-                completionHandler(jsonObj)
-            }
-            
-            print("after json parse")
-        }).resume()
-    }
-    
-    func getNextPage(next_page : Int) -> String
-    {
-        return SystemVariables().URL_STRING + "?page=" + String(next_page)
-    }
-    
-    func loadDataFromWebIntoFeed(resultArray: [String : Any])
-    {
-        let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
-        print("callback called")
-        for postAsJson in postsAsJson
-        {
-            currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
-            print("iterating in result array")
-            let newPost = PostData(postJson : postAsJson)
-            //let appCache = AppCache.shared
-            
-            feedDataSource.addPost(newPost: newPost)
-        }
-        DispatchQueue.main.async {
-            self.tableView.dataSource = self.feedDataSource
-            self.tableView.reloadData()
-        }
-    }
-    
-    public func loadMorePosts()
-    {
-        getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
-    }
     
     override func viewDidLoad()
     {
@@ -76,11 +21,19 @@ class TableViewController: UITableViewController
         
         turnNavigationBarTitleIntoButton(title: "Home")
         
-        // TODO:: Perhaps need more advanced logic here
-        if feedDataSource.postDataArray.count == 0
+        // Perhaps need more advanced logic here
+        if (tableView.dataSource is FeedDataSource)
         {
-            getJsonFromURL(completionHandler: loadDataFromWebIntoFeed)
+            print("not collecting anymore")
+            let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
+            if (dataSource.postDataArray.count > 0)
+            {
+                return
+            }
         }
+        
+        print("collecting more")
+        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
@@ -103,10 +56,18 @@ class TableViewController: UITableViewController
         return UITableViewAutomaticDimension
     }
     
+    func dataCollectionCompletionHandler(feedDataSource: FeedDataSource)
+    {
+        DispatchQueue.main.async
+        {
+            self.tableView.dataSource = feedDataSource
+            self.tableView.reloadData()
+        }
+    }
+    
     // Perhaps this can be non-objc with some modifications
     @objc func buttonAction(sender: Any)
     {
-        print("Got it!")
         // This is a nice additional margin so that the cell isn't too crowded with the top of the page. Probably there's a better way to do this but not too important.
         let additionalMarginAtBottomOfNavigationBar = CGFloat(20)
         // Bring the content to the top of the screen in a nice animated way.

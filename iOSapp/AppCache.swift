@@ -34,7 +34,7 @@ final class AppCache
     {
         do
         {
-            try storage.setObject(postData, forKey: String(postData._id))
+            try storage.setObject(postData, forKey: String(postData.id))
         }
         catch
         {

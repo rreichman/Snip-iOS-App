@@ -20,8 +20,6 @@ func getTimeAndWriterStringFromDateString(dateString : String, author : String) 
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-    print(dateFormatter.timeZone)
-    print(dateFormatter.locale)
     let dateAsDataStructure = dateFormatter.date(from : dateString)
     
     var displayedTime = ""
@@ -92,7 +90,7 @@ public func getLastIndexOfSubstringInString(originalString : String, substring :
 }
 
 
-// TODO:: use this for tests
+// Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()
  componentSet.insert(Calendar.Component.year)
@@ -126,7 +124,6 @@ public func getLastIndexOfSubstringInString(originalString : String, substring :
  let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
  textView.attributedText = NSAttributedString(string: "hello this is a text view which is sub. what is done with this")
  
- // TODO:: make this normal
  textView.tag = 999
  textView.translatesAutoresizingMaskIntoConstraints = false
  cell.contentView.addSubview(textView)

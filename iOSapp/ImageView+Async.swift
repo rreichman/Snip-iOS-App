@@ -33,7 +33,6 @@ extension UIImageView
         let storage = AppCache.shared.getStorage()
         if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
         {
-            //print("using cache with image " + urlString)
             self.image = cachedImage
             return NoError()
         }
@@ -45,7 +44,6 @@ extension UIImageView
         let url = NSURL(string: urlString)! as URL
         
         URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
-            print("inside async land")
             if error != nil
             {
                 print("error in loading URL")
