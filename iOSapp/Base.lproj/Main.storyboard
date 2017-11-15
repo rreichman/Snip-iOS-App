@@ -46,7 +46,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="302.5" width="361" height="105.5"/>
+                                            <rect key="frame" x="7" y="302.5" width="361" height="106"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -67,7 +67,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Mv-5f-woU" userLabel="References">
-                                            <rect key="frame" x="8" y="405" width="65" height="10"/>
+                                            <rect key="frame" x="8" y="405.5" width="65" height="10"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="10" identifier="referencesHeightConstraint" id="Vzi-Ft-DuX"/>
@@ -76,23 +76,23 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsUp" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-di-gCj" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="294" y="384" width="27" height="27"/>
+                                            <rect key="frame" x="300" y="387.5" width="24" height="24"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="27" id="ipP-Wk-uIl"/>
+                                                <constraint firstAttribute="height" constant="24" id="ipP-Wk-uIl"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-bx-V8F" userLabel="cellBorder">
-                                            <rect key="frame" x="0.0" y="418" width="375" height="4"/>
+                                            <rect key="frame" x="0.0" y="418.5" width="375" height="5"/>
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="4" id="a86-gS-EDN"/>
+                                                <constraint firstAttribute="height" constant="5" id="a86-gS-EDN"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsDown" translatesAutoresizingMaskIntoConstraints="NO" id="Y0x-gh-37C" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="337" y="384" width="27" height="27"/>
+                                            <rect key="frame" x="340" y="387.5" width="24" height="24"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="27" id="SR4-Qm-bq0"/>
+                                                <constraint firstAttribute="height" constant="24" id="SR4-Qm-bq0"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -108,7 +108,7 @@
                                         <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="jLw-yP-rEN" secondAttribute="bottom" constant="3" id="Jfd-Vw-qai"/>
                                         <constraint firstAttribute="trailing" secondItem="jLw-yP-rEN" secondAttribute="trailing" constant="1" id="Kvx-7b-XbE" userLabel="trailing = Image Description.trailing"/>
                                         <constraint firstItem="bLu-9Z-gCX" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="LzD-Wa-uV2"/>
-                                        <constraint firstAttribute="bottom" secondItem="wlN-bx-V8F" secondAttribute="bottom" id="O5d-hv-Zki"/>
+                                        <constraint firstAttribute="bottom" secondItem="wlN-bx-V8F" secondAttribute="bottom" constant="-1" id="O5d-hv-Zki"/>
                                         <constraint firstItem="ODU-Yj-2v9" firstAttribute="leading" secondItem="iTo-GQ-6ZM" secondAttribute="leading" constant="7" id="PXR-GL-doa"/>
                                         <constraint firstItem="bLu-9Z-gCX" firstAttribute="top" secondItem="K6n-jC-V9c" secondAttribute="bottom" constant="6" id="RER-rO-gUJ"/>
                                         <constraint firstItem="yNo-di-gCj" firstAttribute="width" secondItem="yNo-di-gCj" secondAttribute="height" multiplier="256:256" id="S3i-qJ-GDv"/>

@@ -61,6 +61,10 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewCell.postImage.isUserInteractionEnabled = true
         tableViewCell.postImage.addGestureRecognizer(singleTapRecognizerImage)
         
+        let singleTapRecognizerImageDescription : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        tableViewCell.imageDescription.isUserInteractionEnabled = true
+        tableViewCell.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
+        
         let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.body.isUserInteractionEnabled = true
         tableViewCell.body.addGestureRecognizer(singleTapRecognizerText)
@@ -72,8 +76,13 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.postTimeAndWriter.isUserInteractionEnabled = true
         tableViewCell.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
+        
+        let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        tableViewCell.references.isUserInteractionEnabled = true
+        tableViewCell.references.addGestureRecognizer(singleTapRecognizerReferences)
     }
     
+    // TODO:: do this for all text views
     // Returns if the operation was handled
     func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
     {
@@ -89,7 +98,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             if attribute.key._rawValue == "NSLink"
             {
-                UIApplication.shared.open((attribute.value as! NSURL) as URL, options: [:], completionHandler: nil)
+                // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
+                var linkAddress = attribute.value
+                if attribute.value is NSURL
+                {
+                    linkAddress = (attribute.value as! NSURL).absoluteString!
+                }
+                
+                UIApplication.shared.open(URL(string: linkAddress as! String)!, options: [:], completionHandler: nil)
                 return true
             }
         }
