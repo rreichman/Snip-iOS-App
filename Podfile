@@ -5,6 +5,9 @@ target 'iOSapp' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   pod 'Cache'
+  pod 'Fabric'
+  pod 'Crashlytics'
+  pod 'Mixpanel-swift', :git=> 'https://github.com/mixpanel/mixpanel-swift.git', :branch=> 'swift4'
 
   # Pods for iOSapp
 

@@ -21,7 +21,10 @@ class iOSappTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testExample()
+    {
+        //var postData : PostData = PostData(receivedPostJson: ["a" : "b"])
+        XCTAssert(false)
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

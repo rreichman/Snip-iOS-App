@@ -46,7 +46,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="302.5" width="361" height="106"/>
+                                            <rect key="frame" x="7" y="302.5" width="361" height="96"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -67,30 +67,30 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Mv-5f-woU" userLabel="References">
-                                            <rect key="frame" x="8" y="405.5" width="65" height="10"/>
+                                            <rect key="frame" x="8" y="395.5" width="65" height="15"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="10" identifier="referencesHeightConstraint" id="Vzi-Ft-DuX"/>
+                                                <constraint firstAttribute="height" constant="15" identifier="referencesHeightConstraint" id="Vzi-Ft-DuX"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsUp" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-di-gCj" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="300" y="387.5" width="24" height="24"/>
+                                            <rect key="frame" x="300" y="382.5" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="ipP-Wk-uIl"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-bx-V8F" userLabel="cellBorder">
-                                            <rect key="frame" x="0.0" y="418.5" width="375" height="5"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <rect key="frame" x="0.0" y="413.5" width="375" height="10"/>
+                                            <color key="backgroundColor" red="0.82253331218274117" green="0.82253331218274117" blue="0.82253331218274117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="5" id="a86-gS-EDN"/>
+                                                <constraint firstAttribute="height" constant="10" id="a86-gS-EDN"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsDown" translatesAutoresizingMaskIntoConstraints="NO" id="Y0x-gh-37C" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="340" y="387.5" width="24" height="24"/>
+                                            <rect key="frame" x="340" y="382.5" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="SR4-Qm-bq0"/>
                                             </constraints>

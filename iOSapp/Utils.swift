@@ -8,6 +8,11 @@
 
 import UIKit
 
+func getUniqueDeviceID() -> String
+{
+    return UIDevice.current.identifierForVendor!.uuidString
+}
+
 func removePaddingFromTextView(textView : UITextView)
 {
     textView.textContainerInset = UIEdgeInsets.zero

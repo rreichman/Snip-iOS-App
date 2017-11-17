@@ -6,15 +6,24 @@
 //  Copyright © 2017 Ran Reichman. All rights reserved.
 //
 
+// Using this manual to submit the app
+// https://www.youtube.com/watch?v=tnbOcpwJGa8
+
 import UIKit
+import Fabric
+import Crashlytics
+import Mixpanel
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
+    {
+        Fabric.with([Crashlytics.self])
+        Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
+        Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
         // Override point for customization after application launch.
         return true
     }

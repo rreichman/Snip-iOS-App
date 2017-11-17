@@ -20,12 +20,13 @@
 		7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B5701FA6ECCA005482C9 /* PostData.swift */; };
 		7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */; };
 		7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */; };
-		7D5C43471FBA6FF900551E49 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C43461FBA6FF900551E49 /* Tools.swift */; };
+		7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C43461FBA6FF900551E49 /* Utils.swift */; };
 		7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */; };
 		7D5C434D1FBBAC6E00551E49 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C434C1FBBAC6E00551E49 /* StringUtils.swift */; };
 		7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */; };
 		7D70D7D51FA3F05100F1AAA6 /* ImageView+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */; };
 		7D8939B01F9FEE6F00CFFFDA /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */; };
+		7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC591FBF79E400771820 /* Logger.swift */; };
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
 		7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA35D0A1FA70B7A006306FD /* AppCache.swift */; };
 		7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* TableViewController.swift */; };
@@ -73,13 +74,14 @@
 		7D44B5701FA6ECCA005482C9 /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipRetrieverFromWeb.swift; sourceTree = "<group>"; };
-		7D5C43461FBA6FF900551E49 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		7D5C43461FBA6FF900551E49 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewWithMetadata.swift; sourceTree = "<group>"; };
 		7D5C434C1FBBAC6E00551E49 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellDataUtils.swift; sourceTree = "<group>"; };
 		7D5DAA301F9EB549000FFC15 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Async.swift"; sourceTree = "<group>"; };
 		7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		7D91DC591FBF79E400771820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DA35D0A1FA70B7A006306FD /* AppCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCache.swift; sourceTree = "<group>"; };
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
@@ -172,7 +174,8 @@
 				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
 				7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */,
 				7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */,
-				7D5C43461FBA6FF900551E49 /* Tools.swift */,
+				7D5C43461FBA6FF900551E49 /* Utils.swift */,
+				7D91DC591FBF79E400771820 /* Logger.swift */,
 				7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */,
 				7D5C434C1FBBAC6E00551E49 /* StringUtils.swift */,
 				7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */,
@@ -223,6 +226,7 @@
 				7D0047F21F997E3E00B02D1A /* Resources */,
 				29C32672D94A7746FBBDFCE4 /* [CP] Embed Pods Frameworks */,
 				4DD94CD9FE6FED2DC3329E1A /* [CP] Copy Pods Resources */,
+				7D4641961FBC089900E29578 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -389,10 +393,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/Mixpanel-swift/Mixpanel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mixpanel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -462,6 +468,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSappUITests/Pods-iOSappUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7D4641961FBC089900E29578 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 87a4baaa9ab22614a389ca46db56234144791982 3fdca75eadb42cfe918a5c30b93531c0a8f336e33b31fc82dbb20a1a800c4e73";
+		};
 		E8A779EF566AB89A0CEFA03A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,7 +521,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D5C43471FBA6FF900551E49 /* Tools.swift in Sources */,
+				7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */,
+				7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */,
 				7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */,
 				7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */,
 				7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */,
@@ -682,7 +702,7 @@
 				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snip.iOSapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -698,7 +718,7 @@
 				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snip.iOSapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
