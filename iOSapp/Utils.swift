@@ -116,7 +116,7 @@ public func getLastIndexOfSubstringInString(originalString : String, substring :
 /*
  Constrainsts stuff
  
- if (setOfCellsNotToTruncate.contains(indexPath[1]))
+ if (setOfCellsNotToTruncate.contains(indexPath.row))
  {
  let referencesTextView = cell.contentView.viewWithTag(999)
  //referencesTextView?.removeFromSuperview()

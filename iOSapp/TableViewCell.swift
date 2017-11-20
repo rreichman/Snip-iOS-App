@@ -18,6 +18,7 @@ class TableViewCell: UITableViewCell
     @IBOutlet weak var references: UITextView!
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
+    var isTextLongEnoughToBeTruncated : Bool = true
     
     override func awakeFromNib()
     {

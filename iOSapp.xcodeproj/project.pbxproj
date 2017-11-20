@@ -27,6 +27,7 @@
 		7D70D7D51FA3F05100F1AAA6 /* ImageView+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */; };
 		7D8939B01F9FEE6F00CFFFDA /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */; };
 		7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC591FBF79E400771820 /* Logger.swift */; };
+		7D91DC5C1FC35D4700771820 /* MixpanelType+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC5B1FC35D4700771820 /* MixpanelType+String.swift */; };
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
 		7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA35D0A1FA70B7A006306FD /* AppCache.swift */; };
 		7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* TableViewController.swift */; };
@@ -82,6 +83,7 @@
 		7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Async.swift"; sourceTree = "<group>"; };
 		7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		7D91DC591FBF79E400771820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		7D91DC5B1FC35D4700771820 /* MixpanelType+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MixpanelType+String.swift"; sourceTree = "<group>"; };
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DA35D0A1FA70B7A006306FD /* AppCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCache.swift; sourceTree = "<group>"; };
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */,
 				7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */,
 				7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */,
+				7D91DC5B1FC35D4700771820 /* MixpanelType+String.swift */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */,
 				7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */,
 				7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */,
+				7D91DC5C1FC35D4700771820 /* MixpanelType+String.swift in Sources */,
 				7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,
 				7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */,

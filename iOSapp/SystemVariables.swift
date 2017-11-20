@@ -36,5 +36,6 @@ public class SystemVariables
     let URL_STRING = "http://localhost:8000/"
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
-    let POST_LOG_URL_STRING = "http://localhost:8000/user/log/"
+    //let POST_LOG_URL_STRING = "http://localhost:8000/user/log/"
+    //let POST_SNIPACTION_URL_STRING = "http://localhost:8000/user/log/"
 }

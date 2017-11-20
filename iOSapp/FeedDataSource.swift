@@ -12,7 +12,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
 {
     var postDataArray: [PostData] = []
     var _tableView: UITableView = UITableView()
-    var setOfCellsNotToTruncate : Set<Int> = Set<Int>()
+    var cellsNotToTruncate : Set<Int> = Set<Int>()
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
@@ -20,7 +20,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
-        let postData = postDataArray[indexPath[1]]
+        let postData = postDataArray[indexPath.row]
         tableView.allowsSelection = false
         
         retrievePostImage(cell: cell, postData: postData)
@@ -28,7 +28,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
         
         makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !setOfCellsNotToTruncate.contains(indexPath[1]))
+        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !cellsNotToTruncate.contains(indexPath.row))
         
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.text = postData.headline
@@ -48,6 +48,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let SPARE_ROWS_UNTIL_MORE_SCROLL = 2
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
+            Logger().logScrolledToInfiniteScroll()
             let tableViewController : TableViewController = tableView.delegate as! TableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
@@ -112,6 +113,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return false
     }
     
+    func getRowNumberOfClickOnTableView(sender : UITapGestureRecognizer) -> Int
+    {
+        let clickCoordinates = sender.location(in: _tableView)
+        return _tableView.indexPathForRow(at: clickCoordinates)!.row
+    }
+    
     func handleClickOnLikeDislike(isLikeButton : Bool, sender : UITapGestureRecognizer)
     {
         // TODO:: handle errors here
@@ -124,6 +131,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             otherButton = tableViewCell.likeButton
         }
+        
+        let currentSnipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
+        Logger().logClickedLikeOrDislike(isLikeClick: isLikeButton, snipID: currentSnipID, wasClickedBefore: imageViewWithMetadata.isClicked)
         
         if (imageViewWithMetadata.isClicked)
         {
@@ -162,6 +172,28 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
     }
     
+    func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
+    {
+        let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
+        let tableViewCell : TableViewCell = sender.view?.superview?.superview as! TableViewCell
+        
+        if (tableViewCell.isTextLongEnoughToBeTruncated)
+        {
+            if (isReadMore)
+            {
+                Logger().logReadMoreEvent(snipID: snipID)
+            }
+            else
+            {
+                Logger().logReadLessEvent(snipID: snipID)
+            }
+        }
+        else
+        {
+            Logger().logTapOnNonTruncableText(snipID: snipID)
+        }
+    }
+    
     @objc func textLabelPressed(sender: UITapGestureRecognizer)
     {
         if sender.view is UITextView
@@ -173,15 +205,18 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
         
         let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
+        let isReadMore : Bool = !cellsNotToTruncate.contains(indexPath!.row)
         
-        if (setOfCellsNotToTruncate.contains(indexPath![1]))
+        if (isReadMore)
         {
-            setOfCellsNotToTruncate.remove(indexPath![1])
+            cellsNotToTruncate.remove(indexPath!.row)
         }
         else
         {
-            setOfCellsNotToTruncate.insert(indexPath![1])
+            cellsNotToTruncate.insert(indexPath!.row)
         }
+        
+        logClickOnText(isReadMore: isReadMore, sender: sender)
         
         UIView.performWithoutAnimation
             {

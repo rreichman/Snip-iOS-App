@@ -36,8 +36,9 @@ func fillImageDescription(cell : TableViewCell, postData : PostData)
     removePaddingFromTextView(textView: cell.imageDescription)
 }
 
-func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : UIFont) -> NSAttributedString
+func getTextAfterTruncation(tableViewCell : TableViewCell, rowWidth: Float, font : UIFont) -> NSAttributedString
 {
+    let text : NSAttributedString = tableViewCell.body.attributedText!
     let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
     let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 15
     
@@ -51,10 +52,12 @@ func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : U
         let substring = text.attributedSubstring(from: NSRange(location: 0,length: PREVIEW_SIZE))
         truncatedText.append(substring)
         truncatedText.append(READ_MORE_TEXT)
+        tableViewCell.isTextLongEnoughToBeTruncated = true
     }
     else
     {
         truncatedText = text.mutableCopy() as! NSMutableAttributedString
+        tableViewCell.isTextLongEnoughToBeTruncated = false
     }
     truncatedText.addAttribute(NSAttributedStringKey.font, value: font, range: NSRange(location: 0,length: truncatedText.length))
     
@@ -63,7 +66,7 @@ func getTextAfterTruncation(text : NSAttributedString, rowWidth: Float, font : U
 
 func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
 {
-    let postData = postDataArray[indexPath[1]]
+    let postData = postDataArray[indexPath.row]
     
     let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
     tableViewCell.body.attributedText = getCellTextStyle(cellText: postData.text, indexPath: indexPath, font : cellFont)
@@ -74,12 +77,13 @@ func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], inde
     
     if (shouldTruncate)
     {
-        tableViewCell.body.attributedText = getTextAfterTruncation(text: tableViewCell.body.attributedText!, rowWidth: sizeOfRowInChars, font : cellFont)
+        tableViewCell.body.attributedText = getTextAfterTruncation(tableViewCell: tableViewCell, rowWidth: sizeOfRowInChars, font : cellFont)
         tableViewCell.references.attributedText = NSAttributedString()
     }
     else
     {
         addReferencesStringsToCell(cell : tableViewCell, postData: postData)
+        // TODO:: there's a bug here that I don't make the likes appear but moving the likes anyway
     }
     
     tableViewCell.likeButton.isHidden = shouldTruncate

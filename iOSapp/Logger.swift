@@ -69,9 +69,26 @@ public class Logger
         return dictionaryString
     }
     
+    private func getServerStringForLog(logInfo : Dictionary<String,String>) -> String
+    {
+        var baseURLString : String = SystemVariables().URL_STRING
+        
+        if logInfo.keys.contains("snipid")
+        {
+            baseURLString.append("action/")
+            baseURLString.append(logInfo["snipid"]!)
+            baseURLString.append("/")
+        }
+        else
+        {
+            baseURLString.append("user/log/")
+        }
+        return baseURLString
+    }
+    
     private func sendLogToServer(logID : Int, logInfo : Dictionary<String,String>, csrfValue : String)
     {
-        let url: URL = URL(string: SystemVariables().POST_LOG_URL_STRING)!
+        let url: URL = URL(string: getServerStringForLog(logInfo: logInfo))!
         var urlRequest: URLRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = "POST"
@@ -109,6 +126,11 @@ public class Logger
         Mixpanel.mainInstance().track(event: actionName, properties: eventProperties)
         var currentLog : Dictionary<String,String> = Dictionary<String,String>()
         currentLog["action"] = actionName
+        currentLog["appleid"] = getUniqueDeviceID()
+        for eventProperty in eventProperties.keys
+        {
+            currentLog[eventProperty] = eventProperties[eventProperty]?.toString()
+        }
         
         do
         {
@@ -132,38 +154,52 @@ public class Logger
         }
     }
     
+    private func logEvent(actionName : String)
+    {
+        logEvent(actionName: actionName, eventProperties: [:])
+    }
+    
     func logStartedSplashScreen()
     {
-        logEvent(actionName: "enteredSplash", eventProperties: [:])
+        logEvent(actionName: "inSplash")
     }
     
     func logEnteredTableView()
     {
-        
+        logEvent(actionName: "inTableView")
     }
     
-    func logReadMoreEvent()
+    func logReadMoreEvent(snipID : Int)
     {
-        
+        logEvent(actionName: "readMore", eventProperties: ["snipid" : snipID])
     }
     
-    func logReadLessEvent()
+    func logReadLessEvent(snipID : Int)
     {
-        
+        logEvent(actionName: "readLess", eventProperties: ["snipid" : snipID])
+    }
+    
+    func logTapOnNonTruncableText(snipID: Int)
+    {
+        logEvent(actionName: "tappedText", eventProperties: ["snipid" : snipID])
     }
     
     func logScrolledToInfiniteScroll()
     {
-        
+        logEvent(actionName: "infiniteScroll")
     }
     
-    func logClickedLike()
+    func logClickedLikeOrDislike(isLikeClick : Bool, snipID : Int, wasClickedBefore : Bool)
     {
+        var actionName = "clickedLike"
+        var wasLikedPropertyKey = "wasLikeBefore"
         
-    }
-    
-    func logClickedDislike()
-    {
+        if !isLikeClick
+        {
+            actionName = "clickedDislike"
+            wasLikedPropertyKey = "wasDislikedBefore"
+        }
         
+        logEvent(actionName: actionName, eventProperties: ["snipid" : snipID, wasLikedPropertyKey : wasClickedBefore])
     }
 }

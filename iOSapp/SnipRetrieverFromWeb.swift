@@ -65,7 +65,7 @@ class SnipRetrieverFromWeb
         
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            
+            print(data)
             if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
             {
                 self.loadDataFromWebIntoFeed(resultArray: jsonObj, completionHandler: completionHandler)
