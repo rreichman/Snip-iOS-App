@@ -33,8 +33,8 @@ public class SystemVariables
     let NUMBER_OF_ROWS_TO_TRUNCATE = 6
     let NUMBER_OF_ROWS_IN_PREVIEW = 2
     
-    let URL_STRING = "https://localhost:8000"
+    let URL_STRING = "http://localhost:8000/"
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
-    let POST_LOG_URL_STRING = "https://localhost:8000/user/log"
+    let POST_LOG_URL_STRING = "http://localhost:8000/user/log/"
 }

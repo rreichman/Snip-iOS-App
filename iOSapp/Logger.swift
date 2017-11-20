@@ -40,26 +40,48 @@ public class Logger
         dateOfLastSuccessfulFlush = Date()
     }
     
-    //request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-    //let postString = "id=13&name=Jack"
-    //request.httpBody = postString.data(using: .utf8)
-    
     private func sendLogsToServer()
     {
         for logID in logsNotYetSentToServer.keys
         {
-            // TODO:: return this
-            //sendLogToServer(logID: logID, logInfo: logsNotYetSentToServer[logID]!)
+            SnipRetrieverFromWeb().runLogFunctionAfterGettingCsrfToken(
+                logID: logID, logInfo: logsNotYetSentToServer[logID]!, completionHandler: self.sendLogToServer)
         }
     }
     
-    private func sendLogToServer(logID : Int, logInfo : Dictionary<String,String>)
+    private func convertDictionaryToJsonString(dictionary: Dictionary<String,String>) -> String
+    {
+        var dictionaryString = ""
+        var isFirstKey = true
+        
+        for key in dictionary.keys
+        {
+            if !isFirstKey
+            {
+                dictionaryString.append("&")
+            }
+            isFirstKey = false
+            
+            dictionaryString.append(key)
+            dictionaryString.append("=")
+            dictionaryString.append(dictionary[key]!)
+        }
+        return dictionaryString
+    }
+    
+    private func sendLogToServer(logID : Int, logInfo : Dictionary<String,String>, csrfValue : String)
     {
         let url: URL = URL(string: SystemVariables().POST_LOG_URL_STRING)!
         var urlRequest: URLRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = "POST"
+        urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
+        // Note - the current implementation is perhaps not ideal and should use JSONSerialization but otherwise need to change server side
+        let jsonString = convertDictionaryToJsonString(dictionary: logInfo)
+        urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
         
         //sending the data to the url
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
@@ -82,11 +104,11 @@ public class Logger
         task.resume()
     }
     
-    private func logEvent(eventName : String, eventProperties : Dictionary<String,MixpanelType>)
+    private func logEvent(actionName : String, eventProperties : Dictionary<String,MixpanelType>)
     {
-        Mixpanel.mainInstance().track(event: eventName, properties: eventProperties)
+        Mixpanel.mainInstance().track(event: actionName, properties: eventProperties)
         var currentLog : Dictionary<String,String> = Dictionary<String,String>()
-        currentLog["name"] = eventName
+        currentLog["action"] = actionName
         
         do
         {
@@ -112,7 +134,7 @@ public class Logger
     
     func logStartedSplashScreen()
     {
-        logEvent(eventName: "enteredSplashScreen", eventProperties: [:])
+        logEvent(actionName: "enteredSplash", eventProperties: [:])
     }
     
     func logEnteredTableView()

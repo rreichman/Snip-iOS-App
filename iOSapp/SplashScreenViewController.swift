@@ -17,6 +17,7 @@ class SplashScreenViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        // TODO:: return this
         Logger().logStartedSplashScreen()
         splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
         print("loaded")

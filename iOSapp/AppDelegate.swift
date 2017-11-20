@@ -9,6 +9,8 @@
 // Using this manual to submit the app
 // https://www.youtube.com/watch?v=tnbOcpwJGa8
 
+// TODO:: Before publishing, remove this from plist: <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
+
 import UIKit
 import Fabric
 import Crashlytics

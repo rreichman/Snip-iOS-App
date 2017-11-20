@@ -53,6 +53,17 @@ class PostData : Encodable, Decodable
         
         loadRawJsonIntoVariables()
     }
+    
+    func setImageIfExists(postJson : [String : Any])
+    {
+        if postJson["image"] != nil
+        {
+            if !(postJson["image"] is NSNull)
+            {
+                image = SnipImage(imageData: postJson["image"] as! [String : Any])
+            }
+        }
+    }
    
     func loadRawJsonIntoVariables()
     {
@@ -67,7 +78,7 @@ class PostData : Encodable, Decodable
         headline = postJson["title"] as! String
         text = postJson["body"] as! String
         date = postJson["date"] as! String
-        image = SnipImage(imageData: postJson["image"] as! [String : Any])
+        setImageIfExists(postJson: postJson)
         relatedLinks = postJson["related_links"] as! [[String : Any]]
         isLiked = (postJson["votes"] as! [String : Bool])["like"]!
         isDisliked = (postJson["votes"] as! [String : Bool])["dislike"]!
