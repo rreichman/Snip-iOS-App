@@ -14,6 +14,16 @@ class TableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
     
+    @IBAction func refresh(_ sender: UIRefreshControl)
+    {
+        print("refreshing")
+        Logger().logRefreshOfTableView()
+        tableView.dataSource = FeedDataSource()
+        SnipRetrieverFromWeb.shared.clean()
+        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
+        sender.endRefreshing()
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -32,8 +42,8 @@ class TableViewController: UITableViewController
             }
         }
         
-        print("collecting more")
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
+        //print("collecting more")
+        //SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
@@ -62,6 +72,7 @@ class TableViewController: UITableViewController
         {
             self.tableView.dataSource = feedDataSource
             self.tableView.reloadData()
+            SnipRetrieverFromWeb.shared.lock.unlock()
         }
     }
     

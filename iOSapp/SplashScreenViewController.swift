@@ -17,10 +17,8 @@ class SplashScreenViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        // TODO:: return this
         Logger().logStartedSplashScreen()
         splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
-        print("loaded")
     }
     
     override func viewDidAppear(_ animated: Bool)
@@ -28,6 +26,7 @@ class SplashScreenViewController: UIViewController
         super.viewDidAppear(animated)
         print("appeared")
         
+        SnipRetrieverFromWeb.shared.lock.lock()
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler)
     }
     
@@ -35,6 +34,7 @@ class SplashScreenViewController: UIViewController
     {
         dataSource = feedDataSource
         performSegue(withIdentifier: "segueToTableView", sender: self)
+        SnipRetrieverFromWeb.shared.lock.unlock()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

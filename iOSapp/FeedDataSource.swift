@@ -45,7 +45,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
     {
-        let SPARE_ROWS_UNTIL_MORE_SCROLL = 2
+        let SPARE_ROWS_UNTIL_MORE_SCROLL = 4
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
             Logger().logScrolledToInfiniteScroll()
@@ -209,11 +209,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         if (isReadMore)
         {
-            cellsNotToTruncate.remove(indexPath!.row)
+            cellsNotToTruncate.insert(indexPath!.row)
         }
         else
         {
-            cellsNotToTruncate.insert(indexPath!.row)
+            cellsNotToTruncate.remove(indexPath!.row)
         }
         
         logClickOnText(isReadMore: isReadMore, sender: sender)

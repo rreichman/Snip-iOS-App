@@ -68,13 +68,14 @@ class PostData : Encodable, Decodable
     func loadRawJsonIntoVariables()
     {
         id = postJson["id"] as! Int
-        print (postJson["author"])
         if (postJson["author"] == nil)
         {
-            print(postJson)
+            author = SnipAuthor(authorData: ["name" : "authorName", "username": "authorUsername"])
         }
-        //author = SnipAuthor(authorData: postJson["author"] as! [String : Any])
-        author = SnipAuthor(authorData: ["name" : "authorName", "username": "authorUsername"])
+        else
+        {
+            author = SnipAuthor(authorData: postJson["author"] as! [String : Any])
+        }
         headline = postJson["title"] as! String
         text = postJson["body"] as! String
         date = postJson["date"] as! String

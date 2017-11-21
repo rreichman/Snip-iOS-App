@@ -12,9 +12,21 @@ class SnipRetrieverFromWeb
 {
     static let shared = SnipRetrieverFromWeb()
     
+    
+    var areTherePostsRemainingOnServer : Bool = true
     var csrfTokenValue : String = ""
-    var currentUrlString = SystemVariables().URL_STRING
-    let feedDataSource = FeedDataSource()
+    var currentUrlString : String = SystemVariables().URL_STRING
+    var feedDataSource = FeedDataSource()
+    var lock : NSLock = NSLock()
+    
+    func clean()
+    {
+        areTherePostsRemainingOnServer = true
+        csrfTokenValue = ""
+        currentUrlString = SystemVariables().URL_STRING
+        feedDataSource = FeedDataSource()
+        lock.unlock()
+    }
     
     func runLogFunctionAfterGettingCsrfToken(logID : Int, logInfo : Dictionary<String,String>, completionHandler: @escaping (_ logID : Int, _ logInfo : Dictionary<String,String>, _ csrfToken : String) -> ())
     {
@@ -40,6 +52,7 @@ class SnipRetrieverFromWeb
         var urlRequest: URLRequest = URLRequest(url: url)
         urlRequest.httpShouldHandleCookies = true
         
+        // TODO:: handle situation of no Internet connection
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
             let httpResponse = response as! HTTPURLResponse
             let responseHeaderFields = httpResponse.allHeaderFields as! [String : String]
@@ -63,9 +76,13 @@ class SnipRetrieverFromWeb
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
+        if (!areTherePostsRemainingOnServer)
+        {
+            return
+        }
+        
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            print(data)
             if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
             {
                 self.loadDataFromWebIntoFeed(resultArray: jsonObj, completionHandler: completionHandler)
@@ -84,7 +101,14 @@ class SnipRetrieverFromWeb
         
         for postAsJson in postsAsJson
         {
-            currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
+            if !resultArray.keys.contains("next_page")
+            {
+                areTherePostsRemainingOnServer = false
+            }
+            else
+            {
+                currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
+            }
             let newPost = PostData(receivedPostJson : postAsJson)
             
             feedDataSource.postDataArray.append(newPost)
@@ -95,6 +119,10 @@ class SnipRetrieverFromWeb
     
     func loadMorePosts(completionHandler: @escaping (_ dataSource : FeedDataSource) -> ())
     {
-        getSnipsJsonFromWebServer(completionHandler: completionHandler)
+        print("loading more posts")
+        if (lock.try())
+        {
+            getSnipsJsonFromWebServer(completionHandler: completionHandler)
+        }
     }
 }

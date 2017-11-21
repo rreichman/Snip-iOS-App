@@ -33,9 +33,10 @@ public class SystemVariables
     let NUMBER_OF_ROWS_TO_TRUNCATE = 6
     let NUMBER_OF_ROWS_IN_PREVIEW = 2
     
-    let URL_STRING = "http://localhost:8000/"
+    //let URL_STRING = "http://localhost:8000/"
+    let URL_STRING = "http://snip.today/"
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
-    //let POST_LOG_URL_STRING = "http://localhost:8000/user/log/"
-    //let POST_SNIPACTION_URL_STRING = "http://localhost:8000/user/log/"
+    
+    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60
 }

@@ -143,10 +143,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="gtC-tI-eNw"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="zyn-NN-2Qa">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="HBx-tT-6gJ" eventType="valueChanged" id="e02-hx-RvO"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x77-yD-nkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="684" y="234"/>
+            <point key="canvasLocation" x="745" y="224"/>
         </scene>
         <!--Splash Screen View Controller-->
         <scene sceneID="yLJ-4l-csu">
@@ -192,7 +198,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uyU-dL-c9v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-90" y="235"/>
+            <point key="canvasLocation" x="17" y="233"/>
         </scene>
     </scenes>
     <resources>

@@ -104,24 +104,24 @@ public class Logger
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data, error == nil else
             {                                                 // check for fundamental networking error
-                print("error=\(error)")
+                print("error=\(String(describing: error))")
                 return
             }
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
+                print("response = \(String(describing: response))")
             }
             
             let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
+            print("responseString = \(String(describing: responseString))")
             self.finishPosting(logID: logID)
         }
         task.resume()
     }
     
-    private func logEvent(actionName : String, eventProperties : Dictionary<String,MixpanelType>)
+    private func logEvent(actionName : String, eventProperties : Dictionary<String,MixpanelType>, shouldFlushNow : Bool)
     {
         Mixpanel.mainInstance().track(event: actionName, properties: eventProperties)
         var currentLog : Dictionary<String,String> = Dictionary<String,String>()
@@ -138,7 +138,7 @@ public class Logger
             logsNotYetSentToServer[logID] = currentLog
             
             let currentDate : Date = Date()
-            if (currentDate.seconds(from: dateOfLastSuccessfulFlush) > SystemVariables().MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS)
+            if ((currentDate.seconds(from: dateOfLastSuccessfulFlush) > SystemVariables().MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS) || shouldFlushNow)
             {
                 sendLogsToServer()
             }
@@ -156,7 +156,7 @@ public class Logger
     
     private func logEvent(actionName : String)
     {
-        logEvent(actionName: actionName, eventProperties: [:])
+        logEvent(actionName: actionName, eventProperties: [:], shouldFlushNow: false)
     }
     
     func logStartedSplashScreen()
@@ -169,24 +169,39 @@ public class Logger
         logEvent(actionName: "inTableView")
     }
     
+    func logRefreshOfTableView()
+    {
+        logEvent(actionName: "refreshTable")
+    }
+    
     func logReadMoreEvent(snipID : Int)
     {
-        logEvent(actionName: "readMore", eventProperties: ["snipid" : snipID])
+        logEvent(actionName: "readMore", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
     }
     
     func logReadLessEvent(snipID : Int)
     {
-        logEvent(actionName: "readLess", eventProperties: ["snipid" : snipID])
+        logEvent(actionName: "readLess", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
     }
     
     func logTapOnNonTruncableText(snipID: Int)
     {
-        logEvent(actionName: "tappedText", eventProperties: ["snipid" : snipID])
+        logEvent(actionName: "tappedText", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
     }
     
     func logScrolledToInfiniteScroll()
     {
         logEvent(actionName: "infiniteScroll")
+    }
+    
+    func logAppEnteredBackground()
+    {
+        logEvent(actionName: "inBackground")
+    }
+    
+    func logAppBecameActive()
+    {
+        logEvent(actionName: "appBecameActive")
     }
     
     func logClickedLikeOrDislike(isLikeClick : Bool, snipID : Int, wasClickedBefore : Bool)
@@ -200,6 +215,6 @@ public class Logger
             wasLikedPropertyKey = "wasDislikedBefore"
         }
         
-        logEvent(actionName: actionName, eventProperties: ["snipid" : snipID, wasLikedPropertyKey : wasClickedBefore])
+        logEvent(actionName: actionName, eventProperties: ["snipid" : snipID, wasLikedPropertyKey : wasClickedBefore], shouldFlushNow: true)
     }
 }

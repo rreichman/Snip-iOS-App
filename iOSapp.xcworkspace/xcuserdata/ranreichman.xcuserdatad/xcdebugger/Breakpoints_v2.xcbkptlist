@@ -121,29 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iOSapp/FeedDataSource.swift"
-            timestampString = "532902869.668564"
+            filePath = "iOSapp/TableViewController.swift"
+            timestampString = "532921498.422681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "logClickOnText(isReadMore:sender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iOSapp/Logger.swift"
-            timestampString = "532903014.425222"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "sendLogToServer(logID:logInfo:csrfValue:)"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "refresh(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
