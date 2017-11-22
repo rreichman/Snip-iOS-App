@@ -10,13 +10,16 @@ import UIKit
 
 public class SystemVariables
 {
+    
     // Various fonts
     let NAVIGATION_BAR_TITLE_FONT = UIFont.boldSystemFont(ofSize : 18)
-    let HEADLINE_TEXT_FONT = UIFont.boldSystemFont(ofSize: 15)
-    let CELL_TEXT_FONT = UIFont(name: "Helvetica", size: 14)
+    let HEADLINE_TEXT_FONT = UIFont.boldSystemFont(ofSize: 16)
+    let HEADLINE_TEXT_COLOR = UIColorFromRGB(rgbValue: 0x232e69)
+    let CELL_TEXT_FONT = UIFont(name: "Helvetica", size: 15)
+    let CELL_TEXT_COLOR = UIColorFromRGB(rgbValue: 0x4c4c4c)
     let IMAGE_DESCRIPTION_HEIGHT = 10
-    let IMAGE_DESCRIPTION_TEXT_FONT = UIFont(name: "Helvetica", size: 12)
-    let IMAGE_DESCRIPTION_COLOR = UIColor.gray
+    let IMAGE_DESCRIPTION_TEXT_FONT = UIFont(name: "Helvetica", size: 10)
+    let IMAGE_DESCRIPTION_COLOR = UIColor.lightGray
     let PUBLISH_TIME_AND_WRITER_FONT = UIFont(name: "Helvetica", size: 12)
     let PUBLISH_TIME_AND_WRITER_COLOR = UIColor.gray
     let REFERENCES_FONT = UIFont(name: "Helvetica", size: 11)

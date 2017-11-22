@@ -31,6 +31,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !cellsNotToTruncate.contains(indexPath.row))
         
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
+        cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
         
         turnLikeAndDislikeIntoButtons(cell: cell)

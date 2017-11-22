@@ -70,6 +70,7 @@ func setCellText(tableViewCell : SnippetTableViewCell, postDataArray : [PostData
     
     let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
     tableViewCell.body.attributedText = getCellTextStyle(cellText: postData.text, indexPath: indexPath, font : cellFont)
+    tableViewCell.body.textColor = SystemVariables().CELL_TEXT_COLOR
     
     let rowWidth = tableViewCell.body.bounds.size.width
     let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.body.attributedText!)
