@@ -19,7 +19,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         _tableView = tableView
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         tableView.allowsSelection = false
         
@@ -49,14 +49,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
             Logger().logScrolledToInfiniteScroll()
-            let tableViewController : TableViewController = tableView.delegate as! TableViewController
+            let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
     }
     
     // Cell UI management functions
     
-    func makeCellClickable(tableViewCell : TableViewCell)
+    func makeCellClickable(tableViewCell : SnippetTableViewCell)
     {
         let singleTapRecognizerImage : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         tableViewCell.postImage.isUserInteractionEnabled = true
@@ -124,7 +124,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         // TODO:: handle errors here
         
         let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
-        let tableViewCell : TableViewCell = sender.view?.superview?.superview as! TableViewCell
+        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview as! SnippetTableViewCell
         var otherButton : UIImageViewWithMetadata = tableViewCell.dislikeButton
         
         if (!isLikeButton)
@@ -161,7 +161,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         handleClickOnLikeDislike(isLikeButton: false, sender: sender)
     }
     
-    func turnLikeAndDislikeIntoButtons(cell : TableViewCell)
+    func turnLikeAndDislikeIntoButtons(cell : SnippetTableViewCell)
     {
         let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
         cell.likeButton.isUserInteractionEnabled = true
@@ -175,7 +175,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
     {
         let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
-        let tableViewCell : TableViewCell = sender.view?.superview?.superview as! TableViewCell
+        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview as! SnippetTableViewCell
         
         if (tableViewCell.isTextLongEnoughToBeTruncated)
         {

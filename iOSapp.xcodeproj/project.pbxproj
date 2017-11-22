@@ -14,6 +14,7 @@
 		7D0047FD1F997E3E00B02D1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D0047FB1F997E3E00B02D1A /* Main.storyboard */; };
 		7D00480D1F997E3E00B02D1A /* iOSappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D00480C1F997E3E00B02D1A /* iOSappTests.swift */; };
 		7D0048181F997E3E00B02D1A /* iOSappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0048171F997E3E00B02D1A /* iOSappUITests.swift */; };
+		7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D09A3961FC4F79B00E51553 /* MenuViewController.swift */; };
 		7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56A1FA418B7005482C9 /* ProgramError.swift */; };
 		7D44B56D1FA47264005482C9 /* NoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56C1FA47264005482C9 /* NoError.swift */; };
 		7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */; };
@@ -25,12 +26,12 @@
 		7D5C434D1FBBAC6E00551E49 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C434C1FBBAC6E00551E49 /* StringUtils.swift */; };
 		7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */; };
 		7D70D7D51FA3F05100F1AAA6 /* ImageView+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */; };
-		7D8939B01F9FEE6F00CFFFDA /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */; };
+		7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */; };
 		7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC591FBF79E400771820 /* Logger.swift */; };
 		7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */; };
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
 		7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA35D0A1FA70B7A006306FD /* AppCache.swift */; };
-		7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* TableViewController.swift */; };
+		7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */; };
 		7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */; };
 		7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */; };
 		7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */; };
@@ -69,6 +70,7 @@
 		7D0048131F997E3E00B02D1A /* iOSappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0048171F997E3E00B02D1A /* iOSappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSappUITests.swift; sourceTree = "<group>"; };
 		7D0048191F997E3E00B02D1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7D09A3961FC4F79B00E51553 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		7D44B56A1FA418B7005482C9 /* ProgramError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramError.swift; sourceTree = "<group>"; };
 		7D44B56C1FA47264005482C9 /* NoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoError.swift; sourceTree = "<group>"; };
 		7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSource.swift; sourceTree = "<group>"; };
@@ -79,9 +81,9 @@
 		7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewWithMetadata.swift; sourceTree = "<group>"; };
 		7D5C434C1FBBAC6E00551E49 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellDataUtils.swift; sourceTree = "<group>"; };
-		7D5DAA301F9EB549000FFC15 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewController.swift; sourceTree = "<group>"; };
 		7D70D7D41FA3F05100F1AAA6 /* ImageView+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Async.swift"; sourceTree = "<group>"; };
-		7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetTableViewCell.swift; sourceTree = "<group>"; };
 		7D91DC591FBF79E400771820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MixpanelType+ToString.swift"; sourceTree = "<group>"; };
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -162,9 +164,10 @@
 			isa = PBXGroup;
 			children = (
 				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
-				7D5DAA301F9EB549000FFC15 /* TableViewController.swift */,
+				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
+				7D09A3961FC4F79B00E51553 /* MenuViewController.swift */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
-				7D8939AF1F9FEE6F00CFFFDA /* TableViewCell.swift */,
+				7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */,
 				7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */,
 				7D92A1AB1FA033380014D31D /* Images.xcassets */,
 				7D0048031F997E3E00B02D1A /* Info.plist */,
@@ -533,14 +536,15 @@
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,
 				7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,
-				7DB1BD621F9EB9E00033F67A /* TableViewController.swift in Sources */,
+				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
+				7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */,
 				7D5C434D1FBBAC6E00551E49 /* StringUtils.swift in Sources */,
 				7D70D7D51FA3F05100F1AAA6 /* ImageView+Async.swift in Sources */,
 				7D44B56D1FA47264005482C9 /* NoError.swift in Sources */,
 				7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */,
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
-				7D8939B01F9FEE6F00CFFFDA /* TableViewCell.swift in Sources */,
+				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,

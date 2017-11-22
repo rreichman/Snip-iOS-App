@@ -44,7 +44,7 @@ class SplashScreenViewController: UIViewController
         {
             print("seguing")
             let navigationController = segue.destination as! UINavigationController
-            let tableViewController = navigationController.viewControllers.first as! TableViewController
+            let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             tableViewController.tableView.dataSource = dataSource
             tableViewController.tableView.reloadData()
         }

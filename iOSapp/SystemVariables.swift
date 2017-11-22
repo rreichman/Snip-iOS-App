@@ -39,4 +39,7 @@ public class SystemVariables
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     
     let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60
+    
+    let TERMS_OF_SERVICE_URL = "https://www.snip.today/about/terms/"
+    let PRIVACY_POLICY_URL = "https://www.snip.today/about/privacy_policy/"
 }

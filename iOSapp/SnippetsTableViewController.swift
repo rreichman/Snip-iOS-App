@@ -9,10 +9,16 @@
 import UIKit
 import Cache
 
-class TableViewController: UITableViewController
+class SnippetsTableViewController: UITableViewController
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
+    
+    
+    @IBAction func menuButtonPressed(_ sender: Any)
+    {
+        performSegue(withIdentifier: "showMenuSegue", sender: self)
+    }
     
     @IBAction func refresh(_ sender: UIRefreshControl)
     {

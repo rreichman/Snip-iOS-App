@@ -8,7 +8,7 @@
 
 import UIKit
 
-func retrievePostImage(cell : TableViewCell, postData : PostData)
+func retrievePostImage(cell : SnippetTableViewCell, postData : PostData)
 {
     do
     {
@@ -24,7 +24,7 @@ func retrievePostImage(cell : TableViewCell, postData : PostData)
     }
 }
 
-func fillImageDescription(cell : TableViewCell, postData : PostData)
+func fillImageDescription(cell : SnippetTableViewCell, postData : PostData)
 {
     let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
     let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : postData.image._imageDescription)!
@@ -36,7 +36,7 @@ func fillImageDescription(cell : TableViewCell, postData : PostData)
     removePaddingFromTextView(textView: cell.imageDescription)
 }
 
-func getTextAfterTruncation(tableViewCell : TableViewCell, rowWidth: Float, font : UIFont) -> NSAttributedString
+func getTextAfterTruncation(tableViewCell : SnippetTableViewCell, rowWidth: Float, font : UIFont) -> NSAttributedString
 {
     let text : NSAttributedString = tableViewCell.body.attributedText!
     let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
@@ -64,7 +64,7 @@ func getTextAfterTruncation(tableViewCell : TableViewCell, rowWidth: Float, font
     return truncatedText
 }
 
-func setCellText(tableViewCell : TableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
+func setCellText(tableViewCell : SnippetTableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
 {
     let postData = postDataArray[indexPath.row]
     
@@ -105,7 +105,7 @@ func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) ->
     return text
 }
 
-func fillPublishTimeAndWriterInfo(cell : TableViewCell, postData : PostData)
+func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, postData : PostData)
 {
     let publishTimeAndWriterAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
     cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData.date, author : postData.author._authorName), attributes: publishTimeAndWriterAttributes)
@@ -146,7 +146,7 @@ func getReferencesStringFromPostData(postData : PostData) -> NSMutableAttributed
     return referencesString
 }
 
-func addReferencesStringsToCell(cell: TableViewCell, postData: PostData)
+func addReferencesStringsToCell(cell: SnippetTableViewCell, postData: PostData)
 {
     let allReferencesString = getReferencesStringFromPostData(postData: postData)
     

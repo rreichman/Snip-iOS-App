@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell
+class SnippetTableViewCell: UITableViewCell
 {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var imageDescription: UITextView!
@@ -18,6 +18,7 @@ class TableViewCell: UITableViewCell
     @IBOutlet weak var references: UITextView!
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
+    
     var isTextLongEnoughToBeTruncated : Bool = true
     
     override func awakeFromNib()
