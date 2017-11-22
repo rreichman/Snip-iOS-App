@@ -26,6 +26,7 @@ class MenuViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        // Making the "Back" button black instead of blue
         self.navigationController?.navigationBar.tintColor = UIColor.black
     }
 }

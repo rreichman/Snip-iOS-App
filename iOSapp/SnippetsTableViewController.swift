@@ -13,7 +13,9 @@ class SnippetsTableViewController: UITableViewController
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
-    
+    var finishedLoadingSnippets = false
+    // TODO:: This should be improved to a better logic. Currently there's a double log for the first snippet upon loading but no time to understand it
+    var firstLog : Bool = true
     
     @IBAction func menuButtonPressed(_ sender: Any)
     {
@@ -47,13 +49,11 @@ class SnippetsTableViewController: UITableViewController
                 return
             }
         }
-        
-        //print("collecting more")
-        //SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat
+    {
         if let height = heightAtIndexPath.object(forKey: indexPath) as? NSNumber {
             return CGFloat(height.floatValue)
         } else {
@@ -61,8 +61,57 @@ class SnippetsTableViewController: UITableViewController
         }
     }
     
+    func getForegroundSnippetIDs() -> [Int]
+    {
+        let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
+        let indexPathsForVisibleRows : [IndexPath] = tableView.indexPathsForVisibleRows as! [IndexPath]
+        let numberOfVisibleRows = indexPathsForVisibleRows.count
+        
+        // TODO:: remove this
+        for indexPath in indexPathsForVisibleRows
+        {
+            print(dataSource.postDataArray[indexPath.row].id)
+        }
+        
+        if numberOfVisibleRows == 2
+        {
+            return [dataSource.postDataArray[indexPathsForVisibleRows[0].row].id]
+        }
+        
+        var snippetIDs : [Int] = []
+        
+        if numberOfVisibleRows > 2
+        {
+            // Getting all the middle rows
+            for i in 1...numberOfVisibleRows-1
+            {
+                snippetIDs.append(dataSource.postDataArray[indexPathsForVisibleRows[i].row].id)
+            }
+        }
+        else
+        {
+            Logger().logWeirdNumberOfSnippetsOnScreen(numberOfSnippets : numberOfVisibleRows)
+        }
+        
+        return snippetIDs
+    }
+    
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        if (self.finishedLoadingSnippets)
+        {
+            if (!firstLog)
+            {
+                let foregroundSnippetIDs = getForegroundSnippetIDs()
+                for snippetID in foregroundSnippetIDs
+                {
+                    Logger().logViewingSnippet(snippetID: snippetID)
+                }
+            }
+            firstLog = false
+        }
+        
         let height = NSNumber(value: Float(cell.frame.size.height))
         heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
     }
@@ -79,6 +128,7 @@ class SnippetsTableViewController: UITableViewController
             self.tableView.dataSource = feedDataSource
             self.tableView.reloadData()
             SnipRetrieverFromWeb.shared.lock.unlock()
+            self.finishedLoadingSnippets = true
         }
     }
     

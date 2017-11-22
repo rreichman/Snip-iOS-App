@@ -108,6 +108,7 @@ public class Logger
                 return
             }
             
+            print(urlRequest)
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
@@ -202,6 +203,18 @@ public class Logger
     func logAppBecameActive()
     {
         logEvent(actionName: "appBecameActive")
+    }
+    
+    func logWeirdNumberOfSnippetsOnScreen(numberOfSnippets : Int)
+    {
+        logEvent(actionName: "manyOnScreen", eventProperties: ["numberOfSnips" : numberOfSnippets], shouldFlushNow: true)
+    }
+    
+    func logViewingSnippet(snippetID : Int)
+    {
+        // TODO:: change flushing to false
+        print("logging snippet \(snippetID)")
+        logEvent(actionName: "viewed", eventProperties: ["snipid" : snippetID], shouldFlushNow: true)
     }
     
     func logClickedLikeOrDislike(isLikeClick : Bool, snipID : Int, wasClickedBefore : Bool)
