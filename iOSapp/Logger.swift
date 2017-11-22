@@ -93,6 +93,7 @@ public class Logger
         
         urlRequest.httpMethod = "POST"
         urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
+        urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
@@ -108,7 +109,6 @@ public class Logger
                 return
             }
             
-            print(urlRequest)
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")

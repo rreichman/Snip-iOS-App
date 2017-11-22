@@ -14,8 +14,6 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
     var finishedLoadingSnippets = false
-    // TODO:: This should be improved to a better logic. Currently there's a double log for the first snippet upon loading but no time to understand it
-    var firstLog : Bool = true
     
     @IBAction func menuButtonPressed(_ sender: Any)
     {
@@ -99,17 +97,14 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
+        // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
         if (self.finishedLoadingSnippets)
         {
-            if (!firstLog)
+            let foregroundSnippetIDs = getForegroundSnippetIDs()
+            for snippetID in foregroundSnippetIDs
             {
-                let foregroundSnippetIDs = getForegroundSnippetIDs()
-                for snippetID in foregroundSnippetIDs
-                {
-                    Logger().logViewingSnippet(snippetID: snippetID)
-                }
+                Logger().logViewingSnippet(snippetID: snippetID)
             }
-            firstLog = false
         }
         
         let height = NSNumber(value: Float(cell.frame.size.height))
