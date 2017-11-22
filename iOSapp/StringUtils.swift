@@ -8,9 +8,8 @@
 
 import UIKit
 
-func getWidthOfSingleChar(string : NSAttributedString) -> Float
+func getWidthOfSingleChar(font : UIFont) -> Float
 {
-    let NUMBER_OF_CHARS_TO_CHECK = min(60,string.length)
-    let firstXChars : NSAttributedString = string.attributedSubstring(from: NSRange(location: 0,length: NUMBER_OF_CHARS_TO_CHECK))
-    return (Float(firstXChars.size().width) / Float(NUMBER_OF_CHARS_TO_CHECK))
+    let text = NSAttributedString(string: "a", attributes: [NSAttributedStringKey.font : font])
+    return Float(text.size().width)
 }

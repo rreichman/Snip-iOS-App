@@ -20,6 +20,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
+        
+        print("cell \(indexPath.row) requires update")
         let postData = postDataArray[indexPath.row]
         tableView.allowsSelection = false
         
@@ -28,7 +30,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
         fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
         
         makeCellClickable(tableViewCell : cell)
-        setCellText(tableViewCell : cell, postDataArray : postDataArray, indexPath: indexPath, shouldTruncate: !cellsNotToTruncate.contains(indexPath.row))
+        let shouldTruncate : Bool = !cellsNotToTruncate.contains(indexPath.row)
+        setCellText(tableViewCell : cell, postData : postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        setCellReferences(tableViewCell : cell, postData: postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR

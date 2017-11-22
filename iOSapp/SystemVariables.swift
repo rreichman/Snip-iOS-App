@@ -26,6 +26,10 @@ public class SystemVariables
     let REFERENCES_COLOR = UIColor.gray
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)
     
+    let READ_MORE_TEXT : String = "... Read More"
+    let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
+    let READ_MORE_TEXT_FONT = UIFont(name: "Helvetica", size: 15)
+    
     // The spacing between lines in the text
     let LINE_SPACING_IN_TEXT = CGFloat(2)
     

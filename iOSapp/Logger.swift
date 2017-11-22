@@ -207,14 +207,12 @@ public class Logger
     
     func logWeirdNumberOfSnippetsOnScreen(numberOfSnippets : Int)
     {
-        logEvent(actionName: "manyOnScreen", eventProperties: ["numberOfSnips" : numberOfSnippets], shouldFlushNow: true)
+        logEvent(actionName: "manyOnScreen", eventProperties: ["numberOfSnips" : numberOfSnippets], shouldFlushNow: false)
     }
     
     func logViewingSnippet(snippetID : Int)
     {
-        // TODO:: change flushing to false
-        print("logging snippet \(snippetID)")
-        logEvent(actionName: "viewed", eventProperties: ["snipid" : snippetID], shouldFlushNow: true)
+        logEvent(actionName: "viewed", eventProperties: ["snipid" : snippetID], shouldFlushNow: false)
     }
     
     func logClickedLikeOrDislike(isLikeClick : Bool, snipID : Int, wasClickedBefore : Bool)

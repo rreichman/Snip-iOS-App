@@ -36,74 +36,68 @@ func fillImageDescription(cell : SnippetTableViewCell, postData : PostData)
     removePaddingFromTextView(textView: cell.imageDescription)
 }
 
-func getTextAfterTruncation(tableViewCell : SnippetTableViewCell, rowWidth: Float, font : UIFont) -> NSAttributedString
+func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
 {
-    let text : NSAttributedString = tableViewCell.body.attributedText!
-    let READ_MORE_TEXT : NSAttributedString = NSAttributedString(string : "... Read More", attributes: [NSAttributedStringKey.foregroundColor : UIColor.gray])
-    let SPARE_IN_ADDITION_TO_READ_MORE_LENGTH = 15
+    print("calling setCellText() with post \(postData.id)")
+    tableViewCell.body.attributedText = getAttributedTextOfCell(tableViewCell : tableViewCell, postData: postData, shouldTruncate: shouldTruncate)
     
-    let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
+    let isTextCurrentlyTruncated : Bool = tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate
     
-    let PREVIEW_SIZE = Int(floor(Float(rowWidth) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - READ_MORE_TEXT.length - SPARE_IN_ADDITION_TO_READ_MORE_LENGTH
-    
-    var truncatedText = NSMutableAttributedString()
-    if (text.length >= MAX_LENGTH_TO_TRUNCATE)
-    {
-        let substring = text.attributedSubstring(from: NSRange(location: 0,length: PREVIEW_SIZE))
-        truncatedText.append(substring)
-        truncatedText.append(READ_MORE_TEXT)
-        tableViewCell.isTextLongEnoughToBeTruncated = true
-    }
-    else
-    {
-        truncatedText = text.mutableCopy() as! NSMutableAttributedString
-        tableViewCell.isTextLongEnoughToBeTruncated = false
-    }
-    truncatedText.addAttribute(NSAttributedStringKey.font, value: font, range: NSRange(location: 0,length: truncatedText.length))
-    
-    return truncatedText
-}
-
-func setCellText(tableViewCell : SnippetTableViewCell, postDataArray : [PostData], indexPath : IndexPath, shouldTruncate : Bool)
-{
-    let postData = postDataArray[indexPath.row]
-    
-    let cellFont : UIFont = SystemVariables().CELL_TEXT_FONT!
-    tableViewCell.body.attributedText = getCellTextStyle(cellText: postData.text, indexPath: indexPath, font : cellFont)
-    tableViewCell.body.textColor = SystemVariables().CELL_TEXT_COLOR
-    
-    let rowWidth = tableViewCell.body.bounds.size.width
-    let widthOfSingleChar = getWidthOfSingleChar(string: tableViewCell.body.attributedText!)
-    let sizeOfRowInChars = Float(rowWidth) / widthOfSingleChar
-    
-    if (shouldTruncate)
-    {
-        tableViewCell.body.attributedText = getTextAfterTruncation(tableViewCell: tableViewCell, rowWidth: sizeOfRowInChars, font : cellFont)
-        tableViewCell.references.attributedText = NSAttributedString()
-    }
-    else
-    {
-        addReferencesStringsToCell(cell : tableViewCell, postData: postData)
-        // TODO:: there's a bug here that I don't make the likes appear but moving the likes anyway
-    }
-    
-    tableViewCell.likeButton.isHidden = shouldTruncate
-    tableViewCell.dislikeButton.isHidden = shouldTruncate
-    setStateOfReferencesHeightConstraint(references: tableViewCell.references, state: shouldTruncate)
+    tableViewCell.likeButton.isHidden = isTextCurrentlyTruncated
+    tableViewCell.dislikeButton.isHidden = isTextCurrentlyTruncated
     
     tableViewCell.body.isEditable = false
+    
     removePaddingFromTextView(textView: tableViewCell.body)
 }
 
-func getCellTextStyle(cellText : String, indexPath: IndexPath, font : UIFont) -> NSMutableAttributedString
+func getAttributedTextOfCell(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool) -> NSMutableAttributedString
 {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.hyphenationFactor = 1.0
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
-    let text = NSMutableAttributedString(htmlString : cellText, font : font)!
+    let text : NSMutableAttributedString = getAttributedTextAfterPossibleTruncation(tableViewCell : tableViewCell, postData : postData, shouldTruncate : shouldTruncate)
+    
+    if (tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate)
+    {
+        let READ_MORE_ATTRIBUTED_STRING = NSAttributedString(string: SystemVariables().READ_MORE_TEXT,
+                                                             attributes : [NSAttributedStringKey.foregroundColor: SystemVariables().READ_MORE_TEXT_COLOR, NSAttributedStringKey.font : SystemVariables().READ_MORE_TEXT_FONT!])
+        text.append(READ_MORE_ATTRIBUTED_STRING)
+    }
     text.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
     
     return text
+}
+
+func getAttributedTextAfterPossibleTruncation(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool) -> NSMutableAttributedString
+{
+    // Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
+    let screenWidth = UIScreen.screens[0].bounds.width
+    let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
+    let sizeOfRowInChars = Float(screenWidth) / widthOfSingleChar
+    
+    let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
+    let PREVIEW_SIZE = Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - SystemVariables().READ_MORE_TEXT.count
+    
+    let text = NSMutableAttributedString(htmlString : postData.text)!
+    
+    var updatedText : NSMutableAttributedString = text
+    if (text.length >= MAX_LENGTH_TO_TRUNCATE)
+    {
+        tableViewCell.isTextLongEnoughToBeTruncated = true
+        if (shouldTruncate)
+        {
+            updatedText = text.attributedSubstring(from: NSRange(location: 0, length: PREVIEW_SIZE)).mutableCopy() as! NSMutableAttributedString
+        }
+    }
+    else
+    {
+        tableViewCell.isTextLongEnoughToBeTruncated = false
+    }
+    
+    let stringAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().CELL_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().CELL_TEXT_COLOR]
+    updatedText.addAttributes(stringAttributes, range: NSRange(location: 0, length: updatedText.length))
+    return updatedText
 }
 
 func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, postData : PostData)
@@ -111,6 +105,20 @@ func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, postData : PostDa
     let publishTimeAndWriterAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
     cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData.date, author : postData.author._authorName), attributes: publishTimeAndWriterAttributes)
     removePaddingFromTextView(textView: cell.postTimeAndWriter)
+}
+
+func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
+{
+    if (tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate)
+    {
+        tableViewCell.references.attributedText = NSAttributedString()
+    }
+    else
+    {
+        addReferencesStringsToCell(cell : tableViewCell, postData: postData)
+    }
+    
+    setStateOfReferencesHeightConstraint(references: tableViewCell.references, state: shouldTruncate)
 }
 
 func setStateOfReferencesHeightConstraint(references : UITextView, state : Bool)

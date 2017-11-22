@@ -46,7 +46,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" text="Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-9Z-gCX" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="306" width="361" height="92.5"/>
+                                            <rect key="frame" x="7" y="306" width="361" height="89.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -103,7 +103,7 @@
                                         <constraint firstAttribute="trailing" secondItem="ODU-Yj-2v9" secondAttribute="trailing" constant="7" id="AN4-Zw-d4S"/>
                                         <constraint firstItem="jLw-yP-rEN" firstAttribute="top" secondItem="WX6-kI-ID7" secondAttribute="bottom" constant="1" id="BPe-Tc-noA" userLabel="Image Description.top = Image.bottom"/>
                                         <constraint firstAttribute="trailing" secondItem="wlN-bx-V8F" secondAttribute="trailing" id="BoN-Gh-bBX"/>
-                                        <constraint firstItem="3Mv-5f-woU" firstAttribute="top" secondItem="bLu-9Z-gCX" secondAttribute="bottom" constant="-3" id="DcN-i3-Yis"/>
+                                        <constraint firstItem="3Mv-5f-woU" firstAttribute="top" secondItem="bLu-9Z-gCX" secondAttribute="bottom" id="DcN-i3-Yis"/>
                                         <constraint firstAttribute="trailing" secondItem="bLu-9Z-gCX" secondAttribute="trailing" constant="7" id="Gqy-MB-Sgi"/>
                                         <constraint firstItem="ODU-Yj-2v9" firstAttribute="top" secondItem="jLw-yP-rEN" secondAttribute="bottom" constant="3" id="Jfd-Vw-qai"/>
                                         <constraint firstAttribute="trailing" secondItem="jLw-yP-rEN" secondAttribute="trailing" constant="1" id="Kvx-7b-XbE" userLabel="trailing = Image Description.trailing"/>
