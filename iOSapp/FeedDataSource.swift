@@ -21,7 +21,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         
-        print("cell \(indexPath.row) requires update")
         let postData = postDataArray[indexPath.row]
         tableView.allowsSelection = false
         
@@ -38,6 +37,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
         
+        setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
         turnLikeAndDislikeIntoButtons(cell: cell)
         
         return cell
@@ -164,6 +164,27 @@ class FeedDataSource: NSObject, UITableViewDataSource
     @objc func handleClickOnDislike(sender : UITapGestureRecognizer)
     {
         handleClickOnLikeDislike(isLikeButton: false, sender: sender)
+    }
+    
+    func setLikeDislikeImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
+    {
+        if (postData.isLiked)
+        {
+            cell.likeButton.image = cell.likeButton.clickedImage
+        }
+        else
+        {
+            cell.likeButton.image = cell.likeButton.unclickedImage
+        }
+        
+        if (postData.isDisliked)
+        {
+            cell.dislikeButton.image = cell.dislikeButton.clickedImage
+        }
+        else
+        {
+            cell.dislikeButton.image = cell.dislikeButton.unclickedImage
+        }
     }
     
     func turnLikeAndDislikeIntoButtons(cell : SnippetTableViewCell)

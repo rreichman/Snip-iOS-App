@@ -177,12 +177,12 @@ public class Logger
     
     func logReadMoreEvent(snipID : Int)
     {
-        logEvent(actionName: "readMore", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
+        logEvent(actionName: "readmore", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
     }
     
     func logReadLessEvent(snipID : Int)
     {
-        logEvent(actionName: "readLess", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
+        logEvent(actionName: "readless", eventProperties: ["snipid" : snipID], shouldFlushNow: false)
     }
     
     func logTapOnNonTruncableText(snipID: Int)
@@ -217,15 +217,21 @@ public class Logger
     
     func logClickedLikeOrDislike(isLikeClick : Bool, snipID : Int, wasClickedBefore : Bool)
     {
-        var actionName = "clickedLike"
-        var wasLikedPropertyKey = "wasLikeBefore"
+        var actionName = "like"
+        // Note - param_1 is the property key of wasClickedBefore
+        var wasLikedDislikedPropertyKey = "param1"
+        var wasClickedBeforePropertyName = "mark_vote"
+        
+        if (wasClickedBefore)
+        {
+            wasClickedBeforePropertyName = "remove_vote"
+        }
         
         if !isLikeClick
         {
-            actionName = "clickedDislike"
-            wasLikedPropertyKey = "wasDislikedBefore"
+            actionName = "dislike"
         }
         
-        logEvent(actionName: actionName, eventProperties: ["snipid" : snipID, wasLikedPropertyKey : wasClickedBefore], shouldFlushNow: true)
+        logEvent(actionName: actionName, eventProperties: ["snipid" : snipID, wasLikedDislikedPropertyKey : wasClickedBeforePropertyName], shouldFlushNow: true)
     }
 }

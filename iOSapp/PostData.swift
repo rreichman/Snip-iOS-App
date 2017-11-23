@@ -10,47 +10,26 @@ import UIKit
 
 class PostData : Encodable, Decodable
 {
-    var postJson : [String : Any]
-    var id : Int
-    var author : SnipAuthor
-    var headline : String
-    var text : String
+    var postJson : [String : Any] = [:]
+    var id : Int = 0
+    var author : SnipUser = SnipUser()
+    var headline : String = ""
+    var text : String = ""
     // Perhaps store the date as something else in the future (not sure)
-    var date : String
-    var image : SnipImage
-    var relatedLinks : [[String : Any]]
-    var isLiked : Bool
-    var isDisliked : Bool
+    var date : String = ""
+    var image : SnipImage = SnipImage()
+    var relatedLinks : [[String : Any]] = []
+    var isLiked : Bool = false
+    var isDisliked : Bool = false
+    var comments : Comments = Comments()
     
     init()
     {
-        postJson = [:]
-        id = 0
-        author = SnipAuthor()
-        headline = ""
-        text = ""
-        date = ""
-        image = SnipImage()
-        relatedLinks = []
-        isLiked = false
-        isDisliked = false
     }
     
     init(receivedPostJson : [String : Any])
     {
         postJson = receivedPostJson
-        
-        // These are default inits
-        id = 0
-        author = SnipAuthor()
-        headline = ""
-        text = ""
-        date = ""
-        image = SnipImage()
-        relatedLinks = []
-        isLiked = false
-        isDisliked = false
-        
         loadRawJsonIntoVariables()
     }
     
@@ -70,11 +49,11 @@ class PostData : Encodable, Decodable
         id = postJson["id"] as! Int
         if (postJson["author"] == nil)
         {
-            author = SnipAuthor(authorData: ["name" : "authorName", "username": "authorUsername"])
+            author = SnipUser(userData: ["name" : "authorName", "username": "authorUsername"])
         }
         else
         {
-            author = SnipAuthor(authorData: postJson["author"] as! [String : Any])
+            author = SnipUser(userData: postJson["author"] as! [String : Any])
         }
         headline = postJson["title"] as! String
         text = postJson["body"] as! String
@@ -83,6 +62,7 @@ class PostData : Encodable, Decodable
         relatedLinks = postJson["related_links"] as! [[String : Any]]
         isLiked = (postJson["votes"] as! [String : Bool])["like"]!
         isDisliked = (postJson["votes"] as! [String : Bool])["dislike"]!
+        comments = Comments(commentArrayData: postJson["comments"] as! [[String : Any]])
     }
     
     func encode(to encoder: Encoder) throws
@@ -94,54 +74,91 @@ class PostData : Encodable, Decodable
     required init(from decoder: Decoder) throws
     {
         postJson = try decoder.singleValueContainer() as! [String : Any]
-        
-        id = 0
-        author = SnipAuthor()
-        headline = ""
-        text = ""
-        date = ""
-        image = SnipImage()
-        relatedLinks = []
-        isLiked = false
-        isDisliked = false
-        
         loadRawJsonIntoVariables()
     }
 }
 
-public class SnipAuthor
+public class Comment
 {
-    var _authorUsername : String
-    var _authorName : String
+    var body : String = ""
+    var date : String = ""
+    var id : Int = 0
+    var level : Int = 0
+    var parent : Int = 0
+    var writer : SnipUser = SnipUser()
     
     init()
     {
-        _authorUsername = ""
-        _authorName = ""
+        
     }
     
-    init(authorUsername : String, authorName : String)
+    init(commentData: [String : Any])
     {
-        _authorUsername = authorUsername
-        _authorName = authorName
+        body = commentData["body"] as! String
+        date = commentData["date"] as! String
+        id = commentData["id"] as! Int
+        level = commentData["level"] as! Int
+
+        if (commentData["parent"] is NSNull)
+        {
+            parent = 0
+        }
+        else
+        {
+            parent = commentData["parent"] as! Int
+        }
+        
+        writer = SnipUser(userData: commentData["user"] as! [String : Any])
+    }
+}
+
+public class Comments
+{
+    var comments : [Comment] = []
+    
+    init()
+    {
     }
     
-    init(authorData : [String : Any])
+    init(commentArrayData : [[String : Any]])
     {
-        _authorUsername = authorData["username"] as! String
-        _authorName = authorData["name"] as! String
+        for commentData in commentArrayData
+        {
+            var newComment = Comment(commentData: commentData)
+            comments.append(newComment)
+        }
+    }
+}
+
+public class SnipUser
+{
+    var _username : String = ""
+    var _name : String = ""
+    
+    init()
+    {
+    }
+    
+    init(username : String, name : String)
+    {
+        _username = username
+        _name = name
+    }
+    
+    init(userData : [String : Any])
+    {
+        _username = userData["username"] as! String
+        _name = userData["name"] as! String
     }
 }
 
 public class SnipImage
 {
-    var _imageURL : String
-    var _imageDescription : String
+    var _imageURL : String = ""
+    var _imageDescription : String = ""
     
     init()
     {
-        _imageURL = ""
-        _imageDescription = ""
     }
     
     init(imageURL : String, imageDescription: String)

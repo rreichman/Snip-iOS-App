@@ -38,7 +38,6 @@ func fillImageDescription(cell : SnippetTableViewCell, postData : PostData)
 
 func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
 {
-    print("calling setCellText() with post \(postData.id)")
     tableViewCell.body.attributedText = getAttributedTextOfCell(tableViewCell : tableViewCell, postData: postData, shouldTruncate: shouldTruncate)
     
     let isTextCurrentlyTruncated : Bool = tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate
@@ -103,7 +102,7 @@ func getAttributedTextAfterPossibleTruncation(tableViewCell : SnippetTableViewCe
 func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, postData : PostData)
 {
     let publishTimeAndWriterAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
-    cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData.date, author : postData.author._authorName), attributes: publishTimeAndWriterAttributes)
+    cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData.date, author : postData.author._name), attributes: publishTimeAndWriterAttributes)
     removePaddingFromTextView(textView: cell.postTimeAndWriter)
 }
 
