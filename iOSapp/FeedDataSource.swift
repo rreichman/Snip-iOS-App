@@ -167,6 +167,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
     @objc func handleClickOnComment(sender : UITapGestureRecognizer)
     {
         let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
+        tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender)
         tableViewController.commentsButtonPressed(tableViewController)
     }
     

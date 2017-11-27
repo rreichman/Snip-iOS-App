@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="500" id="ia9-xY-m0o" customClass="SnippetTableViewCell" customModule="iOSapp">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="500" id="ia9-xY-m0o" userLabel="Snippet Cell" customClass="SnippetTableViewCell" customModule="iOSapp">
                                 <rect key="frame" x="0.0" y="28" width="375" height="500"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ia9-xY-m0o" id="iTo-GQ-6ZM">
@@ -185,31 +185,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="100" id="yRt-j6-goo" userLabel="Comment Cell" customClass="CommentTableViewCell" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="28" width="375" height="100"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="150" id="yRt-j6-goo" userLabel="Comment Cell" customClass="CommentTableViewCell" customModule="iOSapp">
+                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRt-j6-goo" id="gcu-QV-eto">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="hello hello" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BlX-2K-VhB">
-                                            <rect key="frame" x="5" y="5" width="365" height="30"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="tNc-33-xa5"/>
-                                            </constraints>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="pizza pizza" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eOg-0R-aci">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="BlX-2K-VhB" firstAttribute="leading" secondItem="gcu-QV-eto" secondAttribute="leading" constant="5" id="9Nr-mV-4GA"/>
-                                        <constraint firstItem="BlX-2K-VhB" firstAttribute="top" secondItem="gcu-QV-eto" secondAttribute="top" constant="5" id="ctD-Y4-aK9"/>
-                                        <constraint firstAttribute="trailing" secondItem="BlX-2K-VhB" secondAttribute="trailing" constant="5" id="hG1-2d-6tQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="eOg-0R-aci" secondAttribute="trailing" id="GAH-jg-gn2"/>
+                                        <constraint firstItem="eOg-0R-aci" firstAttribute="leading" secondItem="gcu-QV-eto" secondAttribute="leading" id="eot-8w-q4Y"/>
+                                        <constraint firstItem="eOg-0R-aci" firstAttribute="top" secondItem="gcu-QV-eto" secondAttribute="top" id="iiz-Eq-xMy"/>
+                                        <constraint firstAttribute="bottom" secondItem="eOg-0R-aci" secondAttribute="bottom" id="u7u-3F-SIb"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <outlet property="singleCommentView" destination="BlX-2K-VhB" id="o6j-IU-R0c"/>
+                                    <outlet property="singleComment" destination="eOg-0R-aci" id="1Rl-Ty-UKn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -22,7 +22,8 @@ class CommentsDataSource: NSObject, UITableViewDataSource
     {
         print("entered cellForRowAt at row \(indexPath.row)")
         let commentCell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-        commentCell.singleCommentView.text = commentDataArray[indexPath.row].body
+        //commentCell.singleCommentView.text = commentDataArray[indexPath.row].body
+        commentCell.singleComment.text = "pizza pizza"
         return commentCell
     }
 }

@@ -14,6 +14,7 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
     var finishedLoadingSnippets = false
+    var rowCurrentlyClicked = 0
     
     @IBAction func menuButtonPressed(_ sender: Any)
     {
@@ -60,16 +61,22 @@ class SnippetsTableViewController: UITableViewController
         if (segue.identifier == "showCommentsSegue")
         {
             print("seguing to comments")
-            let tableViewController = segue.destination as! CommentsTableViewController
+            let commentsViewController = segue.destination as! CommentsTableViewController
+            let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
+            let currentComments = currentPost.comments
+            commentsViewController.comments = currentComments
             //let tableViewController : CommentsTableViewController = navigationController.viewControllers.first as! CommentsTableViewController
-            let commentsDataSource : CommentsDataSource = CommentsDataSource()
-            let commentOne : Comment = Comment(commentData: ["body" : "body1", "date" : "date", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
-            let commentTwo : Comment = Comment(commentData: ["body" : "body2", "date" : "date", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
-            commentsDataSource.commentDataArray.append(commentOne)
-            commentsDataSource.commentDataArray.append(commentTwo)
+            /*var commentsDataSource : [Comment] = []
+            let commentOne : Comment = Comment(commentData: ["body" : "body1", "date" : "date1", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
+            let commentTwo : Comment = Comment(commentData: ["body" : "body2", "date" : "date2", "id" : 234, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
+            let commentThree : Comment = Comment(commentData: ["body" : "body3", "date" : "date3", "id" : 456, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
+            commentsDataSource.append(commentOne)
+            commentsDataSource.append(commentTwo)
+            commentsDataSource.append(commentThree)
             
-            tableViewController.tableView.dataSource = commentsDataSource
-            tableViewController.tableView.reloadData()
+            commentsViewController.comments = commentsDataSource*/
+            //tableViewController.tableView.dataSource = commentsDataSource
+            //tableViewController.tableView.reloadData()
         }
     }
     
