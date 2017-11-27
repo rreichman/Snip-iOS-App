@@ -219,7 +219,7 @@ public class Logger
     {
         var actionName = "like"
         // Note - param_1 is the property key of wasClickedBefore
-        var wasLikedDislikedPropertyKey = "param1"
+        let wasLikedDislikedPropertyKey = "param1"
         var wasClickedBeforePropertyName = "mark_vote"
         
         if (wasClickedBefore)

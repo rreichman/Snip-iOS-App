@@ -18,6 +18,7 @@ class SnippetTableViewCell: UITableViewCell
     @IBOutlet weak var references: UITextView!
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
+    @IBOutlet weak var commentButton: UIImageView!
     
     var isTextLongEnoughToBeTruncated : Bool = true
     

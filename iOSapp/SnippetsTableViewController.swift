@@ -20,6 +20,11 @@ class SnippetsTableViewController: UITableViewController
         performSegue(withIdentifier: "showMenuSegue", sender: self)
     }
     
+    @IBAction func commentsButtonPressed(_ sender: Any)
+    {
+        performSegue(withIdentifier: "showCommentsSegue", sender: self)
+    }
+    
     @IBAction func refresh(_ sender: UIRefreshControl)
     {
         print("refreshing")
@@ -49,6 +54,25 @@ class SnippetsTableViewController: UITableViewController
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        print("preparing to segue to comments")
+        if (segue.identifier == "showCommentsSegue")
+        {
+            print("seguing to comments")
+            let tableViewController = segue.destination as! CommentsTableViewController
+            //let tableViewController : CommentsTableViewController = navigationController.viewControllers.first as! CommentsTableViewController
+            let commentsDataSource : CommentsDataSource = CommentsDataSource()
+            let commentOne : Comment = Comment(commentData: ["body" : "body1", "date" : "date", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
+            let commentTwo : Comment = Comment(commentData: ["body" : "body2", "date" : "date", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
+            commentsDataSource.commentDataArray.append(commentOne)
+            commentsDataSource.commentDataArray.append(commentTwo)
+            
+            tableViewController.tableView.dataSource = commentsDataSource
+            tableViewController.tableView.reloadData()
+        }
+    }
+    
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat
     {
@@ -57,6 +81,28 @@ class SnippetsTableViewController: UITableViewController
         } else {
             return UITableViewAutomaticDimension
         }
+    }
+    
+    // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
+        if (self.finishedLoadingSnippets)
+        {
+            let foregroundSnippetIDs = getForegroundSnippetIDs()
+            for snippetID in foregroundSnippetIDs
+            {
+                Logger().logViewingSnippet(snippetID: snippetID)
+            }
+        }
+        
+        let height = NSNumber(value: Float(cell.frame.size.height))
+        heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return UITableViewAutomaticDimension
     }
     
     func getForegroundSnippetIDs() -> [Int]
@@ -92,28 +138,6 @@ class SnippetsTableViewController: UITableViewController
         }
         
         return snippetIDs
-    }
-    
-    // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    {
-        // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
-        if (self.finishedLoadingSnippets)
-        {
-            let foregroundSnippetIDs = getForegroundSnippetIDs()
-            for snippetID in foregroundSnippetIDs
-            {
-                Logger().logViewingSnippet(snippetID: snippetID)
-            }
-        }
-        
-        let height = NSNumber(value: Float(cell.frame.size.height))
-        heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        return UITableViewAutomaticDimension
     }
     
     func dataCollectionCompletionHandler(feedDataSource: FeedDataSource)

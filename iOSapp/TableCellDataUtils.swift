@@ -44,6 +44,7 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
     
     tableViewCell.likeButton.isHidden = isTextCurrentlyTruncated
     tableViewCell.dislikeButton.isHidden = isTextCurrentlyTruncated
+    tableViewCell.commentButton.isHidden = isTextCurrentlyTruncated
     
     tableViewCell.body.isEditable = false
     

@@ -38,7 +38,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.text = postData.headline
         
         setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
-        turnLikeAndDislikeIntoButtons(cell: cell)
+        turnActionImagesIntoButtons(cell: cell)
         
         return cell
     }
@@ -144,7 +144,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             imageViewWithMetadata.isClicked = false
             imageViewWithMetadata.image = imageViewWithMetadata.unclickedImage
-            // TODO:: Manage unlike/undislike click
         }
         else
         {
@@ -152,7 +151,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
             imageViewWithMetadata.image = imageViewWithMetadata.clickedImage
             otherButton.image = otherButton.unclickedImage
             otherButton.isClicked = false
-            // TODO:: manage like/dislike click
         }
     }
     
@@ -164,6 +162,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
     @objc func handleClickOnDislike(sender : UITapGestureRecognizer)
     {
         handleClickOnLikeDislike(isLikeButton: false, sender: sender)
+    }
+    
+    @objc func handleClickOnComment(sender : UITapGestureRecognizer)
+    {
+        let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
+        tableViewController.commentsButtonPressed(tableViewController)
     }
     
     func setLikeDislikeImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
@@ -187,7 +191,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
     }
     
-    func turnLikeAndDislikeIntoButtons(cell : SnippetTableViewCell)
+    func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
     {
         let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
         cell.likeButton.isUserInteractionEnabled = true
@@ -196,6 +200,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let dislikeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDislike(sender:)))
         cell.dislikeButton.isUserInteractionEnabled = true
         cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
+        
+        let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnComment(sender:)))
+        cell.commentButton.isUserInteractionEnabled = true
+        cell.commentButton.addGestureRecognizer(commentButtonClickRecognizer)
     }
     
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
