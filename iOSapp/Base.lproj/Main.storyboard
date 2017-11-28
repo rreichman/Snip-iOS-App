@@ -193,7 +193,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="995" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Comment Body" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOg-0R-aci">
-                                            <rect key="frame" x="9" y="38" width="357" height="65"/>
+                                            <rect key="frame" x="9" y="38" width="357" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
@@ -212,20 +212,17 @@
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Date" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guh-u5-SlA">
-                                            <rect key="frame" x="9" y="108.5" width="40.5" height="33"/>
+                                            <rect key="frame" x="9" y="76.5" width="40.5" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Write a comment..." translatesAutoresizingMaskIntoConstraints="NO" id="i1T-Tr-7xJ">
-                                            <rect key="frame" x="5" y="151.5" width="361" height="33"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="33" id="5oD-va-IED"/>
-                                            </constraints>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1T-Tr-7xJ">
+                                            <rect key="frame" x="5" y="119.5" width="361" height="65"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Reply" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ian-eK-epR">
-                                            <rect key="frame" x="59.5" y="108.5" width="46" height="33"/>
+                                            <rect key="frame" x="59.5" y="76.5" width="46" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>

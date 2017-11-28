@@ -30,19 +30,19 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     func setCellStyles()
     {
         // TODO:: divide this function
-        var attributedWriterString : NSMutableAttributedString = writer.attributedText.mutableCopy() as! NSMutableAttributedString
+        let attributedWriterString : NSMutableAttributedString = writer.attributedText.mutableCopy() as! NSMutableAttributedString
         
         attributedWriterString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().HEADLINE_TEXT_FONT, range: NSRange(location: 0, length: attributedWriterString.length))
         attributedWriterString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().HEADLINE_TEXT_COLOR, range: NSRange(location: 0, length: attributedWriterString.length))
         writer.attributedText = attributedWriterString
         
-        var attributedDateString : NSMutableAttributedString = date.attributedText.mutableCopy() as! NSMutableAttributedString
-        attributedDateString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT, range: NSRange(location: 0, length: attributedDateString.length))
+        let attributedDateString : NSMutableAttributedString = date.attributedText.mutableCopy() as! NSMutableAttributedString
+        attributedDateString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, range: NSRange(location: 0, length: attributedDateString.length))
         attributedDateString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR, range: NSRange(location: 0, length: attributedDateString.length))
         date.attributedText = attributedDateString
         
-        var attributedReplyString : NSMutableAttributedString = replyButton.attributedText.mutableCopy() as! NSMutableAttributedString
-        attributedReplyString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT, range: NSRange(location: 0, length: attributedReplyString.length))
+        let attributedReplyString : NSMutableAttributedString = replyButton.attributedText.mutableCopy() as! NSMutableAttributedString
+        attributedReplyString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, range: NSRange(location: 0, length: attributedReplyString.length))
         attributedReplyString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR, range: NSRange(location: 0, length: attributedReplyString.length))
         replyButton.attributedText = attributedReplyString
         
@@ -50,8 +50,8 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         writeCommentBox.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
         writeCommentBox.layer.borderWidth = 0.5
         writeCommentBox.clipsToBounds = true
-        
-        //writeCommentBox.delegate = self
+        writeCommentBox.placeholder = "Write a comment..."
+        writeCommentBox.delegate = self
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)
@@ -61,6 +61,10 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     
     func textViewDidChange(_ textView: UITextView)
     {
+        if let placeholderLabel = textView.viewWithTag(TEXTVIEW_PLACEHOLDER_TAG) as? UILabel
+        {
+            placeholderLabel.isHidden = textView.attributedText.length > 0
+        }
         // TODO:: implement
         print("in textview changing")
     }

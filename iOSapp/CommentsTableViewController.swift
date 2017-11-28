@@ -20,7 +20,7 @@ class CommentsTableViewController: UITableViewController
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-        var currentComment : Comment = commentsInNestedFormat[indexPath.row]
+        let currentComment : Comment = commentsInNestedFormat[indexPath.row]
         cell.body.text = currentComment.body
         cell.date.text = getTimeFromDateString(dateString: currentComment.date)
         cell.writer.text = currentComment.writer._name
