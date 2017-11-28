@@ -100,7 +100,7 @@ extension UITextView: UITextViewDelegate {
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.tag = TEXTVIEW_PLACEHOLDER_TAG
         
-        placeholderLabel.isHidden = self.text.characters.count > 0
+        placeholderLabel.isHidden = self.text.count > 0
         
         self.addSubview(placeholderLabel)
         self.resizePlaceholder()

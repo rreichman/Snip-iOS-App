@@ -192,7 +192,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="995" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Comment Body" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOg-0R-aci">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="997" verticalCompressionResistancePriority="997" scrollEnabled="NO" editable="NO" text="Comment Body" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOg-0R-aci">
                                             <rect key="frame" x="9" y="38" width="357" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -205,35 +205,39 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="borderBetweenPosts" translatesAutoresizingMaskIntoConstraints="NO" id="W6K-Q7-NUl">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="borderBetweenPosts" translatesAutoresizingMaskIntoConstraints="NO" id="W6K-Q7-NUl">
                                             <rect key="frame" x="0.0" y="189.5" width="375" height="10"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="10" id="eXv-mL-gwy"/>
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Date" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guh-u5-SlA">
-                                            <rect key="frame" x="9" y="76.5" width="40.5" height="33"/>
+                                            <rect key="frame" x="9" y="76.5" width="40.5" height="98"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1T-Tr-7xJ">
-                                            <rect key="frame" x="5" y="119.5" width="361" height="65"/>
+                                            <rect key="frame" x="5" y="179.5" width="361" height="5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="5" identifier="commentLineHeightConstraint" id="As5-5b-Q0H"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Reply" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ian-eK-epR">
-                                            <rect key="frame" x="59.5" y="76.5" width="46" height="33"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Reply" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ian-eK-epR">
+                                            <rect key="frame" x="59.5" y="76.5" width="46" height="98"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="ian-eK-epR" firstAttribute="leading" secondItem="guh-u5-SlA" secondAttribute="trailing" constant="10" id="5Nm-Lc-VXN"/>
-                                        <constraint firstItem="i1T-Tr-7xJ" firstAttribute="top" secondItem="ian-eK-epR" secondAttribute="bottom" constant="10" id="BXa-gk-Pb5"/>
+                                        <constraint firstItem="i1T-Tr-7xJ" firstAttribute="top" secondItem="ian-eK-epR" secondAttribute="bottom" constant="5" id="BXa-gk-Pb5"/>
                                         <constraint firstItem="W6K-Q7-NUl" firstAttribute="leading" secondItem="gcu-QV-eto" secondAttribute="leading" id="Bpt-eg-HVH"/>
                                         <constraint firstItem="guh-u5-SlA" firstAttribute="leading" secondItem="gcu-QV-eto" secondAttribute="leading" constant="9" id="BvA-sn-tvN"/>
-                                        <constraint firstItem="i1T-Tr-7xJ" firstAttribute="top" secondItem="guh-u5-SlA" secondAttribute="bottom" constant="10" id="Dfd-XT-znL"/>
+                                        <constraint firstItem="i1T-Tr-7xJ" firstAttribute="top" secondItem="guh-u5-SlA" secondAttribute="bottom" constant="5" id="Dfd-XT-znL"/>
                                         <constraint firstItem="guh-u5-SlA" firstAttribute="top" secondItem="eOg-0R-aci" secondAttribute="bottom" constant="5" id="Fc2-Ry-6PQ"/>
+                                        <constraint firstItem="ian-eK-epR" firstAttribute="top" secondItem="eOg-0R-aci" secondAttribute="bottom" constant="5" id="KqQ-aF-DnF"/>
                                         <constraint firstAttribute="trailing" secondItem="eOg-0R-aci" secondAttribute="trailing" constant="9" id="Pkp-8l-bMD"/>
                                         <constraint firstItem="W6K-Q7-NUl" firstAttribute="top" secondItem="i1T-Tr-7xJ" secondAttribute="bottom" constant="5" id="RQG-Hb-vFv"/>
                                         <constraint firstItem="eOg-0R-aci" firstAttribute="leading" secondItem="gcu-QV-eto" secondAttribute="leading" constant="9" id="RrW-pW-BO1"/>

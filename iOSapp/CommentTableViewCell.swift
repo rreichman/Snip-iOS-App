@@ -25,6 +25,32 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         
         self.selectionStyle = UITableViewCellSelectionStyle.none
         setCellStyles()
+        makeReplyClickable()
+    }
+    
+    func makeReplyClickable()
+    {
+        let replyButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.replyButtonPressed(sender:)))
+        replyButton.isUserInteractionEnabled = true
+        replyButton.addGestureRecognizer(replyButtonRecognizer)
+    }
+    
+    @objc func replyButtonPressed(sender: UITapGestureRecognizer)
+    {
+        for constraint in writeCommentBox.constraints
+        {
+            if constraint.identifier == "commentLineHeightConstraint"
+            {
+                print("updating comment constraint to visible")
+                constraint.constant = 35
+            }
+        }
+        writeCommentBox.isHidden = false
+        
+        let tableView : UITableView = self.superview as! UITableView
+        //let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView))
+        //tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
+        tableView.reloadData()
     }
     
     func setCellStyles()
@@ -52,6 +78,16 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         writeCommentBox.clipsToBounds = true
         writeCommentBox.placeholder = "Write a comment..."
         writeCommentBox.delegate = self
+        writeCommentBox.isHidden = true
+        
+        /*for constraint in writeCommentBox.constraints
+        {
+            if constraint.identifier == "commentLineHeightConstraint"
+            {
+                print("updating comment constraint to invisible")
+                constraint.constant = 5
+            }
+        }*/
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)
@@ -71,7 +107,6 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     
     override func setSelected(_ selected: Bool, animated: Bool)
     {
-        print("in set selected")
         super.setSelected(selected, animated: animated)
     }
 }
