@@ -10,29 +10,30 @@ import UIKit
 
 class CommentsTableViewController: UITableViewController
 {
-    var comments : [Comment] = []
+    var commentsInNestedFormat : [Comment] = []
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.tableView.rowHeight = 150
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-        cell.singleComment.text = comments[indexPath.row].body
+        var currentComment : Comment = commentsInNestedFormat[indexPath.row]
+        cell.body.text = currentComment.body
+        cell.date.text = getTimeFromDateString(dateString: currentComment.date)
+        cell.writer.text = currentComment.writer._name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return comments.count
+        return commentsInNestedFormat.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        //return UITableViewAutomaticDimension
-        return 150
+        return UITableViewAutomaticDimension
     }
 }

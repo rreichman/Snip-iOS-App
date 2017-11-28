@@ -46,8 +46,6 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
     tableViewCell.dislikeButton.isHidden = isTextCurrentlyTruncated
     tableViewCell.commentButton.isHidden = isTextCurrentlyTruncated
     
-    tableViewCell.body.isEditable = false
-    
     removePaddingFromTextView(textView: tableViewCell.body)
 }
 
@@ -103,7 +101,8 @@ func getAttributedTextAfterPossibleTruncation(tableViewCell : SnippetTableViewCe
 func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, postData : PostData)
 {
     let publishTimeAndWriterAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
-    cell.postTimeAndWriter.attributedText = NSAttributedString(string : getTimeAndWriterStringFromDateString(dateString: postData.date, author : postData.author._name), attributes: publishTimeAndWriterAttributes)
+    let timeAndWriterString = getTimeFromDateString(dateString: postData.date) + ", by " + postData.author._name
+    cell.postTimeAndWriter.attributedText = NSAttributedString(string : timeAndWriterString, attributes: publishTimeAndWriterAttributes)
     removePaddingFromTextView(textView: cell.postTimeAndWriter)
 }
 

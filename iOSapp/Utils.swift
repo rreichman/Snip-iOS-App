@@ -19,13 +19,18 @@ func removePaddingFromTextView(textView : UITextView)
     textView.textContainer.lineFragmentPadding = 0
 }
 
-func getTimeAndWriterStringFromDateString(dateString : String, author : String) -> String
+func getTimeFromDateString(dateString : String) -> String
 {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     let dateAsDataStructure = dateFormatter.date(from : dateString)
+    // TODO:: is Rani's format for date different in comments? Go to Foxconn Apple snip
+    if (dateAsDataStructure == nil)
+    {
+        return "error in date"
+    }
     
     var displayedTime = ""
     let dateDifferenceInDays = Date().days(from: dateAsDataStructure!)
@@ -86,7 +91,7 @@ func getTimeAndWriterStringFromDateString(dateString : String, author : String) 
     {
         displayedTime = String(dateString.prefix(10))
     }
-    return displayedTime + ", by " + author
+    return displayedTime
 }
 
 public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int

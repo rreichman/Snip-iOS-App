@@ -63,21 +63,37 @@ class SnippetsTableViewController: UITableViewController
             print("seguing to comments")
             let commentsViewController = segue.destination as! CommentsTableViewController
             let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
-            let currentComments = currentPost.comments
-            commentsViewController.comments = currentComments
-            //let tableViewController : CommentsTableViewController = navigationController.viewControllers.first as! CommentsTableViewController
-            /*var commentsDataSource : [Comment] = []
-            let commentOne : Comment = Comment(commentData: ["body" : "body1", "date" : "date1", "id" : 123, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
-            let commentTwo : Comment = Comment(commentData: ["body" : "body2", "date" : "date2", "id" : 234, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
-            let commentThree : Comment = Comment(commentData: ["body" : "body3", "date" : "date3", "id" : 456, "level" : 4, "parent" : 12, "user" : ["name" : "writer", "username" : "writerusername"]] as! [String : Any])
-            commentsDataSource.append(commentOne)
-            commentsDataSource.append(commentTwo)
-            commentsDataSource.append(commentThree)
-            
-            commentsViewController.comments = commentsDataSource*/
-            //tableViewController.tableView.dataSource = commentsDataSource
-            //tableViewController.tableView.reloadData()
+            let allCommentsAsArray : [Comment] = currentPost.comments
+            commentsViewController.commentsInNestedFormat = allCommentsAsArray// turnCommentArrayIntoNestedComments(allCommentsArray: allCommentsAsArray)
         }
+    }
+    
+    func turnCommentArrayIntoNestedComments(allCommentsArray : [Comment]) -> [Comment]
+    {
+        let allCommentsNested : [Comment] = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: 0)
+        for commentOnLevelZero in allCommentsNested
+        {
+            commentOnLevelZero.subComments = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: commentOnLevelZero.id)
+            for commentOnLevelOne in commentOnLevelZero.subComments
+            {
+                // Note - If comments were deeper recursion would probably make sense but not worth it now
+                commentOnLevelOne.subComments = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: commentOnLevelOne.id)
+            }
+        }
+        return allCommentsNested
+    }
+    
+    func getCommentsWithGivenParent(allCommentsArray : [Comment], parent: Int) -> [Comment]
+    {
+        var subComments : [Comment] = []
+        for comment in allCommentsArray
+        {
+            if comment.parent == parent
+            {
+                subComments.append(comment)
+            }
+        }
+        return subComments
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)

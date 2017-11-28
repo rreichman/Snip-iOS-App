@@ -16,11 +16,7 @@ public class Comment
     var level : Int = 0
     var parent : Int = 0
     var writer : SnipUser = SnipUser()
-    
-    init()
-    {
-        
-    }
+    var subComments : [Comment] = []
     
     init(commentData: [String : Any])
     {
