@@ -13,6 +13,18 @@ func getUniqueDeviceID() -> String
     return UIDevice.current.identifierForVendor!.uuidString
 }
 
+func setConstraintConstantForView(constraintName : String, view : UIView, constant : CGFloat)
+{
+    for constraint in view.constraints
+    {
+        if constraint.identifier == constraintName
+        {
+            constraint.constant = constant
+        }
+    }
+    view.updateConstraints()
+}
+
 func removePaddingFromTextView(textView : UITextView)
 {
     textView.textContainerInset = UIEdgeInsets.zero

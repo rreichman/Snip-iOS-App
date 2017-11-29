@@ -14,7 +14,12 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
     @IBOutlet weak var replyButton: UITextView!
-    @IBOutlet weak var writeCommentBox: UITextView!
+    
+    //var commentView : UIView = UIView()
+    var replyingToBox : UITextView = UITextView()
+    var externalCommentBox : UITextView = UITextView()
+    var closeReplyButton : UIButton = UIButton()
+    var snippetID : Int = 0
     
     var firstTapOnCommentBox : Bool = true
     
@@ -35,22 +40,20 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         replyButton.addGestureRecognizer(replyButtonRecognizer)
     }
     
+    func holdRelease()
+    {
+        print("here")
+    }
+    
     @objc func replyButtonPressed(sender: UITapGestureRecognizer)
     {
-        for constraint in writeCommentBox.constraints
-        {
-            if constraint.identifier == "commentLineHeightConstraint"
-            {
-                print("updating comment constraint to visible")
-                constraint.constant = 35
-            }
-        }
-        writeCommentBox.isHidden = false
-        
-        let tableView : UITableView = self.superview as! UITableView
-        //let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView))
-        //tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
-        tableView.reloadData()
+        externalCommentBox.becomeFirstResponder()
+        setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: 30)
+        let cellChosen : CommentTableViewCell = sender.view?.superview?.superview as! CommentTableViewCell
+        let replyingToString : String = "Replying to " + cellChosen.writer.text
+        replyingToBox.attributedText = NSAttributedString(string: replyingToString)
+        replyingToBox.isHidden = false
+        closeReplyButton.isHidden = false
     }
     
     func setCellStyles()
@@ -72,38 +75,12 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         attributedReplyString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR, range: NSRange(location: 0, length: attributedReplyString.length))
         replyButton.attributedText = attributedReplyString
         
-        writeCommentBox.layer.cornerRadius = 10
-        writeCommentBox.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
-        writeCommentBox.layer.borderWidth = 0.5
-        writeCommentBox.clipsToBounds = true
-        writeCommentBox.placeholder = "Write a comment..."
-        writeCommentBox.delegate = self
-        writeCommentBox.isHidden = true
-        
-        /*for constraint in writeCommentBox.constraints
-        {
-            if constraint.identifier == "commentLineHeightConstraint"
-            {
-                print("updating comment constraint to invisible")
-                constraint.constant = 5
-            }
-        }*/
-        
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)
         removePaddingFromTextView(textView: date)
         removePaddingFromTextView(textView: replyButton)
     }
-    
-    func textViewDidChange(_ textView: UITextView)
-    {
-        if let placeholderLabel = textView.viewWithTag(TEXTVIEW_PLACEHOLDER_TAG) as? UILabel
-        {
-            placeholderLabel.isHidden = textView.attributedText.length > 0
-        }
-        // TODO:: implement
-        print("in textview changing")
-    }
+
     
     override func setSelected(_ selected: Bool, animated: Bool)
     {
