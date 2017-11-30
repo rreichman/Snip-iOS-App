@@ -14,14 +14,16 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
     @IBOutlet weak var replyButton: UITextView!
+    @IBOutlet weak var surroundingView: UIView!
+    @IBOutlet weak var bufferBetweenComments: UIImageView!
     
-    //var commentView : UIView = UIView()
     var replyingToBox : UITextView = UITextView()
     var externalCommentBox : UITextView = UITextView()
     var closeReplyButton : UIButton = UIButton()
-    var snippetID : Int = 0
     
-    var firstTapOnCommentBox : Bool = true
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    
+    var snippetID : Int = 0
     
     override func awakeFromNib()
     {
@@ -33,6 +35,11 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         makeReplyClickable()
     }
     
+    func setCellConstraintsAccordingToLevel(commentLevel : Int)
+    {
+        leftConstraint.constant = CGFloat(commentLevel * SystemVariables().COMMENT_INDENTATION_FROM_LEFT_PER_LEVEL)
+    }
+    
     func makeReplyClickable()
     {
         let replyButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.replyButtonPressed(sender:)))
@@ -40,16 +47,11 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         replyButton.addGestureRecognizer(replyButtonRecognizer)
     }
     
-    func holdRelease()
-    {
-        print("here")
-    }
-    
     @objc func replyButtonPressed(sender: UITapGestureRecognizer)
     {
         externalCommentBox.becomeFirstResponder()
         setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: 30)
-        let cellChosen : CommentTableViewCell = sender.view?.superview?.superview as! CommentTableViewCell
+        let cellChosen : CommentTableViewCell = sender.view?.superview?.superview?.superview as! CommentTableViewCell
         let replyingToString : String = "Replying to " + cellChosen.writer.text
         replyingToBox.attributedText = NSAttributedString(string: replyingToString)
         replyingToBox.isHidden = false

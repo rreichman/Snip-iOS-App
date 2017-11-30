@@ -47,6 +47,8 @@ public class SystemVariables
     
     let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60
     
+    let COMMENT_INDENTATION_FROM_LEFT_PER_LEVEL = 25
+    
     let TERMS_OF_SERVICE_URL = "https://www.snip.today/about/terms/"
     let PRIVACY_POLICY_URL = "https://www.snip.today/about/privacy_policy/"
 }

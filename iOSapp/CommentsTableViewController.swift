@@ -16,6 +16,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var replyingToView: UITextView!
     
+    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
@@ -26,6 +27,8 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorColor = UIColor.clear
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         setCommentBoxStyle()
         registerForKeyboardNotifications()
@@ -64,6 +67,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
             noDataLabel.textAlignment = .center
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
+            writeCommentBox.becomeFirstResponder()
         }
     }
     
@@ -79,6 +83,11 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         var info = notification.userInfo!
         let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
         bottomConstraint.constant = keyboardHeight!
+        // Note - This is supposed to smoothen the constraint update
+        UIView.animate(withDuration: 1)
+        {
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
@@ -120,6 +129,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         cell.replyingToBox = replyingToView
         cell.snippetID = currentComment.id
         cell.closeReplyButton = closeReplyButton
+        cell.setCellConstraintsAccordingToLevel(commentLevel: currentComment.level)
         
         cell.body.text = currentComment.body
         cell.date.text = getTimeFromDateString(dateString: currentComment.date)
