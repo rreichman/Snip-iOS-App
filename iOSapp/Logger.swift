@@ -44,50 +44,34 @@ public class Logger
     {
         for logID in logsNotYetSentToServer.keys
         {
-            SnipRetrieverFromWeb().runLogFunctionAfterGettingCsrfToken(
-                logID: logID, logInfo: logsNotYetSentToServer[logID]!, completionHandler: self.sendLogToServer)
+            SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(
+                functionData: LogInfo(receivedLogID: logID, receivedLogInfo: logsNotYetSentToServer[logID]!), completionHandler: self.sendLogToServer)
         }
-    }
-    
-    private func convertDictionaryToJsonString(dictionary: Dictionary<String,String>) -> String
-    {
-        var dictionaryString = ""
-        var isFirstKey = true
-        
-        for key in dictionary.keys
-        {
-            if !isFirstKey
-            {
-                dictionaryString.append("&")
-            }
-            isFirstKey = false
-            
-            dictionaryString.append(key)
-            dictionaryString.append("=")
-            dictionaryString.append(dictionary[key]!)
-        }
-        return dictionaryString
     }
     
     private func getServerStringForLog(logInfo : Dictionary<String,String>) -> String
     {
-        var baseURLString : String = SystemVariables().URL_STRING
+        var urlString : String = SystemVariables().URL_STRING
         
         if logInfo.keys.contains("snipid")
         {
-            baseURLString.append("action/")
-            baseURLString.append(logInfo["snipid"]!)
-            baseURLString.append("/")
+            urlString.append("action/")
+            urlString.append(logInfo["snipid"]!)
+            urlString.append("/")
         }
         else
         {
-            baseURLString.append("user/log/")
+            urlString.append("user/log/")
         }
-        return baseURLString
+        return urlString
     }
     
-    private func sendLogToServer(logID : Int, logInfo : Dictionary<String,String>, csrfValue : String)
+    private func sendLogToServer(logParams : Any, csrfValue : String)
     {
+        let convertedLogParams : LogInfo = logParams as! LogInfo
+        let logID : Int = convertedLogParams.logID
+        let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
+        
         let url: URL = URL(string: getServerStringForLog(logInfo: logInfo))!
         var urlRequest: URLRequest = URLRequest(url: url)
         

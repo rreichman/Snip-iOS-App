@@ -14,25 +14,31 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
     @IBOutlet weak var replyButton: UITextView!
+    @IBOutlet weak var deleteButton: UITextView!
     @IBOutlet weak var surroundingView: UIView!
     @IBOutlet weak var bufferBetweenComments: UIImageView!
     
+    // TODO:: perhaps this isn't ideal
+    var viewController : CommentsTableViewController = CommentsTableViewController()
+    
+    var commentID : Int = 0
     var replyingToBox : UITextView = UITextView()
     var externalCommentBox : UITextView = UITextView()
     var closeReplyButton : UIButton = UIButton()
     
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     
-    var snippetID : Int = 0
+    var deleteButtonAvailable : Bool = true
     
     override func awakeFromNib()
     {
-        print("in awake from nib")
         super.awakeFromNib()
         
+        //deleteButton.isHidden = !deleteButtonAvailable
         self.selectionStyle = UITableViewCellSelectionStyle.none
         setCellStyles()
-        makeReplyClickable()
+        makeReplyButtonClickable()
+        makeDeleteButtonClickable()
     }
     
     func setCellConstraintsAccordingToLevel(commentLevel : Int)
@@ -40,47 +46,56 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         leftConstraint.constant = CGFloat(commentLevel * SystemVariables().COMMENT_INDENTATION_FROM_LEFT_PER_LEVEL)
     }
     
-    func makeReplyClickable()
+    func makeReplyButtonClickable()
     {
         let replyButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.replyButtonPressed(sender:)))
         replyButton.isUserInteractionEnabled = true
         replyButton.addGestureRecognizer(replyButtonRecognizer)
     }
     
+    func makeDeleteButtonClickable()
+    {
+        let deleteButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.deleteButtonPressed(sender:)))
+        deleteButton.isUserInteractionEnabled = true
+        deleteButton.addGestureRecognizer(deleteButtonRecognizer)
+    }
+    
     @objc func replyButtonPressed(sender: UITapGestureRecognizer)
     {
         externalCommentBox.becomeFirstResponder()
-        setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: 30)
+        setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: CGFloat(SystemVariables().DEFAULT_HEIGHT_OF_REPLYING_TO_BAR))
         let cellChosen : CommentTableViewCell = sender.view?.superview?.superview?.superview as! CommentTableViewCell
         let replyingToString : String = "Replying to " + cellChosen.writer.text
         replyingToBox.attributedText = NSAttributedString(string: replyingToString)
         replyingToBox.isHidden = false
         closeReplyButton.isHidden = false
+        
+        viewController.isCurrentlyReplyingToComment = true
+        viewController.commentIdReplyingTo = commentID
+    }
+    
+    @objc func deleteButtonPressed(sender: UITapGestureRecognizer)
+    {
+        var deleteCommandJson : Dictionary<String,String> = Dictionary<String,String>()
+        deleteCommandJson["id"] = String(commentID)
+        SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson), completionHandler: viewController.performCommentAction)
+        
+        // TODO:: delete comment
     }
     
     func setCellStyles()
     {
-        // TODO:: divide this function
-        let attributedWriterString : NSMutableAttributedString = writer.attributedText.mutableCopy() as! NSMutableAttributedString
-        
-        attributedWriterString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().HEADLINE_TEXT_FONT, range: NSRange(location: 0, length: attributedWriterString.length))
-        attributedWriterString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().HEADLINE_TEXT_COLOR, range: NSRange(location: 0, length: attributedWriterString.length))
-        writer.attributedText = attributedWriterString
-        
-        let attributedDateString : NSMutableAttributedString = date.attributedText.mutableCopy() as! NSMutableAttributedString
-        attributedDateString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, range: NSRange(location: 0, length: attributedDateString.length))
-        attributedDateString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR, range: NSRange(location: 0, length: attributedDateString.length))
-        date.attributedText = attributedDateString
-        
-        let attributedReplyString : NSMutableAttributedString = replyButton.attributedText.mutableCopy() as! NSMutableAttributedString
-        attributedReplyString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, range: NSRange(location: 0, length: attributedReplyString.length))
-        attributedReplyString.addAttribute(NSAttributedStringKey.foregroundColor, value: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR, range: NSRange(location: 0, length: attributedReplyString.length))
-        replyButton.attributedText = attributedReplyString
+        addFontAndForegroundColorToView(textView: writer, newFont: SystemVariables().HEADLINE_TEXT_FONT, newColor: SystemVariables().HEADLINE_TEXT_COLOR)
+        addFontAndForegroundColorToView(textView: body, newFont: SystemVariables().CELL_TEXT_FONT!, newColor: SystemVariables().CELL_TEXT_COLOR)
+        addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)
         removePaddingFromTextView(textView: date)
         removePaddingFromTextView(textView: replyButton)
+        removePaddingFromTextView(textView: deleteButton)
     }
 
     

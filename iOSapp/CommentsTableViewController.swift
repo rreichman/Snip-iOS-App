@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO:: consider when and if to refresh the content
+
 class CommentsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
@@ -16,11 +18,13 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var replyingToView: UITextView!
     
-    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
     var commentsInNestedFormat : [Comment] = []
+    var currentSnippetID : Int = 0
+    var isCurrentlyReplyingToComment : Bool = false
+    var commentIdReplyingTo : Int = 0
     
     override func viewDidLoad()
     {
@@ -35,7 +39,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         hideReplyingToBox()
         
         self.navigationController?.navigationBar.tintColor = UIColor.black
-        // This is used in case there are no comments
+        // This is for the cases where there are no comments
         setTableViewBackground()
     }
     
@@ -43,6 +47,9 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     {
         print("closed replied to")
         hideReplyingToBox()
+        
+        isCurrentlyReplyingToComment = false
+        commentIdReplyingTo = 0
     }
     
     func hideReplyingToBox()
@@ -118,7 +125,64 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     
     @IBAction func postButtonClicked(_ sender: Any)
     {
-        // TODO:: implement
+        SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: "publish", completionHandler: self.performCommentAction)
+    }
+    
+    func performCommentAction(handlerParams : Any, csrfToken : String)
+    {
+        let actionParams : CommentActionData = handlerParams as! CommentActionData
+        let url: URL = URL(string: getServerStringForComment(commentActionString: actionParams.actionString))!
+        var urlRequest: URLRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue(csrfToken, forHTTPHeaderField: "X-CSRFTOKEN")
+        urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let commentData : Dictionary<String,String> = actionParams.actionJson
+        let jsonString = convertDictionaryToJsonString(dictionary: commentData)
+        urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let data = data, error == nil else
+            {                                                 // check for fundamental networking error
+                print("error=\(String(describing: error))")
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
+            {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(String(describing: response))")
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(String(describing: responseString))")
+        }
+        task.resume()
+    }
+    
+    func getServerStringForComment(commentActionString : String) -> String
+    {
+        var urlString : String = SystemVariables().URL_STRING
+        urlString.append("comments/")
+        urlString.append(commentActionString)
+        urlString.append("/")
+        
+        return urlString
+    }
+    
+    func getCommentDataAsJson() -> Dictionary<String,String>
+    {
+        var commentDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
+        commentDataAsJson["post_id"] = String(currentSnippetID)
+        if (isCurrentlyReplyingToComment)
+        {
+            commentDataAsJson["parent"] = String(commentIdReplyingTo)
+        }
+        commentDataAsJson["body"] = writeCommentBox.text
+        
+        return commentDataAsJson
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -127,9 +191,11 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         let currentComment : Comment = commentsInNestedFormat[indexPath.row]
         cell.externalCommentBox = writeCommentBox
         cell.replyingToBox = replyingToView
-        cell.snippetID = currentComment.id
         cell.closeReplyButton = closeReplyButton
+        cell.commentID = currentComment.id
+        cell.deleteButtonAvailable = currentComment.isWrittenByCurrentUser
         cell.setCellConstraintsAccordingToLevel(commentLevel: currentComment.level)
+        cell.viewController = self
         
         cell.body.text = currentComment.body
         cell.date.text = getTimeFromDateString(dateString: currentComment.date)

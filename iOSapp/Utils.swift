@@ -31,6 +31,20 @@ func removePaddingFromTextView(textView : UITextView)
     textView.textContainer.lineFragmentPadding = 0
 }
 
+func getWidthOfSingleChar(font : UIFont) -> Float
+{
+    let text = NSAttributedString(string: "a", attributes: [NSAttributedStringKey.font : font])
+    return Float(text.size().width)
+}
+
+func addFontAndForegroundColorToView(textView : UITextView, newFont : Any, newColor : Any)
+{
+    let attributedString : NSMutableAttributedString = textView.attributedText.mutableCopy() as! NSMutableAttributedString
+    attributedString.addAttribute(NSAttributedStringKey.font, value: newFont, range: NSRange(location: 0, length: attributedString.length))
+    attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: newColor, range: NSRange(location: 0, length: attributedString.length))
+    textView.attributedText = attributedString
+}
+
 func getTimeFromDateString(dateString : String) -> String
 {
     let dateFormatter = DateFormatter()
@@ -109,6 +123,26 @@ func getTimeFromDateString(dateString : String) -> String
 public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
 {
     return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
+}
+
+func convertDictionaryToJsonString(dictionary: Dictionary<String,String>) -> String
+{
+    var dictionaryString = ""
+    var isFirstKey = true
+    
+    for key in dictionary.keys
+    {
+        if !isFirstKey
+        {
+            dictionaryString.append("&")
+        }
+        isFirstKey = false
+        
+        dictionaryString.append(key)
+        dictionaryString.append("=")
+        dictionaryString.append(dictionary[key]!)
+    }
+    return dictionaryString
 }
 
 func UIColorFromRGB(rgbValue: UInt) -> UIColor {

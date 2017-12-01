@@ -28,19 +28,19 @@ class SnipRetrieverFromWeb
         lock.unlock()
     }
     
-    func runLogFunctionAfterGettingCsrfToken(logID : Int, logInfo : Dictionary<String,String>, completionHandler: @escaping (_ logID : Int, _ logInfo : Dictionary<String,String>, _ csrfToken : String) -> ())
+    func runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
     {
         if csrfTokenValue != ""
         {
-            completionHandler(logID, logInfo, csrfTokenValue)
+            completionHandler(functionData, csrfTokenValue)
         }
         else
         {
-            getCookiesFromServer(logID: logID, logInfo: logInfo, completionHandler: completionHandler)
+            getCookiesFromServer(handlerParams: functionData, completionHandler: completionHandler)
         }
     }
     
-    func getCookiesFromServer(logID : Int, logInfo : Dictionary<String,String>, completionHandler: @escaping (_ logID : Int, _ logInfo : Dictionary<String,String>, _ csrfToken : String) -> ())
+    func getCookiesFromServer(handlerParams : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
     {
         let url : URL = URL(string: SystemVariables().URL_STRING)!
         
@@ -64,7 +64,7 @@ class SnipRetrieverFromWeb
                     self.csrfTokenValue = cookie.value
                 }
             }
-            completionHandler(logID, logInfo, self.csrfTokenValue)
+            completionHandler(handlerParams, self.csrfTokenValue)
         }).resume()
     }
     

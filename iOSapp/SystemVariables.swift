@@ -30,6 +30,13 @@ public class SystemVariables
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
     let READ_MORE_TEXT_FONT = UIFont(name: "Helvetica", size: 15)
     
+    let LOGIN_BACKGROUND_COLOR : UIColor = UIColorFromRGB(rgbValue: 0xf6f6f6)
+    let LOGIN_BUTTON_COLOR : UIColor = UIColorFromRGB(rgbValue: 0x4d90fe)
+    
+    let TERMS_AND_CONDITIONS_FONT = UIFont(name: "Helvetica", size: 16)
+    
+    let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30
+    
     // The spacing between lines in the text
     let LINE_SPACING_IN_TEXT = CGFloat(2)
     

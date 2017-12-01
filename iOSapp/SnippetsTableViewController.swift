@@ -26,6 +26,18 @@ class SnippetsTableViewController: UITableViewController
         performSegue(withIdentifier: "showCommentsSegue", sender: self)
     }
     
+    @objc func profileButtonPressed()
+    {
+        if (LoginInformation().isLoggedIn)
+        {
+            performSegue(withIdentifier: "showProfileSegue", sender: self)
+        }
+        else
+        {
+            performSegue(withIdentifier: "showLoginSegue", sender: self)
+        }
+    }
+    
     @IBAction func refresh(_ sender: UIRefreshControl)
     {
         print("refreshing")
@@ -42,6 +54,8 @@ class SnippetsTableViewController: UITableViewController
         tableView.rowHeight = UITableViewAutomaticDimension
         
         turnNavigationBarTitleIntoButton(title: "Home")
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
         
         // Perhaps need more advanced logic here
         if (tableView.dataSource is FeedDataSource)
@@ -65,6 +79,7 @@ class SnippetsTableViewController: UITableViewController
             let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
             let allCommentsAsArray : [Comment] = currentPost.comments
             commentsViewController.commentsInNestedFormat = allCommentsAsArray// turnCommentArrayIntoNestedComments(allCommentsArray: allCommentsAsArray)
+            commentsViewController.currentSnippetID = currentPost.id
         }
     }
     
