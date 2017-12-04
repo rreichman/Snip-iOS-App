@@ -39,8 +39,9 @@ class LoginViewController : UIViewController
                         for key in jsonObj.keys
                         {
                             messageString.append("\n- ")
-                            let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
-                            messageString.append(arrayInJsonResponse as! String)
+                            //let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
+                            //messageString.append(arrayInJsonResponse as! String)
+                            messageString.append(jsonObj[key] as! String)
                         }
                         promptToUser(promptMessageTitle: "Error", promptMessageBody: messageString, viewController: self)
                     }

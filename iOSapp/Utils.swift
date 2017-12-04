@@ -8,6 +8,29 @@
 
 import UIKit
 
+func getAuthorizationString() -> String
+{
+    var tokenDeclarationString: String = "Token "
+    let tokenValueString: String = UserInformation().getUserInfo(key: "key")
+    tokenDeclarationString.append(tokenValueString)
+    
+    return tokenDeclarationString
+}
+
+func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLRequest
+{
+    let url: URL = URL(string: serverString)!
+    var urlRequest: URLRequest = URLRequest(url: url)
+    
+    urlRequest.httpMethod = "POST"
+    urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
+    urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
+    urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+    //urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
+    
+    return urlRequest
+}
+
 func storeUserInformation(authenticationToken : String)
 {
     // TODO:: allow these to come back by receiving them from server
@@ -66,7 +89,6 @@ func addFontAndForegroundColorToView(textView : UITextView, newFont : Any, newCo
 func getTimeFromDateString(dateString : String) -> String
 {
     let dateFormatter = DateFormatter()
-    //dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
     dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")

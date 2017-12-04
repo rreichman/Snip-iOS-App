@@ -72,13 +72,7 @@ public class Logger
         let logID : Int = convertedLogParams.logID
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
-        let url: URL = URL(string: getServerStringForLog(logInfo: logInfo))!
-        var urlRequest: URLRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = "POST"
-        urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
-        urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        var urlRequest = getDefaultURLRequest(serverString: getServerStringForLog(logInfo: logInfo), csrfValue: csrfValue)
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
         // Note - the current implementation is perhaps not ideal and should use JSONSerialization but otherwise need to change server side

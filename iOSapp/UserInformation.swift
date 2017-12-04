@@ -17,7 +17,13 @@ class UserInformation
 
     func getUserInfo(key: String) -> String
     {
-        return UserDefaults.standard.object(forKey: key) as! String
+        var userKey = UserDefaults.standard.object(forKey: key)
+        if (userKey == nil)
+        {
+            userKey = ""
+        }
+        
+        return userKey as! String
     }
 
     func setUserInfo(key: String, value : String)

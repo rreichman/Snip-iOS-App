@@ -102,13 +102,7 @@ class SnipRetrieverFromWeb
     
     func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, csrfToken : String, completionHandler : @escaping (_ responseString : String) -> ())
     {
-        let url: URL = URL(string: urlString)!
-        var urlRequest: URLRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = "POST"
-        urlRequest.setValue(csrfToken, forHTTPHeaderField: "X-CSRFTOKEN")
-        urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, csrfValue: csrfToken)
         
         let commentData : Dictionary<String,String> = jsonString
         let jsonString = convertDictionaryToJsonString(dictionary: commentData)
