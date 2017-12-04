@@ -81,6 +81,9 @@ class SnippetsTableViewController: UITableViewController
             commentsViewController.commentsInNestedFormat = allCommentsAsArray// turnCommentArrayIntoNestedComments(allCommentsArray: allCommentsAsArray)
             commentsViewController.currentSnippetID = currentPost.id
         }
+        
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self
     }
     
     func turnCommentArrayIntoNestedComments(allCommentsArray : [Comment]) -> [Comment]

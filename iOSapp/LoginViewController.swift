@@ -8,18 +8,12 @@
 
 import UIKit
 
-class LoginViewController : UIViewController
+class LoginViewController : GenericProgramViewController
 {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    
-    // This isn't a generic function for all screens because of the Navigation Controller
-    func segueBackToFeedAfterLogin(alertAction: UIAlertAction)
-    {
-        navigationController?.popToRootViewController(animated: true)
-    }
     
     func completeLoginAction(responseString: String)
     {
@@ -31,7 +25,7 @@ class LoginViewController : UIViewController
                     {
                         storeUserInformation(authenticationToken: jsonObj["key"] as! String)
                         
-                        promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToFeedAfterLogin)
+                        promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
                     }
                     else
                     {
@@ -41,6 +35,7 @@ class LoginViewController : UIViewController
                             messageString.append("\n- ")
                             //let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
                             //messageString.append(arrayInJsonResponse as! String)
+                            // TODO:: make this fail in tests
                             messageString.append(jsonObj[key] as! String)
                         }
                         promptToUser(promptMessageTitle: "Error", promptMessageBody: messageString, viewController: self)
@@ -74,6 +69,12 @@ class LoginViewController : UIViewController
     @IBAction func loginButtonPressed(_ sender: Any)
     {
         SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
     }
     
     @IBAction func signupButtonPressed(_ sender: Any)

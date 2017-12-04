@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuViewController : UIViewController
+class MenuViewController : GenericProgramViewController
 {
     @IBOutlet weak var termsOfServiceButton: UIButton!
     @IBOutlet weak var privacyPolicyButton: UIButton!

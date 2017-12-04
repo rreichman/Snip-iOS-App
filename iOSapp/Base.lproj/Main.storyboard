@@ -375,6 +375,7 @@
                         <outlet property="replyingToView" destination="qGh-et-U3Q" id="SRS-xB-eCq"/>
                         <outlet property="tableView" destination="p7q-t1-5rA" id="udD-vN-rQl"/>
                         <outlet property="writeCommentBox" destination="zXH-bd-82B" id="ano-1G-euO"/>
+                        <segue destination="WCf-DS-el0" kind="show" identifier="segueFromCommentsToSignup" id="ZOg-i6-g75"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5da-yM-SHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -599,29 +600,46 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="By registering you confirm that you accept the Terms and Conditions" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xd7-tc-hUC">
-                                <rect key="frame" x="20" y="517.5" width="335" height="129.5"/>
+                                <rect key="frame" x="20" y="518" width="335" height="65"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="T41-3K-rRS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KeI-TI-Krf">
+                                <rect key="frame" x="20" y="593" width="335" height="54"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <state key="normal" title="Already a Member">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="alreadyMemberButton:" destination="WCf-DS-el0" eventType="touchUpInside" id="Kaj-Ll-Caj"/>
+                                    <action selector="signupButtonPressed:" destination="PEd-TS-dlY" eventType="touchUpInside" id="fMZ-W4-85d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="33f-mb-NKT" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="0km-gd-4et"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="YZ4-be-ri0" secondAttribute="trailing" constant="20" id="4X4-Tk-ah4"/>
+                            <constraint firstItem="KeI-TI-Krf" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="4iR-4Z-0ry"/>
                             <constraint firstItem="xd7-tc-hUC" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="575-vD-TqD"/>
                             <constraint firstItem="jOr-32-jX5" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" id="7Fz-4g-bsw"/>
+                            <constraint firstItem="TA1-aI-IwE" firstAttribute="bottom" secondItem="KeI-TI-Krf" secondAttribute="bottom" constant="20" id="BXq-C4-MLd"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="43U-07-iTf" secondAttribute="trailing" constant="20" id="G3t-Ga-dGX"/>
                             <constraint firstItem="iPq-uo-tWQ" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="GRA-Vq-Mh5"/>
                             <constraint firstItem="jOr-32-jX5" firstAttribute="top" secondItem="TA1-aI-IwE" secondAttribute="top" constant="20" id="ILO-MF-Kbu"/>
                             <constraint firstItem="43U-07-iTf" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="RXG-aK-AIk"/>
                             <constraint firstItem="jOr-32-jX5" firstAttribute="trailing" secondItem="TA1-aI-IwE" secondAttribute="trailing" id="SFW-ti-xBs"/>
+                            <constraint firstItem="KeI-TI-Krf" firstAttribute="top" secondItem="xd7-tc-hUC" secondAttribute="bottom" constant="10" id="Sp7-7M-A3H"/>
                             <constraint firstItem="xd7-tc-hUC" firstAttribute="top" secondItem="Jv8-KX-M6c" secondAttribute="bottom" constant="20" id="V9W-Bv-r8C"/>
                             <constraint firstItem="43U-07-iTf" firstAttribute="top" secondItem="iPq-uo-tWQ" secondAttribute="bottom" constant="20" id="dC4-71-Sjg"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="xd7-tc-hUC" secondAttribute="trailing" constant="20" id="em9-GM-ffk"/>
                             <constraint firstItem="fCB-kk-uYq" firstAttribute="leading" secondItem="TA1-aI-IwE" secondAttribute="leading" constant="20" id="eqO-3D-8m5"/>
                             <constraint firstItem="Jv8-KX-M6c" firstAttribute="top" secondItem="43U-07-iTf" secondAttribute="bottom" constant="20" id="fbk-C8-rdB"/>
-                            <constraint firstItem="TA1-aI-IwE" firstAttribute="bottom" secondItem="xd7-tc-hUC" secondAttribute="bottom" constant="20" id="j88-c3-hbp"/>
+                            <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="KeI-TI-Krf" secondAttribute="trailing" constant="20" id="kp5-8L-Job"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="fCB-kk-uYq" secondAttribute="trailing" constant="20" id="oa2-80-laQ"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="Jv8-KX-M6c" secondAttribute="trailing" constant="20" id="q1V-wM-VAV"/>
                             <constraint firstItem="TA1-aI-IwE" firstAttribute="trailing" secondItem="iPq-uo-tWQ" secondAttribute="trailing" constant="20" id="qOX-iM-7dC"/>
@@ -643,6 +661,7 @@
                         <outlet property="registerButton" destination="Jv8-KX-M6c" id="aio-Jc-qVe"/>
                         <outlet property="secondPasswordInput" destination="43U-07-iTf" id="iEN-ZS-odA"/>
                         <outlet property="termsAndConditionsBox" destination="xd7-tc-hUC" id="dOn-Pu-Cef"/>
+                        <segue destination="PEd-TS-dlY" kind="show" identifier="segueToLoginScreenFromSignup" id="nGt-f4-GNX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Wq-1x-dF7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -791,4 +810,8 @@
         <image name="thumbsUp" width="128" height="128"/>
         <image name="userProfile" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZOg-i6-g75"/>
+        <segue reference="nGt-f4-GNX"/>
+    </inferredMetricsTieBreakers>
 </document>

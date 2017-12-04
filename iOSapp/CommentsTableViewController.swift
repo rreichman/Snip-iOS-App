@@ -10,7 +10,7 @@ import UIKit
 
 // TODO:: consider when and if to refresh the content
 
-class CommentsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate
+class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var writeCommentBox: UITextView!
@@ -29,6 +29,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorColor = UIColor.clear
@@ -38,9 +39,35 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         registerForKeyboardNotifications()
         hideReplyingToBox()
         
+        let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
+        writeCommentBox.isUserInteractionEnabled = true
+        writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
+        
         self.navigationController?.navigationBar.tintColor = UIColor.black
         // This is for the cases where there are no comments
         setTableViewBackground()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        print("preparing to segue to sign up")
+        
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self
+    }
+    
+    @objc func handleCommentClick(sender: UITapGestureRecognizer)
+    {
+        print("handling comment click")
+        if (UserInformation().isUserLoggedIn())
+        {
+            writeCommentBox.becomeFirstResponder()
+        }
+        else
+        {
+            // TODO:: before you segue, pop an alert
+            performSegue(withIdentifier: "segueFromCommentsToSignup", sender: self)
+        }
     }
     
     @IBAction func closedRepliedTo(_ sender: Any)

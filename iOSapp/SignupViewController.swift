@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignupViewController : UIViewController
+class SignupViewController : GenericProgramViewController
 {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var termsAndConditionsBox: UITextView!
@@ -18,6 +18,26 @@ class SignupViewController : UIViewController
     @IBOutlet weak var lastNameSignupField: UITextField!
     @IBOutlet weak var firstPasswordInput: UITextField!
     @IBOutlet weak var secondPasswordInput: UITextField!
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+        // Making the "Back" button black instead of blue
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        
+        self.view.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        registerButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
+        
+        termsAndConditionsBox.attributedText = getTermsAndConditionsString()
+    }
+    
+    @IBAction func alreadyMemberButton(_ sender: Any)
+    {
+        
+        performSegue(withIdentifier: "segueToLoginScreenFromSignup", sender: self)
+    }
     
     @IBAction func pressedRegisterButton(_ sender: Any)
     {
@@ -100,12 +120,6 @@ class SignupViewController : UIViewController
         SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: getSignupDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
     }
     
-    // This isn't a generic function for all screens because of the Navigation Controller
-    func segueBackToFeedAfterSignup(alertAction: UIAlertAction)
-    {
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
     func completeSignupAction(responseString: String)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
@@ -116,7 +130,7 @@ class SignupViewController : UIViewController
                 {
                         storeUserInformation(authenticationToken: jsonObj["key"] as! String)
                     
-                        promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToFeedAfterSignup)
+                        promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
                 }
                 else
                 {
@@ -156,19 +170,5 @@ class SignupViewController : UIViewController
         termsAttributedString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().TERMS_AND_CONDITIONS_FONT!, range: NSMakeRange(0, fullText.count))
         
         return termsAttributedString
-    }
-    
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        
-        // Making the "Back" button black instead of blue
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        
-        self.view.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        registerButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
-    
-        termsAndConditionsBox.attributedText = getTermsAndConditionsString()
     }
 }

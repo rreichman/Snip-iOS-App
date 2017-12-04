@@ -8,19 +8,14 @@
 
 import UIKit
 
-class ProfileViewController : UIViewController
+class ProfileViewController : GenericProgramViewController
 {
     @IBOutlet weak var logoutButton: UIButton!
-    
-    func segueBackToFeedAfterLogoff(alertAction: UIAlertAction)
-    {
-        navigationController?.popToRootViewController(animated: true)
-    }
     
     @IBAction func logoutButton(_ sender: Any)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToFeedAfterLogoff)
+        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
     }
     
     override func viewDidLoad()
