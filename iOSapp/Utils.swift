@@ -66,7 +66,8 @@ func addFontAndForegroundColorToView(textView : UITextView, newFont : Any, newCo
 func getTimeFromDateString(dateString : String) -> String
 {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+    //dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+    dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm:ss"
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     let dateAsDataStructure = dateFormatter.date(from : dateString)

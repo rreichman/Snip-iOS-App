@@ -26,7 +26,9 @@ class ProfileViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+     
+        logoutButton.layer.borderColor = UIColor.black.cgColor
+        logoutButton.layer.borderWidth = 0.5
         // Making the "Back" button black instead of blue
         self.navigationController?.navigationBar.tintColor = UIColor.black
     }
