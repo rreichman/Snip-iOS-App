@@ -26,7 +26,10 @@ func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLReques
     urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-    //urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
+    if (UserInformation().isUserLoggedIn())
+    {
+        urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
+    }
     
     return urlRequest
 }
