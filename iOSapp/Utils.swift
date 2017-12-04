@@ -8,9 +8,27 @@
 
 import UIKit
 
+func storeUserInformation(authenticationToken : String)
+{
+    // TODO:: allow these to come back by receiving them from server
+    //UserInformation().setUserInfo(key: UserInformation().emailKey, value: self.emailSignupField.text!)
+    //UserInformation().setUserInfo(key: UserInformation().firstNameKey, value: self.firstNameSignupField.text!)
+    //UserInformation().setUserInfo(key: UserInformation().lastNameKey, value: self.lastNameSignupField.text!)
+    UserInformation().setUserInfo(key: UserInformation().authenticationTokenKey, value: authenticationToken)
+}
+
 func getUniqueDeviceID() -> String
 {
     return UIDevice.current.identifierForVendor!.uuidString
+}
+
+func promptToUser(promptMessageTitle: String, promptMessageBody: String, viewController: UIViewController, completionHandler : ((UIAlertAction) -> Void)? = nil)
+{
+    let alert = UIAlertController(title: promptMessageTitle, message: promptMessageBody, preferredStyle: UIAlertControllerStyle.alert)
+    
+    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: completionHandler))
+    
+    viewController.present(alert, animated: true, completion: nil)
 }
 
 func setConstraintConstantForView(constraintName : String, view : UIView, constant : CGFloat)

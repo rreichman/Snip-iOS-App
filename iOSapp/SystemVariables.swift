@@ -35,6 +35,7 @@ public class SystemVariables
     
     let TERMS_AND_CONDITIONS_FONT = UIFont(name: "Helvetica", size: 16)
     
+    let PASSWORD_LENGTH_LIMIT = 6
     let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30
     
     // The spacing between lines in the text

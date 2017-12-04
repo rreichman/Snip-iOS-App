@@ -15,9 +15,64 @@ class LoginViewController : UIViewController
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
+    // This isn't a generic function for all screens because of the Navigation Controller
+    func segueBackToFeedAfterLogin(alertAction: UIAlertAction)
+    {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func completeLoginAction(responseString: String)
+    {
+        if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
+        {
+            DispatchQueue.main.async
+                {
+                    if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
+                    {
+                        storeUserInformation(authenticationToken: jsonObj["key"] as! String)
+                        
+                        promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToFeedAfterLogin)
+                    }
+                    else
+                    {
+                        var messageString : String = ""
+                        for key in jsonObj.keys
+                        {
+                            messageString.append("\n- ")
+                            let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
+                            messageString.append(arrayInJsonResponse as! String)
+                        }
+                        promptToUser(promptMessageTitle: "Error", promptMessageBody: messageString, viewController: self)
+                    }
+            }
+        }
+        else
+        {
+            // TODO:: answer this
+            print("what to do here?")
+        }
+    }
+    
+    func getLoginDataAsJson() -> Dictionary<String,String>
+    {
+        var loginData : Dictionary<String,String> = Dictionary<String,String>()
+        
+        loginData["email"] = emailTextField.text
+        loginData["password"] = passwordTextField.text
+        
+        return loginData
+    }
+    
+    func performSignupAction(handlerParams : Any, csrfToken : String)
+    {
+        var urlString : String = SystemVariables().URL_STRING
+        urlString.append("rest-auth/login/")
+        SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: getLoginDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeLoginAction)
+    }
+    
     @IBAction func loginButtonPressed(_ sender: Any)
     {
-        print("login pressed")
+        SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
     }
     
     @IBAction func signupButtonPressed(_ sender: Any)
@@ -25,8 +80,6 @@ class LoginViewController : UIViewController
         print("signup pressed")
         performSegue(withIdentifier: "showSignupSegue", sender: self)
     }
-    
-    // TODO:: make password invisible
     
     override func viewDidLoad()
     {

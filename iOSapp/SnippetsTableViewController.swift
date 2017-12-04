@@ -28,7 +28,7 @@ class SnippetsTableViewController: UITableViewController
     
     @objc func profileButtonPressed()
     {
-        if (LoginInformation().isLoggedIn)
+        if (UserInformation().isUserLoggedIn())
         {
             performSegue(withIdentifier: "showProfileSegue", sender: self)
         }

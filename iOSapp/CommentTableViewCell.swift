@@ -34,7 +34,7 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     {
         super.awakeFromNib()
         
-        //deleteButton.isHidden = !deleteButtonAvailable
+        deleteButton.isHidden = !deleteButtonAvailable
         self.selectionStyle = UITableViewCellSelectionStyle.none
         setCellStyles()
         makeReplyButtonClickable()
