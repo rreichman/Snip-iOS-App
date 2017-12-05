@@ -17,7 +17,6 @@ public class Comment
     var parent : Int = 0
     var writer : SnipUser = SnipUser()
     var subComments : [Comment] = []
-    var isWrittenByCurrentUser : Bool = false
     
     init(commentData: [String : Any])
     {
@@ -36,6 +35,5 @@ public class Comment
         }
         
         writer = SnipUser(userData: commentData["user"] as! [String : Any])
-        isWrittenByCurrentUser = commentData["delete_allowed"] as! Bool
     }
 }

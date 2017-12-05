@@ -217,12 +217,18 @@
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Date" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnF-pi-gvU">
-                                                            <rect key="frame" x="9" y="72" width="41" height="112.5"/>
+                                                            <rect key="frame" x="9" y="72" width="50" height="112.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="blB-CH-BGL"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Reply" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJz-KX-1F1">
-                                                            <rect key="frame" x="60" y="72" width="46" height="112.5"/>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Reply" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJz-KX-1F1">
+                                                            <rect key="frame" x="69" y="72" width="55" height="112.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="55" id="oUv-ix-shA"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
@@ -233,8 +239,11 @@
                                                                 <constraint firstAttribute="height" constant="10" id="Xoj-kZ-K3P"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Delete" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ss-L4-qCu">
-                                                            <rect key="frame" x="116" y="72" width="52" height="112.5"/>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Delete" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ss-L4-qCu" userLabel="Delete Button">
+                                                            <rect key="frame" x="134" y="72" width="55" height="112.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="55" id="dBQ-DA-qgG"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
@@ -274,9 +283,10 @@
                                             <outlet property="body" destination="0nI-Um-Y5C" id="iDN-uT-zEn"/>
                                             <outlet property="bufferBetweenComments" destination="ju1-lt-4Vd" id="6Ec-gU-nG4"/>
                                             <outlet property="date" destination="vnF-pi-gvU" id="dZp-4D-jhi"/>
-                                            <outlet property="deleteButton" destination="7ss-L4-qCu" id="GNc-3u-fjX"/>
+                                            <outlet property="deleteButton" destination="7ss-L4-qCu" id="unX-0t-DTp"/>
                                             <outlet property="leftConstraint" destination="AqW-k1-obW" id="qcB-eE-oxM"/>
                                             <outlet property="replyButton" destination="hJz-KX-1F1" id="xqx-ub-RB3"/>
+                                            <outlet property="replyButtonWidthConstraint" destination="oUv-ix-shA" id="hgV-94-XgX"/>
                                             <outlet property="surroundingView" destination="BFX-nP-D0Y" id="OsW-dh-Ox4"/>
                                             <outlet property="writer" destination="BrF-ES-2US" id="EMg-cS-vcd"/>
                                         </connections>

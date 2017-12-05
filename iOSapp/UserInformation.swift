@@ -14,6 +14,7 @@ class UserInformation
     var emailKey : String = "email"
     var firstNameKey : String = "firstname"
     var lastNameKey : String = "lastname"
+    var usernameKey : String = "username"
 
     func getUserInfo(key: String) -> String
     {
@@ -42,5 +43,6 @@ class UserInformation
         setUserInfo(key: emailKey, value: "")
         setUserInfo(key: firstNameKey, value: "")
         setUserInfo(key: lastNameKey, value: "")
+        setUserInfo(key: usernameKey, value: "")
     }
 }

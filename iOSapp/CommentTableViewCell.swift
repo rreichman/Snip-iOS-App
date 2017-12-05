@@ -16,7 +16,10 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     @IBOutlet weak var replyButton: UITextView!
     @IBOutlet weak var deleteButton: UITextView!
     @IBOutlet weak var surroundingView: UIView!
+    
     @IBOutlet weak var bufferBetweenComments: UIImageView!
+    
+    @IBOutlet weak var replyButtonWidthConstraint: NSLayoutConstraint!
     
     // TODO:: perhaps this isn't ideal
     var viewController : CommentsTableViewController = CommentsTableViewController()
@@ -28,13 +31,10 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     
-    var deleteButtonAvailable : Bool = true
-    
     override func awakeFromNib()
     {
         super.awakeFromNib()
         
-        deleteButton.isHidden = !deleteButtonAvailable
         self.selectionStyle = UITableViewCellSelectionStyle.none
         setCellStyles()
         makeReplyButtonClickable()
@@ -62,16 +62,23 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     
     @objc func replyButtonPressed(sender: UITapGestureRecognizer)
     {
-        externalCommentBox.becomeFirstResponder()
-        setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: CGFloat(SystemVariables().DEFAULT_HEIGHT_OF_REPLYING_TO_BAR))
-        let cellChosen : CommentTableViewCell = sender.view?.superview?.superview?.superview as! CommentTableViewCell
-        let replyingToString : String = "Replying to " + cellChosen.writer.text
-        replyingToBox.attributedText = NSAttributedString(string: replyingToString)
-        replyingToBox.isHidden = false
-        closeReplyButton.isHidden = false
-        
-        viewController.isCurrentlyReplyingToComment = true
-        viewController.commentIdReplyingTo = commentID
+        if (UserInformation().isUserLoggedIn())
+        {
+            externalCommentBox.becomeFirstResponder()
+            setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: CGFloat(SystemVariables().DEFAULT_HEIGHT_OF_REPLYING_TO_BAR))
+            let cellChosen : CommentTableViewCell = sender.view?.superview?.superview?.superview as! CommentTableViewCell
+            let replyingToString : String = "Replying to " + cellChosen.writer.text
+            replyingToBox.attributedText = NSAttributedString(string: replyingToString)
+            replyingToBox.isHidden = false
+            closeReplyButton.isHidden = false
+            
+            viewController.isCurrentlyReplyingToComment = true
+            viewController.commentIdReplyingTo = commentID
+        }
+        else
+        {
+            viewController.popAlertController()
+        }
     }
     
     @objc func deleteButtonPressed(sender: UITapGestureRecognizer)

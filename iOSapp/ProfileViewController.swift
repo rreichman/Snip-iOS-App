@@ -12,10 +12,20 @@ class ProfileViewController : GenericProgramViewController
 {
     @IBOutlet weak var logoutButton: UIButton!
     
-    @IBAction func logoutButton(_ sender: Any)
+    func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
+        promptToUser(promptMessageTitle: "Log off successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
+    }
+    
+    @IBAction func logoutButton(_ sender: Any)
+    {
+        let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to log off?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        let alertActionOk : UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: self.logout)
+        let alertActionCancel : UIAlertAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: nil)
+        alertController.addAction(alertActionOk)
+        alertController.addAction(alertActionCancel)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func viewDidLoad()

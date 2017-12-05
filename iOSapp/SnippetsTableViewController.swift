@@ -9,6 +9,7 @@
 import UIKit
 import Cache
 
+// TODO:: This should be a GenericProgramViewController
 class SnippetsTableViewController: UITableViewController
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
@@ -77,41 +78,12 @@ class SnippetsTableViewController: UITableViewController
             print("seguing to comments")
             let commentsViewController = segue.destination as! CommentsTableViewController
             let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
-            let allCommentsAsArray : [Comment] = currentPost.comments
-            commentsViewController.commentsInNestedFormat = allCommentsAsArray// turnCommentArrayIntoNestedComments(allCommentsArray: allCommentsAsArray)
+            commentsViewController.rawCommentArray = currentPost.comments
             commentsViewController.currentSnippetID = currentPost.id
         }
         
         let nextViewController = segue.destination as! GenericProgramViewController
         nextViewController.viewControllerToReturnTo = self
-    }
-    
-    func turnCommentArrayIntoNestedComments(allCommentsArray : [Comment]) -> [Comment]
-    {
-        let allCommentsNested : [Comment] = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: 0)
-        for commentOnLevelZero in allCommentsNested
-        {
-            commentOnLevelZero.subComments = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: commentOnLevelZero.id)
-            for commentOnLevelOne in commentOnLevelZero.subComments
-            {
-                // Note - If comments were deeper recursion would probably make sense but not worth it now
-                commentOnLevelOne.subComments = getCommentsWithGivenParent(allCommentsArray: allCommentsArray, parent: commentOnLevelOne.id)
-            }
-        }
-        return allCommentsNested
-    }
-    
-    func getCommentsWithGivenParent(allCommentsArray : [Comment], parent: Int) -> [Comment]
-    {
-        var subComments : [Comment] = []
-        for comment in allCommentsArray
-        {
-            if comment.parent == parent
-            {
-                subComments.append(comment)
-            }
-        }
-        return subComments
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)

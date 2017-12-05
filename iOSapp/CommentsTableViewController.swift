@@ -8,8 +8,7 @@
 
 import UIKit
 
-// TODO:: consider when and if to refresh the content
-
+// TODO:: spread this class to another one
 class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
@@ -21,7 +20,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
-    var commentsInNestedFormat : [Comment] = []
+    var rawCommentArray : [Comment] = []
     var currentSnippetID : Int = 0
     var isCurrentlyReplyingToComment : Bool = false
     var commentIdReplyingTo : Int = 0
@@ -29,6 +28,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        //commentsInNestedFormat = turnCommentArrayIntoNestedComments(allCommentsArray: rawCommentArray)
+        rawCommentArray = getCommentArraySortedAndReadyForPresentation(commentArray: rawCommentArray)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -56,6 +57,21 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         nextViewController.viewControllerToReturnTo = self
     }
     
+    func segueToSignup(action: UIAlertAction)
+    {
+        performSegue(withIdentifier: "segueFromCommentsToSignup", sender: self)
+    }
+    
+    func popAlertController()
+    {
+        let alertController : UIAlertController = UIAlertController(title: "To Comment You Need to Sign Up", message: "It only takes a few seconds...", preferredStyle: UIAlertControllerStyle.alert)
+        let alertActionSignup : UIAlertAction = UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.default, handler: self.segueToSignup)
+        let alertActionStayHere : UIAlertAction = UIAlertAction(title: "Stay Here", style: UIAlertActionStyle.default, handler: nil)
+        alertController.addAction(alertActionSignup)
+        alertController.addAction(alertActionStayHere)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func handleCommentClick(sender: UITapGestureRecognizer)
     {
         print("handling comment click")
@@ -65,8 +81,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            // TODO:: before you segue, pop an alert
-            performSegue(withIdentifier: "segueFromCommentsToSignup", sender: self)
+            popAlertController()
         }
     }
     
@@ -88,7 +103,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func setTableViewBackground()
     {
-        if (commentsInNestedFormat.count > 0)
+        if (rawCommentArray.count > 0)
         {
             tableView.separatorStyle = .singleLine
             tableView.backgroundView = nil
@@ -126,9 +141,12 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
     {
-        var info = notification.userInfo!
-        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        bottomConstraint.constant = keyboardHeight!
+        bottomConstraint.constant = 0
+        // Note - This is supposed to smoothen the constraint update
+        UIView.animate(withDuration: 1)
+        {
+            self.view.layoutIfNeeded()
+        }
     }
     
     func setCommentBoxStyle()
@@ -155,10 +173,51 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentAction)
     }
     
+    func scrollToCommentInTable(commentID: Int)
+    {
+        var index = 0
+        for i in 1...rawCommentArray.count
+        {
+            let comment : Comment = rawCommentArray[i]
+            if(comment.id == commentID)
+            {
+                index = i
+                break
+            }
+        }
+        
+        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+    }
+    
+    func handlePostedComment(responseString: String)
+    {
+        if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
+        {
+            let postedComment = Comment(commentData: jsonObj)
+            rawCommentArray.append(postedComment)
+            rawCommentArray = getCommentArraySortedAndReadyForPresentation(commentArray: rawCommentArray)
+            DispatchQueue.main.async
+            {
+                self.tableView.reloadData()
+                self.hideReplyingToBox()
+                self.writeCommentBox.endEditing(true)
+                self.writeCommentBox.text = ""
+                
+                self.scrollToCommentInTable(commentID: postedComment.id)
+            }
+            
+            print("test")
+        }
+        else
+        {
+            // TODO:: What happens here?
+        }
+    }
+    
     func performCommentAction(handlerParams : Any, csrfToken : String)
     {
         let actionParams : CommentActionData = handlerParams as! CommentActionData
-        SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken)
+        SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handlePostedComment)
     }
     
     func getServerStringForComment(commentActionString : String) -> String
@@ -187,12 +246,24 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-        let currentComment : Comment = commentsInNestedFormat[indexPath.row]
+        let currentComment : Comment = rawCommentArray[indexPath.row]
         cell.externalCommentBox = writeCommentBox
         cell.replyingToBox = replyingToView
         cell.closeReplyButton = closeReplyButton
         cell.commentID = currentComment.id
-        cell.deleteButtonAvailable = currentComment.isWrittenByCurrentUser
+        print(currentComment.body)
+        print(currentComment.writer)
+        print(currentComment.level)
+        if (currentComment.level == 2)
+        {
+            cell.replyButtonWidthConstraint.constant = 0
+        }
+        else
+        {
+            cell.replyButtonWidthConstraint.constant = 55
+        }
+        // Note - You can only delete comment if you're the owner (i.e. username is same as yours)
+        cell.deleteButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))
         cell.setCellConstraintsAccordingToLevel(commentLevel: currentComment.level)
         cell.viewController = self
         
@@ -204,7 +275,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return commentsInNestedFormat.count
+        return rawCommentArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
