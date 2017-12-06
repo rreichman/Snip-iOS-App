@@ -18,6 +18,7 @@ class SplashScreenViewController: UIViewController
     {
         super.viewDidLoad()
         Logger().logStartedSplashScreen()
+        UserInformation().getUserInformationFromWeb()
         splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
     }
     

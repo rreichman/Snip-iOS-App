@@ -81,13 +81,21 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         }
     }
     
-    @objc func deleteButtonPressed(sender: UITapGestureRecognizer)
+    func deleteComment(alertAction: UIAlertAction)
     {
         var deleteCommandJson : Dictionary<String,String> = Dictionary<String,String>()
         deleteCommandJson["id"] = String(commentID)
-        SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson), completionHandler: viewController.performCommentAction)
-        
-        // TODO:: delete comment
+        WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson), completionHandler: viewController.performCommentDeleteAction)
+    }
+    
+    @objc func deleteButtonPressed(sender: UITapGestureRecognizer)
+    {
+        let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to delete this comment?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        let alertActionOk : UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: self.deleteComment)
+        let alertActionCancel : UIAlertAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: nil)
+        alertController.addAction(alertActionOk)
+        alertController.addAction(alertActionCancel)
+        viewController.present(alertController, animated: true, completion: nil)
     }
     
     func setCellStyles()

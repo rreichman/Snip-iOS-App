@@ -11,16 +11,17 @@ import UIKit
 class ProfileViewController : GenericProgramViewController
 {
     @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var welcomeText: UITextView!
     
     func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log off successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
+        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
     }
     
     @IBAction func logoutButton(_ sender: Any)
     {
-        let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to log off?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to log out?", message: "", preferredStyle: UIAlertControllerStyle.alert)
         let alertActionOk : UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: self.logout)
         let alertActionCancel : UIAlertAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: nil)
         alertController.addAction(alertActionOk)
@@ -31,6 +32,14 @@ class ProfileViewController : GenericProgramViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        let userFirstName : String = UserInformation().getUserInfo(key: UserInformation().firstNameKey)
+        var welcomeTextString : String = "Hey "
+        welcomeTextString.append(userFirstName)
+        welcomeTextString.append("!")
+        let welcomeTextContinued : String = "\n\nWelcome to your personal profile. \n\nHere we will present your personal information, including likes, notifications, and more."
+        welcomeTextString.append(welcomeTextContinued)
+        welcomeText.text = welcomeTextString
      
         logoutButton.layer.borderColor = UIColor.black.cgColor
         logoutButton.layer.borderWidth = 0.5

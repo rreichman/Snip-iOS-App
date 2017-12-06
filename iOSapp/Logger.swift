@@ -44,7 +44,7 @@ public class Logger
     {
         for logID in logsNotYetSentToServer.keys
         {
-            SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(
+            WebUtils().runFunctionAfterGettingCsrfToken(
                 functionData: LogInfo(receivedLogID: logID, receivedLogInfo: logsNotYetSentToServer[logID]!), completionHandler: self.sendLogToServer)
         }
     }

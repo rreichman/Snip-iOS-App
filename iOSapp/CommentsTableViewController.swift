@@ -28,7 +28,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        //commentsInNestedFormat = turnCommentArrayIntoNestedComments(allCommentsArray: rawCommentArray)
         rawCommentArray = getCommentArraySortedAndReadyForPresentation(commentArray: rawCommentArray)
         
         tableView.delegate = self
@@ -170,7 +169,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @IBAction func postButtonClicked(_ sender: Any)
     {
-        SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentAction)
+        WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
     }
     
     func scrollToCommentInTable(commentID: Int)
@@ -214,10 +213,57 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
     }
     
-    func performCommentAction(handlerParams : Any, csrfToken : String)
+    func handleDeletedComment(responseString: String)
+    {
+        DispatchQueue.main.async
+        {
+            if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
+            {
+                if jsonObj.keys.contains("message")
+                {
+                    print(jsonObj)
+                    let deleteMessage : String = jsonObj["message"] as! String
+                    if deleteMessage == "success"
+                    {
+                        let deletedIDs : [Int] = jsonObj["deleted"] as! [Int]
+                        self.rawCommentArray = self.getCommentListWithoutDeletedComments(commentArray: self.rawCommentArray, deletedIDs: deletedIDs)
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+            else
+            {
+                promptToUser(promptMessageTitle: "Error", promptMessageBody: "Sorry, your comment was not deleted", viewController: self)
+            }
+        }
+    }
+    
+    func getCommentListWithoutDeletedComments(commentArray: [Comment], deletedIDs: [Int]) -> [Comment]
+    {
+        var newCommentArray : [Comment] = []
+        
+        for comment in commentArray
+        {
+            //if comment.id in deletedIDs
+            if (!deletedIDs.contains(comment.id))
+            {
+                newCommentArray.append(comment)
+            }
+        }
+        
+        return newCommentArray
+    }
+    
+    func performCommentPostAction(handlerParams : Any, csrfToken : String)
     {
         let actionParams : CommentActionData = handlerParams as! CommentActionData
-        SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handlePostedComment)
+        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handlePostedComment)
+    }
+    
+    func performCommentDeleteAction(handlerParams: Any, csrfToken : String)
+    {
+        let actionParams : CommentActionData = handlerParams as! CommentActionData
+        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handleDeletedComment)
     }
     
     func getServerStringForComment(commentActionString : String) -> String

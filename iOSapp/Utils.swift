@@ -17,6 +17,24 @@ func getAuthorizationString() -> String
     return tokenDeclarationString
 }
 
+func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
+{
+    var messageString : String = ""
+    for key in jsonObj.keys
+    {
+        if (jsonObj.keys.count > 1)
+        {
+            messageString.append("\n- ")
+        }
+        let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
+        messageString.append(key)
+        messageString.append(": ")
+        messageString.append(arrayInJsonResponse as! String)
+    }
+    
+    return messageString
+}
+
 func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!

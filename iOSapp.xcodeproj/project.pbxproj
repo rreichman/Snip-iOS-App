@@ -38,6 +38,8 @@
 		7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC591FBF79E400771820 /* Logger.swift */; };
 		7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */; };
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
+		7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */; };
+		7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93CAE41FD747710044C246 /* WebUtils.swift */; };
 		7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */; };
 		7DA1A94F1FCB7CF600ABB0C4 /* SnipUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */; };
 		7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */; };
@@ -108,6 +110,8 @@
 		7D91DC591FBF79E400771820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MixpanelType+ToString.swift"; sourceTree = "<group>"; };
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordController.swift; sourceTree = "<group>"; };
+		7D93CAE41FD747710044C246 /* WebUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUtils.swift; sourceTree = "<group>"; };
 		7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipUser.swift; sourceTree = "<group>"; };
 		7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipImage.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 				7D7F25CE1FD10955000D9860 /* SignupViewController.swift */,
 				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
+				7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */,
 				7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */,
 				7D839E2E1FC6843E007501F2 /* CommentTableViewCell.swift */,
 				7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */,
@@ -218,6 +223,7 @@
 				7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */,
 				7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */,
 				7D5C43461FBA6FF900551E49 /* Utils.swift */,
+				7D93CAE41FD747710044C246 /* WebUtils.swift */,
 				7D91DC591FBF79E400771820 /* Logger.swift */,
 				7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */,
 				7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */,
@@ -576,6 +582,7 @@
 				7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */,
 				7D820EB11FCE22F800404FA2 /* CommentsTableViewController.swift in Sources */,
 				7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */,
+				7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */,
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,
 				7D7F25CF1FD10955000D9860 /* SignupViewController.swift in Sources */,
 				7D7F25C51FD0D6EA000D9860 /* CommentActionData.swift in Sources */,
@@ -593,6 +600,7 @@
 				7D820EAF1FCD19DB00404FA2 /* UITextView+Placeholder.swift in Sources */,
 				7D44B56D1FA47264005482C9 /* NoError.swift in Sources */,
 				7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */,
+				7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */,
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,

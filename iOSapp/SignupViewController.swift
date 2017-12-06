@@ -43,7 +43,7 @@ class SignupViewController : GenericProgramViewController
     {
         if (validateRegisterData())
         {
-            SnipRetrieverFromWeb().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
+            WebUtils().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
         }
     }
     
@@ -117,7 +117,7 @@ class SignupViewController : GenericProgramViewController
     {
         var urlString : String = SystemVariables().URL_STRING
         urlString.append("rest-auth/registration/")
-        SnipRetrieverFromWeb().postContentWithJsonBody(jsonString: getSignupDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
+        WebUtils().postContentWithJsonBody(jsonString: getSignupDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
     }
     
     func completeSignupAction(responseString: String)
@@ -129,19 +129,14 @@ class SignupViewController : GenericProgramViewController
                 if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
                 {
                         storeUserInformation(authenticationToken: jsonObj["key"] as! String)
+                        UserInformation().getUserInformationFromWeb()
                     
                         promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
                 }
                 else
                 {
-                        var messageString : String = ""
-                        for key in jsonObj.keys
-                        {
-                            messageString.append("\n- ")
-                            let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
-                            messageString.append(arrayInJsonResponse as! String)
-                        }
-                        promptToUser(promptMessageTitle: "Error", promptMessageBody: messageString, viewController: self)
+                    let errorMessageString : String = getErrorMessageFromResponse(jsonObj: jsonObj)
+                    promptToUser(promptMessageTitle: "Error", promptMessageBody: errorMessageString, viewController: self)
                 }
             }
         }
