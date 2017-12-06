@@ -20,15 +20,18 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
-    var rawCommentArray : [Comment] = []
+    var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
+    //var rawCommentArray : [Comment] = []
     var currentSnippetID : Int = 0
     var isCurrentlyReplyingToComment : Bool = false
     var commentIdReplyingTo : Int = 0
+    var noDataLabel: UILabel = UILabel()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        rawCommentArray = getCommentArraySortedAndReadyForPresentation(commentArray: rawCommentArray)
+        snippetsViewController = viewControllerToReturnTo as! SnippetsTableViewController
+        setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -46,6 +49,16 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         self.navigationController?.navigationBar.tintColor = UIColor.black
         // This is for the cases where there are no comments
         setTableViewBackground()
+    }
+    
+    func getCommentArray() -> [Comment]
+    {
+        return (snippetsViewController.tableView.dataSource as! FeedDataSource).getSnippetComments(snippetID: currentSnippetID)
+    }
+    
+    func setCommentArray(newCommentArray: [Comment])
+    {
+        (snippetsViewController.tableView.dataSource as! FeedDataSource).setSnippetComments(snippetID: currentSnippetID, newComments: newCommentArray)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -102,14 +115,14 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func setTableViewBackground()
     {
-        if (rawCommentArray.count > 0)
+        if (getCommentArray().count > 0)
         {
             tableView.separatorStyle = .singleLine
             tableView.backgroundView = nil
         }
         else
         {
-            let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = "Be the first to comment."
             noDataLabel.textColor     = UIColor.black
             noDataLabel.textAlignment = .center
@@ -175,9 +188,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func scrollToCommentInTable(commentID: Int)
     {
         var index = 0
-        for i in 1...rawCommentArray.count
+        for i in 0...getCommentArray().count-1
         {
-            let comment : Comment = rawCommentArray[i]
+            let comment : Comment = getCommentArray()[i]
             if(comment.id == commentID)
             {
                 index = i
@@ -193,8 +206,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
             let postedComment = Comment(commentData: jsonObj)
-            rawCommentArray.append(postedComment)
-            rawCommentArray = getCommentArraySortedAndReadyForPresentation(commentArray: rawCommentArray)
+            var newCommentArray : [Comment] = getCommentArray()
+            newCommentArray.append(postedComment)
+            setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: newCommentArray))
             DispatchQueue.main.async
             {
                 self.tableView.reloadData()
@@ -202,6 +216,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                 self.writeCommentBox.endEditing(true)
                 self.writeCommentBox.text = ""
                 
+                self.noDataLabel.isHidden = true
                 self.scrollToCommentInTable(commentID: postedComment.id)
             }
             
@@ -226,7 +241,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                     if deleteMessage == "success"
                     {
                         let deletedIDs : [Int] = jsonObj["deleted"] as! [Int]
-                        self.rawCommentArray = self.getCommentListWithoutDeletedComments(commentArray: self.rawCommentArray, deletedIDs: deletedIDs)
+                        self.setCommentArray(newCommentArray: self.getCommentListWithoutDeletedComments(commentArray: self.getCommentArray(), deletedIDs: deletedIDs))
+                        self.setTableViewBackground()
                         self.tableView.reloadData()
                     }
                 }
@@ -292,7 +308,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-        let currentComment : Comment = rawCommentArray[indexPath.row]
+        let currentComment : Comment = getCommentArray()[indexPath.row]
         cell.externalCommentBox = writeCommentBox
         cell.replyingToBox = replyingToView
         cell.closeReplyButton = closeReplyButton
@@ -321,7 +337,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return rawCommentArray.count
+        return getCommentArray().count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat

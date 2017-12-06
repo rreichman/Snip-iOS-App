@@ -78,7 +78,6 @@ class SnippetsTableViewController: UITableViewController
             print("seguing to comments")
             let commentsViewController = segue.destination as! CommentsTableViewController
             let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
-            commentsViewController.rawCommentArray = currentPost.comments
             commentsViewController.currentSnippetID = currentPost.id
         }
         
@@ -140,7 +139,7 @@ class SnippetsTableViewController: UITableViewController
         if numberOfVisibleRows > 2
         {
             // Getting all the middle rows
-            for i in 1...numberOfVisibleRows-1
+            for i in 0...numberOfVisibleRows-1
             {
                 snippetIDs.append(dataSource.postDataArray[indexPathsForVisibleRows[i].row].id)
             }

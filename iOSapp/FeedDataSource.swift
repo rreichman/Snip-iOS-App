@@ -59,6 +59,32 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
     }
     
+    func getSnippetComments(snippetID : Int) -> [Comment]
+    {
+        for i in 0...postDataArray.count-1
+        {
+            if (postDataArray[i].id == snippetID)
+            {
+                return postDataArray[i].comments
+            }
+        }
+        
+        return []
+    }
+    
+    func setSnippetComments(snippetID : Int, newComments : [Comment])
+    {
+        for i in 0...postDataArray.count-1
+        {
+            if (postDataArray[i].id == snippetID)
+            {
+                let newPostData = postDataArray[i]
+                newPostData.comments = newComments
+                postDataArray[i] = newPostData
+            }
+        }
+    }
+    
     // Cell UI management functions
     
     func makeCellClickable(tableViewCell : SnippetTableViewCell)
