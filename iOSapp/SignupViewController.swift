@@ -10,6 +10,9 @@ import UIKit
 
 class SignupViewController : GenericProgramViewController
 {
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var termsAndConditionsBox: UITextView!
     
@@ -31,7 +34,56 @@ class SignupViewController : GenericProgramViewController
         registerButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
         
         termsAndConditionsBox.attributedText = getTermsAndConditionsString()
+        
+        registerForKeyboardNotifications()
     }
+    
+    // TODO:: Perhaps unite with other register for notifications function
+    func registerForKeyboardNotifications()
+    {
+        //Adding notifications on keyboard appearing
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWasShown(notification: NSNotification)
+    {
+        var info = notification.userInfo!
+        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
+        scrollViewBottomConstraint.constant = keyboardHeight!
+        // Note - This is supposed to smoothen the constraint update
+        UIView.animate(withDuration: 1)
+        {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(notification: NSNotification)
+    {
+        scrollViewBottomConstraint.constant = 0
+        // Note - This is supposed to smoothen the constraint update
+        UIView.animate(withDuration: 1)
+        {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    /*func keyboardWasShown(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
+        
+        var contentInset:UIEdgeInsets = self.scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        scrollView.contentInset = contentInset
+    }
+    
+    func keyboardWillBeHidden(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+    }*/
     
     @IBAction func alreadyMemberButton(_ sender: Any)
     {

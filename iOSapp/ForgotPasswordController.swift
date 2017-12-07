@@ -10,7 +10,6 @@ import UIKit
 
 class ForgotPasswordController : GenericProgramViewController
 {
-    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var resetPasswordButton: UIButton!
     @IBOutlet weak var forgotPasswordText: UITextView!

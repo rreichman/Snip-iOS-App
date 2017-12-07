@@ -23,15 +23,13 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        DispatchQueue.main.async
-        {
-            retrievePostImage(cell: cell, postData: postData)
-            
-            fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
-            fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
-            
-            self.makeCellClickable(tableViewCell : cell)
-        }
+        retrievePostImage(cell: cell, postData: postData)
+        
+        fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
+        
+        self.makeCellClickable(tableViewCell : cell)
+        
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
