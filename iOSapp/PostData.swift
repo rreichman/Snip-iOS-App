@@ -23,6 +23,8 @@ class PostData : Encodable, Decodable
     var isDisliked : Bool = false
     var comments : [Comment] = []
     
+    var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
+    
     init()
     {
     }
@@ -31,6 +33,14 @@ class PostData : Encodable, Decodable
     {
         postJson = receivedPostJson
         loadRawJsonIntoVariables()
+        
+        DispatchQueue.main.async
+        {
+            let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
+            let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : self.image._imageDescription)!
+            imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
+            self.imageDescriptionAfterHtmlRendering = imageDescriptionString
+        }
     }
     
     func setImageIfExists(postJson : [String : Any])

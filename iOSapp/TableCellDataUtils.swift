@@ -24,13 +24,9 @@ func retrievePostImage(cell : SnippetTableViewCell, postData : PostData)
     }
 }
 
-func fillImageDescription(cell : SnippetTableViewCell, postData : PostData)
+func fillImageDescription(cell : SnippetTableViewCell, imageDescription : NSMutableAttributedString)
 {
-    let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
-    let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : postData.image._imageDescription)!
-    imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
-    
-    cell.imageDescription.attributedText = imageDescriptionString
+    cell.imageDescription.attributedText = imageDescription
     // Make the link in image description gray
     cell.imageDescription.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().IMAGE_DESCRIPTION_COLOR]
     removePaddingFromTextView(textView: cell.imageDescription)
@@ -39,7 +35,6 @@ func fillImageDescription(cell : SnippetTableViewCell, postData : PostData)
 func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
 {
     tableViewCell.body.attributedText = getAttributedTextOfCell(tableViewCell : tableViewCell, postData: postData, shouldTruncate: shouldTruncate)
-    
     let isTextCurrentlyTruncated : Bool = tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate
     
     tableViewCell.likeButton.isHidden = isTextCurrentlyTruncated
@@ -54,6 +49,7 @@ func getAttributedTextOfCell(tableViewCell : SnippetTableViewCell, postData : Po
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.hyphenationFactor = 1.0
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
+    paragraphStyle.paragraphSpacing = 7.0
     let text : NSMutableAttributedString = getAttributedTextAfterPossibleTruncation(tableViewCell : tableViewCell, postData : postData, shouldTruncate : shouldTruncate)
     
     if (tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate)

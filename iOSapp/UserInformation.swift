@@ -62,17 +62,24 @@ class UserInformation
             
             //fetching the data from the url
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-                if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                if (response != nil)
                 {
-                    print(jsonObj)
-                    for key in jsonObj.keys
+                    if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     {
-                        UserInformation().setUserInfo(key: key, value: jsonObj[key] as! String)
+                        print(jsonObj)
+                        for key in jsonObj.keys
+                        {
+                            UserInformation().setUserInfo(key: key, value: jsonObj[key] as! String)
+                        }
+                    }
+                    else
+                    {
+                        print(response)
                     }
                 }
                 else
                 {
-                    print(response)
+                    // TODO:: log this error
                 }
             }).resume()
         }

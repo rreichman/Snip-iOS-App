@@ -40,17 +40,24 @@ class WebUtils
         
         // TODO:: handle situation of no Internet connection
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            let httpResponse = response as! HTTPURLResponse
-            let responseHeaderFields = httpResponse.allHeaderFields as! [String : String]
-            let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
-            for cookie in cookies
+            if (response != nil)
             {
-                if cookie.name == "csrftoken"
+                let httpResponse = response as! HTTPURLResponse
+                let responseHeaderFields = httpResponse.allHeaderFields as! [String : String]
+                let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
+                for cookie in cookies
                 {
-                    self.csrfTokenValue = cookie.value
+                    if cookie.name == "csrftoken"
+                    {
+                        self.csrfTokenValue = cookie.value
+                    }
                 }
+                completionHandler(handlerParams, self.csrfTokenValue)
             }
-            completionHandler(handlerParams, self.csrfTokenValue)
+            else
+            {
+                // TODO:: log this error
+            }
         }).resume()
     }
     

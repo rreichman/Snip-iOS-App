@@ -9,7 +9,7 @@
 // Using this manual to submit the app
 // https://www.youtube.com/watch?v=tnbOcpwJGa8
 
-// TODO:: Before publishing, remove this from plist: <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
+// TODO:: To allow non-SSL communication, remove this from plist: <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
 
 import UIKit
 import Fabric
@@ -36,6 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication)
     {
         print("about to be unactive")
+        
+        enteredBackgroundTime = Date()
+        
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
@@ -76,7 +79,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("about to terminate")
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

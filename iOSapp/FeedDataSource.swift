@@ -16,29 +16,39 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        let methodStart = Date()
         _tableView = tableView
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row);
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
+        print("1: \(Date().timeIntervalSince(methodStart))")
         
         let postData = postDataArray[indexPath.row]
-        tableView.allowsSelection = false
-        
+        print("2: \(Date().timeIntervalSince(methodStart))")
         retrievePostImage(cell: cell, postData: postData)
-        fillImageDescription(cell: cell, postData: postData)
+        print("3: \(Date().timeIntervalSince(methodStart))")
+        
+        fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        print("4: \(Date().timeIntervalSince(methodStart))")
         fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
+        print("5: \(Date().timeIntervalSince(methodStart))")
         
         makeCellClickable(tableViewCell : cell)
+        print("6: \(Date().timeIntervalSince(methodStart))")
         let shouldTruncate : Bool = !cellsNotToTruncate.contains(indexPath.row)
         setCellText(tableViewCell : cell, postData : postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("7: \(Date().timeIntervalSince(methodStart))")
         setCellReferences(tableViewCell : cell, postData: postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("8: \(Date().timeIntervalSince(methodStart))")
         
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
         
         setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
+        print("9: \(Date().timeIntervalSince(methodStart))")
         turnActionImagesIntoButtons(cell: cell)
+        print("10: \(Date().timeIntervalSince(methodStart))")
         
         return cell
     }

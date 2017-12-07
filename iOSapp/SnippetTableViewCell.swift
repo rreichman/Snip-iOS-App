@@ -29,6 +29,8 @@ class SnippetTableViewCell: UITableViewCell
         likeButton.clickedImage = #imageLiteral(resourceName: "thumbsUpClicked")
         dislikeButton.unclickedImage = #imageLiteral(resourceName: "thumbsDown")
         dislikeButton.clickedImage = #imageLiteral(resourceName: "thumbsDownClicked")
+        
+        postImage.layer.shouldRasterize = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)

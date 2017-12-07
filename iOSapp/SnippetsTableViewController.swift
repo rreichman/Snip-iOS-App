@@ -99,17 +99,34 @@ class SnippetsTableViewController: UITableViewController
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
         // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
-        if (self.finishedLoadingSnippets)
-        {
-            let foregroundSnippetIDs = getForegroundSnippetIDs()
-            for snippetID in foregroundSnippetIDs
+        print("bump here")
+        let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
+        
+        DispatchQueue.global(qos: .background).async{
+            //print("This is run on the background queue")
+            let height = NSNumber(value: newCellHeightAsFloat)
+            let previousHeight = self.heightAtIndexPath.object(forKey: indexPath as NSCopying)
+            if (previousHeight != nil)
             {
-                Logger().logViewingSnippet(snippetID: snippetID)
+                if (newCellHeightAsFloat == previousHeight as! Float)
+                {
+                    return
+                }
+            }
+            self.heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
+            
+            DispatchQueue.main.async {
+                //print("This is run on the main queue, after the previous code in outer block")
+                if (self.finishedLoadingSnippets)
+                {
+                    let foregroundSnippetIDs = self.getForegroundSnippetIDs()
+                    for snippetID in foregroundSnippetIDs
+                    {
+                        Logger().logViewingSnippet(snippetID: snippetID)
+                    }
+                }
             }
         }
-        
-        let height = NSNumber(value: Float(cell.frame.size.height))
-        heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -122,12 +139,6 @@ class SnippetsTableViewController: UITableViewController
         let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
         let indexPathsForVisibleRows : [IndexPath] = tableView.indexPathsForVisibleRows as! [IndexPath]
         let numberOfVisibleRows = indexPathsForVisibleRows.count
-        
-        // TODO:: remove this
-        for indexPath in indexPathsForVisibleRows
-        {
-            print(dataSource.postDataArray[indexPath.row].id)
-        }
         
         if numberOfVisibleRows == 2
         {
