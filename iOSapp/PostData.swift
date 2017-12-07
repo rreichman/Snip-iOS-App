@@ -23,7 +23,9 @@ class PostData : Encodable, Decodable
     var isDisliked : Bool = false
     var comments : [Comment] = []
     
+    // These two variables save resources when scrolling
     var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
+    var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     
     init()
     {
@@ -40,6 +42,8 @@ class PostData : Encodable, Decodable
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : self.image._imageDescription)!
             imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
+            
+            self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
         }
     }
     

@@ -30,6 +30,8 @@ class SnippetTableViewCell: UITableViewCell
         dislikeButton.unclickedImage = #imageLiteral(resourceName: "thumbsDown")
         dislikeButton.clickedImage = #imageLiteral(resourceName: "thumbsDownClicked")
         
+        self.selectionStyle = UITableViewCellSelectionStyle.none
+        
         postImage.layer.shouldRasterize = true
     }
 

@@ -40,6 +40,7 @@
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
 		7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */; };
 		7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93CAE41FD747710044C246 /* WebUtils.swift */; };
+		7D93CAE71FD8F6B60044C246 /* CachedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93CAE61FD8F6B60044C246 /* CachedData.swift */; };
 		7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */; };
 		7DA1A94F1FCB7CF600ABB0C4 /* SnipUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */; };
 		7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */; };
@@ -112,6 +113,7 @@
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordController.swift; sourceTree = "<group>"; };
 		7D93CAE41FD747710044C246 /* WebUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUtils.swift; sourceTree = "<group>"; };
+		7D93CAE61FD8F6B60044C246 /* CachedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedData.swift; sourceTree = "<group>"; };
 		7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipUser.swift; sourceTree = "<group>"; };
 		7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipImage.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */,
 				7D6E27841FD0D12400E7C2FF /* LogInfo.swift */,
 				7D6E9EA21FD495B00068D614 /* UserInformation.swift */,
+				7D93CAE61FD8F6B60044C246 /* CachedData.swift */,
 				7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */,
 			);
 			path = iOSapp;
@@ -583,6 +586,7 @@
 				7D820EB11FCE22F800404FA2 /* CommentsTableViewController.swift in Sources */,
 				7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */,
 				7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */,
+				7D93CAE71FD8F6B60044C246 /* CachedData.swift in Sources */,
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,
 				7D7F25CF1FD10955000D9860 /* SignupViewController.swift in Sources */,
 				7D7F25C51FD0D6EA000D9860 /* CommentActionData.swift in Sources */,

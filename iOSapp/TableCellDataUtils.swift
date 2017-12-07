@@ -46,10 +46,12 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
 
 func getAttributedTextOfCell(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool) -> NSMutableAttributedString
 {
+    let startTime = Date()
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.hyphenationFactor = 1.0
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
     paragraphStyle.paragraphSpacing = 7.0
+    
     let text : NSMutableAttributedString = getAttributedTextAfterPossibleTruncation(tableViewCell : tableViewCell, postData : postData, shouldTruncate : shouldTruncate)
     
     if (tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate)
@@ -66,14 +68,14 @@ func getAttributedTextOfCell(tableViewCell : SnippetTableViewCell, postData : Po
 func getAttributedTextAfterPossibleTruncation(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool) -> NSMutableAttributedString
 {
     // Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
-    let screenWidth = UIScreen.screens[0].bounds.width
+    let screenWidth = CachedData().getScreenWidth()
     let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
     let sizeOfRowInChars = Float(screenWidth) / widthOfSingleChar
     
     let MAX_LENGTH_TO_TRUNCATE = Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
     let PREVIEW_SIZE = Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - SystemVariables().READ_MORE_TEXT.count
     
-    let text = NSMutableAttributedString(htmlString : postData.text)!
+    let text = postData.textAfterHtmlRendering
     
     var updatedText : NSMutableAttributedString = text
     if (text.length >= MAX_LENGTH_TO_TRUNCATE)
