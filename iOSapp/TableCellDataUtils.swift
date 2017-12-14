@@ -46,7 +46,6 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
 
 func getAttributedTextOfCell(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool) -> NSMutableAttributedString
 {
-    let startTime = Date()
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.hyphenationFactor = 1.0
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT

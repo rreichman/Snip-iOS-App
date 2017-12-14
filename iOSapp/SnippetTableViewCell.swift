@@ -11,13 +11,21 @@ import UIKit
 class SnippetTableViewCell: UITableViewCell
 {
     @IBOutlet weak var postImage: UIImageView!
+    
     @IBOutlet weak var imageDescription: UITextView!
+    
     @IBOutlet weak var postTimeAndWriter: UITextView!
+    
     @IBOutlet weak var body: UITextView!
+    
     @IBOutlet weak var headline: UILabel!
+    
     @IBOutlet weak var references: UITextView!
+    
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
+    
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
+    
     @IBOutlet weak var commentButton: UIImageView!
     
     var isTextLongEnoughToBeTruncated : Bool = true

@@ -85,9 +85,14 @@ class SignupViewController : GenericProgramViewController
         scrollView.contentInset = contentInset
     }*/
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
+    }
+    
     @IBAction func alreadyMemberButton(_ sender: Any)
     {
-        
         performSegue(withIdentifier: "segueToLoginScreenFromSignup", sender: self)
     }
     

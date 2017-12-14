@@ -59,10 +59,6 @@ class ForgotPasswordController : GenericProgramViewController
         print("reset password pressed")
         //runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
         WebUtils().runFunctionAfterGettingCsrfToken(functionData: emailTextField.text, completionHandler: postResetPassword)
-        
-        //12
-        //WebUtils().postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, csrfToken : String, completionHandler : @escaping (_ responseString : String) -> ())
-        //WebUtils().postContentWithJsonBody(jsonString: resetPasswordJson, urlString: resetPasswordUrlString, csrfToken: )
     }
     
     override func viewDidLoad()

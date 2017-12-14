@@ -21,7 +21,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var closeReplyButton: UIButton!
     
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
-    //var rawCommentArray : [Comment] = []
     var currentSnippetID : Int = 0
     var isCurrentlyReplyingToComment : Bool = false
     var commentIdReplyingTo : Int = 0
@@ -84,9 +83,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func handleCommentClick(sender: UITapGestureRecognizer)
+    func handleCommentingAccordingToLoginStatus()
     {
-        print("handling comment click")
         if (UserInformation().isUserLoggedIn())
         {
             writeCommentBox.becomeFirstResponder()
@@ -95,6 +93,12 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         {
             popAlertController()
         }
+    }
+    
+    @objc func handleCommentClick(sender: UITapGestureRecognizer)
+    {
+        print("handling comment click")
+        handleCommentingAccordingToLoginStatus()
     }
     
     @IBAction func closedRepliedTo(_ sender: Any)
@@ -128,7 +132,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             noDataLabel.textAlignment = .center
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
-            writeCommentBox.becomeFirstResponder()
+            handleCommentingAccordingToLoginStatus()
         }
     }
     
@@ -182,7 +186,14 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @IBAction func postButtonClicked(_ sender: Any)
     {
-        WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
+        if (UserInformation().isUserLoggedIn())
+        {
+            WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
+        }
+        else
+        {
+            popAlertController()
+        }
     }
     
     func scrollToCommentInTable(commentID: Int)
@@ -260,7 +271,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         for comment in commentArray
         {
-            //if comment.id in deletedIDs
             if (!deletedIDs.contains(comment.id))
             {
                 newCommentArray.append(comment)

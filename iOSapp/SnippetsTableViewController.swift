@@ -17,7 +17,33 @@ class SnippetsTableViewController: UITableViewController
     var finishedLoadingSnippets = false
     var rowCurrentlyClicked = 0
     
-    @IBAction func menuButtonPressed(_ sender: Any)
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        turnNavigationBarTitleIntoButton(title: "Home")
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
+        
+        // Perhaps need more advanced logic here
+        if (tableView.dataSource is FeedDataSource)
+        {
+            print("not collecting anymore")
+            let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
+            if (dataSource.postDataArray.count > 0)
+            {
+                return
+            }
+        }
+        
+        tableView.backgroundColor = UIColor.lightGray
+
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+    }
+    
+    @IBAction func menuButtonPressed(_ sender: UIBarButtonItem)
     {
         performSegue(withIdentifier: "showMenuSegue", sender: self)
     }
@@ -39,35 +65,12 @@ class SnippetsTableViewController: UITableViewController
         }
     }
     
-    @IBAction func refresh(_ sender: UIRefreshControl)
+    @objc func refresh(_ sender: UIRefreshControl)
     {
-        print("refreshing")
+        print("refresh")
         Logger().logRefreshOfTableView()
-        tableView.dataSource = FeedDataSource()
         SnipRetrieverFromWeb.shared.clean()
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
-        sender.endRefreshing()
-    }
-    
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        turnNavigationBarTitleIntoButton(title: "Home")
-        navigationItem.rightBarButtonItem?.target = self
-        navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
-        
-        // Perhaps need more advanced logic here
-        if (tableView.dataSource is FeedDataSource)
-        {
-            print("not collecting anymore")
-            let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
-            if (dataSource.postDataArray.count > 0)
-            {
-                return
-            }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -98,8 +101,6 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
-        print("bump here")
         let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
         
         DispatchQueue.global(qos: .background).async{
@@ -117,6 +118,7 @@ class SnippetsTableViewController: UITableViewController
             
             DispatchQueue.main.async {
                 //print("This is run on the main queue, after the previous code in outer block")
+                // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
                 if (self.finishedLoadingSnippets)
                 {
                     let foregroundSnippetIDs = self.getForegroundSnippetIDs()
@@ -167,10 +169,14 @@ class SnippetsTableViewController: UITableViewController
     {
         DispatchQueue.main.async
         {
-            self.tableView.dataSource = feedDataSource
-            self.tableView.reloadData()
             SnipRetrieverFromWeb.shared.lock.unlock()
             self.finishedLoadingSnippets = true
+            if (self.refreshControl?.isRefreshing)!
+            {
+                self.refreshControl?.endRefreshing()
+            }
+            self.tableView.dataSource = feedDataSource
+            self.tableView.reloadData()
         }
     }
     
