@@ -9,14 +9,17 @@
 import UIKit
 
 
-class SplashScreenViewController: UIViewController
+class OpeningSplashScreenViewController: UIViewController
 {
     @IBOutlet weak var splashScreenImage: UIImageView!
-    var dataSource : FeedDataSource = FeedDataSource()
+    
+    var feedDataSource : FeedDataSource = FeedDataSource()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        print("loaded splash screen")
+        
         Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
         splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
@@ -28,12 +31,21 @@ class SplashScreenViewController: UIViewController
         print("appeared")
         
         SnipRetrieverFromWeb.shared.lock.lock()
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler)
+        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }
     
-    func collectionCompletionHandler(feedDataSource: FeedDataSource)
+    func collectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
     {
-        dataSource = feedDataSource
+        if (!appendDataAndNotReplace)
+        {
+            feedDataSource.postDataArray = []
+        }
+        
+        for postData in postDataArray
+        {
+            feedDataSource.postDataArray.append(postData)
+        }
+
         performSegue(withIdentifier: "segueToTableView", sender: self)
         SnipRetrieverFromWeb.shared.lock.unlock()
     }
@@ -46,7 +58,7 @@ class SplashScreenViewController: UIViewController
             print("seguing")
             let navigationController = segue.destination as! UINavigationController
             let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
-            tableViewController.tableView.dataSource = dataSource
+            tableViewController.tableView.dataSource = feedDataSource
             tableViewController.tableView.reloadData()
         }
     }

@@ -36,10 +36,9 @@ class SnippetsTableViewController: UITableViewController
                 return
             }
         }
-        
-        tableView.backgroundColor = UIColor.lightGray
 
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        //refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
     }
     
@@ -65,12 +64,56 @@ class SnippetsTableViewController: UITableViewController
         }
     }
     
+    func collectionErrorHandler()
+    {
+        DispatchQueue.main.async
+        {
+            if (self.refreshControl?.isRefreshing)!
+            {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     @objc func refresh(_ sender: UIRefreshControl)
     {
         print("refresh")
         Logger().logRefreshOfTableView()
         SnipRetrieverFromWeb.shared.clean()
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler)
+        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
+    }
+    
+    func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
+    {
+        var newDataArray : [PostData] = []
+        if (appendDataAndNotReplace)
+        {
+            newDataArray = (self.tableView.dataSource as! FeedDataSource).postDataArray
+        }
+        for postData in postDataArray
+        {
+            newDataArray.append(postData)
+        }
+        
+        (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+        (self.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.removeAll()
+        self.tableView.reloadData()
+        
+        SnipRetrieverFromWeb.shared.lock.unlock()
+        self.finishedLoadingSnippets = true
+    }
+    
+    func dataCollectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
+    {
+        DispatchQueue.main.async
+        {
+            if (self.refreshControl?.isRefreshing)!
+            {
+                self.refreshControl?.endRefreshing()
+            }
+
+            self.updateTableInfoFeedDataSource(postDataArray: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -165,23 +208,8 @@ class SnippetsTableViewController: UITableViewController
         return snippetIDs
     }
     
-    func dataCollectionCompletionHandler(feedDataSource: FeedDataSource)
-    {
-        DispatchQueue.main.async
-        {
-            SnipRetrieverFromWeb.shared.lock.unlock()
-            self.finishedLoadingSnippets = true
-            if (self.refreshControl?.isRefreshing)!
-            {
-                self.refreshControl?.endRefreshing()
-            }
-            self.tableView.dataSource = feedDataSource
-            self.tableView.reloadData()
-        }
-    }
-    
     // Perhaps this can be non-objc with some modifications
-    @objc func buttonAction(sender: Any)
+    @objc func homeButtonAction(sender: Any)
     {
         // This is a nice additional margin so that the cell isn't too crowded with the top of the page. Probably there's a better way to do this but not too important.
         let additionalMarginAtBottomOfNavigationBar = CGFloat(20)
@@ -201,7 +229,7 @@ class SnippetsTableViewController: UITableViewController
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = SystemVariables().NAVIGATION_BAR_TITLE_FONT
         button.addTarget(self,
-                         action: #selector(self.buttonAction),
+                         action: #selector(self.homeButtonAction),
                          for: .touchUpInside)
         self.navigationItem.titleView = button
     }

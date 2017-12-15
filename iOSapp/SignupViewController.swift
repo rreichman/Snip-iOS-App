@@ -10,12 +10,16 @@ import UIKit
 
 class SignupViewController : GenericProgramViewController
 {
+    @IBOutlet weak var viewInsideOfScrollView: UIView!
+    @IBOutlet weak var viewOutsideOfScrollView: UIView!
+    
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
+    
     
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var termsAndConditionsBox: UITextView!
-    
     @IBOutlet weak var emailSignupField: UITextField!
     @IBOutlet weak var firstNameSignupField: UITextField!
     @IBOutlet weak var lastNameSignupField: UITextField!
@@ -30,6 +34,10 @@ class SignupViewController : GenericProgramViewController
         self.navigationController?.navigationBar.tintColor = UIColor.black
         
         self.view.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        scrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        viewInsideOfScrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        viewOutsideOfScrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        
         termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
         registerButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
         
@@ -67,23 +75,6 @@ class SignupViewController : GenericProgramViewController
             self.view.layoutIfNeeded()
         }
     }
-    
-    /*func keyboardWasShown(notification:NSNotification){
-        
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
-        
-        var contentInset:UIEdgeInsets = self.scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        scrollView.contentInset = contentInset
-    }
-    
-    func keyboardWillBeHidden(notification:NSNotification){
-        
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-    }*/
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {

@@ -23,18 +23,32 @@ class PostData : Encodable, Decodable
     var isDisliked : Bool = false
     var comments : [Comment] = []
     
+    var isFirstTime = true
+    
     // These two variables save resources when scrolling
     var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     
-    init()
-    {
-    }
+    init() {}
     
     init(receivedPostJson : [String : Any])
     {
         postJson = receivedPostJson
         loadRawJsonIntoVariables()
+        
+        // This is an optimization to make loading look better.
+        if (isFirstTime)
+        {
+            self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
+            isFirstTime = false
+        }
+        else
+        {
+            DispatchQueue.main.async
+            {
+                self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
+            }
+        }
         
         DispatchQueue.main.async
         {
@@ -42,8 +56,6 @@ class PostData : Encodable, Decodable
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : self.image._imageDescription)!
             imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
-            
-            self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
         }
     }
     

@@ -11,8 +11,13 @@ import UIKit
 class FeedDataSource: NSObject, UITableViewDataSource
 {
     var postDataArray: [PostData] = []
-    var _tableView: UITableView = UITableView()
+    var _tableView: UITableView
     var cellsNotToTruncate : Set<Int> = Set<Int>()
+    
+    override init()
+    {
+         _tableView = UITableView()
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
@@ -52,9 +57,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
     {
+        print("entered infinite scroll")
         let SPARE_ROWS_UNTIL_MORE_SCROLL = 4
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
+            print("get more posts")
             Logger().logScrolledToInfiniteScroll()
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)

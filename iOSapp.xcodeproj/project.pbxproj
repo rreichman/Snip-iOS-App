@@ -19,7 +19,7 @@
 		7D44B56D1FA47264005482C9 /* NoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56C1FA47264005482C9 /* NoError.swift */; };
 		7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */; };
 		7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B5701FA6ECCA005482C9 /* PostData.swift */; };
-		7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */; };
+		7D4641931FBBC4C300E29578 /* OpeningSplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */; };
 		7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */; };
 		7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C43461FBA6FF900551E49 /* Utils.swift */; };
 		7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */; };
@@ -91,7 +91,7 @@
 		7D44B56C1FA47264005482C9 /* NoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoError.swift; sourceTree = "<group>"; };
 		7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSource.swift; sourceTree = "<group>"; };
 		7D44B5701FA6ECCA005482C9 /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
-		7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningSplashScreenViewController.swift; sourceTree = "<group>"; };
 		7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipRetrieverFromWeb.swift; sourceTree = "<group>"; };
 		7D5C43461FBA6FF900551E49 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewWithMetadata.swift; sourceTree = "<group>"; };
@@ -197,7 +197,7 @@
 			children = (
 				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
 				7D820EB01FCE22F800404FA2 /* CommentsTableViewController.swift */,
-				7D4641921FBBC4C300E29578 /* SplashScreenViewController.swift */,
+				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
 				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
 				7D09A3961FC4F79B00E51553 /* MenuViewController.swift */,
 				7D7F25C81FD0EBB6000D9860 /* LoginViewController.swift */,
@@ -584,7 +584,7 @@
 				7D7F25C91FD0EBB6000D9860 /* LoginViewController.swift in Sources */,
 				7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */,
 				7D820EB11FCE22F800404FA2 /* CommentsTableViewController.swift in Sources */,
-				7D4641931FBBC4C300E29578 /* SplashScreenViewController.swift in Sources */,
+				7D4641931FBBC4C300E29578 /* OpeningSplashScreenViewController.swift in Sources */,
 				7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */,
 				7D93CAE71FD8F6B60044C246 /* CachedData.swift in Sources */,
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,

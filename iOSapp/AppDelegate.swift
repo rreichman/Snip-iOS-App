@@ -66,8 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let currentTime : Date = Date()
         
-        if (currentTime.seconds(from: enteredBackgroundTime)) > SystemVariables().SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH
+        if (currentTime.seconds(from: enteredBackgroundTime)) > SystemVariables().SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH && currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
         {
+            print("back to opening screen")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             self.window?.rootViewController = storyboard.instantiateInitialViewController()
         }
