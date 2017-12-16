@@ -970,7 +970,7 @@
                         <constraints>
                             <constraint firstItem="Yof-I2-61X" firstAttribute="trailing" secondItem="m1X-Gb-RDH" secondAttribute="trailing" id="JdI-K5-xm4"/>
                             <constraint firstItem="Yof-I2-61X" firstAttribute="top" secondItem="ul5-0I-cKz" secondAttribute="top" id="KeS-HJ-Vgg"/>
-                            <constraint firstItem="Yof-I2-61X" firstAttribute="bottom" secondItem="m1X-Gb-RDH" secondAttribute="bottom" id="dJs-O3-nBE"/>
+                            <constraint firstAttribute="bottom" secondItem="Yof-I2-61X" secondAttribute="bottom" id="qbl-9W-nke"/>
                             <constraint firstItem="Yof-I2-61X" firstAttribute="leading" secondItem="m1X-Gb-RDH" secondAttribute="leading" id="tVy-jH-kij"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m1X-Gb-RDH"/>

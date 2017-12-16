@@ -57,6 +57,26 @@ class SignupViewController : GenericProgramViewController
         loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
     }
     
+    func facebookResultHandler(loginResult : LoginResult)
+    {
+        switch loginResult
+        {
+        case LoginResult.failed(let error):
+            promptToUser(promptMessageTitle: "Unable to sign up with Facebook", promptMessageBody: "Sign up above or using the Facebook button", viewController: self)
+            print(error)
+        case LoginResult.cancelled:
+            print("User cancelled login.")
+        case LoginResult.success(let grantedPermissions, let declinedPermissions, let accessToken):
+            var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
+            facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
+            facebookLoginDataAsJson["code"] = "null"
+            
+            var signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
+            
+            WebUtils().runFunctionAfterGettingCsrfToken(functionData: signupData, completionHandler: self.performSignupAction)
+        }
+    }
+    
     // TODO:: Perhaps unite with other register for notifications function
     func registerForKeyboardNotifications()
     {
@@ -109,7 +129,8 @@ class SignupViewController : GenericProgramViewController
     {
         if (validateRegisterData())
         {
-            WebUtils().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
+            var loginOrSignupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
+            WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginOrSignupData, completionHandler: self.performSignupAction)
         }
     }
     
@@ -181,9 +202,8 @@ class SignupViewController : GenericProgramViewController
     
     func performSignupAction(handlerParams : Any, csrfToken : String)
     {
-        var urlString : String = SystemVariables().URL_STRING
-        urlString.append("rest-auth/registration/")
-        WebUtils().postContentWithJsonBody(jsonString: getSignupDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
+        var signupData : LoginOrSignupData = handlerParams as! LoginOrSignupData
+        WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
     }
     
     func completeSignupAction(responseString: String)

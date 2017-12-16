@@ -34,7 +34,7 @@ class UserInformation
     
     func isUserLoggedIn() -> Bool
     {
-        return (getUserInfo(key: "key") != "")
+        return (getUserInfo(key: authenticationTokenKey) != "")
     }
     
     func logOutUser()

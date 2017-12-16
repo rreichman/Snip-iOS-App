@@ -41,10 +41,32 @@ class LoginViewController : GenericProgramViewController
         loginWithFacebookButton.addGestureRecognizer(singleTapRecognizerFacebookLogin)
     }
     
+    // TODO:: this is code copying from SignupViewController. Should fix but not now
     @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
     {
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
+    }
+    
+    // TODO:: this is code copying from SignupViewController. Should fix but not now
+    func facebookResultHandler(loginResult : LoginResult)
+    {
+        switch loginResult
+        {
+        case LoginResult.failed(let error):
+            print(error)
+            promptToUser(promptMessageTitle: "Unable to log in with Facebook", promptMessageBody: "Log in above or using the Facebook button", viewController: self)
+        case LoginResult.cancelled:
+            print("User cancelled login.")
+        case LoginResult.success(let grantedPermissions, let declinedPermissions, let accessToken):
+            var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
+            facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
+            facebookLoginDataAsJson["code"] = "null"
+            var loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
+            WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
+            
+            print("Login is successful!")
+        }
     }
     
     func completeLoginAction(responseString: String)
@@ -88,16 +110,16 @@ class LoginViewController : GenericProgramViewController
         return loginData
     }
     
-    func performSignupAction(handlerParams : Any, csrfToken : String)
+    func performLoginAction(handlerParams : Any, csrfToken : String)
     {
-        var urlString : String = SystemVariables().URL_STRING
-        urlString.append("rest-auth/login/")
-        WebUtils().postContentWithJsonBody(jsonString: getLoginDataAsJson(), urlString: urlString, csrfToken: csrfToken, completionHandler: completeLoginAction)
+        var loginData : LoginOrSignupData = handlerParams as! LoginOrSignupData
+        WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, csrfToken: csrfToken, completionHandler: completeLoginAction)
     }
     
     @IBAction func loginButtonPressed(_ sender: Any)
     {
-        WebUtils().runFunctionAfterGettingCsrfToken(functionData: "", completionHandler: self.performSignupAction)
+        var loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
+        WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
     }
     
     @IBAction func signupButtonPressed(_ sender: Any)
