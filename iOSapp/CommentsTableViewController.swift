@@ -65,6 +65,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         print("preparing to segue to sign up")
         
         let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.shouldPressBackAndNotSegue = false
         nextViewController.viewControllerToReturnTo = self
     }
     

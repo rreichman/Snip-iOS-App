@@ -15,6 +15,7 @@ import UIKit
 import Fabric
 import Crashlytics
 import Mixpanel
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -62,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         print("become active")
+        AppEventsLogger.activate(application)
         Logger().logAppBecameActive()
         
         let currentTime : Date = Date()

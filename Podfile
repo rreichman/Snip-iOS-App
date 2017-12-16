@@ -8,6 +8,9 @@ target 'iOSapp' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'Mixpanel-swift', :git=> 'https://github.com/mixpanel/mixpanel-swift.git', :branch=> 'swift4'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
+  pod 'FacebookShare'
 
   # Pods for iOSapp
 

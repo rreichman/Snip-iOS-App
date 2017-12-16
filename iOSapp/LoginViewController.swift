@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FacebookLogin
 
 class LoginViewController : GenericProgramViewController
 {
@@ -14,6 +15,9 @@ class LoginViewController : GenericProgramViewController
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginWithFacebookButton: UIImageView!
+    
+    @IBOutlet weak var termsAndConditionsBox: UITextView!
     
     override func viewDidLoad()
     {
@@ -27,6 +31,20 @@ class LoginViewController : GenericProgramViewController
         
         self.view.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
         loginButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
+        
+        termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        termsAndConditionsBox.attributedText = getTermsAndConditionsString()
+        
+        // TODO:: this is code copying from SignupViewController. Should fix but not now
+        let singleTapRecognizerFacebookLogin : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(facebookLoginPressed(sender:)))
+        loginWithFacebookButton.isUserInteractionEnabled = true
+        loginWithFacebookButton.addGestureRecognizer(singleTapRecognizerFacebookLogin)
+    }
+    
+    @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
+    {
+        let loginManager = LoginManager()
+        loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
     }
     
     func completeLoginAction(responseString: String)
@@ -97,6 +115,7 @@ class LoginViewController : GenericProgramViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.shouldPressBackAndNotSegue = true
         nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
     }
 }

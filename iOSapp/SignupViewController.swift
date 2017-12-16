@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FacebookLogin
 
 class SignupViewController : GenericProgramViewController
 {
@@ -14,9 +15,7 @@ class SignupViewController : GenericProgramViewController
     @IBOutlet weak var viewOutsideOfScrollView: UIView!
     
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
-    
     
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var termsAndConditionsBox: UITextView!
@@ -25,6 +24,8 @@ class SignupViewController : GenericProgramViewController
     @IBOutlet weak var lastNameSignupField: UITextField!
     @IBOutlet weak var firstPasswordInput: UITextField!
     @IBOutlet weak var secondPasswordInput: UITextField!
+    
+    @IBOutlet weak var loginWithFacebookButton: UIImageView!
     
     override func viewDidLoad()
     {
@@ -44,6 +45,16 @@ class SignupViewController : GenericProgramViewController
         termsAndConditionsBox.attributedText = getTermsAndConditionsString()
         
         registerForKeyboardNotifications()
+        
+        let singleTapRecognizerFacebookLogin : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(facebookLoginPressed(sender:)))
+        loginWithFacebookButton.isUserInteractionEnabled = true
+        loginWithFacebookButton.addGestureRecognizer(singleTapRecognizerFacebookLogin)
+    }
+    
+    @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
+    {
+        let loginManager = LoginManager()
+        loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
     }
     
     // TODO:: Perhaps unite with other register for notifications function
@@ -84,7 +95,14 @@ class SignupViewController : GenericProgramViewController
     
     @IBAction func alreadyMemberButton(_ sender: Any)
     {
-        performSegue(withIdentifier: "segueToLoginScreenFromSignup", sender: self)
+        if (shouldPressBackAndNotSegue)
+        {
+            navigationController?.popViewController(animated: true)
+        }
+        else
+        {
+            performSegue(withIdentifier: "segueToLoginScreenFromSignup", sender: self)
+        }
     }
     
     @IBAction func pressedRegisterButton(_ sender: Any)
@@ -193,25 +211,5 @@ class SignupViewController : GenericProgramViewController
             // TODO:: answer this
             print("what to do here?")
         }
-    }
-    
-    func getTermsAndConditionsString() -> NSMutableAttributedString
-    {
-        let termsStringPartOne : String = "By registering you confirm that you accept the "
-        let termsStringPartTwo : String = "Terms and Conditions"
-        let fullText : String = termsStringPartOne + termsStringPartTwo
-        
-        let termsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string : fullText)
-        
-        
-        let linkAttributes : [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.link: "https://media.snip.today/Snip+-+Terms+of+Service.pdf",
-            NSAttributedStringKey.foregroundColor: UIColor.blue
-        ]
-        
-        termsAttributedString.addAttributes(linkAttributes, range: NSMakeRange(termsStringPartOne.count, termsStringPartTwo.count))
-        termsAttributedString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().TERMS_AND_CONDITIONS_FONT!, range: NSMakeRange(0, fullText.count))
-        
-        return termsAttributedString
     }
 }

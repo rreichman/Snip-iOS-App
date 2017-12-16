@@ -17,6 +17,29 @@ func getAuthorizationString() -> String
     return tokenDeclarationString
 }
 
+func getTermsAndConditionsString() -> NSMutableAttributedString
+{
+    let termsStringPartOne : String = "By registering you confirm that you accept the "
+    let termsStringPartTwo : String = "\nTerms and Conditions"
+    let fullText : String = termsStringPartOne + termsStringPartTwo
+    
+    let termsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string : fullText)
+    
+    let linkAttributes : [NSAttributedStringKey : Any] = [
+        NSAttributedStringKey.link: "https://media.snip.today/Snip+-+Terms+of+Service.pdf",
+        NSAttributedStringKey.foregroundColor: UIColor.blue
+    ]
+    
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.center
+    
+    termsAttributedString.addAttributes(linkAttributes, range: NSMakeRange(termsStringPartOne.count, termsStringPartTwo.count))
+    termsAttributedString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().TERMS_AND_CONDITIONS_FONT!, range: NSMakeRange(0, fullText.count))
+    termsAttributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, fullText.count))
+    
+    return termsAttributedString
+}
+
 func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
 {
     var messageString : String = ""
