@@ -66,12 +66,12 @@ class SignupViewController : GenericProgramViewController
             print(error)
         case LoginResult.cancelled:
             print("User cancelled login.")
-        case LoginResult.success(let grantedPermissions, let declinedPermissions, let accessToken):
+        case LoginResult.success(let _, let _, let accessToken):
             var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
             facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
             facebookLoginDataAsJson["code"] = "null"
             
-            var signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
+            let signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
             
             WebUtils().runFunctionAfterGettingCsrfToken(functionData: signupData, completionHandler: self.performSignupAction)
         }
@@ -129,7 +129,7 @@ class SignupViewController : GenericProgramViewController
     {
         if (validateRegisterData())
         {
-            var loginOrSignupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
+            let loginOrSignupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
             WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginOrSignupData, completionHandler: self.performSignupAction)
         }
     }
@@ -202,7 +202,7 @@ class SignupViewController : GenericProgramViewController
     
     func performSignupAction(handlerParams : Any, csrfToken : String)
     {
-        var signupData : LoginOrSignupData = handlerParams as! LoginOrSignupData
+        let signupData : LoginOrSignupData = handlerParams as! LoginOrSignupData
         WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, csrfToken: csrfToken, completionHandler: completeSignupAction)
     }
     
