@@ -114,17 +114,36 @@ func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData
         addReferencesStringsToCell(cell : tableViewCell, postData: postData)
     }
     
-    setStateOfReferencesHeightConstraint(references: tableViewCell.references, state: shouldTruncate)
+    tableViewCell.referencesHeightConstraint.isActive = shouldTruncate
+    //setTextViewHeightConstraint(references: tableViewCell.references, identifier: "referencesHeightConstraint", state: shouldTruncate)
 }
 
-func setStateOfReferencesHeightConstraint(references : UITextView, state : Bool)
+func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
 {
-    for constraint in references.constraints
+    let firstCommentWriter : String = postData.comments[0].writer._name
+    let firstCommentText : String = postData.comments[0].body
+    let firstCommentFullString : String = firstCommentWriter + "\n" + firstCommentText
+    
+    let previewString : NSMutableAttributedString = NSMutableAttributedString(string: firstCommentFullString)
+    //previewString.addAttributes(, range: )
+    // TODO:: make the headline bold, create some distance between the lines,
+    // TODO:: handle the case where there are no comments
+    
+    tableViewCell.singleCommentPreview.attributedText = previewString
+    
+    let moreCommentsFullString = "Read " + String(postData.comments.count) + " more comments"
+    
+    let moreCommentsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string: moreCommentsFullString)
+    
+    tableViewCell.moreCommentsPreview.attributedText = moreCommentsAttributedString
+    
+    if (tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate)
     {
-        if constraint.identifier == "referencesHeightConstraint"
-        {
-            constraint.isActive = state
-        }
+        tableViewCell.commentPreviewHeightConstraint.constant = 0
+    }
+    else
+    {
+        tableViewCell.commentPreviewHeightConstraint.constant = 88
     }
 }
 

@@ -39,6 +39,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
         self.turnActionImagesIntoButtons(cell: cell)

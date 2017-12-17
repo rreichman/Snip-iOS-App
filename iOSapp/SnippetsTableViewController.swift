@@ -36,8 +36,7 @@ class SnippetsTableViewController: UITableViewController
                 return
             }
         }
-
-        //refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
     }

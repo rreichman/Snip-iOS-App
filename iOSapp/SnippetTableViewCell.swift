@@ -22,11 +22,23 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var references: UITextView!
     
+    @IBOutlet weak var referencesHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
     
     @IBOutlet weak var commentButton: UIImageView!
+    
+    @IBOutlet weak var commentPreviewView: UIView!
+    
+    @IBOutlet weak var commentPreviewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var singleCommentPreview: UITextView!
+    
+    @IBOutlet weak var moreCommentsPreview: UITextView!
+    
+    @IBOutlet weak var writeCommentBox: UITextView!
     
     var isTextLongEnoughToBeTruncated : Bool = true
     
@@ -41,6 +53,23 @@ class SnippetTableViewCell: UITableViewCell
         self.selectionStyle = UITableViewCellSelectionStyle.none
         
         postImage.layer.shouldRasterize = true
+        
+        let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
+        writeCommentBox.isUserInteractionEnabled = true
+        writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
+        
+        writeCommentBox.attributedText = NSAttributedString(string : "")
+        writeCommentBox.placeholder = "Write a comment..."
+        writeCommentBox.layer.borderColor = UIColor.gray.cgColor
+        writeCommentBox.layer.borderWidth = 0.5
+        
+        removePaddingFromTextView(textView: singleCommentPreview)
+        removePaddingFromTextView(textView: moreCommentsPreview)
+    }
+    
+    @objc func handleCommentClick(sender: UITapGestureRecognizer)
+    {
+        print("clicked comment")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)
