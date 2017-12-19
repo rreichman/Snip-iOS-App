@@ -58,11 +58,11 @@ class LoginViewController : GenericProgramViewController
             promptToUser(promptMessageTitle: "Unable to log in with Facebook", promptMessageBody: "Log in above or using the Facebook button", viewController: self)
         case LoginResult.cancelled:
             print("User cancelled login.")
-        case LoginResult.success(let _, let _, let accessToken):
+        case LoginResult.success(_, _, let accessToken):
             var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
             facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
             facebookLoginDataAsJson["code"] = "null"
-            var loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
+            let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
             WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
             
             print("Login is successful!")
@@ -77,7 +77,7 @@ class LoginViewController : GenericProgramViewController
                 {
                     if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
                     {
-                        storeUserInformation(authenticationToken: jsonObj["key"] as! String)
+                        storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
                         UserInformation().getUserInformationFromWeb()
                         
                         promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)

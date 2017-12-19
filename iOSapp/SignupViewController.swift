@@ -214,7 +214,7 @@ class SignupViewController : GenericProgramViewController
             {
                 if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
                 {
-                        storeUserInformation(authenticationToken: jsonObj["key"] as! String)
+                        storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
                         UserInformation().getUserInformationFromWeb()
                     
                         promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)

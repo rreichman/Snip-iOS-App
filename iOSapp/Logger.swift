@@ -183,6 +183,16 @@ public class Logger
         logEvent(actionName: "clickCommentPreview")
     }
     
+    func logInternetConnectionFailed()
+    {
+        logEvent(actionName: "connectionFailed")
+    }
+    
+    func logErrorInSnippetCollecting()
+    {
+        logEvent(actionName: "snipCollectionFailed")
+    }
+    
     func logAppEnteredBackground()
     {
         logEvent(actionName: "inBackground")

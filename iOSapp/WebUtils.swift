@@ -38,7 +38,6 @@ class WebUtils
         var urlRequest: URLRequest = URLRequest(url: url)
         urlRequest.httpShouldHandleCookies = true
         
-        // TODO:: handle situation of no Internet connection
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
             if (response != nil)
             {
@@ -56,7 +55,7 @@ class WebUtils
             }
             else
             {
-                // TODO:: log this error
+                Logger().logInternetConnectionFailed()
             }
         }).resume()
     }
@@ -89,10 +88,8 @@ class WebUtils
             
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(String(describing: responseString))")
-            if (completionHandler != nil)
-            {
-                completionHandler(responseString!)
-            }
+
+            completionHandler(responseString!)
         }
         task.resume()
     }

@@ -51,6 +51,7 @@ class SnipRetrieverFromWeb
             {
                 if (errorHandler != nil)
                 {
+                    Logger().logErrorInSnippetCollecting()
                     errorHandler!()
                 }
                 // TODO:: log this error

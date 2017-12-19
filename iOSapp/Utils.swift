@@ -75,12 +75,8 @@ func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLReques
     return urlRequest
 }
 
-func storeUserInformation(authenticationToken : String)
+func storeUserAuthenticationToken(authenticationToken : String)
 {
-    // TODO:: allow these to come back by receiving them from server
-    //UserInformation().setUserInfo(key: UserInformation().emailKey, value: self.emailSignupField.text!)
-    //UserInformation().setUserInfo(key: UserInformation().firstNameKey, value: self.firstNameSignupField.text!)
-    //UserInformation().setUserInfo(key: UserInformation().lastNameKey, value: self.lastNameSignupField.text!)
     UserInformation().setUserInfo(key: UserInformation().authenticationTokenKey, value: authenticationToken)
 }
 
@@ -137,7 +133,7 @@ func getTimeFromDateString(dateString : String) -> String
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     let dateAsDataStructure = dateFormatter.date(from : dateString)
-    // TODO:: is Rani's format for date different in comments? Go to Foxconn Apple snip
+
     if (dateAsDataStructure == nil)
     {
         return "error in date"
