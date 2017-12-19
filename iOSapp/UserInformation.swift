@@ -50,10 +50,10 @@ class UserInformation
     {
         if isUserLoggedIn()
         {
-            var currentUrlString = SystemVariables().URL_STRING
-            currentUrlString.append("user/my_profile/")
+            var urlString = SystemVariables().URL_STRING
+            urlString.append("user/my_profile/")
             
-            let url: URL = URL(string: currentUrlString)!
+            let url: URL = URL(string: urlString)!
             var urlRequest: URLRequest = URLRequest(url: url)
             
             urlRequest.httpMethod = "GET"

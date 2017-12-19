@@ -173,6 +173,16 @@ public class Logger
         logEvent(actionName: "infiniteScroll")
     }
     
+    func logClickCommentButton()
+    {
+        logEvent(actionName: "clickCommentButton")
+    }
+    
+    func logClickCommentPreview()
+    {
+        logEvent(actionName: "clickCommentPreview")
+    }
+    
     func logAppEnteredBackground()
     {
         logEvent(actionName: "inBackground")

@@ -26,6 +26,7 @@ class SnipRetrieverFromWeb
     
     func getSnipsJsonFromWebServer(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool, errorHandler : (() -> Void)? = nil)
     {
+        print("getting posts. Current URL string: \(currentUrlString)")
         let url: URL = URL(string: currentUrlString)!
         var urlRequest: URLRequest = URLRequest(url: url)
         
@@ -75,6 +76,7 @@ class SnipRetrieverFromWeb
             }
             else
             {
+                print(currentUrlString)
                 currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
             }
             let newPost = PostData(receivedPostJson : postAsJson)
@@ -86,7 +88,6 @@ class SnipRetrieverFromWeb
     
     func loadMorePosts(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> ())
     {
-        print("loading more posts")
         if (lock.try())
         {
             getSnipsJsonFromWebServer(completionHandler: completionHandler, appendDataAndNotReplace: true)

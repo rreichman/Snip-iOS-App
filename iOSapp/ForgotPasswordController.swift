@@ -21,8 +21,6 @@ class ForgotPasswordController : GenericProgramViewController
     
     func handleResponseString(responseString: String)
     {
-        print(responseString)
-        
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
             DispatchQueue.main.async
@@ -56,8 +54,6 @@ class ForgotPasswordController : GenericProgramViewController
     
     @IBAction func resetPasswordPressed(_ sender: Any)
     {
-        print("reset password pressed")
-        //runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
         WebUtils().runFunctionAfterGettingCsrfToken(functionData: emailTextField.text, completionHandler: postResetPassword)
     }
     

@@ -62,8 +62,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        print("preparing to segue to sign up")
-        
         let nextViewController = segue.destination as! GenericProgramViewController
         nextViewController.shouldPressBackAndNotSegue = false
         nextViewController.viewControllerToReturnTo = self
@@ -98,13 +96,11 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @objc func handleCommentClick(sender: UITapGestureRecognizer)
     {
-        print("handling comment click")
         handleCommentingAccordingToLoginStatus()
     }
     
     @IBAction func closedRepliedTo(_ sender: Any)
     {
-        print("closed replied to")
         hideReplyingToBox()
         
         isCurrentlyReplyingToComment = false
@@ -168,8 +164,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func setCommentBoxStyle()
     {
-        print("setting style")
-        
         commentView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
         commentView.layer.borderWidth = 0.5
         writeCommentBox.clipsToBounds = true
@@ -231,8 +225,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                 self.noDataLabel.isHidden = true
                 self.scrollToCommentInTable(commentID: postedComment.id)
             }
-            
-            print("test")
         }
         else
         {
@@ -248,7 +240,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             {
                 if jsonObj.keys.contains("message")
                 {
-                    print(jsonObj)
                     let deleteMessage : String = jsonObj["message"] as! String
                     if deleteMessage == "success"
                     {
@@ -324,9 +315,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         cell.replyingToBox = replyingToView
         cell.closeReplyButton = closeReplyButton
         cell.commentID = currentComment.id
-        print(currentComment.body)
-        print(currentComment.writer)
-        print(currentComment.level)
+
         if (currentComment.level == 2)
         {
             cell.replyButtonWidthConstraint.constant = 0

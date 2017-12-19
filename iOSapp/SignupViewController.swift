@@ -66,7 +66,7 @@ class SignupViewController : GenericProgramViewController
             print(error)
         case LoginResult.cancelled:
             print("User cancelled login.")
-        case LoginResult.success(let _, let _, let accessToken):
+        case LoginResult.success(_, _, let accessToken):
             var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
             facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
             facebookLoginDataAsJson["code"] = "null"

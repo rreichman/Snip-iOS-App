@@ -11,34 +11,26 @@ import UIKit
 class SnippetTableViewCell: UITableViewCell
 {
     @IBOutlet weak var postImage: UIImageView!
-    
     @IBOutlet weak var imageDescription: UITextView!
     
     @IBOutlet weak var postTimeAndWriter: UITextView!
-    
     @IBOutlet weak var body: UITextView!
-    
     @IBOutlet weak var headline: UILabel!
-    
     @IBOutlet weak var references: UITextView!
     
-    @IBOutlet weak var referencesHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
-    
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
-    
     @IBOutlet weak var commentButton: UIImageView!
     
     @IBOutlet weak var commentPreviewView: UIView!
-    
-    @IBOutlet weak var commentPreviewHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var singleCommentPreview: UITextView!
-    
     @IBOutlet weak var moreCommentsPreview: UITextView!
     
     @IBOutlet weak var writeCommentBox: UITextView!
+    
+    @IBOutlet weak var topOfPreviewCommentsConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topOfMoreCommentsConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomOfWriterBoxConstraint: NSLayoutConstraint!
     
     var isTextLongEnoughToBeTruncated : Bool = true
     
@@ -54,10 +46,6 @@ class SnippetTableViewCell: UITableViewCell
         
         postImage.layer.shouldRasterize = true
         
-        let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
-        writeCommentBox.isUserInteractionEnabled = true
-        writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
-        
         writeCommentBox.attributedText = NSAttributedString(string : "")
         writeCommentBox.placeholder = "Write a comment..."
         writeCommentBox.layer.borderColor = UIColor.gray.cgColor
@@ -65,11 +53,6 @@ class SnippetTableViewCell: UITableViewCell
         
         removePaddingFromTextView(textView: singleCommentPreview)
         removePaddingFromTextView(textView: moreCommentsPreview)
-    }
-    
-    @objc func handleCommentClick(sender: UITapGestureRecognizer)
-    {
-        print("clicked comment")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)

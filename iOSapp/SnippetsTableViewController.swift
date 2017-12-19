@@ -29,7 +29,6 @@ class SnippetsTableViewController: UITableViewController
         // Perhaps need more advanced logic here
         if (tableView.dataSource is FeedDataSource)
         {
-            print("not collecting anymore")
             let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
             if (dataSource.postDataArray.count > 0)
             {
@@ -89,13 +88,16 @@ class SnippetsTableViewController: UITableViewController
         {
             newDataArray = (self.tableView.dataSource as! FeedDataSource).postDataArray
         }
+        else
+        {
+            (self.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.removeAll()
+        }
         for postData in postDataArray
         {
             newDataArray.append(postData)
         }
         
         (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-        (self.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.removeAll()
         self.tableView.reloadData()
         
         SnipRetrieverFromWeb.shared.lock.unlock()
@@ -117,10 +119,8 @@ class SnippetsTableViewController: UITableViewController
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        print("preparing to segue to comments")
         if (segue.identifier == "showCommentsSegue")
         {
-            print("seguing to comments")
             let commentsViewController = segue.destination as! CommentsTableViewController
             let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
             commentsViewController.currentSnippetID = currentPost.id
@@ -146,7 +146,6 @@ class SnippetsTableViewController: UITableViewController
         let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
         
         DispatchQueue.global(qos: .background).async{
-            //print("This is run on the background queue")
             let height = NSNumber(value: newCellHeightAsFloat)
             let previousHeight = self.heightAtIndexPath.object(forKey: indexPath as NSCopying)
             if (previousHeight != nil)
@@ -159,7 +158,6 @@ class SnippetsTableViewController: UITableViewController
             self.heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
             
             DispatchQueue.main.async {
-                //print("This is run on the main queue, after the previous code in outer block")
                 // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
                 if (self.finishedLoadingSnippets)
                 {

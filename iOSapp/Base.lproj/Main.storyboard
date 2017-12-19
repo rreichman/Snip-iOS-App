@@ -27,13 +27,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Time &amp; Writer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wM1-IK-VVe" userLabel="Time and Writer">
-                                            <rect key="frame" x="7" y="263" width="361" height="33"/>
+                                            <rect key="frame" x="7" y="264" width="361" height="33"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jl8-fU-Neb" userLabel="cellBorder">
-                                            <rect key="frame" x="0.0" y="489.5" width="375" height="10"/>
+                                            <rect key="frame" x="0.0" y="490" width="375" height="10"/>
                                             <color key="backgroundColor" red="0.82253331220000003" green="0.82253331220000003" blue="0.82253331220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -41,26 +41,26 @@
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Text" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ah-0O-4Yd" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="306.5" width="361" height="79"/>
+                                            <rect key="frame" x="7" y="307" width="361" height="49"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbsDown" translatesAutoresizingMaskIntoConstraints="NO" id="qWJ-YO-0fb" userLabel="dislikeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp">
-                                            <rect key="frame" x="305" y="366.5" width="24" height="24"/>
+                                            <rect key="frame" x="305" y="339" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="24" id="EDL-2W-qKg"/>
                                                 <constraint firstAttribute="height" constant="24" id="hJD-0e-kVO"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bkq-gb-3WR" userLabel="Image">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="223.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="224"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Bkq-gb-3WR" secondAttribute="height" multiplier="359:214" id="Mps-lF-UHx"/>
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltX-2p-g4Y" userLabel="Image Description">
-                                            <rect key="frame" x="297" y="225.5" width="74" height="15"/>
+                                            <rect key="frame" x="297" y="226" width="74" height="15"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="e0n-Ta-Bf1"/>
@@ -69,7 +69,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="990" verticalCompressionResistancePriority="990" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXr-Nh-myM">
-                                            <rect key="frame" x="5" y="242.5" width="363" height="17.5"/>
+                                            <rect key="frame" x="5" y="243" width="363" height="18"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Headline">
                                                     <attributes>
@@ -81,7 +81,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rex-rR-za1" userLabel="References">
-                                            <rect key="frame" x="8" y="388.5" width="65" height="7"/>
+                                            <rect key="frame" x="8" y="359" width="65" height="7"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="7" identifier="referencesHeightConstraint" id="Ox4-vW-hef"/>
@@ -90,14 +90,14 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="uGK-OW-j2S" userLabel="commentButton">
-                                            <rect key="frame" x="344" y="366.5" width="24" height="24"/>
+                                            <rect key="frame" x="344" y="339" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="Z6t-e0-5ft"/>
                                                 <constraint firstAttribute="width" constant="24" id="aH4-sV-AW3"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageView:sLZ-cH-4QK:image" translatesAutoresizingMaskIntoConstraints="NO" id="sLZ-cH-4QK" userLabel="likeButton" customClass="UIImageViewWithMetadata" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="266" y="366" width="24" height="24"/>
+                                            <rect key="frame" x="266" y="339" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="YIh-Ir-V2l"/>
                                                 <constraint firstAttribute="height" constant="24" id="gNS-JQ-0Hw"/>
@@ -105,31 +105,31 @@
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nP7-gP-r8g" userLabel="Comment Preview View">
-                                            <rect key="frame" x="7" y="399" width="361" height="88"/>
+                                            <rect key="frame" x="7" y="366" width="361" height="121"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="One comment preview" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29y-d2-2hg" userLabel="Preview Comment">
-                                                    <rect key="frame" x="0.0" y="4" width="361" height="25"/>
+                                                    <rect key="frame" x="0.0" y="11" width="361" height="38"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="DRl-rx-sJ2"/>
+                                                        <constraint firstAttribute="height" constant="38" identifier="previewHeightConstraintTop" id="rKp-DX-FD7"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Write comment" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mrg-jS-RCi" userLabel="Write Comment Box">
-                                                    <rect key="frame" x="0.0" y="60" width="361" height="25"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Write comment" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mrg-jS-RCi" userLabel="Write Comment Box">
+                                                    <rect key="frame" x="0.0" y="84" width="361" height="33"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="m3N-Bf-gfU"/>
+                                                        <constraint firstAttribute="height" constant="33" identifier="previewHeightConstraintBottom" id="svp-fo-xfe"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="X more comments..." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upZ-UM-8Iu" userLabel="Preview Comment">
-                                                    <rect key="frame" x="0.0" y="32" width="361" height="25"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="X more comments..." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upZ-UM-8Iu" userLabel="X More Comments">
+                                                    <rect key="frame" x="0.0" y="53" width="361" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="og6-f1-47S"/>
+                                                        <constraint firstAttribute="height" constant="30" identifier="previewHeightConstraintMiddle" id="NlM-Rl-bgR"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -141,12 +141,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="29y-d2-2hg" secondAttribute="trailing" id="CSN-fD-Ng7"/>
                                                 <constraint firstItem="Mrg-jS-RCi" firstAttribute="leading" secondItem="nP7-gP-r8g" secondAttribute="leading" id="DWv-hJ-gSO"/>
                                                 <constraint firstItem="29y-d2-2hg" firstAttribute="leading" secondItem="nP7-gP-r8g" secondAttribute="leading" id="H9p-Ub-TQP"/>
-                                                <constraint firstItem="Mrg-jS-RCi" firstAttribute="top" secondItem="upZ-UM-8Iu" secondAttribute="bottom" constant="3" id="Kvp-A9-a8t"/>
-                                                <constraint firstItem="upZ-UM-8Iu" firstAttribute="top" secondItem="29y-d2-2hg" secondAttribute="bottom" constant="3" id="UBq-zl-deP"/>
+                                                <constraint firstItem="Mrg-jS-RCi" firstAttribute="top" secondItem="upZ-UM-8Iu" secondAttribute="bottom" constant="1" id="Kvp-A9-a8t"/>
+                                                <constraint firstItem="upZ-UM-8Iu" firstAttribute="top" secondItem="29y-d2-2hg" secondAttribute="bottom" constant="4" identifier="topOfMoreCommentsStringConstraint" id="UBq-zl-deP"/>
                                                 <constraint firstAttribute="trailing" secondItem="upZ-UM-8Iu" secondAttribute="trailing" id="VZx-Xu-FgE"/>
-                                                <constraint firstAttribute="height" constant="88" identifier="commentPreviewHeightConstraint" id="XFy-AQ-IMo"/>
-                                                <constraint firstItem="29y-d2-2hg" firstAttribute="top" secondItem="nP7-gP-r8g" secondAttribute="top" constant="4" id="XI5-do-wU1"/>
-                                                <constraint firstAttribute="bottom" secondItem="Mrg-jS-RCi" secondAttribute="bottom" constant="3" id="aht-LU-zuu"/>
+                                                <constraint firstItem="29y-d2-2hg" firstAttribute="top" secondItem="nP7-gP-r8g" secondAttribute="top" constant="11" identifier="topCommentViewMarginConstraint" id="XI5-do-wU1"/>
+                                                <constraint firstAttribute="bottom" secondItem="Mrg-jS-RCi" secondAttribute="bottom" constant="4" identifier="writeCommentBottomMarginConstraint" id="aht-LU-zuu"/>
                                                 <constraint firstAttribute="trailing" secondItem="Mrg-jS-RCi" secondAttribute="trailing" id="h87-o7-U2A"/>
                                             </constraints>
                                         </view>
@@ -163,18 +162,18 @@
                                         <constraint firstItem="sLZ-cH-4QK" firstAttribute="width" secondItem="sLZ-cH-4QK" secondAttribute="height" multiplier="256:256" id="Fq8-Gw-KSB"/>
                                         <constraint firstItem="rex-rR-za1" firstAttribute="top" secondItem="5Ah-0O-4Yd" secondAttribute="bottom" constant="3" id="IrE-3E-pVD"/>
                                         <constraint firstItem="ltX-2p-g4Y" firstAttribute="top" secondItem="Bkq-gb-3WR" secondAttribute="bottom" constant="2" id="Iz9-Dk-FO8"/>
-                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="rex-rR-za1" secondAttribute="bottom" constant="3" id="L8G-mN-avX"/>
+                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="rex-rR-za1" secondAttribute="bottom" id="L8G-mN-avX"/>
                                         <constraint firstItem="rex-rR-za1" firstAttribute="leading" secondItem="EQ4-5A-E4G" secondAttribute="leading" constant="8" id="Nmg-kj-egv"/>
                                         <constraint firstItem="wM1-IK-VVe" firstAttribute="top" secondItem="hXr-Nh-myM" secondAttribute="bottom" constant="3" id="Okt-6T-hoo"/>
-                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="uGK-OW-j2S" secondAttribute="bottom" constant="9" id="QaI-9u-idc"/>
+                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="uGK-OW-j2S" secondAttribute="bottom" constant="3" id="QaI-9u-idc"/>
                                         <constraint firstAttribute="trailing" secondItem="nP7-gP-r8g" secondAttribute="trailing" constant="7" id="RFa-mL-nxR"/>
                                         <constraint firstAttribute="trailing" secondItem="wM1-IK-VVe" secondAttribute="trailing" constant="7" id="TYu-DW-y98"/>
                                         <constraint firstItem="uGK-OW-j2S" firstAttribute="leading" secondItem="qWJ-YO-0fb" secondAttribute="trailing" constant="15" id="Ubc-HQ-opm"/>
                                         <constraint firstItem="Bkq-gb-3WR" firstAttribute="leading" secondItem="EQ4-5A-E4G" secondAttribute="leading" id="VVJ-ih-tnh"/>
                                         <constraint firstAttribute="trailing" secondItem="ltX-2p-g4Y" secondAttribute="trailing" constant="4" id="W5u-SD-VVk"/>
                                         <constraint firstItem="jl8-fU-Neb" firstAttribute="leading" secondItem="EQ4-5A-E4G" secondAttribute="leading" id="Yv5-Ho-PMm"/>
-                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="qWJ-YO-0fb" secondAttribute="bottom" constant="9" id="gJA-CA-xqV"/>
-                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="sLZ-cH-4QK" secondAttribute="bottom" constant="9" id="j26-RQ-2q9"/>
+                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="qWJ-YO-0fb" secondAttribute="bottom" constant="3" id="gJA-CA-xqV"/>
+                                        <constraint firstItem="nP7-gP-r8g" firstAttribute="top" secondItem="sLZ-cH-4QK" secondAttribute="bottom" constant="3" id="j26-RQ-2q9"/>
                                         <constraint firstItem="Bkq-gb-3WR" firstAttribute="top" secondItem="EQ4-5A-E4G" secondAttribute="top" id="jDe-ao-UDq"/>
                                         <constraint firstItem="jl8-fU-Neb" firstAttribute="top" secondItem="nP7-gP-r8g" secondAttribute="bottom" constant="3" id="kT1-ep-U4a"/>
                                         <constraint firstItem="hXr-Nh-myM" firstAttribute="leading" secondItem="EQ4-5A-E4G" secondAttribute="leading" constant="5" id="pvg-te-66X"/>
@@ -187,8 +186,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="body" destination="5Ah-0O-4Yd" id="JUp-Ag-ecr"/>
+                                    <outlet property="bottomOfWriterBoxConstraint" destination="aht-LU-zuu" id="eo5-Ar-dB3"/>
                                     <outlet property="commentButton" destination="uGK-OW-j2S" id="17v-ak-bec"/>
-                                    <outlet property="commentPreviewHeightConstraint" destination="XFy-AQ-IMo" id="fSH-HR-9xy"/>
                                     <outlet property="commentPreviewView" destination="nP7-gP-r8g" id="VIe-XY-jVj"/>
                                     <outlet property="dislikeButton" destination="qWJ-YO-0fb" id="6On-4R-n2M"/>
                                     <outlet property="headline" destination="hXr-Nh-myM" id="k9i-TD-OWF"/>
@@ -198,8 +197,9 @@
                                     <outlet property="postImage" destination="Bkq-gb-3WR" id="7pH-Is-klV"/>
                                     <outlet property="postTimeAndWriter" destination="wM1-IK-VVe" id="Hu5-2p-VBC"/>
                                     <outlet property="references" destination="rex-rR-za1" id="KAW-wK-4HE"/>
-                                    <outlet property="referencesHeightConstraint" destination="Ox4-vW-hef" id="4ws-RN-XZy"/>
                                     <outlet property="singleCommentPreview" destination="29y-d2-2hg" id="obr-de-r8L"/>
+                                    <outlet property="topOfMoreCommentsConstraint" destination="UBq-zl-deP" id="bok-4P-ytI"/>
+                                    <outlet property="topOfPreviewCommentsConstraint" destination="XI5-do-wU1" id="sJ2-CQ-Mt4"/>
                                     <outlet property="writeCommentBox" destination="Mrg-jS-RCi" id="aJg-aw-9xR"/>
                                 </connections>
                             </tableViewCell>

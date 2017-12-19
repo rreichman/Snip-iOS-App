@@ -124,13 +124,11 @@ class LoginViewController : GenericProgramViewController
     
     @IBAction func signupButtonPressed(_ sender: Any)
     {
-        print("signup pressed")
         performSegue(withIdentifier: "showSignupSegue", sender: self)
     }
     
     @IBAction func forgotPasswordButtonPressed(_ sender: Any)
     {
-        print("forgot password pressed")
         performSegue(withIdentifier: "forgotPasswordSegue", sender: self)
     }
     

@@ -25,6 +25,9 @@ public class SystemVariables
     let REFERENCES_FONT = UIFont(name: "Helvetica", size: 11)
     let REFERENCES_COLOR = UIColor.gray
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)
+    let LINE_SPACING_IN_COMMENT_PREVIEW = CGFloat(3)
+    
+    let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray

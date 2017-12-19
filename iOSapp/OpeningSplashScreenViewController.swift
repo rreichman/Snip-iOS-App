@@ -30,6 +30,7 @@ class OpeningSplashScreenViewController: UIViewController
         super.viewDidAppear(animated)
         print("appeared")
         
+        SnipRetrieverFromWeb.shared.clean()
         SnipRetrieverFromWeb.shared.lock.lock()
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }

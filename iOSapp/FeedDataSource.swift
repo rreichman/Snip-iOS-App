@@ -39,6 +39,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("setting comment preview for row: \(indexPath.row)")
         setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
@@ -58,11 +59,10 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
     {
-        print("entered infinite scroll")
         let SPARE_ROWS_UNTIL_MORE_SCROLL = 4
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
-            print("get more posts")
+            print("getting more posts. Current URL string: \(SnipRetrieverFromWeb.shared.currentUrlString)")
             Logger().logScrolledToInfiniteScroll()
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
@@ -202,6 +202,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     @objc func handleClickOnComment(sender : UITapGestureRecognizer)
     {
+        if (sender.view is UIImageView)
+        {
+            Logger().logClickCommentButton()
+        }
+        else
+        {
+            Logger().logClickCommentPreview()
+        }
         let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
         tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender)
         tableViewController.commentsButtonPressed(tableViewController)
@@ -242,6 +250,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
             #selector(self.handleClickOnComment(sender:)))
         cell.commentButton.isUserInteractionEnabled = true
         cell.commentButton.addGestureRecognizer(commentButtonClickRecognizer)
+        
+        let additionalCommentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnComment(sender:)))
+        cell.commentPreviewView.isUserInteractionEnabled = true
+        cell.commentPreviewView.addGestureRecognizer(additionalCommentButtonClickRecognizer)
     }
     
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
