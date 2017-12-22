@@ -18,7 +18,7 @@ class CachedData
     {
         if (screenWidth == 0)
         {
-            screenWidth = UIScreen.screens[0].bounds.width
+            screenWidth = UIScreen.main.bounds.width
         }
 
         return screenWidth
