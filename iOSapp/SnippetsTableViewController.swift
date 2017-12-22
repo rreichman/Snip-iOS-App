@@ -83,6 +83,7 @@ class SnippetsTableViewController: UITableViewController
     
     func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
     {
+        // TODO:: there's some code multiplication here with opening splash screen but not sure it's worth the trouble.
         var newDataArray : [PostData] = []
         if (appendDataAndNotReplace)
         {
@@ -94,6 +95,9 @@ class SnippetsTableViewController: UITableViewController
         }
         for postData in postDataArray
         {
+            let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
+            postData.image.setImageData(imageData: imageData)
+            
             newDataArray.append(postData)
         }
         

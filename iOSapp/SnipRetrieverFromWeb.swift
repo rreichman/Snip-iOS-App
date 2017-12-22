@@ -54,7 +54,6 @@ class SnipRetrieverFromWeb
                     Logger().logErrorInSnippetCollecting()
                     errorHandler!()
                 }
-                // TODO:: log this error
             }
         }).resume()
     }

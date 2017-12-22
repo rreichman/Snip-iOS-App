@@ -10,8 +10,6 @@ import UIKit
 
 class FeedDataSource: NSObject, UITableViewDataSource
 {
-    // TODO:: think about this
-    //var imageDimensionsArray: [CGSize] = []
     var postDataArray: [PostData] = []
     var _tableView: UITableView
     var cellsNotToTruncate : Set<Int> = Set<Int>()
@@ -30,7 +28,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        retrievePostImage(cell: cell, postData: postData)
+        loadImageData(cell: cell, postData: postData)
         
         fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
         fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
@@ -41,7 +39,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("setting comment preview for row: \(indexPath.row)")
         setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
@@ -50,11 +47,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
-        
-        print("Headline is \(cell.headline.text)")
-        print("Current height is \(cell.imageHeightConstraint.constant)")
-        print("New height is \(cell.imageNecessaryHeight)")
-        cell.imageHeightConstraint.constant = cell.imageNecessaryHeight
         
         return cell
     }
@@ -66,13 +58,23 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
     {
-        let SPARE_ROWS_UNTIL_MORE_SCROLL = 4
+        let SPARE_ROWS_UNTIL_MORE_SCROLL = 5
         if postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
             print("getting more posts. Current URL string: \(SnipRetrieverFromWeb.shared.currentUrlString)")
             Logger().logScrolledToInfiniteScroll()
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
+        }
+    }
+    
+    func loadImageData(cell: SnippetTableViewCell, postData: PostData)
+    {
+        cell.postImage.image = nil
+        if (postData.image._gotImageData)
+        {
+            cell.imageHeightConstraint.constant = postData.image._imageHeight
+            cell.postImage.image = postData.image.getImageData()
         }
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cache
 
 class WebUtils
 {
@@ -97,5 +98,45 @@ class WebUtils
     func nilFunction(responseString : String)
     {
         print("doing nothing")
+    }
+    
+    func isUrlValid(urlString: String?) -> Bool
+    {
+        //Check for nil
+        if let urlString = urlString {
+            // create NSURL instance
+            if let url = NSURL(string: urlString) {
+                // check if application can open the NSURL instance
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
+        }
+        return false
+    }
+    
+    func getImageFromWebSync(urlString : String) -> UIImage
+    {
+        let storage = AppCache.shared.getStorage()
+        if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
+        {
+            return cachedImage
+        }
+        else
+        {
+            if isUrlValid(urlString: urlString)
+            {
+                let url = NSURL(string:urlString)
+                let data = NSData(contentsOf:url! as URL)
+                if data != nil
+                {
+                    return UIImage(data:data! as Data)!
+                }
+            }
+            else
+            {
+                // TODO:: handle error
+            }
+        }
+        
+        return UIImage()
     }
 }

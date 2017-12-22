@@ -34,8 +34,6 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     
-    var imageNecessaryHeight : CGFloat = 100
-    
     var isTextLongEnoughToBeTruncated : Bool = true
     
     override func awakeFromNib()

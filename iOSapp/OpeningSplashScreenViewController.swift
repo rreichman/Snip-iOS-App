@@ -46,6 +46,12 @@ class OpeningSplashScreenViewController: UIViewController
         {
             feedDataSource.postDataArray.append(postData)
         }
+        
+        for postData in feedDataSource.postDataArray
+        {
+            let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
+            postData.image.setImageData(imageData: imageData)
+        }
 
         performSegue(withIdentifier: "segueToTableView", sender: self)
         SnipRetrieverFromWeb.shared.lock.unlock()
