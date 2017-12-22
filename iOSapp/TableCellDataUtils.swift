@@ -12,7 +12,7 @@ func retrievePostImage(cell : SnippetTableViewCell, postData : PostData)
 {
     do
     {
-        _ = try cell.postImage.imageFromServerURL(urlString: postData.image._imageURL)
+        _ = try cell.postImage.imageFromServerURL(cell: cell, urlString: postData.image._imageURL)
     }
     catch is ProgramError
     {

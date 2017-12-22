@@ -27,7 +27,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Time &amp; Writer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wM1-IK-VVe" userLabel="Time and Writer">
-                                            <rect key="frame" x="7" y="264" width="361" height="33"/>
+                                            <rect key="frame" x="7" y="280" width="361" height="33"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -41,7 +41,7 @@
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Text" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ah-0O-4Yd" userLabel="Text Body">
-                                            <rect key="frame" x="7" y="307" width="361" height="49"/>
+                                            <rect key="frame" x="7" y="323" width="361" height="33"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -53,14 +53,14 @@
                                                 <constraint firstAttribute="height" constant="24" id="hJD-0e-kVO"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bkq-gb-3WR" userLabel="Image">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="224"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bkq-gb-3WR" userLabel="Image">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="Bkq-gb-3WR" secondAttribute="height" multiplier="359:214" id="Mps-lF-UHx"/>
+                                                <constraint firstAttribute="height" constant="240" id="5rn-qJ-St9"/>
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltX-2p-g4Y" userLabel="Image Description">
-                                            <rect key="frame" x="297" y="226" width="74" height="15"/>
+                                            <rect key="frame" x="297" y="242" width="74" height="15"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="e0n-Ta-Bf1"/>
@@ -69,7 +69,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="990" verticalCompressionResistancePriority="990" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXr-Nh-myM">
-                                            <rect key="frame" x="5" y="243" width="363" height="18"/>
+                                            <rect key="frame" x="5" y="259" width="363" height="18"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Headline">
                                                     <attributes>
@@ -191,6 +191,7 @@
                                     <outlet property="dislikeButton" destination="qWJ-YO-0fb" id="6On-4R-n2M"/>
                                     <outlet property="headline" destination="hXr-Nh-myM" id="k9i-TD-OWF"/>
                                     <outlet property="imageDescription" destination="ltX-2p-g4Y" id="yfg-fy-GLO"/>
+                                    <outlet property="imageHeightConstraint" destination="5rn-qJ-St9" id="He0-z9-QiX"/>
                                     <outlet property="likeButton" destination="sLZ-cH-4QK" id="Mdm-YZ-NtL"/>
                                     <outlet property="moreCommentsPreview" destination="upZ-UM-8Iu" id="0Kp-wz-Phe"/>
                                     <outlet property="postImage" destination="Bkq-gb-3WR" id="7pH-Is-klV"/>

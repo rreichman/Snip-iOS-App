@@ -10,6 +10,8 @@ import UIKit
 
 class FeedDataSource: NSObject, UITableViewDataSource
 {
+    // TODO:: think about this
+    //var imageDimensionsArray: [CGSize] = []
     var postDataArray: [PostData] = []
     var _tableView: UITableView
     var cellsNotToTruncate : Set<Int> = Set<Int>()
@@ -48,6 +50,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
+        
+        print("Headline is \(cell.headline.text)")
+        print("Current height is \(cell.imageHeightConstraint.constant)")
+        print("New height is \(cell.imageNecessaryHeight)")
+        cell.imageHeightConstraint.constant = cell.imageNecessaryHeight
         
         return cell
     }

@@ -25,17 +25,18 @@ extension UIImageView
         return false
     }
     
-    public func imageFromServerURL(urlString: String) throws -> Error
+    func imageFromServerURL(cell : SnippetTableViewCell, urlString: String) throws -> Error
     {
         // I don't want it taking the data from a previous image.
         self.image = nil
         
         let storage = AppCache.shared.getStorage()
-        if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
+        /*if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
         {
             self.image = cachedImage
+            handleHeightConstraint(cell: cell, image: cachedImage)
             return NoError()
-        }
+        }*/
 
         if !isUrlValid(urlString: urlString)
         {
@@ -53,9 +54,18 @@ extension UIImageView
                 // Cache to image so it doesn't need to be reloaded every time the user scrolls and table cells are re-used.
                 if let image = UIImage(data: data!)
                 {
+                    print("here")
                     let wrapper = ImageWrapper(image : image)
                     try? storage.setObject(wrapper, forKey: urlString)
                     self.image = image
+                    
+                    print("Headline: \(cell.headline.text)")
+                    print("Image width: \(image.size.width)")
+                    print("Image height: \(image.size.height)")
+                    print("Screen width: \(CachedData().getScreenWidth())")
+                    let ratio = image.size.width / CachedData().getScreenWidth()
+                    let newHeight = image.size.height / ratio
+                    cell.imageNecessaryHeight = newHeight
                 }
             })
             
