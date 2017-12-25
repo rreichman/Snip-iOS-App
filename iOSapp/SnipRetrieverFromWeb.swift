@@ -76,7 +76,6 @@ class SnipRetrieverFromWeb
             }
             else
             {
-                print(currentUrlString)
                 currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
             }
             let newPost = PostData(receivedPostJson : postAsJson)

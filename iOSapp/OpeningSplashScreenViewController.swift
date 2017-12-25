@@ -37,6 +37,7 @@ class OpeningSplashScreenViewController: UIViewController
     
     func collectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
     {
+        print("starting here: \(Date())")
         if (!appendDataAndNotReplace)
         {
             feedDataSource.postDataArray = []
@@ -47,11 +48,20 @@ class OpeningSplashScreenViewController: UIViewController
             feedDataSource.postDataArray.append(postData)
         }
         
+        var i = 0
         for postData in feedDataSource.postDataArray
         {
-            let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
-            postData.image.setImageData(imageData: imageData)
+            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
+            if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
+            {
+                let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
+                postData.image.setImageData(imageData: imageData)
+            }
+
+            i += 1
         }
+        
+        print("performing segue: \(Date())")
 
         performSegue(withIdentifier: "segueToTableView", sender: self)
         SnipRetrieverFromWeb.shared.lock.unlock()
@@ -62,10 +72,10 @@ class OpeningSplashScreenViewController: UIViewController
         print("preparing")
         if (segue.identifier == "segueToTableView")
         {
-            print("seguing")
             let navigationController = segue.destination as! UINavigationController
             let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             tableViewController.tableView.dataSource = feedDataSource
+            tableViewController.getRestOfImagesAsync()
             tableViewController.tableView.reloadData()
         }
     }

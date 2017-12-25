@@ -23,6 +23,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         _tableView = tableView
         
+        print("starting cell \(Date())")
+        
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
@@ -47,6 +49,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
+        
+        print("ending cell \(Date())")
         
         return cell
     }

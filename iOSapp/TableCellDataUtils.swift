@@ -8,49 +8,6 @@
 
 import UIKit
 
-/*func retrievePostImage(postData : PostData, isAsync : Bool) -> UIImage
-{
-    // I don't want it taking the data from a previous image.
-    self.image = nil
-    
-    let storage = AppCache.shared.getStorage()
-    /*if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: urlString).image
-     {
-     self.image = cachedImage
-     handleHeightConstraint(cell: cell, image: cachedImage)
-     return NoError()
-     }*/
-    
-    if !isUrlValid(urlString: urlString)
-    {
-        throw ProgramError(errorMessage: "Invalid URL")
-    }
-    let url = NSURL(string: urlString)! as URL
-    
-    URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
-        if error != nil
-        {
-            print("error in loading URL")
-            return
-        }
-        DispatchQueue.main.async(execute: { () -> Void in
-            // Cache to image so it doesn't need to be reloaded every time the user scrolls and table cells are re-used.
-            if let image = UIImage(data: data!)
-            {
-                let wrapper = ImageWrapper(image : image)
-                try? storage.setObject(wrapper, forKey: urlString)
-                self.image = image
-                
-                let ratio = image.size.width / CachedData().getScreenWidth()
-                let newHeight = image.size.height / ratio
-                cell.imageNecessaryHeight = newHeight
-            }
-        })
-        
-    }).resume()
-        //_ = try cell.postImage.imageFromServerURL(cell: cell, urlString: postData.image._imageURL)
-}*/
-
 func fillImageDescription(cell : SnippetTableViewCell, imageDescription : NSMutableAttributedString)
 {
     cell.imageDescription.attributedText = imageDescription
@@ -146,7 +103,6 @@ func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData
 
 func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
 {
-    print("setting comments")
     var firstCommentWriter : String = ""
     var firstCommentText : String = ""
     
@@ -206,12 +162,10 @@ func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postDat
     
     if ((tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate) || (postData.comments.count == 0))
     {
-        print("no visibility")
         changeCommentPreviewVisibility(tableViewCell: tableViewCell, constraintSizes: [0, 0, 0, 0, 0, 0])
     }
     else
     {
-        print("with visibility")
         if (postData.comments.count < 2)
         {
             moreCommentsStringHeight = 0

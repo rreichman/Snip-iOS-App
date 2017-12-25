@@ -795,6 +795,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snip.iOSapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -815,6 +816,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snip.iOSapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

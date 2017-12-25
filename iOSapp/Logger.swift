@@ -81,7 +81,7 @@ public class Logger
         
         //sending the data to the url
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data, error == nil else
+            guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
                 return
@@ -93,8 +93,8 @@ public class Logger
                 print("response = \(String(describing: response))")
             }
             
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(String(describing: responseString))")
+            //let responseString = String(data: data, encoding: .utf8)
+            //print("responseString = \(String(describing: responseString))")
             self.finishPosting(logID: logID)
         }
         task.resume()

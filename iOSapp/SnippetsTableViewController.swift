@@ -19,6 +19,7 @@ class SnippetsTableViewController: UITableViewController
     
     override func viewDidLoad()
     {
+        print("loading snippetViewController")
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -26,18 +27,37 @@ class SnippetsTableViewController: UITableViewController
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
         
-        // Perhaps need more advanced logic here
-        if (tableView.dataSource is FeedDataSource)
-        {
-            let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
-            if (dataSource.postDataArray.count > 0)
-            {
-                return
-            }
-        }
-        
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+        print("done loading snippetViewController")
+    }
+    
+    func getRestOfImagesAsync()
+    {
+        let storage = AppCache.shared.getStorage()
+        
+        for postData in (self.tableView.dataSource as! FeedDataSource).postDataArray
+        {
+            if !postData.image._gotImageData
+            {
+                if let cachedImage = try? storage.object(ofType: ImageWrapper.self, forKey: postData.image._imageURL).image
+                {
+                    postData.image.setImageData(imageData: cachedImage)
+                }
+                else
+                {
+                    DispatchQueue.global(qos: .background).async
+                    {
+                        let url = NSURL(string:postData.image._imageURL)
+                        let data = NSData(contentsOf:url! as URL)
+                        if data != nil
+                        {
+                            postData.image.setImageData(imageData: UIImage(data:data! as Data)!)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func menuButtonPressed(_ sender: UIBarButtonItem)
@@ -93,19 +113,26 @@ class SnippetsTableViewController: UITableViewController
         {
             (self.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.removeAll()
         }
-        for postData in postDataArray
+        
+        DispatchQueue.global(qos: .background).async
         {
-            let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
-            postData.image.setImageData(imageData: imageData)
+            for postData in postDataArray
+            {
+                let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
+                postData.image.setImageData(imageData: imageData)
+                
+                newDataArray.append(postData)
+            }
             
-            newDataArray.append(postData)
+            DispatchQueue.main.async
+            {
+                (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                self.tableView.reloadData()
+                
+                SnipRetrieverFromWeb.shared.lock.unlock()
+                self.finishedLoadingSnippets = true
+            }
         }
-        
-        (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-        self.tableView.reloadData()
-        
-        SnipRetrieverFromWeb.shared.lock.unlock()
-        self.finishedLoadingSnippets = true
     }
     
     func dataCollectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
@@ -116,7 +143,6 @@ class SnippetsTableViewController: UITableViewController
             {
                 self.refreshControl?.endRefreshing()
             }
-
             self.updateTableInfoFeedDataSource(postDataArray: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
         }
     }

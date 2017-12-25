@@ -122,18 +122,11 @@ class WebUtils
         }
         else
         {
-            if isUrlValid(urlString: urlString)
+            let url = NSURL(string:urlString)
+            let data = NSData(contentsOf:url! as URL)
+            if data != nil
             {
-                let url = NSURL(string:urlString)
-                let data = NSData(contentsOf:url! as URL)
-                if data != nil
-                {
-                    return UIImage(data:data! as Data)!
-                }
-            }
-            else
-            {
-                // TODO:: handle error
+                return UIImage(data:data! as Data)!
             }
         }
         
