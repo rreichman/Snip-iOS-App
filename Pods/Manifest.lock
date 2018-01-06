@@ -48,7 +48,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mixpanel-swift:
-    :commit: 405ec3cda00b78c96ed9e436faaf1e2e9084b919
+    :commit: a057763547eeac578e1effe05a4e26319c8197bd
     :git: https://github.com/mixpanel/mixpanel-swift.git
 
 SPEC CHECKSUMS:
