@@ -16,13 +16,21 @@ import Fabric
 import Crashlytics
 import Mixpanel
 import FacebookCore
+import FBSDKCoreKit
+import FacebookLogin
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var enteredBackgroundTime : Date = Date(timeIntervalSince1970: 0)
-
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool
+    {
+        print("in application from URL")
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String!, annotation: options[.annotation])
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         print("start")
@@ -31,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
         
         // Override point for customization after application launch.
-        return true
+        //return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     func applicationWillResignActive(_ application: UIApplication)
@@ -46,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication)
     {
-        print("enter backdground")
+        print("enter background")
         Logger().logAppEnteredBackground()
         
         enteredBackgroundTime = Date()
@@ -63,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         print("become active")
+        FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)
         Logger().logAppBecameActive()
         

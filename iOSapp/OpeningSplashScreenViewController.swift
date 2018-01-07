@@ -23,7 +23,7 @@ class OpeningSplashScreenViewController: UIViewController
         Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
         splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
-    }
+}
     
     override func viewDidAppear(_ animated: Bool)
     {
