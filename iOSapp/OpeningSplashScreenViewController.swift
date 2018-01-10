@@ -22,8 +22,44 @@ class OpeningSplashScreenViewController: UIViewController
         
         Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
-        splashScreenImage.image = #imageLiteral(resourceName: "splashScreenImage")
-}
+        loadSplashScreenImage()
+    }
+    
+    func loadSplashScreenImage()
+    {
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height
+        
+        if width < 350 && height < 600
+        {
+            splashScreenImage.image = #imageLiteral(resourceName: "splashScreenSE")
+        }
+        else
+        {
+            if width < 400 && height < 700
+            {
+                splashScreenImage.image = #imageLiteral(resourceName: "splashScreenRegular")
+            }
+            else
+            {
+                if width < 450 && height < 800
+                {
+                    splashScreenImage.image = #imageLiteral(resourceName: "splashScreenPlus")
+                }
+                else
+                {
+                    if width < 400 && height > 800
+                    {
+                        splashScreenImage.image = #imageLiteral(resourceName: "splashScreenX")
+                    }
+                    else
+                    {
+                        splashScreenImage.image = #imageLiteral(resourceName: "splashScreenIpad")
+                    }
+                }
+            }
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool)
     {
