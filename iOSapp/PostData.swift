@@ -53,10 +53,18 @@ class PostData : Encodable, Decodable
         DispatchQueue.main.async
         {
             let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
-            let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : self.image._imageDescription)!
+            let updatedHtmlString = self.removePaddingFromHtmlString(str: self.image._imageDescription)
+            let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
             imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
         }
+    }
+    
+    func removePaddingFromHtmlString(str: String) -> String
+    {
+        var newStr = str.replacingOccurrences(of: "<p>", with: "")
+        newStr = newStr.replacingOccurrences(of: "</p>", with: "")
+        return newStr
     }
     
     func setImageIfExists(postJson : [String : Any])
