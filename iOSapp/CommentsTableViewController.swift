@@ -237,6 +237,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                 self.hideReplyingToBox()
                 self.writeCommentBox.endEditing(true)
                 self.writeCommentBox.text = ""
+                if let placeholderLabel = self.writeCommentBox.viewWithTag(TEXTVIEW_PLACEHOLDER_TAG) as? UILabel
+                {
+                    placeholderLabel.isHidden = self.writeCommentBox.attributedText.length > 0
+                }
                 
                 self.noDataLabel.isHidden = true
                 self.scrollToCommentInTable(commentID: postedComment.id)
