@@ -25,6 +25,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     var isCurrentlyReplyingToComment : Bool = false
     var commentIdReplyingTo : Int = 0
     var noDataLabel: UILabel = UILabel()
+    var isPostButtonValid = true
     
     override func viewDidLoad()
     {
@@ -191,13 +192,18 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @IBAction func postButtonClicked(_ sender: Any)
     {
-        if (UserInformation().isUserLoggedIn())
+        if (writeCommentBox.attributedText.length > 0)
         {
-            WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
-        }
-        else
-        {
-            popAlertController()
+            if (UserInformation().isUserLoggedIn() && isPostButtonValid)
+            {
+                isPostButtonValid = false
+                
+                WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
+            }
+            else
+            {
+                popAlertController()
+            }
         }
     }
     
@@ -240,6 +246,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         {
             // TODO:: What happens here?
         }
+        
+        isPostButtonValid = true
     }
     
     func handleDeletedComment(responseString: String)

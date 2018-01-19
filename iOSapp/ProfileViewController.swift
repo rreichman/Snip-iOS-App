@@ -14,7 +14,7 @@ class ProfileViewController : GenericProgramViewController
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var welcomeText: UITextView!
     
-    let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/keystore"
+    //let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/keystore"
     //var ks : GethKeyStore = GethKeyStore()
     
     override func viewDidLoad()
