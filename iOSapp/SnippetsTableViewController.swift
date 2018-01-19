@@ -238,11 +238,8 @@ class SnippetsTableViewController: UITableViewController
     // Perhaps this can be non-objc with some modifications
     @objc func homeButtonAction(sender: Any)
     {
-        // This is a nice additional margin so that the cell isn't too crowded with the top of the page. Probably there's a better way to do this but not too important.
-        let additionalMarginAtBottomOfNavigationBar = CGFloat(20)
-        // Bring the content to the top of the screen in a nice animated way.
-        let heightOfTopOfPage = -self.navigationController!.navigationBar.frame.size.height - additionalMarginAtBottomOfNavigationBar
-        tableView.setContentOffset(CGPoint(x : 0, y : heightOfTopOfPage), animated: true)
+        let top = NSIndexPath(row: NSNotFound , section: 0)
+        tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: true)
     }
     
     private func turnNavigationBarTitleIntoButton(title: String)

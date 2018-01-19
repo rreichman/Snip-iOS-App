@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO:: spread this class to another one
-class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate
+class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIGestureRecognizerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var writeCommentBox: UITextView!
@@ -42,12 +42,19 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         hideReplyingToBox()
         
         let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
+        writeCommentRecognizer.delegate = self
         writeCommentBox.isUserInteractionEnabled = true
         writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
         
         self.navigationController?.navigationBar.tintColor = UIColor.black
         // This is for the cases where there are no comments
         setTableViewBackground()
+    }
+    
+    // This allows the text view to receive input normally even with a recognizer.
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        return true
     }
     
     func getCommentArray() -> [Comment]
@@ -86,7 +93,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         if (UserInformation().isUserLoggedIn())
         {
-            writeCommentBox.becomeFirstResponder()
+            if (!writeCommentBox.isFirstResponder)
+            {
+                writeCommentBox.becomeFirstResponder()
+            }
         }
         else
         {
