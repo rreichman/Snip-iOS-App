@@ -60,7 +60,7 @@
                                                 <constraint firstAttribute="height" constant="240" id="5rn-qJ-St9"/>
                                             </constraints>
                                         </imageView>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltX-2p-g4Y" userLabel="Image Description">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="998" verticalCompressionResistancePriority="995" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltX-2p-g4Y" userLabel="Image Description">
                                             <rect key="frame" x="5" y="242" width="365" height="24.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="7"/>

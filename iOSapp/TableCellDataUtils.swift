@@ -11,13 +11,10 @@ import UIKit
 func fillImageDescription(cell : SnippetTableViewCell, imageDescription : NSMutableAttributedString)
 {
     cell.imageDescription.attributedText = imageDescription
-    //cell.imageDescription.attributedText = NSAttributedString(string: "dfskj\nsjklaaf\nds\njklk\njldfs\nkdfjlskfdlsjkfsdjkdfslajklfds\nfsdaksdfjkl")
-    //cell.imageDescription.attributedText = NSAttributedString(string:"abc")
     // Make the link in image description gray
     cell.imageDescription.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().IMAGE_DESCRIPTION_COLOR]
     removePaddingFromTextView(textView: cell.imageDescription)
-    print(cell.imageDescription.bounds.height)
-    print(cell.imageDescription.bounds.width)
+    cell.imageDescription.textAlignment = .right
 }
 
 func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
