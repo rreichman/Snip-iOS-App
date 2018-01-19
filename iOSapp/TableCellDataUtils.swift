@@ -124,7 +124,8 @@ func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostDa
     let previewString : NSMutableAttributedString = NSMutableAttributedString(string: firstCommentFullString)
     previewString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: previewString.length))
     previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_AUTHOR_FONT], range: NSRange(location: 0, length: firstCommentWriter.count))
-    
+    previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_TEXT_FONT], range: NSRange(location: firstCommentWriter.count, length: previewString.length - firstCommentWriter.count))
+        
     tableViewCell.singleCommentPreview.attributedText = previewString
     
     let moreCommentsFullString = getMoreCommentsFullString(postData: postData)

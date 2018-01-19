@@ -28,6 +28,7 @@ public class SystemVariables
     let LINE_SPACING_IN_COMMENT_PREVIEW = CGFloat(3)
     
     let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
+    let COMMENT_PREVIEW_TEXT_FONT = UIFont.systemFont(ofSize: 13)
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
