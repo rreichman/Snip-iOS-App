@@ -258,6 +258,7 @@ func addReferencesStringsToCell(cell: SnippetTableViewCell, postData: PostData)
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_REFERENCES
     allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
+    allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
     
     cell.references.attributedText = allReferencesString
     cell.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
