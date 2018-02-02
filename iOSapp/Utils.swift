@@ -126,6 +126,40 @@ func addFontAndForegroundColorToView(textView : UITextView, newFont : Any, newCo
     textView.attributedText = attributedString
 }
 
+public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
+{
+    return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
+}
+
+func convertDictionaryToJsonString(dictionary: Dictionary<String,String>) -> String
+{
+    var dictionaryString = ""
+    var isFirstKey = true
+    
+    for key in dictionary.keys
+    {
+        if !isFirstKey
+        {
+            dictionaryString.append("&")
+        }
+        isFirstKey = false
+        
+        dictionaryString.append(key)
+        dictionaryString.append("=")
+        dictionaryString.append(dictionary[key]!)
+    }
+    return dictionaryString
+}
+
+func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+
 func getTimeFromDateString(dateString : String) -> String
 {
     let dateFormatter = DateFormatter()
@@ -133,7 +167,7 @@ func getTimeFromDateString(dateString : String) -> String
     dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     let dateAsDataStructure = dateFormatter.date(from : dateString)
-
+    
     if (dateAsDataStructure == nil)
     {
         return "error in date"
@@ -199,40 +233,6 @@ func getTimeFromDateString(dateString : String) -> String
         displayedTime = String(dateString.prefix(10))
     }
     return displayedTime
-}
-
-public func getLastIndexOfSubstringInString(originalString : String, substring : String) -> Int
-{
-    return (originalString.range(of: substring, options: .backwards)?.lowerBound.encodedOffset)!
-}
-
-func convertDictionaryToJsonString(dictionary: Dictionary<String,String>) -> String
-{
-    var dictionaryString = ""
-    var isFirstKey = true
-    
-    for key in dictionary.keys
-    {
-        if !isFirstKey
-        {
-            dictionaryString.append("&")
-        }
-        isFirstKey = false
-        
-        dictionaryString.append(key)
-        dictionaryString.append("=")
-        dictionaryString.append(dictionary[key]!)
-    }
-    return dictionaryString
-}
-
-func UIColorFromRGB(rgbValue: UInt) -> UIColor {
-    return UIColor(
-        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-        alpha: CGFloat(1.0)
-    )
 }
 
 // Use this for tests

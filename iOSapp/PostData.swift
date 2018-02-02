@@ -23,11 +23,20 @@ class PostData : Encodable, Decodable
     var isDisliked : Bool = false
     var comments : [Comment] = []
     
+    var m_isTextLongEnoughToBeTruncated : Bool = true
+    
+    // These two variables save resources when scrolling
+    var textAsAttributedStringWithTruncation : NSAttributedString = NSAttributedString()
+    var textAsAttributedStringWithoutTruncation : NSAttributedString = NSAttributedString()
+    
     var isFirstTime = true
     
     // These two variables save resources when scrolling
     var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
+    
+    var timeAndWriterString : String = ""
+    let PUBLISH_TIME_AND_WRITER_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
     
     init() {}
     
@@ -57,7 +66,19 @@ class PostData : Encodable, Decodable
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
             imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
+            
+            let descriptionParagraphStyle = NSMutableParagraphStyle()
+            descriptionParagraphStyle.alignment = .right
+            
+            self.imageDescriptionAfterHtmlRendering.addAttribute(NSAttributedStringKey.paragraphStyle, value: descriptionParagraphStyle, range: NSRange(location: 0, length: self.imageDescriptionAfterHtmlRendering.length))
         }
+        
+        textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: true)
+        textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: false)
+        
+        timeAndWriterString = getTimeFromDateString(dateString: date) + ", by " + author._name
+        
+        m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self)
     }
     
     func removePaddingFromHtmlString(str: String) -> String

@@ -23,42 +23,58 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         _tableView = tableView
         
-        var startTime = Date().timeIntervalSince1970
-        //print("starting cell \(Date().timeIntervalSince1970)")
+        var current = Date().timeIntervalSince1970
         
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        print("1: \(Date().timeIntervalSince1970 - startTime)")
+        print("0: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
+        let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
+        fillPublishTimeAndWriterInfo(cell: cell, timeAndWriterAttributedString: timeAndWriterString)
+        
+        print("1: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         loadImageData(cell: cell, postData: postData)
-        print("2: \(Date().timeIntervalSince1970 - startTime)")
-        // 0.0007 s
+        print("2: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
-        print("3: \(Date().timeIntervalSince1970 - startTime)")
-        // 0.0007 s
-        fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
+        print("3: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         
         self.makeCellClickable(tableViewCell : cell)
         
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
-        print("4: \(Date().timeIntervalSince1970 - startTime)")
-        // 0.0007 s
+        print("4: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("5: \(Date().timeIntervalSince1970 - startTime)")
+        print("5: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("6: \(Date().timeIntervalSince1970 - startTime)")
+        print("6: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("7: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         
-        self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
-        self.turnActionImagesIntoButtons(cell: cell)
+        if (!shouldTruncate)
+        {
+            self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
+            self.turnActionImagesIntoButtons(cell: cell)
+        }
         
-        cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
-        cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
+        print("8: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
         cell.headline.text = postData.headline
         
+        print("9: \(10000 * (Date().timeIntervalSince1970 - current))")
+        current = Date().timeIntervalSince1970
+        print("10: \(10000 * (Date().timeIntervalSince1970 - current))")
+        
+        print("returning cell")
         return cell
     }
     
@@ -77,6 +93,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
+    }
+    
+    func generateTimeAndWriterString(postData: PostData) -> NSAttributedString
+    {
+        return NSAttributedString(string : postData.timeAndWriterString, attributes: postData.PUBLISH_TIME_AND_WRITER_ATTRIBUTES)
     }
     
     func loadImageData(cell: SnippetTableViewCell, postData: PostData)
@@ -282,7 +303,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
         let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview as! SnippetTableViewCell
         
-        if (tableViewCell.isTextLongEnoughToBeTruncated)
+        if (tableViewCell.m_isTextLongEnoughToBeTruncated)
         {
             if (isReadMore)
             {

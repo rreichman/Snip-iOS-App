@@ -34,7 +34,7 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     
-    var isTextLongEnoughToBeTruncated : Bool = true
+    var m_isTextLongEnoughToBeTruncated : Bool = true
     
     override func awakeFromNib()
     {
@@ -55,6 +55,11 @@ class SnippetTableViewCell: UITableViewCell
         
         removePaddingFromTextView(textView: singleCommentPreview)
         removePaddingFromTextView(textView: moreCommentsPreview)
+        
+        imageDescription.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().IMAGE_DESCRIPTION_COLOR]
+        
+        headline.font = SystemVariables().HEADLINE_TEXT_FONT
+        headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)
