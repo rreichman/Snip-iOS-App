@@ -104,35 +104,40 @@ func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData
 
 func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
 {
-    var firstCommentWriter : String = ""
-    var firstCommentText : String = ""
+    var isShowingPreview = !((tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate) || (postData.comments.count == 0))
     
-    if (postData.comments.count > 0)
+    if (isShowingPreview)
     {
-        firstCommentWriter = postData.comments[0].writer._name
-        firstCommentText = postData.comments[0].body
+        var firstCommentWriter : String = ""
+        var firstCommentText : String = ""
+        
+        if (postData.comments.count > 0)
+        {
+            firstCommentWriter = postData.comments[0].writer._name
+            firstCommentText = postData.comments[0].body
+        }
+        
+        let firstCommentFullString : String = firstCommentWriter + "\n" + firstCommentText
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_COMMENT_PREVIEW
+        
+        let previewString : NSMutableAttributedString = NSMutableAttributedString(string: firstCommentFullString)
+        previewString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: previewString.length))
+        previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_AUTHOR_FONT], range: NSRange(location: 0, length: firstCommentWriter.count))
+        previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_TEXT_FONT], range: NSRange(location: firstCommentWriter.count, length: previewString.length - firstCommentWriter.count))
+        
+        tableViewCell.singleCommentPreview.attributedText = previewString
+        
+        let moreCommentsFullString = getMoreCommentsFullString(postData: postData)
+        
+        let moreCommentsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string: moreCommentsFullString)
+        moreCommentsAttributedString.setAttributes([NSAttributedStringKey.foregroundColor : UIColor.gray], range: NSRange(location: 0,length: moreCommentsAttributedString.length))
+        
+        tableViewCell.moreCommentsPreview.attributedText = moreCommentsAttributedString
     }
     
-    let firstCommentFullString : String = firstCommentWriter + "\n" + firstCommentText
-    
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_COMMENT_PREVIEW
-    
-    let previewString : NSMutableAttributedString = NSMutableAttributedString(string: firstCommentFullString)
-    previewString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: previewString.length))
-    previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_AUTHOR_FONT], range: NSRange(location: 0, length: firstCommentWriter.count))
-    previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_TEXT_FONT], range: NSRange(location: firstCommentWriter.count, length: previewString.length - firstCommentWriter.count))
-        
-    tableViewCell.singleCommentPreview.attributedText = previewString
-    
-    let moreCommentsFullString = getMoreCommentsFullString(postData: postData)
-    
-    let moreCommentsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string: moreCommentsFullString)
-    moreCommentsAttributedString.setAttributes([NSAttributedStringKey.foregroundColor : UIColor.gray], range: NSRange(location: 0,length: moreCommentsAttributedString.length))
-    
-    tableViewCell.moreCommentsPreview.attributedText = moreCommentsAttributedString
-    
-    setVisibilityForCommentPreview(tableViewCell: tableViewCell, postData: postData, shouldTruncate: shouldTruncate)
+    setVisibilityForCommentPreview(tableViewCell: tableViewCell, postData: postData, shouldTruncate: shouldTruncate, isShowingPreview: isShowingPreview)
 }
 
 func getMoreCommentsFullString(postData: PostData) -> String
@@ -152,7 +157,7 @@ func getMoreCommentsFullString(postData: PostData) -> String
     return "" + String(postData.comments.count - 1) + moreCommentsString
 }
 
-func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
+func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool, isShowingPreview : Bool)
 {
     // Note - This (no preview) isn't necessarily the best response to "no comments" but it's simplest and shouldn't happen
     let topMarginSize : CGFloat = 11
@@ -162,7 +167,7 @@ func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postDat
     let heightOfWriteCommentsBox : CGFloat = 33
     let lowMarginSize : CGFloat = 4
     
-    if ((tableViewCell.isTextLongEnoughToBeTruncated && shouldTruncate) || (postData.comments.count == 0))
+    if (!isShowingPreview)
     {
         changeCommentPreviewVisibility(tableViewCell: tableViewCell, constraintSizes: [0, 0, 0, 0, 0, 0])
     }

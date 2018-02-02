@@ -23,24 +23,33 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         _tableView = tableView
         
-        print("starting cell \(Date())")
+        var startTime = Date().timeIntervalSince1970
+        //print("starting cell \(Date().timeIntervalSince1970)")
         
         handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
+        print("1: \(Date().timeIntervalSince1970 - startTime)")
         loadImageData(cell: cell, postData: postData)
-        
+        print("2: \(Date().timeIntervalSince1970 - startTime)")
+        // 0.0007 s
         fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        print("3: \(Date().timeIntervalSince1970 - startTime)")
+        // 0.0007 s
         fillPublishTimeAndWriterInfo(cell: cell, postData: postData)
         
         self.makeCellClickable(tableViewCell : cell)
         
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
+        print("4: \(Date().timeIntervalSince1970 - startTime)")
+        // 0.0007 s
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("5: \(Date().timeIntervalSince1970 - startTime)")
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        print("6: \(Date().timeIntervalSince1970 - startTime)")
         setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
@@ -49,8 +58,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         cell.headline.font = SystemVariables().HEADLINE_TEXT_FONT
         cell.headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         cell.headline.text = postData.headline
-        
-        print("ending cell \(Date())")
         
         return cell
     }
