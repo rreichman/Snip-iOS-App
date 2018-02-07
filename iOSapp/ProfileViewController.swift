@@ -60,17 +60,6 @@ class ProfileViewController : GenericProgramViewController
         print(containerView.subviews)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.identifier == "containerViewSegue"
-        {
-            var containerViewController = segue.destination as? TemplateSnippetViewController
-            containerViewController?.color = UIColor.blue
-            
-            //containerViewController!.containerToMaster = self
-        }
-    }
-    
     func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()

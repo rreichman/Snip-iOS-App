@@ -324,9 +324,22 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         {
             commentDataAsJson["parent"] = String(commentIdReplyingTo)
         }
-        commentDataAsJson["body"] = writeCommentBox.text
+        let text = writeCommentBox.text
+        
+        commentDataAsJson["body"] = encodeSpecialCharsForHttpRequest(textBeforeEncoding: text!)
         
         return commentDataAsJson
+    }
+    
+    func encodeSpecialCharsForHttpRequest(textBeforeEncoding : String) -> String
+    {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+        
+        var allowedCharacterSet = NSCharacterSet.urlQueryAllowed
+        allowedCharacterSet.remove(charactersIn: generalDelimitersToEncode + subDelimitersToEncode)
+        
+        return textBeforeEncoding.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
