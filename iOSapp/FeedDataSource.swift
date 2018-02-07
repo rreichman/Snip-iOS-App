@@ -253,6 +253,23 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewController.commentsButtonPressed(tableViewController)
     }
     
+    @objc func handleClickOnShare(sender : UITapGestureRecognizer)
+    {
+        print("clicked on share")
+        
+        let currentCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
+        let message = "Check out this snippet:\n" + currentCell.headline.text!
+        
+        if let link = NSURL(string: "http://snip.today")
+        {
+            let objectsToShare = [message,link] as [Any]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            
+            let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
+            tableViewController.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
     func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
     {
         if (postData.isLiked)
@@ -276,31 +293,28 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
     {
-        //let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
-        //cell.likeButton.isUserInteractionEnabled = true
-        //cell.likeButton.addGestureRecognizer(likeButtonClickRecognizer)
         let upButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnUpvote(sender:)))
         cell.upButton.isUserInteractionEnabled = true
         cell.upButton.addGestureRecognizer(upButtonClickRecognizer)
         
-        //let dislikeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDislike(sender:)))
-        //cell.dislikeButton.isUserInteractionEnabled = true
-        //cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
         let downButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDownvote(sender:)))
         cell.downButton.isUserInteractionEnabled = true
         cell.downButton.addGestureRecognizer(downButtonClickRecognizer)
         
         let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnComment(sender:)))
-        //cell.commentButton.isUserInteractionEnabled = true
         cell.newCommentButton.isUserInteractionEnabled = true
-        //cell.commentButton.addGestureRecognizer(commentButtonClickRecognizer)
         cell.newCommentButton.addGestureRecognizer(commentButtonClickRecognizer)
         
         let additionalCommentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnComment(sender:)))
         cell.commentPreviewView.isUserInteractionEnabled = true
         cell.commentPreviewView.addGestureRecognizer(additionalCommentButtonClickRecognizer)
+        
+        let shareButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnShare(sender:)))
+        cell.shareButton.isUserInteractionEnabled = true
+        cell.shareButton.addGestureRecognizer(shareButtonClickRecognizer)
     }
     
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)

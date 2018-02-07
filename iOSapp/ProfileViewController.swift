@@ -14,6 +14,9 @@ class ProfileViewController : GenericProgramViewController
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var welcomeText: UITextView!
     
+    @IBOutlet weak var containerView: UIView!
+    //var containerViewController: Conta
+    
     //let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/keystore"
     //var ks : GethKeyStore = GethKeyStore()
     
@@ -53,6 +56,19 @@ class ProfileViewController : GenericProgramViewController
         logoutButton.layer.borderWidth = 0.5
         // Making the "Back" button black instead of blue
         self.navigationController?.navigationBar.tintColor = UIColor.black
+        
+        print(containerView.subviews)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.identifier == "containerViewSegue"
+        {
+            var containerViewController = segue.destination as? TemplateSnippetViewController
+            containerViewController?.color = UIColor.blue
+            
+            //containerViewController!.containerToMaster = self
+        }
     }
     
     func logout(action: UIAlertAction)
