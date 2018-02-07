@@ -29,10 +29,6 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
     
     let isTextCurrentlyTruncated : Bool = tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate
     
-    tableViewCell.likeButton.isHidden = isTextCurrentlyTruncated
-    tableViewCell.dislikeButton.isHidden = isTextCurrentlyTruncated
-    tableViewCell.commentButton.isHidden = isTextCurrentlyTruncated
-    
     removePaddingFromTextView(textView: tableViewCell.body)
 }
 

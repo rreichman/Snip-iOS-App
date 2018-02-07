@@ -20,6 +20,13 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var likeButton: UIImageViewWithMetadata!
     @IBOutlet weak var dislikeButton: UIImageViewWithMetadata!
+    
+    @IBOutlet weak var upButton: UIImageViewWithMetadata!
+    @IBOutlet weak var downButton: UIImageViewWithMetadata!
+    
+    @IBOutlet weak var newCommentButton: UIImageView!
+    @IBOutlet weak var shareButton: UIImageView!
+    
     @IBOutlet weak var commentButton: UIImageView!
     
     @IBOutlet weak var commentPreviewView: UIView!
@@ -34,15 +41,18 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var commentDistanceFromRightConstraint: NSLayoutConstraint!
+    
     var m_isTextLongEnoughToBeTruncated : Bool = true
     
     override func awakeFromNib()
     {
         super.awakeFromNib()
-        likeButton.unclickedImage = #imageLiteral(resourceName: "thumbsUp")
-        likeButton.clickedImage = #imageLiteral(resourceName: "thumbsUpClicked")
-        dislikeButton.unclickedImage = #imageLiteral(resourceName: "thumbsDown")
-        dislikeButton.clickedImage = #imageLiteral(resourceName: "thumbsDownClicked")
+        
+        upButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
+        upButton.clickedImage = #imageLiteral(resourceName: "arrowUpGreen")
+        downButton.unclickedImage = #imageLiteral(resourceName: "arrowDown")
+        downButton.clickedImage = #imageLiteral(resourceName: "arrowDownRed")
         
         self.selectionStyle = UITableViewCellSelectionStyle.none
         
@@ -60,6 +70,8 @@ class SnippetTableViewCell: UITableViewCell
         
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
+        
+        commentDistanceFromRightConstraint.constant = CachedData().getScreenWidth() * 0.42
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)

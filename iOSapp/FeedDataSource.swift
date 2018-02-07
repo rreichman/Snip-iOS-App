@@ -60,11 +60,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         print("7: \(10000 * (Date().timeIntervalSince1970 - current))")
         current = Date().timeIntervalSince1970
         
-        if (!shouldTruncate)
-        {
-            self.setLikeDislikeImagesAccordingtoVote(cell : cell, postData : postData)
-            self.turnActionImagesIntoButtons(cell: cell)
-        }
+        self.setUpvoteDownvoteImagesAccordingtoVote(cell : cell, postData : postData)
+        self.turnActionImagesIntoButtons(cell: cell)
         
         print("8: \(10000 * (Date().timeIntervalSince1970 - current))")
         current = Date().timeIntervalSince1970
@@ -201,21 +198,21 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return _tableView.indexPathForRow(at: clickCoordinates)!.row
     }
     
-    func handleClickOnLikeDislike(isLikeButton : Bool, sender : UITapGestureRecognizer)
+    func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
     {
         // TODO:: handle errors here
         
         let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
-        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview as! SnippetTableViewCell
-        var otherButton : UIImageViewWithMetadata = tableViewCell.dislikeButton
+        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
+        var otherButton : UIImageViewWithMetadata = tableViewCell.downButton
         
-        if (!isLikeButton)
+        if (!isUpButton)
         {
-            otherButton = tableViewCell.likeButton
+            otherButton = tableViewCell.upButton
         }
         
         let currentSnipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
-        Logger().logClickedLikeOrDislike(isLikeClick: isLikeButton, snipID: currentSnipID, wasClickedBefore: imageViewWithMetadata.isClicked)
+        Logger().logClickedLikeOrDislike(isLikeClick: isUpButton, snipID: currentSnipID, wasClickedBefore: imageViewWithMetadata.isClicked)
         
         if (imageViewWithMetadata.isClicked)
         {
@@ -231,14 +228,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
         }
     }
     
-    @objc func handleClickOnLike(sender : UITapGestureRecognizer)
+    @objc func handleClickOnUpvote(sender : UITapGestureRecognizer)
     {
-        handleClickOnLikeDislike(isLikeButton: true, sender: sender)
+        handleClickOnUpvoteDownvote(isUpButton: true, sender: sender)
     }
     
-    @objc func handleClickOnDislike(sender : UITapGestureRecognizer)
+    @objc func handleClickOnDownvote(sender : UITapGestureRecognizer)
     {
-        handleClickOnLikeDislike(isLikeButton: false, sender: sender)
+        handleClickOnUpvoteDownvote(isUpButton: false, sender: sender)
     }
     
     @objc func handleClickOnComment(sender : UITapGestureRecognizer)
@@ -256,41 +253,49 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewController.commentsButtonPressed(tableViewController)
     }
     
-    func setLikeDislikeImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
+    func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
     {
         if (postData.isLiked)
         {
-            cell.likeButton.image = cell.likeButton.clickedImage
+            cell.upButton.image = cell.upButton.clickedImage
         }
         else
         {
-            cell.likeButton.image = cell.likeButton.unclickedImage
+            cell.upButton.image = cell.upButton.unclickedImage
         }
         
         if (postData.isDisliked)
         {
-            cell.dislikeButton.image = cell.dislikeButton.clickedImage
+            cell.downButton.image = cell.downButton.clickedImage
         }
         else
         {
-            cell.dislikeButton.image = cell.dislikeButton.unclickedImage
+            cell.downButton.image = cell.downButton.unclickedImage
         }
     }
     
     func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
     {
-        let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
-        cell.likeButton.isUserInteractionEnabled = true
-        cell.likeButton.addGestureRecognizer(likeButtonClickRecognizer)
+        //let likeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnLike(sender:)))
+        //cell.likeButton.isUserInteractionEnabled = true
+        //cell.likeButton.addGestureRecognizer(likeButtonClickRecognizer)
+        let upButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnUpvote(sender:)))
+        cell.upButton.isUserInteractionEnabled = true
+        cell.upButton.addGestureRecognizer(upButtonClickRecognizer)
         
-        let dislikeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDislike(sender:)))
-        cell.dislikeButton.isUserInteractionEnabled = true
-        cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
+        //let dislikeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDislike(sender:)))
+        //cell.dislikeButton.isUserInteractionEnabled = true
+        //cell.dislikeButton.addGestureRecognizer(dislikeButtonClickRecognizer)
+        let downButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDownvote(sender:)))
+        cell.downButton.isUserInteractionEnabled = true
+        cell.downButton.addGestureRecognizer(downButtonClickRecognizer)
         
         let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnComment(sender:)))
-        cell.commentButton.isUserInteractionEnabled = true
-        cell.commentButton.addGestureRecognizer(commentButtonClickRecognizer)
+        //cell.commentButton.isUserInteractionEnabled = true
+        cell.newCommentButton.isUserInteractionEnabled = true
+        //cell.commentButton.addGestureRecognizer(commentButtonClickRecognizer)
+        cell.newCommentButton.addGestureRecognizer(commentButtonClickRecognizer)
         
         let additionalCommentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnComment(sender:)))
