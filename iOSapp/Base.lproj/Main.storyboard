@@ -491,7 +491,7 @@
         <scene sceneID="PKN-gH-e0S">
             <objects>
                 <viewController id="Dcv-Tk-xld" userLabel="Profile View Controller" customClass="ProfileViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="I7R-I1-SBS">
+                    <view key="view" contentMode="scaleToFill" id="I7R-I1-SBS" customClass="SnippetView" customModule="iOSapp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -538,7 +538,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qfb-kk-p5p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2317.5999999999999" y="809.14542728635683"/>
+            <point key="canvasLocation" x="2572" y="808.24587706146929"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="KzA-hX-Ixs">
