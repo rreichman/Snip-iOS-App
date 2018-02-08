@@ -35,45 +35,31 @@
                         <constraint firstAttribute="height" constant="240" id="dbp-MB-hcC"/>
                     </constraints>
                 </imageView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Image Description" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qHh-Y7-WeH">
-                    <rect key="frame" x="0.0" y="262" width="375" height="33"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHh-Y7-WeH">
+                    <rect key="frame" x="0.0" y="262" width="375" height="28"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="990" text="Headline" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="m0N-tv-evb">
-                    <rect key="frame" x="0.0" y="297" width="375" height="30"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="bjw-b2-bvQ"/>
-                    </constraints>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="990" verticalHuggingPriority="990" horizontalCompressionResistancePriority="990" verticalCompressionResistancePriority="990" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Headline" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0N-tv-evb">
+                    <rect key="frame" x="0.0" y="292" width="375" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Time and Writer" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="U6h-eW-6oR" userLabel="Time and Writer">
-                    <rect key="frame" x="0.0" y="330" width="375" height="30"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Time and Writer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6h-eW-6oR" userLabel="Time and Writer">
+                    <rect key="frame" x="0.0" y="328" width="375" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="wjb-11-sKD"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Body" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XDf-c8-kym">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Body" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDf-c8-kym">
                     <rect key="frame" x="0.0" y="362" width="375" height="130"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="130" id="raX-J6-Cy9"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="References" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="txB-BP-Xxb">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txB-BP-Xxb">
                     <rect key="frame" x="0.0" y="495" width="375" height="20"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="Su6-ul-zCb"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
@@ -98,7 +84,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" text="X more comments..." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbr-a7-kYf" userLabel="X More Comments">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="X more comments..." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbr-a7-kYf" userLabel="X More Comments">
                             <rect key="frame" x="10" y="11" width="355" height="30"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
