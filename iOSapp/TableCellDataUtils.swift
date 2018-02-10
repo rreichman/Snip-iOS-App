@@ -10,8 +10,8 @@ import UIKit
 
 func fillImageDescription(cell : SnippetTableViewCell, imageDescription : NSMutableAttributedString)
 {
-    cell.imageDescription.attributedText = imageDescription
-    removePaddingFromTextView(textView: cell.imageDescription)
+    cell.snippetView.imageDescription.attributedText = imageDescription
+    removePaddingFromTextView(textView: cell.snippetView.imageDescription)
 }
 
 func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
@@ -20,36 +20,36 @@ func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shou
     
     if (shouldTruncate)
     {
-        tableViewCell.body.attributedText = postData.textAsAttributedStringWithTruncation
+        tableViewCell.snippetView.body.attributedText = postData.textAsAttributedStringWithTruncation
     }
     else
     {
-        tableViewCell.body.attributedText = postData.textAsAttributedStringWithoutTruncation
+        tableViewCell.snippetView.body.attributedText = postData.textAsAttributedStringWithoutTruncation
     }
     
     let isTextCurrentlyTruncated : Bool = tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate
     
-    removePaddingFromTextView(textView: tableViewCell.body)
+    removePaddingFromTextView(textView: tableViewCell.snippetView.body)
 }
 
 func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, timeAndWriterAttributedString : NSAttributedString)
 {
-    removePaddingFromTextView(textView: cell.postTimeAndWriter)
-    cell.postTimeAndWriter.attributedText = timeAndWriterAttributedString
+    removePaddingFromTextView(textView: cell.snippetView.postTimeAndWriter)
+    cell.snippetView.postTimeAndWriter.attributedText = timeAndWriterAttributedString
 }
 
 func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
 {
     if (tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
     {
-        tableViewCell.references.attributedText = NSAttributedString()
+        tableViewCell.snippetView.references.attributedText = NSAttributedString()
     }
     else
     {
         addReferencesStringsToCell(cell : tableViewCell, postData: postData)
     }
     
-    setStateOfHeightConstraint(view: tableViewCell.references, identifier: "referencesHeightConstraint", state: tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
+    setStateOfHeightConstraint(view: tableViewCell.snippetView.references, identifier: "referencesHeightConstraint", state: tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
 }
 
 func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
@@ -77,14 +77,14 @@ func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostDa
         previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_AUTHOR_FONT], range: NSRange(location: 0, length: firstCommentWriter.count))
         previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_TEXT_FONT], range: NSRange(location: firstCommentWriter.count, length: previewString.length - firstCommentWriter.count))
         
-        tableViewCell.singleCommentPreview.attributedText = previewString
+        tableViewCell.snippetView.singleCommentPreview.attributedText = previewString
         
         let moreCommentsFullString = getMoreCommentsFullString(postData: postData)
         
         let moreCommentsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string: moreCommentsFullString)
         moreCommentsAttributedString.setAttributes([NSAttributedStringKey.foregroundColor : UIColor.gray], range: NSRange(location: 0,length: moreCommentsAttributedString.length))
         
-        tableViewCell.moreCommentsPreview.attributedText = moreCommentsAttributedString
+        tableViewCell.snippetView.moreCommentsPreview.attributedText = moreCommentsAttributedString
     }
     
     setVisibilityForCommentPreview(tableViewCell: tableViewCell, postData: postData, shouldTruncate: shouldTruncate, isShowingPreview: isShowingPreview)
@@ -149,7 +149,8 @@ func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constr
         tableViewCell.bottomOfWriterBoxConstraint.constant = constraintSizes[5]
     }
     
-    for constraint in tableViewCell.singleCommentPreview.constraints
+    // TODO:: return this
+    /*for constraint in tableViewCell.singleCommentPreview.constraints
     {
         if constraint.identifier == "previewHeightConstraintTop"
         {
@@ -169,7 +170,7 @@ func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constr
         {
             constraint.constant = constraintSizes[4]
         }
-    }
+    }*/
 }
 
 func setStateOfHeightConstraint(view : UIView, identifier : String, state : Bool)

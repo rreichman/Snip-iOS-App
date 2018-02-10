@@ -10,6 +10,8 @@ import UIKit
 
 class SnippetTableViewCell: UITableViewCell
 {
+    @IBOutlet weak var snippetView: SnippetView!
+    
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var imageDescription: UITextView!
     
@@ -49,7 +51,16 @@ class SnippetTableViewCell: UITableViewCell
     {
         super.awakeFromNib()
         
-        upButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
+        self.selectionStyle = UITableViewCellSelectionStyle.none
+        
+        snippetView.upvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
+        snippetView.upvoteButton.clickedImage = #imageLiteral(resourceName: "arrowUpGreen")
+        snippetView.downvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowDown")
+        snippetView.downvoteButton.clickedImage = #imageLiteral(resourceName: "arrowDownRed")
+        
+        snippetView.postImage.layer.shouldRasterize = true
+        
+        /*upButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
         upButton.clickedImage = #imageLiteral(resourceName: "arrowUpGreen")
         downButton.unclickedImage = #imageLiteral(resourceName: "arrowDown")
         downButton.clickedImage = #imageLiteral(resourceName: "arrowDownRed")
@@ -71,7 +82,7 @@ class SnippetTableViewCell: UITableViewCell
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
-        commentDistanceFromRightConstraint.constant = CachedData().getScreenWidth() * 0.42
+        commentDistanceFromRightConstraint.constant = CachedData().getScreenWidth() * 0.42*/
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)
