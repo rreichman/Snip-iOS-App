@@ -25,16 +25,12 @@ class SnippetView: UIView {
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var references: UITextView!
     
-    @IBOutlet weak var commentPreviewView: UIView!
-    
-    @IBOutlet weak var singleCommentPreview: UITextView!
-    @IBOutlet weak var moreCommentsPreview: UITextView!
-    
     @IBOutlet weak var upvoteButton: UIImageViewWithMetadata!
     
     @IBOutlet weak var downvoteButton: UIImageViewWithMetadata!
     
     @IBOutlet weak var commentButton: UIImageView!
+    @IBOutlet weak var commentButtonRightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var shareButton: UIImageView!
     
@@ -75,6 +71,8 @@ class SnippetView: UIView {
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
         turnActionImagesIntoButtons()
+        
+        commentButtonRightConstraint.constant = CachedData().getScreenWidth() * 0.42
         
         return view
     }

@@ -46,7 +46,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
-        setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        //setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         cell.snippetView.headline.text = postData.headline
         

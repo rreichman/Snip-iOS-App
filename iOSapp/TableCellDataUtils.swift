@@ -52,7 +52,7 @@ func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData
     setStateOfHeightConstraint(view: tableViewCell.snippetView.references, identifier: "referencesHeightConstraint", state: tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
 }
 
-func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
+/*func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
 {
     let isShowingPreview = !((tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate) || (postData.comments.count == 0))
     
@@ -88,7 +88,7 @@ func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostDa
     }
     
     setVisibilityForCommentPreview(tableViewCell: tableViewCell, postData: postData, shouldTruncate: shouldTruncate, isShowingPreview: isShowingPreview)
-}
+}*/
 
 func getMoreCommentsFullString(postData: PostData) -> String
 {
