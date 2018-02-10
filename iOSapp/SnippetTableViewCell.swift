@@ -12,7 +12,7 @@ class SnippetTableViewCell: UITableViewCell
 {
     @IBOutlet weak var snippetView: SnippetView!
     
-    @IBOutlet weak var postImage: UIImageView!
+    /*@IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var imageDescription: UITextView!
     
     @IBOutlet weak var postTimeAndWriter: UITextView!
@@ -43,7 +43,7 @@ class SnippetTableViewCell: UITableViewCell
     
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var commentDistanceFromRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var commentDistanceFromRightConstraint: NSLayoutConstraint!*/
     
     var m_isTextLongEnoughToBeTruncated : Bool = true
     

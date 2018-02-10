@@ -107,7 +107,7 @@ func getMoreCommentsFullString(postData: PostData) -> String
     return "" + String(postData.comments.count - 1) + moreCommentsString
 }
 
-func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool, isShowingPreview : Bool)
+/*func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool, isShowingPreview : Bool)
 {
     // Note - This (no preview) isn't necessarily the best response to "no comments" but it's simplest and shouldn't happen
     let topMarginSize : CGFloat = 11
@@ -132,9 +132,9 @@ func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postDat
             tableViewCell: tableViewCell,
             constraintSizes: [topMarginSize, textPreviewHeight, moreCommentsStringHeight, sizeOfMarginBetweenMoreCommentsAndBox, heightOfWriteCommentsBox, lowMarginSize])
     }
-}
+}*/
 
-func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constraintSizes: [CGFloat])
+/*func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constraintSizes: [CGFloat])
 {
     if (tableViewCell.topOfPreviewCommentsConstraint != nil)
     {
@@ -171,7 +171,7 @@ func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constr
             constraint.constant = constraintSizes[4]
         }
     }*/
-}
+}*/
 
 func setStateOfHeightConstraint(view : UIView, identifier : String, state : Bool)
 {
@@ -216,7 +216,7 @@ func addReferencesStringsToCell(cell: SnippetTableViewCell, postData: PostData)
     allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
     allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
     
-    cell.references.attributedText = allReferencesString
-    cell.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
-    removePaddingFromTextView(textView: cell.references)
+    cell.snippetView.references.attributedText = allReferencesString
+    cell.snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
+    removePaddingFromTextView(textView: cell.snippetView.references)
 }

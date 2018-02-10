@@ -40,6 +40,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
         
+        self.makeCellClickable(tableViewCell : cell)
+        
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
@@ -164,28 +166,28 @@ class FeedDataSource: NSObject, UITableViewDataSource
     func makeCellClickable(tableViewCell : SnippetTableViewCell)
     {
         let singleTapRecognizerImage : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.postImage.isUserInteractionEnabled = true
-        tableViewCell.postImage.addGestureRecognizer(singleTapRecognizerImage)
+        tableViewCell.snippetView.postImage.isUserInteractionEnabled = true
+        tableViewCell.snippetView.postImage.addGestureRecognizer(singleTapRecognizerImage)
         
         let singleTapRecognizerImageDescription : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.imageDescription.isUserInteractionEnabled = true
-        tableViewCell.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
+        tableViewCell.snippetView.imageDescription.isUserInteractionEnabled = true
+        tableViewCell.snippetView.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
         
         let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.body.isUserInteractionEnabled = true
-        tableViewCell.body.addGestureRecognizer(singleTapRecognizerText)
+        tableViewCell.snippetView.body.isUserInteractionEnabled = true
+        tableViewCell.snippetView.body.addGestureRecognizer(singleTapRecognizerText)
         
         let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.headline.isUserInteractionEnabled = true
-        tableViewCell.headline.addGestureRecognizer(singleTapRecognizerHeadline)
+        tableViewCell.snippetView.headline.isUserInteractionEnabled = true
+        tableViewCell.snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
         
         let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.postTimeAndWriter.isUserInteractionEnabled = true
-        tableViewCell.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
+        tableViewCell.snippetView.postTimeAndWriter.isUserInteractionEnabled = true
+        tableViewCell.snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
         
         let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.references.isUserInteractionEnabled = true
-        tableViewCell.references.addGestureRecognizer(singleTapRecognizerReferences)
+        tableViewCell.snippetView.references.isUserInteractionEnabled = true
+        tableViewCell.snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
     }
     
     // TODO:: do this for all text views
@@ -224,7 +226,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return _tableView.indexPathForRow(at: clickCoordinates)!.row
     }
     
-    func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
+    /*func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
     {
         // TODO:: handle errors here
         
@@ -252,9 +254,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
             otherButton.image = otherButton.unclickedImage
             otherButton.isClicked = false
         }
-    }
+    }*/
     
-    @objc func handleClickOnUpvote(sender : UITapGestureRecognizer)
+    /*@objc func handleClickOnUpvote(sender : UITapGestureRecognizer)
     {
         handleClickOnUpvoteDownvote(isUpButton: true, sender: sender)
     }
@@ -277,9 +279,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
         tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender)
         tableViewController.commentsButtonPressed(tableViewController)
-    }
+    }*/
     
-    @objc func handleClickOnShare(sender : UITapGestureRecognizer)
+    /*@objc func handleClickOnShare(sender : UITapGestureRecognizer)
     {
         print("clicked on share")
         
@@ -294,9 +296,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
             let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
             tableViewController.present(activityVC, animated: true, completion: nil)
         }
-    }
+    }*/
     
-    func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
+    /*func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
     {
         if (postData.isLiked)
         {
@@ -315,9 +317,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
         {
             cell.snippetView.downvoteButton.image = cell.downButton.unclickedImage
         }
-    }
+    }*/
     
-    func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
+    /*func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
     {
         let upButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnUpvote(sender:)))
         cell.snippetView.upvoteButton.isUserInteractionEnabled = true
@@ -341,12 +343,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
             #selector(self.handleClickOnShare(sender:)))
         cell.snippetView.shareButton.isUserInteractionEnabled = true
         cell.snippetView.shareButton.addGestureRecognizer(shareButtonClickRecognizer)
-    }
+    }*/
     
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
     {
         let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
-        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview as! SnippetTableViewCell
+        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview?.superview as! SnippetTableViewCell
         
         if (tableViewCell.m_isTextLongEnoughToBeTruncated)
         {
