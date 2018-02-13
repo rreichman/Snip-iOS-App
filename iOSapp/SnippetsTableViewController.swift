@@ -22,6 +22,9 @@ class SnippetsTableViewController: UITableViewController
         print("loading snippetViewController")
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 700
+        
+        tableView.separatorColor = UIColor.clear
         
         turnNavigationBarTitleIntoButton(title: "Home")
         navigationItem.rightBarButtonItem?.target = self

@@ -178,9 +178,9 @@ public class Logger
         logEvent(actionName: "clickCommentButton")
     }
     
-    func logClickCommentPreview()
+    func logClickShareButton()
     {
-        logEvent(actionName: "clickCommentPreview")
+        logEvent(actionName: "clickShareButton")
     }
     
     func logInternetConnectionFailed()

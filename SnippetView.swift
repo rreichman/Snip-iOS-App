@@ -35,6 +35,7 @@ class SnippetView: UIView {
     @IBOutlet weak var shareButton: UIImageView!
     
     var currentSnippetId : Int = 0
+    var fullURL : String = ""
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,15 +88,10 @@ class SnippetView: UIView {
         downvoteButton.isUserInteractionEnabled = true
         downvoteButton.addGestureRecognizer(downButtonClickRecognizer)
         
-        //let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-        //    #selector(self.handleClickOnComment(sender:)))
-        //cell.newCommentButton.isUserInteractionEnabled = true
-        //cell.newCommentButton.addGestureRecognizer(commentButtonClickRecognizer)
-        
-        //let additionalCommentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-        //    #selector(self.handleClickOnComment(sender:)))
-        //cell.commentPreviewView.isUserInteractionEnabled = true
-        //cell.commentPreviewView.addGestureRecognizer(additionalCommentButtonClickRecognizer)
+        let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnComment(sender:)))
+        commentButton.isUserInteractionEnabled = true
+        commentButton.addGestureRecognizer(commentButtonClickRecognizer)
         
         let shareButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnShare(sender:)))
@@ -108,16 +104,13 @@ class SnippetView: UIView {
         // TODO:: handle errors here
         
         let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
-        //let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
-        //var otherButton : UIImageViewWithMetadata = tableViewCell.downButton
         var otherButton : UIImageViewWithMetadata = downvoteButton
         
         if (!isUpButton)
         {
             otherButton = upvoteButton
         }
-        
-        //let currentSnipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
+
         Logger().logClickedLikeOrDislike(isLikeClick: isUpButton, snipID: currentSnippetId, wasClickedBefore: imageViewWithMetadata.isClicked)
         
         if (imageViewWithMetadata.isClicked)
@@ -146,33 +139,35 @@ class SnippetView: UIView {
     
     @objc func handleClickOnComment(sender : UITapGestureRecognizer)
     {
-        if (sender.view is UIImageView)
-        {
-            Logger().logClickCommentButton()
-        }
-        else
-        {
-            Logger().logClickCommentPreview()
-        }
-        //let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
-        //tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender)
-        //tableViewController.commentsButtonPressed(tableViewController)
+        print("clicked on comment")
+        Logger().logClickCommentButton()
+        
+        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
+        let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
+        tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender, tableView: tableView)
+        tableViewController.commentsButtonPressed(tableViewController)
+    }
+    
+    func getCurrentController(sender : UITapGestureRecognizer) -> UIViewController
+    {
+        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
+        return tableView.delegate as! UIViewController
     }
     
     @objc func handleClickOnShare(sender : UITapGestureRecognizer)
     {
         print("clicked on share")
+        Logger().logClickShareButton()
+
+        let message = "Check out this snippet:\n" + headline.text
         
-        /*let currentCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
-        let message = "Check out this snippet:\n" + currentCell.headline.text!
-        
-        if let link = NSURL(string: "http://snip.today")
+        if let link = NSURL(string: fullURL)
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
-            let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
+            let tableViewController : SnippetsTableViewController = getCurrentController(sender: sender) as! SnippetsTableViewController
             tableViewController.present(activityVC, animated: true, completion: nil)
-        }*/
+        }
     }
 }

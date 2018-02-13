@@ -50,7 +50,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpJ-r9-oOd" customClass="SnippetView" customModule="iOSapp">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="476"/>
+                                            <rect key="frame" x="15" y="7" width="345" height="469"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                     </subviews>
@@ -112,12 +112,16 @@
         <scene sceneID="jub-FH-9pq">
             <objects>
                 <viewController id="ZV8-xk-9wk" customClass="CommentsTableViewController" customModule="iOSapp" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VlJ-8j-tH9">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="VlJ-8j-tH9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-e9-yik" customClass="SnippetView" customModule="iOSapp">
+                                <rect key="frame" x="0.0" y="64" width="375" height="192"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p7q-t1-5rA">
-                                <rect key="frame" x="0.0" y="64" width="375" height="485"/>
+                                <rect key="frame" x="0.0" y="264" width="375" height="285"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="200" id="N6d-hv-uON" userLabel="Comment Cell" customClass="CommentTableViewCell" customModule="iOSapp">
@@ -295,12 +299,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="p7q-t1-5rA" firstAttribute="leading" secondItem="EYz-gX-cKJ" secondAttribute="leading" id="Jmw-Oa-Tds"/>
+                            <constraint firstItem="wdX-e9-yik" firstAttribute="top" secondItem="EYz-gX-cKJ" secondAttribute="top" id="KZ0-89-OCb"/>
                             <constraint firstItem="EYz-gX-cKJ" firstAttribute="trailing" secondItem="xbi-ud-jYc" secondAttribute="trailing" id="X93-r8-Lih"/>
-                            <constraint firstItem="p7q-t1-5rA" firstAttribute="top" secondItem="EYz-gX-cKJ" secondAttribute="top" id="hab-wm-9p1"/>
+                            <constraint firstItem="p7q-t1-5rA" firstAttribute="top" secondItem="wdX-e9-yik" secondAttribute="bottom" id="cvR-Bf-wLG"/>
+                            <constraint firstItem="p7q-t1-5rA" firstAttribute="top" secondItem="EYz-gX-cKJ" secondAttribute="top" constant="200" id="hab-wm-9p1"/>
                             <constraint firstItem="p7q-t1-5rA" firstAttribute="trailing" secondItem="EYz-gX-cKJ" secondAttribute="trailing" id="hxp-Gz-7EA"/>
                             <constraint firstItem="EYz-gX-cKJ" firstAttribute="bottom" secondItem="xbi-ud-jYc" secondAttribute="bottom" id="k4K-fq-6zt"/>
                             <constraint firstItem="xbi-ud-jYc" firstAttribute="top" secondItem="p7q-t1-5rA" secondAttribute="bottom" id="krX-lo-Qqa"/>
+                            <constraint firstItem="wdX-e9-yik" firstAttribute="trailing" secondItem="EYz-gX-cKJ" secondAttribute="trailing" id="uSF-cZ-yLe"/>
                             <constraint firstItem="xbi-ud-jYc" firstAttribute="leading" secondItem="EYz-gX-cKJ" secondAttribute="leading" id="wBD-nh-xtq"/>
+                            <constraint firstItem="wdX-e9-yik" firstAttribute="leading" secondItem="EYz-gX-cKJ" secondAttribute="leading" id="zab-T7-pFw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EYz-gX-cKJ"/>
                     </view>
@@ -310,6 +318,7 @@
                         <outlet property="commentView" destination="xbi-ud-jYc" id="3Io-XX-zkA"/>
                         <outlet property="postButton" destination="OXj-OJ-fmJ" id="qVQ-dh-jOJ"/>
                         <outlet property="replyingToView" destination="qGh-et-U3Q" id="SRS-xB-eCq"/>
+                        <outlet property="snippetView" destination="wdX-e9-yik" id="GFC-G2-a0O"/>
                         <outlet property="tableView" destination="p7q-t1-5rA" id="udD-vN-rQl"/>
                         <outlet property="writeCommentBox" destination="zXH-bd-82B" id="ano-1G-euO"/>
                         <segue destination="WCf-DS-el0" kind="show" identifier="segueFromCommentsToSignup" id="ZOg-i6-g75"/>
@@ -317,13 +326,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5da-yM-SHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1532" y="810"/>
+            <point key="canvasLocation" x="1532" y="809.14542728635683"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="PKN-gH-e0S">
             <objects>
                 <viewController id="Dcv-Tk-xld" userLabel="Profile View Controller" customClass="ProfileViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="I7R-I1-SBS" customClass="SnippetView" customModule="iOSapp">
+                    <view key="view" contentMode="scaleToFill" id="I7R-I1-SBS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

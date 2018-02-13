@@ -22,6 +22,7 @@ class PostData : Encodable, Decodable
     var isLiked : Bool = false
     var isDisliked : Bool = false
     var comments : [Comment] = []
+    var fullURL : String = ""
     
     var m_isTextLongEnoughToBeTruncated : Bool = true
     
@@ -117,6 +118,7 @@ class PostData : Encodable, Decodable
         relatedLinks = postJson["related_links"] as! [[String : Any]]
         isLiked = (postJson["votes"] as! [String : Bool])["like"]!
         isDisliked = (postJson["votes"] as! [String : Bool])["dislike"]!
+        fullURL = postJson["url"] as! String
         comments = convertJsonArrayIntoCommentArray(commentArrayData: postJson["comments"] as! [[String : Any]])
     }
     

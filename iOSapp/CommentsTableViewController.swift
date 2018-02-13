@@ -11,6 +11,7 @@ import UIKit
 // TODO:: spread this class to another one
 class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIGestureRecognizerDelegate
 {
+    @IBOutlet weak var snippetView: SnippetView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var writeCommentBox: UITextView!
     @IBOutlet weak var postButton: UIButton!

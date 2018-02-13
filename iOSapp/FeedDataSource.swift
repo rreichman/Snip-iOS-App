@@ -23,15 +23,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         _tableView = tableView
         
-        //var current = Date().timeIntervalSince1970
-        
-        //handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
+        handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        // TODO:: return this
-        //self.setUpvoteDownvoteImagesAccordingtoVote(cell : cell, postData : postData)
+        self.setUpvoteDownvoteImagesAccordingtoVote(cell : cell, postData : postData)
         
         let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
         fillPublishTimeAndWriterInfo(cell: cell, timeAndWriterAttributedString: timeAndWriterString)
@@ -47,57 +44,13 @@ class FeedDataSource: NSObject, UITableViewDataSource
         setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        
-        //setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
         
         cell.snippetView.headline.text = postData.headline
+        cell.snippetView.fullURL = postData.fullURL
+        cell.snippetView.currentSnippetId = postData.id
         
-        //cell.snippetView.currentSnippetId = postData.id
-        //cell.snippetView.headline.text = String(postData.id)
-        //print(cell.snippetView.currentSnippetId)
-        
-        /*let postData = postDataArray[indexPath.row]
-        
-        print("0: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
-        fillPublishTimeAndWriterInfo(cell: cell, timeAndWriterAttributedString: timeAndWriterString)
-        
-        print("1: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        loadImageData(cell: cell, postData: postData)
-        print("2: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
-        print("3: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        
-        self.makeCellClickable(tableViewCell : cell)
-        
-        let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
-        
-        print("4: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("5: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("6: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        setCellCommentPreview(tableViewCell: cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        print("7: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        
-        self.setUpvoteDownvoteImagesAccordingtoVote(cell : cell, postData : postData)
-        self.turnActionImagesIntoButtons(cell: cell)
-        
-        print("8: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        cell.headline.text = postData.headline
-        
-        print("9: \(10000 * (Date().timeIntervalSince1970 - current))")
-        current = Date().timeIntervalSince1970
-        print("10: \(10000 * (Date().timeIntervalSince1970 - current))")*/
+        cell.snippetView.setNeedsLayout()
+        cell.snippetView.layoutIfNeeded()
         
         print("returning cell")
         return cell
@@ -148,6 +101,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return []
     }
     
+    /*func getSnippetData(snippetID : Int) -> PostData
+    {
+        
+    }*/
+    
     func setSnippetComments(snippetID : Int, newComments : [Comment])
     {
         for i in 0...postDataArray.count-1
@@ -190,6 +148,27 @@ class FeedDataSource: NSObject, UITableViewDataSource
         tableViewCell.snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
     }
     
+    func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
+    {
+        if (postData.isLiked)
+        {
+            cell.snippetView.upvoteButton.image = cell.snippetView.upvoteButton.clickedImage
+        }
+        else
+        {
+            cell.snippetView.upvoteButton.image = cell.snippetView.upvoteButton.unclickedImage
+        }
+        
+        if (postData.isDisliked)
+        {
+            cell.snippetView.downvoteButton.image = cell.snippetView.downvoteButton.clickedImage
+        }
+        else
+        {
+            cell.snippetView.downvoteButton.image = cell.snippetView.downvoteButton.unclickedImage
+        }
+    }
+    
     // TODO:: do this for all text views
     // Returns if the operation was handled
     func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
@@ -220,134 +199,9 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return false
     }
     
-    func getRowNumberOfClickOnTableView(sender : UITapGestureRecognizer) -> Int
-    {
-        let clickCoordinates = sender.location(in: _tableView)
-        return _tableView.indexPathForRow(at: clickCoordinates)!.row
-    }
-    
-    /*func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
-    {
-        // TODO:: handle errors here
-        
-        let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
-        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
-        var otherButton : UIImageViewWithMetadata = tableViewCell.downButton
-        
-        if (!isUpButton)
-        {
-            otherButton = tableViewCell.upButton
-        }
-        
-        let currentSnipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
-        Logger().logClickedLikeOrDislike(isLikeClick: isUpButton, snipID: currentSnipID, wasClickedBefore: imageViewWithMetadata.isClicked)
-        
-        if (imageViewWithMetadata.isClicked)
-        {
-            imageViewWithMetadata.isClicked = false
-            imageViewWithMetadata.image = imageViewWithMetadata.unclickedImage
-        }
-        else
-        {
-            imageViewWithMetadata.isClicked = true
-            imageViewWithMetadata.image = imageViewWithMetadata.clickedImage
-            otherButton.image = otherButton.unclickedImage
-            otherButton.isClicked = false
-        }
-    }*/
-    
-    /*@objc func handleClickOnUpvote(sender : UITapGestureRecognizer)
-    {
-        handleClickOnUpvoteDownvote(isUpButton: true, sender: sender)
-    }
-    
-    @objc func handleClickOnDownvote(sender : UITapGestureRecognizer)
-    {
-        handleClickOnUpvoteDownvote(isUpButton: false, sender: sender)
-    }
-    
-    @objc func handleClickOnComment(sender : UITapGestureRecognizer)
-    {
-        if (sender.view is UIImageView)
-        {
-            Logger().logClickCommentButton()
-        }
-        else
-        {
-            Logger().logClickCommentPreview()
-        }
-        let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
-        tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender)
-        tableViewController.commentsButtonPressed(tableViewController)
-    }*/
-    
-    /*@objc func handleClickOnShare(sender : UITapGestureRecognizer)
-    {
-        print("clicked on share")
-        
-        let currentCell = sender.view?.superview?.superview?.superview as! SnippetTableViewCell
-        let message = "Check out this snippet:\n" + currentCell.headline.text!
-        
-        if let link = NSURL(string: "http://snip.today")
-        {
-            let objectsToShare = [message,link] as [Any]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            
-            let tableViewController : SnippetsTableViewController = _tableView.delegate as! SnippetsTableViewController
-            tableViewController.present(activityVC, animated: true, completion: nil)
-        }
-    }*/
-    
-    /*func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
-    {
-        if (postData.isLiked)
-        {
-            cell.snippetView.upvoteButton.image = cell.upButton.clickedImage
-        }
-        else
-        {
-            cell.snippetView.upvoteButton.image = cell.upButton.unclickedImage
-        }
-        
-        if (postData.isDisliked)
-        {
-            cell.snippetView.downvoteButton.image = cell.downButton.clickedImage
-        }
-        else
-        {
-            cell.snippetView.downvoteButton.image = cell.downButton.unclickedImage
-        }
-    }*/
-    
-    /*func turnActionImagesIntoButtons(cell : SnippetTableViewCell)
-    {
-        let upButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnUpvote(sender:)))
-        cell.snippetView.upvoteButton.isUserInteractionEnabled = true
-        cell.snippetView.upvoteButton.addGestureRecognizer(upButtonClickRecognizer)
-        
-        let downButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDownvote(sender:)))
-        cell.snippetView.downvoteButton.isUserInteractionEnabled = true
-        cell.snippetView.downvoteButton.addGestureRecognizer(downButtonClickRecognizer)
-        
-        //let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-        //    #selector(self.handleClickOnComment(sender:)))
-        //cell.newCommentButton.isUserInteractionEnabled = true
-        //cell.newCommentButton.addGestureRecognizer(commentButtonClickRecognizer)
-        
-        //let additionalCommentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-        //    #selector(self.handleClickOnComment(sender:)))
-        //cell.commentPreviewView.isUserInteractionEnabled = true
-        //cell.commentPreviewView.addGestureRecognizer(additionalCommentButtonClickRecognizer)
-        
-        let shareButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-            #selector(self.handleClickOnShare(sender:)))
-        cell.snippetView.shareButton.isUserInteractionEnabled = true
-        cell.snippetView.shareButton.addGestureRecognizer(shareButtonClickRecognizer)
-    }*/
-    
     func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
     {
-        let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender)].id
+        let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender, tableView: _tableView)].id
         let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview?.superview as! SnippetTableViewCell
         
         if (tableViewCell.m_isTextLongEnoughToBeTruncated)

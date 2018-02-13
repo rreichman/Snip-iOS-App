@@ -52,44 +52,6 @@ func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData
     setStateOfHeightConstraint(view: tableViewCell.snippetView.references, identifier: "referencesHeightConstraint", state: tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
 }
 
-/*func setCellCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool)
-{
-    let isShowingPreview = !((tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate) || (postData.comments.count == 0))
-    
-    if (isShowingPreview)
-    {
-        var firstCommentWriter : String = ""
-        var firstCommentText : String = ""
-        
-        if (postData.comments.count > 0)
-        {
-            firstCommentWriter = postData.comments[0].writer._name
-            firstCommentText = postData.comments[0].body
-        }
-        
-        let firstCommentFullString : String = firstCommentWriter + "\n" + firstCommentText
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_COMMENT_PREVIEW
-        
-        let previewString : NSMutableAttributedString = NSMutableAttributedString(string: firstCommentFullString)
-        previewString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: previewString.length))
-        previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_AUTHOR_FONT], range: NSRange(location: 0, length: firstCommentWriter.count))
-        previewString.addAttributes([NSAttributedStringKey.font : SystemVariables().COMMENT_PREVIEW_TEXT_FONT], range: NSRange(location: firstCommentWriter.count, length: previewString.length - firstCommentWriter.count))
-        
-        tableViewCell.snippetView.singleCommentPreview.attributedText = previewString
-        
-        let moreCommentsFullString = getMoreCommentsFullString(postData: postData)
-        
-        let moreCommentsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string: moreCommentsFullString)
-        moreCommentsAttributedString.setAttributes([NSAttributedStringKey.foregroundColor : UIColor.gray], range: NSRange(location: 0,length: moreCommentsAttributedString.length))
-        
-        tableViewCell.snippetView.moreCommentsPreview.attributedText = moreCommentsAttributedString
-    }
-    
-    setVisibilityForCommentPreview(tableViewCell: tableViewCell, postData: postData, shouldTruncate: shouldTruncate, isShowingPreview: isShowingPreview)
-}*/
-
 func getMoreCommentsFullString(postData: PostData) -> String
 {
     if (postData.comments.count == 1)
@@ -106,72 +68,6 @@ func getMoreCommentsFullString(postData: PostData) -> String
     
     return "" + String(postData.comments.count - 1) + moreCommentsString
 }
-
-/*func setVisibilityForCommentPreview(tableViewCell: SnippetTableViewCell, postData: PostData, shouldTruncate: Bool, isShowingPreview : Bool)
-{
-    // Note - This (no preview) isn't necessarily the best response to "no comments" but it's simplest and shouldn't happen
-    let topMarginSize : CGFloat = 11
-    let textPreviewHeight : CGFloat = 38
-    var moreCommentsStringHeight : CGFloat = 30
-    var sizeOfMarginBetweenMoreCommentsAndBox : CGFloat = 2
-    let heightOfWriteCommentsBox : CGFloat = 33
-    let lowMarginSize : CGFloat = 4
-    
-    if (!isShowingPreview)
-    {
-        changeCommentPreviewVisibility(tableViewCell: tableViewCell, constraintSizes: [0, 0, 0, 0, 0, 0])
-    }
-    else
-    {
-        if (postData.comments.count < 2)
-        {
-            moreCommentsStringHeight = 0
-            sizeOfMarginBetweenMoreCommentsAndBox = 1
-        }
-        changeCommentPreviewVisibility(
-            tableViewCell: tableViewCell,
-            constraintSizes: [topMarginSize, textPreviewHeight, moreCommentsStringHeight, sizeOfMarginBetweenMoreCommentsAndBox, heightOfWriteCommentsBox, lowMarginSize])
-    }
-}*/
-
-/*func changeCommentPreviewVisibility(tableViewCell : SnippetTableViewCell, constraintSizes: [CGFloat])
-{
-    if (tableViewCell.topOfPreviewCommentsConstraint != nil)
-    {
-        tableViewCell.topOfPreviewCommentsConstraint.constant = constraintSizes[0]
-    }
-    if (tableViewCell.topOfMoreCommentsConstraint != nil)
-    {
-        tableViewCell.topOfMoreCommentsConstraint.constant = constraintSizes[3]
-    }
-    if (tableViewCell.bottomOfWriterBoxConstraint != nil)
-    {
-        tableViewCell.bottomOfWriterBoxConstraint.constant = constraintSizes[5]
-    }
-    
-    // TODO:: return this
-    /*for constraint in tableViewCell.singleCommentPreview.constraints
-    {
-        if constraint.identifier == "previewHeightConstraintTop"
-        {
-            constraint.constant = constraintSizes[1]
-        }
-    }
-    for constraint in tableViewCell.moreCommentsPreview.constraints
-    {
-        if constraint.identifier == "previewHeightConstraintMiddle"
-        {
-            constraint.constant = constraintSizes[2]
-        }
-    }
-    for constraint in tableViewCell.writeCommentBox.constraints
-    {
-        if constraint.identifier == "previewHeightConstraintBottom"
-        {
-            constraint.constant = constraintSizes[4]
-        }
-    }*/
-}*/
 
 func setStateOfHeightConstraint(view : UIView, identifier : String, state : Bool)
 {

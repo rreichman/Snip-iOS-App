@@ -59,9 +59,12 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txB-BP-Xxb">
-                    <rect key="frame" x="0.0" y="400" width="375" height="33"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="References" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txB-BP-Xxb">
+                    <rect key="frame" x="0.0" y="628" width="375" height="5"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="5" identifier="referencesHeightConstraint" id="UNz-jS-Bew"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
@@ -125,10 +128,10 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7gj-l2-RMY" secondAttribute="trailing" id="DAM-mE-y9o"/>
                 <constraint firstItem="qHh-Y7-WeH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="E58-sY-mib"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Mlq-hJ-1p5" secondAttribute="bottom" id="Ewk-xb-qhI"/>
-                <constraint firstItem="Mlq-hJ-1p5" firstAttribute="top" secondItem="txB-BP-Xxb" secondAttribute="bottom" id="OWA-uz-l18"/>
+                <constraint firstItem="Mlq-hJ-1p5" firstAttribute="top" secondItem="txB-BP-Xxb" secondAttribute="bottom" constant="10" id="OWA-uz-l18"/>
                 <constraint firstItem="XDf-c8-kym" firstAttribute="top" secondItem="U6h-eW-6oR" secondAttribute="bottom" constant="6" id="QMJ-4J-2iN"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qHh-Y7-WeH" secondAttribute="trailing" id="T7Z-nV-CjD"/>
-                <constraint firstItem="txB-BP-Xxb" firstAttribute="top" secondItem="XDf-c8-kym" secondAttribute="bottom" constant="3" id="VQ4-7g-C1q"/>
+                <constraint firstItem="txB-BP-Xxb" firstAttribute="top" secondItem="XDf-c8-kym" secondAttribute="bottom" id="VQ4-7g-C1q"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Mlq-hJ-1p5" secondAttribute="trailing" id="XTx-yb-NTq"/>
                 <constraint firstItem="m0N-tv-evb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="-7" id="Zcd-Ku-sJR"/>
                 <constraint firstItem="7gj-l2-RMY" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="adi-ED-odT"/>

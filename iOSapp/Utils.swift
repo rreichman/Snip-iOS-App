@@ -235,6 +235,12 @@ func getTimeFromDateString(dateString : String) -> String
     return displayedTime
 }
 
+func getRowNumberOfClickOnTableView(sender : UITapGestureRecognizer, tableView: UITableView) -> Int
+{
+    let clickCoordinates = sender.location(in: tableView)
+    return tableView.indexPathForRow(at: clickCoordinates)!.row
+}
+
 // Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()
