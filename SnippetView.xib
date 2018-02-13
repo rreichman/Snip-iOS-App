@@ -78,7 +78,7 @@
                                 <constraint firstAttribute="height" constant="20" id="Wz5-dg-aEv"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowUp" translatesAutoresizingMaskIntoConstraints="NO" id="W0y-vp-ooR" userLabel="minusButtonTwo" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowUp" translatesAutoresizingMaskIntoConstraints="NO" id="W0y-vp-ooR" userLabel="upvoteButton" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                             <rect key="frame" x="15" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="20" id="E1S-d1-UBs"/>
@@ -92,7 +92,7 @@
                                 <constraint firstAttribute="width" constant="20" id="hNj-KG-KPb"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="tRk-ik-x8G" userLabel="minusButton" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="tRk-ik-x8G" userLabel="downvoteButton" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                             <rect key="frame" x="55" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="ANV-SR-hbY"/>

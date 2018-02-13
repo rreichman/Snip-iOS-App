@@ -28,32 +28,38 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        self.setUpvoteDownvoteImagesAccordingtoVote(cell : cell, postData : postData)
-        
-        let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
-        fillPublishTimeAndWriterInfo(cell: cell, timeAndWriterAttributedString: timeAndWriterString)
-        
-        loadImageData(cell: cell, postData: postData)
-        
-        fillImageDescription(cell: cell, imageDescription: postData.imageDescriptionAfterHtmlRendering)
-        
-        self.makeCellClickable(tableViewCell : cell)
-        
+        cell.m_isTextLongEnoughToBeTruncated = self.postDataArray[indexPath.row].m_isTextLongEnoughToBeTruncated
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
-        setCellText(tableViewCell : cell, postData : self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
+        loadDataIntoSnippet(snippetView: cell.snippetView, shouldTruncate: shouldTruncate, postData: postData)
         
-        setCellReferences(tableViewCell : cell, postData: self.postDataArray[indexPath.row], shouldTruncate: shouldTruncate)
-        
-        cell.snippetView.headline.text = postData.headline
-        cell.snippetView.fullURL = postData.fullURL
-        cell.snippetView.currentSnippetId = postData.id
-        
-        cell.snippetView.setNeedsLayout()
-        cell.snippetView.layoutIfNeeded()
-        
-        print("returning cell")
         return cell
+    }
+    
+    func loadDataIntoSnippet(snippetView: SnippetView, shouldTruncate: Bool, postData: PostData)
+    {
+        self.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
+        
+        let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
+        fillPublishTimeAndWriterInfo(snippetView: snippetView, timeAndWriterAttributedString: timeAndWriterString)
+        
+        loadImageData(snippetView: snippetView, postData: postData)
+        
+        fillImageDescription(snippetView: snippetView, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        
+        self.makeSnippetClickable(snippetView: snippetView)
+        
+        setSnippetText(snippetView: snippetView, postData : postData, shouldTruncate: shouldTruncate)
+        
+        setSnippetReferences(snippetView : snippetView, postData: postData, shouldTruncate: shouldTruncate, isTextLongEnoughToBeTruncated:
+            postData.m_isTextLongEnoughToBeTruncated)
+        
+        snippetView.headline.text = postData.headline
+        snippetView.fullURL = postData.fullURL
+        snippetView.currentSnippetId = postData.id
+        
+        snippetView.setNeedsLayout()
+        snippetView.layoutIfNeeded()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -78,13 +84,25 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return NSAttributedString(string : postData.timeAndWriterString, attributes: postData.PUBLISH_TIME_AND_WRITER_ATTRIBUTES)
     }
     
-    func loadImageData(cell: SnippetTableViewCell, postData: PostData)
+    func loadImageData(snippetView: SnippetView, postData: PostData)
     {
-        cell.snippetView.postImage.image = nil
+        snippetView.postImage.image = nil
         if (postData.image._gotImageData)
         {
-            cell.snippetView.postImageHeightConstraint.constant = postData.image._imageHeight
-            cell.snippetView.postImage.image = postData.image.getImageData()
+            snippetView.postImageHeightConstraint.constant = postData.image._imageHeight
+            snippetView.postImage.image = postData.image.getImageData()
+        }
+    }
+    
+    func loadSnippetFromID(snippetView : SnippetView, snippetID: Int, shouldTruncate: Bool)
+    {
+        for i in 0...postDataArray.count-1
+        {
+            if (postDataArray[i].id == snippetID)
+            {
+                let postData = postDataArray[i]
+                loadDataIntoSnippet(snippetView: snippetView, shouldTruncate: shouldTruncate, postData: postData)
+            }
         }
     }
     
@@ -101,11 +119,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
         return []
     }
     
-    /*func getSnippetData(snippetID : Int) -> PostData
-    {
-        
-    }*/
-    
     func setSnippetComments(snippetID : Int, newComments : [Comment])
     {
         for i in 0...postDataArray.count-1
@@ -121,51 +134,51 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     // Cell UI management functions
     
-    func makeCellClickable(tableViewCell : SnippetTableViewCell)
+    func makeSnippetClickable(snippetView : SnippetView)
     {
         let singleTapRecognizerImage : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.postImage.isUserInteractionEnabled = true
-        tableViewCell.snippetView.postImage.addGestureRecognizer(singleTapRecognizerImage)
+        snippetView.postImage.isUserInteractionEnabled = true
+        snippetView.postImage.addGestureRecognizer(singleTapRecognizerImage)
         
         let singleTapRecognizerImageDescription : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.imageDescription.isUserInteractionEnabled = true
-        tableViewCell.snippetView.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
+        snippetView.imageDescription.isUserInteractionEnabled = true
+        snippetView.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
         
         let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.body.isUserInteractionEnabled = true
-        tableViewCell.snippetView.body.addGestureRecognizer(singleTapRecognizerText)
+        snippetView.body.isUserInteractionEnabled = true
+        snippetView.body.addGestureRecognizer(singleTapRecognizerText)
         
         let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.headline.isUserInteractionEnabled = true
-        tableViewCell.snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
+        snippetView.headline.isUserInteractionEnabled = true
+        snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
         
         let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.postTimeAndWriter.isUserInteractionEnabled = true
-        tableViewCell.snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
+        snippetView.postTimeAndWriter.isUserInteractionEnabled = true
+        snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
         
         let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        tableViewCell.snippetView.references.isUserInteractionEnabled = true
-        tableViewCell.snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
+        snippetView.references.isUserInteractionEnabled = true
+        snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
     }
     
-    func setUpvoteDownvoteImagesAccordingtoVote(cell : SnippetTableViewCell, postData : PostData)
+    func setUpvoteDownvoteImagesAccordingtoVote(snippetView: SnippetView, postData : PostData)
     {
         if (postData.isLiked)
         {
-            cell.snippetView.upvoteButton.image = cell.snippetView.upvoteButton.clickedImage
+            snippetView.upvoteButton.image = snippetView.upvoteButton.clickedImage
         }
         else
         {
-            cell.snippetView.upvoteButton.image = cell.snippetView.upvoteButton.unclickedImage
+            snippetView.upvoteButton.image = snippetView.upvoteButton.unclickedImage
         }
         
         if (postData.isDisliked)
         {
-            cell.snippetView.downvoteButton.image = cell.snippetView.downvoteButton.clickedImage
+            snippetView.downvoteButton.image = snippetView.downvoteButton.clickedImage
         }
         else
         {
-            cell.snippetView.downvoteButton.image = cell.snippetView.downvoteButton.unclickedImage
+            snippetView.downvoteButton.image = snippetView.downvoteButton.unclickedImage
         }
     }
     

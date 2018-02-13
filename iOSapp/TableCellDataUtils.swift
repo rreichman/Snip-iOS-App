@@ -8,48 +8,44 @@
 
 import UIKit
 
-func fillImageDescription(cell : SnippetTableViewCell, imageDescription : NSMutableAttributedString)
+func fillImageDescription(snippetView : SnippetView, imageDescription : NSMutableAttributedString)
 {
-    cell.snippetView.imageDescription.attributedText = imageDescription
-    removePaddingFromTextView(textView: cell.snippetView.imageDescription)
+    snippetView.imageDescription.attributedText = imageDescription
+    removePaddingFromTextView(textView: snippetView.imageDescription)
 }
 
-func setCellText(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
+func setSnippetText(snippetView : SnippetView, postData : PostData, shouldTruncate : Bool)
 {    
-    tableViewCell.m_isTextLongEnoughToBeTruncated = postData.m_isTextLongEnoughToBeTruncated
-    
     if (shouldTruncate)
     {
-        tableViewCell.snippetView.body.attributedText = postData.textAsAttributedStringWithTruncation
+        snippetView.body.attributedText = postData.textAsAttributedStringWithTruncation
     }
     else
     {
-        tableViewCell.snippetView.body.attributedText = postData.textAsAttributedStringWithoutTruncation
+        snippetView.body.attributedText = postData.textAsAttributedStringWithoutTruncation
     }
     
-    let isTextCurrentlyTruncated : Bool = tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate
-    
-    removePaddingFromTextView(textView: tableViewCell.snippetView.body)
+    removePaddingFromTextView(textView: snippetView.body)
 }
 
-func fillPublishTimeAndWriterInfo(cell : SnippetTableViewCell, timeAndWriterAttributedString : NSAttributedString)
+func fillPublishTimeAndWriterInfo(snippetView : SnippetView, timeAndWriterAttributedString : NSAttributedString)
 {
-    removePaddingFromTextView(textView: cell.snippetView.postTimeAndWriter)
-    cell.snippetView.postTimeAndWriter.attributedText = timeAndWriterAttributedString
+    removePaddingFromTextView(textView: snippetView.postTimeAndWriter)
+    snippetView.postTimeAndWriter.attributedText = timeAndWriterAttributedString
 }
 
-func setCellReferences(tableViewCell : SnippetTableViewCell, postData : PostData, shouldTruncate : Bool)
+func setSnippetReferences(snippetView: SnippetView, postData : PostData, shouldTruncate : Bool, isTextLongEnoughToBeTruncated: Bool)
 {
-    if (tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
+    if (isTextLongEnoughToBeTruncated && shouldTruncate)
     {
-        tableViewCell.snippetView.references.attributedText = NSAttributedString()
+        snippetView.references.attributedText = NSAttributedString()
     }
     else
     {
-        addReferencesStringsToCell(cell : tableViewCell, postData: postData)
+        addReferencesStringsToSnippet(snippetView: snippetView, postData: postData)
     }
     
-    setStateOfHeightConstraint(view: tableViewCell.snippetView.references, identifier: "referencesHeightConstraint", state: tableViewCell.m_isTextLongEnoughToBeTruncated && shouldTruncate)
+    setStateOfHeightConstraint(view: snippetView.references, identifier: "referencesHeightConstraint", state: isTextLongEnoughToBeTruncated && shouldTruncate)
 }
 
 func getMoreCommentsFullString(postData: PostData) -> String
@@ -103,7 +99,7 @@ func getReferencesStringFromPostData(postData : PostData) -> NSMutableAttributed
     return referencesString
 }
 
-func addReferencesStringsToCell(cell: SnippetTableViewCell, postData: PostData)
+func addReferencesStringsToSnippet(snippetView: SnippetView, postData: PostData)
 {
     let allReferencesString = getReferencesStringFromPostData(postData: postData)
     
@@ -112,7 +108,7 @@ func addReferencesStringsToCell(cell: SnippetTableViewCell, postData: PostData)
     allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
     allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
     
-    cell.snippetView.references.attributedText = allReferencesString
-    cell.snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
-    removePaddingFromTextView(textView: cell.snippetView.references)
+    snippetView.references.attributedText = allReferencesString
+    snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
+    removePaddingFromTextView(textView: snippetView.references)
 }

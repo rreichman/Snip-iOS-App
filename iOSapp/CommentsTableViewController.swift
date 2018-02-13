@@ -32,7 +32,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         super.viewDidLoad()
         snippetsViewController = viewControllerToReturnTo as! SnippetsTableViewController
+        
         setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
+        loadSnippetView()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -57,6 +59,11 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {
         return true
+    }
+    
+    func loadSnippetView()
+    {
+        (snippetsViewController.tableView.dataSource as! FeedDataSource).loadSnippetFromID(snippetView: snippetView, snippetID: currentSnippetID, shouldTruncate: true)
     }
     
     func getCommentArray() -> [Comment]
