@@ -34,8 +34,16 @@ class SnippetView: UIView {
     
     @IBOutlet weak var shareButton: UIImageView!
     
+    var isTextLongEnoughToBeTruncated : Bool = true
+    var isTruncated : Bool = true
+    var truncatedBody : NSAttributedString = NSAttributedString()
+    var nonTruncatedBody : NSAttributedString = NSAttributedString()
+    
     var currentSnippetId : Int = 0
     var fullURL : String = ""
+    //var inCommentView : Bool = false
+    //var inFeedView : Bool = false
+    var currentViewController = UIViewController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,6 +135,154 @@ class SnippetView: UIView {
         }
     }
     
+    func makeSnippetClickable(snippetView : SnippetView)
+    {
+        let singleTapRecognizerImage : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.postImage.isUserInteractionEnabled = true
+        snippetView.postImage.addGestureRecognizer(singleTapRecognizerImage)
+        
+        let singleTapRecognizerImageDescription : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.imageDescription.isUserInteractionEnabled = true
+        snippetView.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
+        
+        let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.body.isUserInteractionEnabled = true
+        snippetView.body.addGestureRecognizer(singleTapRecognizerText)
+        
+        let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.headline.isUserInteractionEnabled = true
+        snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
+        
+        let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.postTimeAndWriter.isUserInteractionEnabled = true
+        snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
+        
+        let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        snippetView.references.isUserInteractionEnabled = true
+        snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
+    }
+    
+    // TODO:: do this for all text views
+    // Returns if the operation was handled
+    func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
+    {
+        let textView : UITextView = sender.view as! UITextView
+        let layoutManager : NSLayoutManager = textView.layoutManager
+        var location : CGPoint = sender.location(in: textView)
+        location.x -= textView.textContainerInset.left;
+        location.y -= textView.textContainerInset.top;
+        let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
+        for attribute in attributes
+        {
+            if attribute.key._rawValue == "NSLink"
+            {
+                // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
+                var linkAddress = attribute.value
+                if attribute.value is NSURL
+                {
+                    linkAddress = (attribute.value as! NSURL).absoluteString!
+                }
+                
+                UIApplication.shared.open(URL(string: linkAddress as! String)!, options: [:], completionHandler: nil)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
+    {
+        if (isTextLongEnoughToBeTruncated)
+        {
+            if (isReadMore)
+            {
+                Logger().logReadMoreEvent(snipID: currentSnippetId)
+            }
+            else
+            {
+                Logger().logReadLessEvent(snipID: currentSnippetId)
+            }
+        }
+        else
+        {
+            Logger().logTapOnNonTruncableText(snipID: currentSnippetId)
+        }
+    }
+    
+    @objc func textLabelPressed(sender: UITapGestureRecognizer)
+    {
+        if sender.view is UITextView
+        {
+            if (handleClickOnTextView(sender: sender))
+            {
+                return
+            }
+        }
+        
+        if (currentViewController is SnippetsTableViewController)
+        {
+            let viewController : SnippetsTableViewController = (currentViewController as! SnippetsTableViewController)
+            let tableView : UITableView = viewController.tableView
+            
+            let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView))
+            let isReadMore : Bool = !(viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.contains(indexPath!.row)
+            
+            if (isReadMore)
+            {
+                (viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.insert(indexPath!.row)
+            }
+            else
+            {
+                (viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.remove(indexPath!.row)
+            }
+            
+            logClickOnText(isReadMore: isReadMore, sender: sender)
+            
+            UIView.performWithoutAnimation
+            {
+                tableView.beginUpdates()
+                tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
+                tableView.endUpdates()
+            }
+        }
+        if (currentViewController is CommentsTableViewController)
+        {
+            if (isTruncated)
+            {
+                body.attributedText = nonTruncatedBody
+                isTruncated = false
+            }
+            else
+            {
+                body.attributedText = truncatedBody
+                isTruncated = true
+            }
+        }
+    }
+    
+    func setUpvoteDownvoteImagesAccordingtoVote(snippetView: SnippetView, postData : PostData)
+    {
+        if (postData.isLiked)
+        {
+            snippetView.upvoteButton.image = snippetView.upvoteButton.clickedImage
+        }
+        else
+        {
+            snippetView.upvoteButton.image = snippetView.upvoteButton.unclickedImage
+        }
+        
+        if (postData.isDisliked)
+        {
+            snippetView.downvoteButton.image = snippetView.downvoteButton.clickedImage
+        }
+        else
+        {
+            snippetView.downvoteButton.image = snippetView.downvoteButton.unclickedImage
+        }
+    }
+    
     @objc func handleClickOnUpvote(sender : UITapGestureRecognizer)
     {
         handleClickOnUpvoteDownvote(isUpButton: true, sender: sender)
@@ -142,16 +298,16 @@ class SnippetView: UIView {
         print("clicked on comment")
         Logger().logClickCommentButton()
         
-        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
-        let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
-        tableViewController.rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender, tableView: tableView)
-        tableViewController.commentsButtonPressed(tableViewController)
-    }
-    
-    func getCurrentController(sender : UITapGestureRecognizer) -> UIViewController
-    {
-        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
-        return tableView.delegate as! UIViewController
+        if (currentViewController is SnippetsTableViewController)
+        {
+            let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
+            (currentViewController as! SnippetsTableViewController).rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender, tableView: tableView)
+            (currentViewController as! SnippetsTableViewController).commentsButtonPressed(currentViewController)
+        }
+        if (currentViewController is CommentsTableViewController)
+        {
+            (currentViewController as! CommentsTableViewController).writeCommentBox.becomeFirstResponder()
+        }
     }
     
     @objc func handleClickOnShare(sender : UITapGestureRecognizer)
@@ -166,8 +322,7 @@ class SnippetView: UIView {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
-            let tableViewController : SnippetsTableViewController = getCurrentController(sender: sender) as! SnippetsTableViewController
-            tableViewController.present(activityVC, animated: true, completion: nil)
+            currentViewController.present(activityVC, animated: true, completion: nil)
         }
     }
 }

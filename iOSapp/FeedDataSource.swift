@@ -32,13 +32,14 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
         loadDataIntoSnippet(snippetView: cell.snippetView, shouldTruncate: shouldTruncate, postData: postData)
+        cell.snippetView.currentViewController = _tableView.delegate as! SnippetsTableViewController
         
         return cell
     }
     
     func loadDataIntoSnippet(snippetView: SnippetView, shouldTruncate: Bool, postData: PostData)
     {
-        self.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
+        snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
         
         let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
         fillPublishTimeAndWriterInfo(snippetView: snippetView, timeAndWriterAttributedString: timeAndWriterString)
@@ -47,7 +48,11 @@ class FeedDataSource: NSObject, UITableViewDataSource
         
         fillImageDescription(snippetView: snippetView, imageDescription: postData.imageDescriptionAfterHtmlRendering)
         
-        self.makeSnippetClickable(snippetView: snippetView)
+        snippetView.makeSnippetClickable(snippetView: snippetView)
+        snippetView.isTextLongEnoughToBeTruncated = postData.m_isTextLongEnoughToBeTruncated
+        
+        snippetView.truncatedBody = postData.textAsAttributedStringWithTruncation
+        snippetView.nonTruncatedBody = postData.textAsAttributedStringWithoutTruncation
         
         setSnippetText(snippetView: snippetView, postData : postData, shouldTruncate: shouldTruncate)
         
@@ -129,140 +134,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
                 newPostData.comments = newComments
                 postDataArray[i] = newPostData
             }
-        }
-    }
-    
-    // Cell UI management functions
-    
-    func makeSnippetClickable(snippetView : SnippetView)
-    {
-        let singleTapRecognizerImage : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.postImage.isUserInteractionEnabled = true
-        snippetView.postImage.addGestureRecognizer(singleTapRecognizerImage)
-        
-        let singleTapRecognizerImageDescription : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.imageDescription.isUserInteractionEnabled = true
-        snippetView.imageDescription.addGestureRecognizer(singleTapRecognizerImageDescription)
-        
-        let singleTapRecognizerText : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.body.isUserInteractionEnabled = true
-        snippetView.body.addGestureRecognizer(singleTapRecognizerText)
-        
-        let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.headline.isUserInteractionEnabled = true
-        snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
-        
-        let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.postTimeAndWriter.isUserInteractionEnabled = true
-        snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
-        
-        let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.references.isUserInteractionEnabled = true
-        snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
-    }
-    
-    func setUpvoteDownvoteImagesAccordingtoVote(snippetView: SnippetView, postData : PostData)
-    {
-        if (postData.isLiked)
-        {
-            snippetView.upvoteButton.image = snippetView.upvoteButton.clickedImage
-        }
-        else
-        {
-            snippetView.upvoteButton.image = snippetView.upvoteButton.unclickedImage
-        }
-        
-        if (postData.isDisliked)
-        {
-            snippetView.downvoteButton.image = snippetView.downvoteButton.clickedImage
-        }
-        else
-        {
-            snippetView.downvoteButton.image = snippetView.downvoteButton.unclickedImage
-        }
-    }
-    
-    // TODO:: do this for all text views
-    // Returns if the operation was handled
-    func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
-    {
-        let textView : UITextView = sender.view as! UITextView
-        let layoutManager : NSLayoutManager = textView.layoutManager
-        var location : CGPoint = sender.location(in: textView)
-        location.x -= textView.textContainerInset.left;
-        location.y -= textView.textContainerInset.top;
-        let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-        
-        let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
-        for attribute in attributes
-        {
-            if attribute.key._rawValue == "NSLink"
-            {
-                // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
-                var linkAddress = attribute.value
-                if attribute.value is NSURL
-                {
-                    linkAddress = (attribute.value as! NSURL).absoluteString!
-                }
-                
-                UIApplication.shared.open(URL(string: linkAddress as! String)!, options: [:], completionHandler: nil)
-                return true
-            }
-        }
-        return false
-    }
-    
-    func logClickOnText(isReadMore : Bool, sender : UITapGestureRecognizer)
-    {
-        let snipID = postDataArray[getRowNumberOfClickOnTableView(sender: sender, tableView: _tableView)].id
-        let tableViewCell : SnippetTableViewCell = sender.view?.superview?.superview?.superview?.superview as! SnippetTableViewCell
-        
-        if (tableViewCell.m_isTextLongEnoughToBeTruncated)
-        {
-            if (isReadMore)
-            {
-                Logger().logReadMoreEvent(snipID: snipID)
-            }
-            else
-            {
-                Logger().logReadLessEvent(snipID: snipID)
-            }
-        }
-        else
-        {
-            Logger().logTapOnNonTruncableText(snipID: snipID)
-        }
-    }
-    
-    @objc func textLabelPressed(sender: UITapGestureRecognizer)
-    {
-        if sender.view is UITextView
-        {
-            if (handleClickOnTextView(sender: sender))
-            {
-                return
-            }
-        }
-        
-        let indexPath = _tableView.indexPathForRow(at: sender.location(in: _tableView))
-        let isReadMore : Bool = !cellsNotToTruncate.contains(indexPath!.row)
-        
-        if (isReadMore)
-        {
-            cellsNotToTruncate.insert(indexPath!.row)
-        }
-        else
-        {
-            cellsNotToTruncate.remove(indexPath!.row)
-        }
-        
-        logClickOnText(isReadMore: isReadMore, sender: sender)
-        
-        UIView.performWithoutAnimation
-            {
-                _tableView.beginUpdates()
-                _tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.none)
-                _tableView.endUpdates()
         }
     }
 }

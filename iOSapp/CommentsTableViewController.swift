@@ -35,6 +35,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
         loadSnippetView()
+        snippetView.currentViewController = self
         
         tableView.delegate = self
         tableView.dataSource = self
