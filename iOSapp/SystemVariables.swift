@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LatoFont
 
 public class SystemVariables
 {
@@ -20,8 +21,10 @@ public class SystemVariables
     let IMAGE_DESCRIPTION_HEIGHT = 10
     let IMAGE_DESCRIPTION_TEXT_FONT = UIFont(name: "Helvetica", size: 10)
     let IMAGE_DESCRIPTION_COLOR = UIColor.lightGray
-    let PUBLISH_TIME_AND_WRITER_FONT = UIFont(name: "Helvetica", size: 12)
-    let PUBLISH_TIME_AND_WRITER_COLOR = UIColor.gray
+    // TODO:: return this
+    //let PUBLISH_WRITER_FONT = UIFont.lato(size: 15)
+    let PUBLISH_WRITER_FONT = UIFont(name: "Helvetica", size: 10)
+    let PUBLISH_WRITER_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
     let REFERENCES_FONT = UIFont(name: "Helvetica", size: 11)
     let REFERENCES_COLOR = UIColor.gray
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)

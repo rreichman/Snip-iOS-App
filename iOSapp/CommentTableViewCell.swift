@@ -102,9 +102,10 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     {
         addFontAndForegroundColorToView(textView: writer, newFont: SystemVariables().HEADLINE_TEXT_FONT, newColor: SystemVariables().HEADLINE_TEXT_COLOR)
         addFontAndForegroundColorToView(textView: body, newFont: SystemVariables().CELL_TEXT_FONT!, newColor: SystemVariables().CELL_TEXT_COLOR)
-        addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
-        addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
-        addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        // TODO:: fix this
+        //addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        //addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        //addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)

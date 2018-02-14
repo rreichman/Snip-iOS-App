@@ -13,6 +13,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
 {
     @IBOutlet weak var snippetView: SnippetView!
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollviewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var writeCommentBox: UITextView!
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var commentView: UIView!
@@ -34,7 +38,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         snippetsViewController = viewControllerToReturnTo as! SnippetsTableViewController
         
         setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
-        loadSnippetView()
+        loadSnippetView(shouldTruncate: true)
         snippetView.currentViewController = self
         
         tableView.delegate = self
@@ -56,15 +60,24 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         setTableViewBackground()
     }
     
+    override func viewDidLayoutSubviews()
+    {
+        tableHeightConstraint.constant = tableView.contentSize.height
+        
+        snippetView.setNeedsLayout()
+        snippetView.layoutIfNeeded()
+        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
+    }
+    
     // This allows the text view to receive input normally even with a recognizer.
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {
         return true
     }
     
-    func loadSnippetView()
+    func loadSnippetView(shouldTruncate: Bool)
     {
-        (snippetsViewController.tableView.dataSource as! FeedDataSource).loadSnippetFromID(snippetView: snippetView, snippetID: currentSnippetID, shouldTruncate: true)
+        (snippetsViewController.tableView.dataSource as! FeedDataSource).loadSnippetFromID(snippetView: snippetView, snippetID: currentSnippetID, shouldTruncate: shouldTruncate)
     }
     
     func getCommentArray() -> [Comment]

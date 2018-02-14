@@ -29,6 +29,7 @@ PODS:
   - FBSDKShareKit (4.28.0):
     - FBSDKCoreKit
   - Geth (1.7.2)
+  - LatoFont (2.0.1)
   - Mixpanel-swift (2.2.2):
     - Mixpanel-swift/Complete (= 2.2.2)
   - Mixpanel-swift/Complete (2.2.2)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - FacebookLogin
   - FacebookShare
   - Geth
+  - LatoFont
   - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
 
 EXTERNAL SOURCES:
@@ -65,8 +67,9 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: b077381c27d800f21661757e8140cf2c80a91e4a
   FBSDKShareKit: 4f525556e0df4cf0f574cb3f01c675434f29d477
   Geth: 1efbf2eb4d4c697a7232c5385da127ca386b1060
+  LatoFont: 6ee909ba4326bfa3687d1b80ed743ddb91dabf50
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
 
-PODFILE CHECKSUM: bb1c73067d97c167805490dab12bb544834f3bce
+PODFILE CHECKSUM: 4a64ba3fb5d4f8e55e207785ff6b34a65bbc9332
 
 COCOAPODS: 1.3.1

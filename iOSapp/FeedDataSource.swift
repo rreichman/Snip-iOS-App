@@ -41,8 +41,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
         
-        let timeAndWriterString = self.generateTimeAndWriterString(postData: postData)
-        fillPublishTimeAndWriterInfo(snippetView: snippetView, timeAndWriterAttributedString: timeAndWriterString)
+        snippetView.writerPostTime.text = postData.timeString
+        snippetView.writerName.attributedText = postData.writerString
         
         loadImageData(snippetView: snippetView, postData: postData)
         
@@ -82,11 +82,6 @@ class FeedDataSource: NSObject, UITableViewDataSource
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             SnipRetrieverFromWeb.shared.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
-    }
-    
-    func generateTimeAndWriterString(postData: PostData) -> NSAttributedString
-    {
-        return NSAttributedString(string : postData.timeAndWriterString, attributes: postData.PUBLISH_TIME_AND_WRITER_ATTRIBUTES)
     }
     
     func loadImageData(snippetView: SnippetView, postData: PostData)

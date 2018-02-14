@@ -20,17 +20,20 @@ class SnippetView: UIView {
     @IBOutlet weak var imageDescription: UITextView!
     @IBOutlet weak var headline: UITextView!
     
-    @IBOutlet weak var postTimeAndWriter: UITextView!
-    
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var references: UITextView!
     
     @IBOutlet weak var upvoteButton: UIImageViewWithMetadata!
-    
     @IBOutlet weak var downvoteButton: UIImageViewWithMetadata!
     
+    @IBOutlet weak var button: UIImageViewWithMetadata!
+    @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
+    
+    @IBOutlet weak var writerImage: UIImageView!
+    @IBOutlet weak var writerName: UITextView!
+    @IBOutlet weak var writerPostTime: UILabel!
+    
     @IBOutlet weak var commentButton: UIImageView!
-    @IBOutlet weak var commentButtonRightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var shareButton: UIImageView!
     
@@ -41,8 +44,6 @@ class SnippetView: UIView {
     
     var currentSnippetId : Int = 0
     var fullURL : String = ""
-    //var inCommentView : Bool = false
-    //var inFeedView : Bool = false
     var currentViewController = UIViewController()
     
     override init(frame: CGRect) {
@@ -74,14 +75,27 @@ class SnippetView: UIView {
         let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
+        upvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
+        upvoteButton.clickedImage = #imageLiteral(resourceName: "arrowUpGreen")
+        downvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowDown")
+        downvoteButton.clickedImage = #imageLiteral(resourceName: "arrowDownRed")
+        
         postImage.image = #imageLiteral(resourceName: "genericImage")
+        postImage.layer.shouldRasterize = true
+        postImage.layer.cornerRadius = CGFloat(10.0)
+        postImage.clipsToBounds = true
+        
+        writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
+        writerImage.clipsToBounds = true
         
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
-        turnActionImagesIntoButtons()
+        writerName.attributedText = NSAttributedString(string: "writer", attributes: [NSAttributedStringKey.font : SystemVariables().CELL_TEXT_FONT])
+        print(writerName.attributedText.string)
+        //removePaddingFromTextView(textView: writerName)
         
-        commentButtonRightConstraint.constant = CachedData().getScreenWidth() * 0.42
+        turnActionImagesIntoButtons()
         
         return view
     }
@@ -153,9 +167,9 @@ class SnippetView: UIView {
         snippetView.headline.isUserInteractionEnabled = true
         snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
         
-        let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        snippetView.postTimeAndWriter.isUserInteractionEnabled = true
-        snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
+        //let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
+        //snippetView.postTimeAndWriter.isUserInteractionEnabled = true
+        //snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
         
         let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         snippetView.references.isUserInteractionEnabled = true
@@ -259,7 +273,12 @@ class SnippetView: UIView {
                 body.attributedText = truncatedBody
                 isTruncated = true
             }
+            
+            (currentViewController as! CommentsTableViewController).loadSnippetView(shouldTruncate: !isTruncated)
         }
+        
+        print(upvoteButton)
+        print(downvoteButton)
     }
     
     func setUpvoteDownvoteImagesAccordingtoVote(snippetView: SnippetView, postData : PostData)
@@ -317,7 +336,7 @@ class SnippetView: UIView {
 
         let message = "Check out this snippet:\n" + headline.text
         
-        if let link = NSURL(string: fullURL)
+        if let link = NSURL(string: fullURL + "\n")
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)

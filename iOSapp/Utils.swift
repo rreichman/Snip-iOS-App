@@ -187,18 +187,18 @@ func getTimeFromDateString(dateString : String) -> String
                 {
                     let dateDifferenceInSeconds = Date().seconds(from: dateAsDataStructure!)
                     displayedTime.append(String(dateDifferenceInSeconds))
-                    displayedTime.append(" secs ago")
+                    displayedTime.append(" secs")
                 }
                 else
                 {
                     displayedTime.append(String(dateDifferenceInMinutes))
                     if (dateDifferenceInMinutes == 1)
                     {
-                        displayedTime.append(" min ago")
+                        displayedTime.append(" min")
                     }
                     else
                     {
-                        displayedTime.append(" mins ago")
+                        displayedTime.append(" mins")
                     }
                 }
             }
@@ -207,11 +207,11 @@ func getTimeFromDateString(dateString : String) -> String
                 displayedTime.append(String(dateDifferenceInHours))
                 if (dateDifferenceInHours == 1)
                 {
-                    displayedTime.append(" hour ago")
+                    displayedTime.append(" hour")
                 }
                 else
                 {
-                    displayedTime.append(" hours ago")
+                    displayedTime.append(" hours")
                 }
             }
         }
@@ -220,11 +220,11 @@ func getTimeFromDateString(dateString : String) -> String
             displayedTime.append(String(dateDifferenceInDays))
             if (dateDifferenceInDays == 1)
             {
-                displayedTime.append(" day ago")
+                displayedTime.append(" day")
             }
             else
             {
-                displayedTime.append(" days ago")
+                displayedTime.append(" days")
             }
         }
     }

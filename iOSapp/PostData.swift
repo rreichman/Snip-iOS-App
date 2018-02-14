@@ -36,8 +36,9 @@ class PostData : Encodable, Decodable
     var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     
-    var timeAndWriterString : String = ""
-    let PUBLISH_TIME_AND_WRITER_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR]
+    var timeString : String = ""
+    var writerString : NSAttributedString = NSAttributedString()
+    let WRITER_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_WRITER_COLOR]
     
     init() {}
     
@@ -77,7 +78,9 @@ class PostData : Encodable, Decodable
         textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: true)
         textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: false)
         
-        timeAndWriterString = getTimeFromDateString(dateString: date) + ", by " + author._name
+        timeString = getTimeFromDateString(dateString: date)
+        writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
+        print(writerString.string)
         
         m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self)
     }
@@ -146,21 +149,3 @@ class PostData : Encodable, Decodable
         loadRawJsonIntoVariables()
     }
 }
-
-/*public class Comments
-{
-    var comments : [Comment] = []
-    
-    init()
-    {
-    }
-    
-    init(commentArrayData : [[String : Any]])
-    {
-        for commentData in commentArrayData
-        {
-            var newComment = Comment(commentData: commentData)
-            comments.append(newComment)
-        }
-    }
-}*/

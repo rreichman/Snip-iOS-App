@@ -28,12 +28,6 @@ func setSnippetText(snippetView : SnippetView, postData : PostData, shouldTrunca
     removePaddingFromTextView(textView: snippetView.body)
 }
 
-func fillPublishTimeAndWriterInfo(snippetView : SnippetView, timeAndWriterAttributedString : NSAttributedString)
-{
-    removePaddingFromTextView(textView: snippetView.postTimeAndWriter)
-    snippetView.postTimeAndWriter.attributedText = timeAndWriterAttributedString
-}
-
 func setSnippetReferences(snippetView: SnippetView, postData : PostData, shouldTruncate : Bool, isTextLongEnoughToBeTruncated: Bool)
 {
     if (isTextLongEnoughToBeTruncated && shouldTruncate)
@@ -46,6 +40,20 @@ func setSnippetReferences(snippetView: SnippetView, postData : PostData, shouldT
     }
     
     setStateOfHeightConstraint(view: snippetView.references, identifier: "referencesHeightConstraint", state: isTextLongEnoughToBeTruncated && shouldTruncate)
+}
+
+func addReferencesStringsToSnippet(snippetView: SnippetView, postData: PostData)
+{
+    let allReferencesString = getReferencesStringFromPostData(postData: postData)
+    
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_REFERENCES
+    allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
+    allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
+    
+    snippetView.references.attributedText = allReferencesString
+    snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
+    removePaddingFromTextView(textView: snippetView.references)
 }
 
 func getMoreCommentsFullString(postData: PostData) -> String
@@ -97,18 +105,4 @@ func getReferencesStringFromPostData(postData : PostData) -> NSMutableAttributed
         referencesString.append(referenceString)
     }
     return referencesString
-}
-
-func addReferencesStringsToSnippet(snippetView: SnippetView, postData: PostData)
-{
-    let allReferencesString = getReferencesStringFromPostData(postData: postData)
-    
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_REFERENCES
-    allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
-    allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
-    
-    snippetView.references.attributedText = allReferencesString
-    snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
-    removePaddingFromTextView(textView: snippetView.references)
 }
