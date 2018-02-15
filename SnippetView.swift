@@ -97,8 +97,6 @@ class SnippetView: UIView {
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
-        numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: comments.count)
-        
         turnActionImagesIntoButtons()
         
         return view
