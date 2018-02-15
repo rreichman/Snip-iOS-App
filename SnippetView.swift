@@ -22,6 +22,7 @@ class SnippetView: UIView {
     
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var references: UITextView!
+    @IBOutlet weak var referencesTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var upvoteButton: UIImageViewWithMetadata!
     @IBOutlet weak var downvoteButton: UIImageViewWithMetadata!
@@ -30,12 +31,15 @@ class SnippetView: UIView {
     @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
     
     @IBOutlet weak var writerImage: UIImageView!
-    @IBOutlet weak var writerName: UITextView!
+    @IBOutlet weak var writerName: UILabel!
+    
     @IBOutlet weak var writerPostTime: UILabel!
     
     @IBOutlet weak var commentButton: UIImageView!
+    @IBOutlet weak var numberOfCommentsLabel: UILabel!
     
     @IBOutlet weak var shareButton: UIImageView!
+    @IBOutlet weak var cellSeparator: UIImageView!
     
     var isTextLongEnoughToBeTruncated : Bool = true
     var isTruncated : Bool = true
@@ -85,15 +89,15 @@ class SnippetView: UIView {
         postImage.layer.cornerRadius = CGFloat(10.0)
         postImage.clipsToBounds = true
         
+        cellSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
+        
         writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
         writerImage.clipsToBounds = true
         
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
-        writerName.attributedText = NSAttributedString(string: "writer", attributes: [NSAttributedStringKey.font : SystemVariables().CELL_TEXT_FONT])
-        print(writerName.attributedText.string)
-        //removePaddingFromTextView(textView: writerName)
+        numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: comments.count)
         
         turnActionImagesIntoButtons()
         

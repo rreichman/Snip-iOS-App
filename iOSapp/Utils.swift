@@ -187,18 +187,18 @@ func getTimeFromDateString(dateString : String) -> String
                 {
                     let dateDifferenceInSeconds = Date().seconds(from: dateAsDataStructure!)
                     displayedTime.append(String(dateDifferenceInSeconds))
-                    displayedTime.append(" secs")
+                    displayedTime.append("s")
                 }
                 else
                 {
                     displayedTime.append(String(dateDifferenceInMinutes))
                     if (dateDifferenceInMinutes == 1)
                     {
-                        displayedTime.append(" min")
+                        displayedTime.append("min")
                     }
                     else
                     {
-                        displayedTime.append(" mins")
+                        displayedTime.append("mins")
                     }
                 }
             }
@@ -207,25 +207,18 @@ func getTimeFromDateString(dateString : String) -> String
                 displayedTime.append(String(dateDifferenceInHours))
                 if (dateDifferenceInHours == 1)
                 {
-                    displayedTime.append(" hour")
+                    displayedTime.append("hr")
                 }
                 else
                 {
-                    displayedTime.append(" hours")
+                    displayedTime.append("hrs")
                 }
             }
         }
         else
         {
             displayedTime.append(String(dateDifferenceInDays))
-            if (dateDifferenceInDays == 1)
-            {
-                displayedTime.append(" day")
-            }
-            else
-            {
-                displayedTime.append(" days")
-            }
+            displayedTime.append("d")
         }
     }
     else
@@ -239,6 +232,19 @@ func getRowNumberOfClickOnTableView(sender : UITapGestureRecognizer, tableView: 
 {
     let clickCoordinates = sender.location(in: tableView)
     return tableView.indexPathForRow(at: clickCoordinates)!.row
+}
+
+func getAttributedStringOfCommentCount(commentCount: Int) -> NSAttributedString
+{
+    if (commentCount > 0)
+    {
+        let NUMBER_OF_COMMENTS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().NUMBER_OF_COMMENTS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().NUMBER_OF_COMMENTS_COLOR]
+        return NSAttributedString(string: commentCount.description, attributes: NUMBER_OF_COMMENTS_ATTRIBUTES)
+    }
+    else
+    {
+        return NSAttributedString()
+    }
 }
 
 // Use this for tests

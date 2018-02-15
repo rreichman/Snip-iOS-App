@@ -77,7 +77,7 @@ class SignupViewController : GenericProgramViewController
         }
     }
     
-    // TODO:: Perhaps unite with other register for notifications function
+    // TODO: Perhaps unite with other register for notifications function
     func registerForKeyboardNotifications()
     {
         //Adding notifications on keyboard appearing

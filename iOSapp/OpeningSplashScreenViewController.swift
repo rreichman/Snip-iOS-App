@@ -87,7 +87,7 @@ class OpeningSplashScreenViewController: UIViewController
         var i = 0
         for postData in feedDataSource.postDataArray
         {
-            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
+            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 1
             if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
             {
                 let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)

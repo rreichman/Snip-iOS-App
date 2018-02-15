@@ -74,5 +74,5 @@ class ProfileViewController : GenericProgramViewController
         present(alertController, animated: true, completion: nil)
     }
     
-    // TODO:: show user likes here
+    // TODO: show user likes here
 }

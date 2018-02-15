@@ -41,8 +41,12 @@ class FeedDataSource: NSObject, UITableViewDataSource
     {
         snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
         
-        snippetView.writerPostTime.text = postData.timeString
+        snippetView.writerPostTime.attributedText = postData.timeString
         snippetView.writerName.attributedText = postData.writerString
+        
+        // TODO:: this needs to update when user deletes a comment, make it a generic function.
+        let numberOfComments = postData.comments.count
+        snippetView.numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: numberOfComments)
         
         loadImageData(snippetView: snippetView, postData: postData)
         

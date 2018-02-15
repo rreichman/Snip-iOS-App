@@ -14,6 +14,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var snippetView: SnippetView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var viewInsideOfScrollView: UIView!
+    
     @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollviewHeightConstraint: NSLayoutConstraint!
     
@@ -135,7 +138,11 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBAction func closedRepliedTo(_ sender: Any)
     {
         hideReplyingToBox()
-        
+        setNotReplyingTo()
+    }
+    
+    func setNotReplyingTo()
+    {
         isCurrentlyReplyingToComment = false
         commentIdReplyingTo = 0
     }
@@ -229,32 +236,18 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
     }
     
-    func scrollToCommentInTable(commentID: Int)
-    {
-        var index = 0
-        for i in 0...getCommentArray().count-1
-        {
-            let comment : Comment = getCommentArray()[i]
-            if(comment.id == commentID)
-            {
-                index = i
-                break
-            }
-        }
-        
-        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-    }
-    
     func handlePostedComment(responseString: String)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
             let postedComment = Comment(commentData: jsonObj)
             var newCommentArray : [Comment] = getCommentArray()
-            newCommentArray.append(postedComment)
+            newCommentArray.insert(postedComment, at: 0)
             setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: newCommentArray))
             DispatchQueue.main.async
             {
+                self.setNotReplyingTo()
+                self.tableHeightConstraint.constant = 10000
                 self.tableView.reloadData()
                 self.hideReplyingToBox()
                 self.writeCommentBox.endEditing(true)
@@ -265,7 +258,14 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                 }
                 
                 self.noDataLabel.isHidden = true
-                self.scrollToCommentInTable(commentID: postedComment.id)
+                
+                self.tableView.setNeedsLayout()
+                self.tableView.layoutIfNeeded()
+                
+                self.updateHeightsInCommentsController()
+                self.scrollToPublishedComment(commentID: postedComment.id)
+                
+                self.snippetView.numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: self.tableView.visibleCells.count)
             }
         }
         else
@@ -274,6 +274,42 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         
         isPostButtonValid = true
+    }
+    
+    func updateHeightsInCommentsController()
+    {
+        self.tableHeightConstraint.constant = self.tableView.contentSize.height
+        self.scrollviewHeightConstraint.constant = self.snippetView.bounds.height + self.tableView.contentSize.height + 20
+    }
+    
+    func scrollToPublishedComment(commentID: Int)
+    {
+        var i = 0
+        var heightInTableView = CGFloat(0)
+        
+        self.tableView.setNeedsLayout()
+        self.tableView.layoutIfNeeded()
+        
+        for cell in self.tableView.visibleCells
+        {
+            heightInTableView += cell.bounds.height
+            if (cell as! CommentTableViewCell).commentID != commentID
+            {
+                i+=1
+            }
+            else
+            {
+                break
+            }
+        }
+        
+        let absoluteHeight = heightInTableView + self.snippetView.bounds.height
+        let scrollViewSize = scrollView.bounds.height
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+        if (absoluteHeight > scrollViewSize)
+        {
+            scrollView.setContentOffset(CGPoint(x: 0, y: absoluteHeight - scrollViewSize), animated: false)
+        }
     }
     
     func handleDeletedComment(responseString: String)
@@ -287,10 +323,18 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                     let deleteMessage : String = jsonObj["message"] as! String
                     if deleteMessage == "success"
                     {
+                        self.tableHeightConstraint.constant = 10000
+                        
                         let deletedIDs : [Int] = jsonObj["deleted"] as! [Int]
                         self.setCommentArray(newCommentArray: self.getCommentListWithoutDeletedComments(commentArray: self.getCommentArray(), deletedIDs: deletedIDs))
                         self.setTableViewBackground()
                         self.tableView.reloadData()
+                        
+                        self.tableView.setNeedsLayout()
+                        self.tableView.layoutIfNeeded()
+                        
+                        self.updateHeightsInCommentsController()
+                        self.snippetView.numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: self.tableView.visibleCells.count)
                     }
                 }
             }

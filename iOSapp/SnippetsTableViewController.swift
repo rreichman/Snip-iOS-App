@@ -9,7 +9,7 @@
 import UIKit
 import Cache
 
-// TODO:: This should be a GenericProgramViewController
+// TODO: This should be a GenericProgramViewController
 class SnippetsTableViewController: UITableViewController
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
@@ -106,7 +106,7 @@ class SnippetsTableViewController: UITableViewController
     
     func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
     {
-        // TODO:: there's some code multiplication here with opening splash screen but not sure it's worth the trouble.
+        // TODO: there's some code multiplication here with opening splash screen but not sure it's worth the trouble.
         var newDataArray : [PostData] = []
         if (appendDataAndNotReplace)
         {
@@ -191,7 +191,7 @@ class SnippetsTableViewController: UITableViewController
             self.heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
             
             DispatchQueue.main.async {
-                // TODO:: This is buggy since I'm logging some snippets many times. Not too important now
+                // TODO: This is buggy since I'm logging some snippets many times. Not too important now
                 if (self.finishedLoadingSnippets)
                 {
                     let foregroundSnippetIDs = self.getForegroundSnippetIDs()

@@ -13,6 +13,7 @@ class CachedData
     static let shared = CachedData()
     
     var screenWidth : CGFloat = 0
+    var screenHeight : CGFloat = 0
     
     func getScreenWidth() -> CGFloat
     {
@@ -22,5 +23,15 @@ class CachedData
         }
 
         return screenWidth
+    }
+    
+    func getScreenHeight() -> CGFloat
+    {
+        if (screenHeight == 0)
+        {
+            screenHeight = UIScreen.main.bounds.height
+        }
+        
+        return screenHeight
     }
 }

@@ -35,13 +35,13 @@ class LoginViewController : GenericProgramViewController
         termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
         termsAndConditionsBox.attributedText = getTermsAndConditionsString()
         
-        // TODO:: this is code copying from SignupViewController. Should fix but not now
+        // TODO: this is code copying from SignupViewController. Should fix but not now
         let singleTapRecognizerFacebookLogin : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(facebookLoginPressed(sender:)))
         loginWithFacebookButton.isUserInteractionEnabled = true
         loginWithFacebookButton.addGestureRecognizer(singleTapRecognizerFacebookLogin)
     }
     
-    // TODO:: this is code copying from SignupViewController. Should fix but not now
+    // TODO: this is code copying from SignupViewController. Should fix but not now
     @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
     {
         let loginManager = LoginManager()
@@ -49,7 +49,7 @@ class LoginViewController : GenericProgramViewController
         loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
     }
     
-    // TODO:: this is code copying from SignupViewController. Should fix but not now
+    // TODO: this is code copying from SignupViewController. Should fix but not now
     func facebookResultHandler(loginResult : LoginResult)
     {
         switch loginResult

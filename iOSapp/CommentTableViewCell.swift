@@ -21,7 +21,7 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     
     @IBOutlet weak var replyButtonWidthConstraint: NSLayoutConstraint!
     
-    // TODO:: perhaps this isn't ideal
+    // TODO: perhaps this isn't ideal
     var viewController : CommentsTableViewController = CommentsTableViewController()
     
     var commentID : Int = 0

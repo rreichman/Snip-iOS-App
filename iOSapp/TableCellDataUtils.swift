@@ -33,10 +33,12 @@ func setSnippetReferences(snippetView: SnippetView, postData : PostData, shouldT
     if (isTextLongEnoughToBeTruncated && shouldTruncate)
     {
         snippetView.references.attributedText = NSAttributedString()
+        snippetView.referencesTopConstraint.constant = 0
     }
     else
     {
         addReferencesStringsToSnippet(snippetView: snippetView, postData: postData)
+        snippetView.referencesTopConstraint.constant = -5
     }
     
     setStateOfHeightConstraint(view: snippetView.references, identifier: "referencesHeightConstraint", state: isTextLongEnoughToBeTruncated && shouldTruncate)

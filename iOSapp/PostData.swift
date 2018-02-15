@@ -36,7 +36,8 @@ class PostData : Encodable, Decodable
     var imageDescriptionAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     
-    var timeString : String = ""
+    var timeString : NSAttributedString = NSAttributedString()
+    let TIME_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_COLOR]
     var writerString : NSAttributedString = NSAttributedString()
     let WRITER_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_WRITER_COLOR]
     
@@ -75,14 +76,22 @@ class PostData : Encodable, Decodable
             self.imageDescriptionAfterHtmlRendering.addAttribute(NSAttributedStringKey.paragraphStyle, value: descriptionParagraphStyle, range: NSRange(location: 0, length: self.imageDescriptionAfterHtmlRendering.length))
         }
         
-        textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: true)
-        textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, shouldTruncate: false)
+        textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: true)
+        textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: false)
         
-        timeString = getTimeFromDateString(dateString: date)
+        timeString = NSAttributedString(string: getTimeFromDateString(dateString: date), attributes: TIME_STRING_ATTRIBUTES)
         writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
-        print(writerString.string)
         
-        m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self)
+        m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: getSnippetTextAreaWidth())
+    }
+    
+    func getSnippetTextAreaWidth() -> Float
+    {
+        // TODO: this is not ideal
+        let sizeOfLeftBorder = 20
+        let sizeOfRightBorder = 20
+
+        return Float(Int(CachedData().getScreenWidth()) - sizeOfLeftBorder - sizeOfRightBorder)
     }
     
     func removePaddingFromHtmlString(str: String) -> String
