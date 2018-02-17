@@ -423,7 +423,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            cell.replyButtonWidthConstraint.constant = 55
+            cell.replyButtonWidthConstraint.constant = 45
         }
         // Note - You can only delete comment if you're the owner (i.e. username is same as yours)
         cell.deleteButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))

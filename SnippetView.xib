@@ -15,7 +15,7 @@
                 <outlet property="body" destination="XDf-c8-kym" id="Buf-v3-o75"/>
                 <outlet property="cellSeparator" destination="IlM-CZ-ssI" id="H4E-LP-plR"/>
                 <outlet property="commentButton" destination="jfv-A1-3xS" id="wqz-v9-0dM"/>
-                <outlet property="downvoteButton" destination="QdT-Q2-KIe" id="oi0-tX-zrM"/>
+                <outlet property="downvoteButton" destination="WTX-sF-6My" id="vt9-tz-bmv"/>
                 <outlet property="headline" destination="m0N-tv-evb" id="keM-6H-wUJ"/>
                 <outlet property="imageDescription" destination="qHh-Y7-WeH" id="WTw-3o-r5s"/>
                 <outlet property="numberOfCommentsLabel" destination="h8m-Np-4zx" id="4wL-jB-6Hg"/>
@@ -24,7 +24,7 @@
                 <outlet property="references" destination="txB-BP-Xxb" id="3qr-XR-Qdb"/>
                 <outlet property="referencesTopConstraint" destination="VQ4-7g-C1q" id="BF5-sT-oh1"/>
                 <outlet property="shareButton" destination="eCl-k6-iPc" id="uTM-hZ-hx8"/>
-                <outlet property="upvoteButton" destination="WTX-sF-6My" id="erH-5p-zGk"/>
+                <outlet property="upvoteButton" destination="QdT-Q2-KIe" id="Ja8-nf-kAj"/>
                 <outlet property="writerImage" destination="O3h-s3-2SU" id="JWk-FI-afJ"/>
                 <outlet property="writerName" destination="Vex-gt-3O1" id="bVt-HT-DPm"/>
                 <outlet property="writerPostTime" destination="J3L-rY-Kwf" id="Wpk-9S-1ne"/>
@@ -71,28 +71,28 @@
                                 <constraint firstAttribute="width" constant="20" id="hNj-KG-KPb"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowUp" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-sF-6My" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downvote" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-sF-6My" userLabel="Downvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                             <rect key="frame" x="0.0" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="20" id="4fb-vh-0I6"/>
                                 <constraint firstAttribute="height" constant="20" id="Ncq-6l-Ndm"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="QdT-Q2-KIe" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upvote" translatesAutoresizingMaskIntoConstraints="NO" id="QdT-Q2-KIe" userLabel="Upvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                             <rect key="frame" x="50" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="2ve-vH-KBw"/>
                                 <constraint firstAttribute="width" constant="20" id="Rzz-fu-bJa"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-A1-3xS" userLabel="commentButton">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newCommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-A1-3xS" userLabel="commentButton">
                             <rect key="frame" x="90" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="20" id="P2q-hf-YYr"/>
                                 <constraint firstAttribute="height" constant="20" id="Wz5-dg-aEv"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue" translatesAutoresizingMaskIntoConstraints="NO" id="vUD-L4-uOa">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="voteSeparator" translatesAutoresizingMaskIntoConstraints="NO" id="vUD-L4-uOa">
                             <rect key="frame" x="25" y="2" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Jqz-EH-nLe"/>
@@ -212,10 +212,11 @@
         </view>
     </objects>
     <resources>
-        <image name="arrowDown" width="32" height="32"/>
-        <image name="arrowUp" width="32" height="32"/>
         <image name="blue" width="600" height="600"/>
-        <image name="commentIcon" width="256" height="256"/>
-        <image name="shareButton" width="64" height="64"/>
+        <image name="downvote" width="10" height="10"/>
+        <image name="newCommentIcon" width="10" height="10"/>
+        <image name="shareButton" width="9" height="10"/>
+        <image name="upvote" width="10" height="10"/>
+        <image name="voteSeparator" width="5" height="11"/>
     </resources>
 </document>

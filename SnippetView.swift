@@ -24,8 +24,8 @@ class SnippetView: UIView {
     @IBOutlet weak var references: UITextView!
     @IBOutlet weak var referencesTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var upvoteButton: UIImageViewWithMetadata!
     @IBOutlet weak var downvoteButton: UIImageViewWithMetadata!
+    @IBOutlet weak var upvoteButton: UIImageViewWithMetadata!
     
     @IBOutlet weak var button: UIImageViewWithMetadata!
     @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
@@ -79,10 +79,10 @@ class SnippetView: UIView {
         let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
-        upvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowUp")
-        upvoteButton.clickedImage = #imageLiteral(resourceName: "arrowUpGreen")
-        downvoteButton.unclickedImage = #imageLiteral(resourceName: "arrowDown")
-        downvoteButton.clickedImage = #imageLiteral(resourceName: "arrowDownRed")
+        upvoteButton.unclickedImage = #imageLiteral(resourceName: "upvote")
+        upvoteButton.clickedImage = #imageLiteral(resourceName: "upvoteGreen")
+        downvoteButton.unclickedImage = #imageLiteral(resourceName: "downvote")
+        downvoteButton.clickedImage = #imageLiteral(resourceName: "downvoteRed")
         
         postImage.image = #imageLiteral(resourceName: "genericImage")
         postImage.layer.shouldRasterize = true
@@ -116,6 +116,11 @@ class SnippetView: UIView {
             #selector(self.handleClickOnComment(sender:)))
         commentButton.isUserInteractionEnabled = true
         commentButton.addGestureRecognizer(commentButtonClickRecognizer)
+        
+        let commentLabelButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnComment(sender:)))
+        numberOfCommentsLabel.isUserInteractionEnabled = true
+        numberOfCommentsLabel.addGestureRecognizer(commentLabelButtonClickRecognizer)
         
         let shareButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnShare(sender:)))
@@ -338,12 +343,18 @@ class SnippetView: UIView {
 
         let message = "Check out this snippet:\n" + headline.text
         
-        if let link = NSURL(string: fullURL + "\n")
+        if let link = NSURL(string: fullURL)
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
             currentViewController.present(activityVC, animated: true, completion: nil)
+            //currentViewController.dismiss(animated: true, completion: nullFunc)
         }
+    }
+    
+    func nullFunc() -> Void
+    {
+        
     }
 }

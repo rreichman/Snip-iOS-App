@@ -10,6 +10,8 @@ import UIKit
 
 class CommentTableViewCell: UITableViewCell, UITextViewDelegate
 {
+    @IBOutlet weak var writerImage: UIImageView!
+    
     @IBOutlet weak var writer: UITextView!
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
@@ -39,6 +41,9 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
         setCellStyles()
         makeReplyButtonClickable()
         makeDeleteButtonClickable()
+        
+        writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
+        writerImage.clipsToBounds = true
     }
     
     func setCellConstraintsAccordingToLevel(commentLevel : Int)
@@ -102,10 +107,9 @@ class CommentTableViewCell: UITableViewCell, UITextViewDelegate
     {
         addFontAndForegroundColorToView(textView: writer, newFont: SystemVariables().HEADLINE_TEXT_FONT, newColor: SystemVariables().HEADLINE_TEXT_COLOR)
         addFontAndForegroundColorToView(textView: body, newFont: SystemVariables().CELL_TEXT_FONT!, newColor: SystemVariables().CELL_TEXT_COLOR)
-        // TODO:: fix this
-        //addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
-        //addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
-        //addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().PUBLISH_TIME_AND_WRITER_FONT!, newColor: SystemVariables().PUBLISH_TIME_AND_WRITER_COLOR)
+        addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_FONT!, newColor: SystemVariables().PUBLISH_TIME_COLOR)
+        addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().PUBLISH_WRITER_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
+        addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().PUBLISH_WRITER_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)

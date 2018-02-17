@@ -19,7 +19,7 @@ public class SystemVariables
     let CELL_TEXT_FONT = UIFont.lato(size: 14)
     let CELL_TEXT_COLOR = UIColorFromRGB(rgbValue: 0x4c4c4c)
     let IMAGE_DESCRIPTION_HEIGHT = 10
-    let IMAGE_DESCRIPTION_TEXT_FONT = UIFont(name: "Helvetica", size: 10)
+    let IMAGE_DESCRIPTION_TEXT_FONT = UIFont.lato(size: 10)
     let IMAGE_DESCRIPTION_COLOR = UIColor.lightGray
     let PUBLISH_WRITER_FONT = UIFont.latoBold(size: 14)
     let PUBLISH_WRITER_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
@@ -27,7 +27,7 @@ public class SystemVariables
     let PUBLISH_TIME_COLOR = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)
     let NUMBER_OF_COMMENTS_FONT = UIFont.lato(size: 16)
     let NUMBER_OF_COMMENTS_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
-    let REFERENCES_FONT = UIFont(name: "Helvetica", size: 11)
+    let REFERENCES_FONT = UIFont.lato(size: 11)
     let REFERENCES_COLOR = UIColor.gray
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)
     let LINE_SPACING_IN_COMMENT_PREVIEW = CGFloat(3)
@@ -37,12 +37,12 @@ public class SystemVariables
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
-    let READ_MORE_TEXT_FONT = UIFont(name: "Helvetica", size: 15)
+    let READ_MORE_TEXT_FONT = UIFont.lato(size: 15)
     
     let LOGIN_BACKGROUND_COLOR : UIColor = UIColorFromRGB(rgbValue: 0xf6f6f6)
     let LOGIN_BUTTON_COLOR : UIColor = UIColorFromRGB(rgbValue: 0x4d90fe)
     
-    let TERMS_AND_CONDITIONS_FONT = UIFont(name: "Helvetica", size: 14)
+    let TERMS_AND_CONDITIONS_FONT = UIFont.lato(size: 14)
     
     let PASSWORD_LENGTH_LIMIT = 6
     let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30

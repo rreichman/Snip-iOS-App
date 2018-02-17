@@ -11,7 +11,13 @@ import UIKit
 
 class OpeningSplashScreenViewController: UIViewController
 {
-    @IBOutlet weak var splashScreenImage: UIImageView!
+    @IBOutlet weak var splashScreenBackgroundImage: UIImageView!
+    @IBOutlet weak var splashScreenLogoImage: UIImageView!
+    @IBOutlet weak var splashScreenSummarizedLineImage: UIImageView!
+    
+    @IBOutlet weak var logoView: UIView!
+    @IBOutlet weak var logoViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logoViewLeadingConstraint: NSLayoutConstraint!
     
     var feedDataSource : FeedDataSource = FeedDataSource()
     
@@ -22,43 +28,20 @@ class OpeningSplashScreenViewController: UIViewController
         
         Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
-        loadSplashScreenImage()
+        loadSplashScreenImages()
     }
     
-    func loadSplashScreenImage()
+    func loadSplashScreenImages()
     {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        
-        if width < 350 && height < 600
-        {
-            splashScreenImage.image = #imageLiteral(resourceName: "splashScreenSE")
-        }
-        else
-        {
-            if width < 400 && height < 700
-            {
-                splashScreenImage.image = #imageLiteral(resourceName: "splashScreenRegular")
-            }
-            else
-            {
-                if width < 450 && height < 800
-                {
-                    splashScreenImage.image = #imageLiteral(resourceName: "splashScreenPlus")
-                }
-                else
-                {
-                    if width < 400 && height > 800
-                    {
-                        splashScreenImage.image = #imageLiteral(resourceName: "splashScreenX")
-                    }
-                    else
-                    {
-                        splashScreenImage.image = #imageLiteral(resourceName: "splashScreenIpad")
-                    }
-                }
-            }
-        }
+        splashScreenLogoImage.image = #imageLiteral(resourceName: "snipLogo")
+        splashScreenSummarizedLineImage.image = #imageLiteral(resourceName: "newsSummarized")
+        splashScreenBackgroundImage.backgroundColor = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+        logoView.backgroundColor = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+        logoViewTopConstraint.constant = (CachedData().getScreenHeight() - logoView.bounds.height) / 2
+        logoViewLeadingConstraint.constant = (CachedData().getScreenWidth() - logoView.bounds.width) / 2
+        print(UIScreen.main.bounds.width)
+        print(logoViewLeadingConstraint.constant)
+        print(logoView.bounds.width)
     }
     
     override func viewDidAppear(_ animated: Bool)
@@ -87,7 +70,7 @@ class OpeningSplashScreenViewController: UIViewController
         var i = 0
         for postData in feedDataSource.postDataArray
         {
-            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 1
+            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
             if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
             {
                 let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)

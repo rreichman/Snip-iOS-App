@@ -192,27 +192,13 @@ func getTimeFromDateString(dateString : String) -> String
                 else
                 {
                     displayedTime.append(String(dateDifferenceInMinutes))
-                    if (dateDifferenceInMinutes == 1)
-                    {
-                        displayedTime.append("min")
-                    }
-                    else
-                    {
-                        displayedTime.append("mins")
-                    }
+                    displayedTime.append("m")
                 }
             }
             else
             {
                 displayedTime.append(String(dateDifferenceInHours))
-                if (dateDifferenceInHours == 1)
-                {
-                    displayedTime.append("hr")
-                }
-                else
-                {
-                    displayedTime.append("hrs")
-                }
+                displayedTime.append("h")
             }
         }
         else
