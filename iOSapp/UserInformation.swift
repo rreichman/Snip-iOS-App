@@ -48,6 +48,7 @@ class UserInformation
     
     func getUserInformationFromWeb()
     {
+        print("getting user info from web: \(Date())")
         if isUserLoggedIn()
         {
             var urlString = SystemVariables().URL_STRING
@@ -66,6 +67,7 @@ class UserInformation
                 {
                     if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     {
+                        print("got user info from web: \(Date())")
                         print(jsonObj)
                         for key in jsonObj.keys
                         {

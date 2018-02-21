@@ -24,11 +24,12 @@ class OpeningSplashScreenViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        print("loaded splash screen")
+        print("loaded splash screen: \(Date())")
         
         Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
         loadSplashScreenImages()
+        print("done loading splash screen: \(Date())")
     }
     
     func loadSplashScreenImages()
@@ -39,18 +40,17 @@ class OpeningSplashScreenViewController: UIViewController
         logoView.backgroundColor = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
         logoViewTopConstraint.constant = (CachedData().getScreenHeight() - logoView.bounds.height) / 2
         logoViewLeadingConstraint.constant = (CachedData().getScreenWidth() - logoView.bounds.width) / 2
-        print(UIScreen.main.bounds.width)
-        print(logoViewLeadingConstraint.constant)
-        print(logoView.bounds.width)
     }
     
     override func viewDidAppear(_ animated: Bool)
     {
+        print("before super didAppear \(Date())")
         super.viewDidAppear(animated)
-        print("appeared")
+        print("after super didAppear \(Date())")
         
         SnipRetrieverFromWeb.shared.clean()
         SnipRetrieverFromWeb.shared.lock.lock()
+        print("about to get snips from server \(Date())")
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }
     
@@ -91,11 +91,13 @@ class OpeningSplashScreenViewController: UIViewController
         print("preparing")
         if (segue.identifier == "segueToTableView")
         {
+            print("preparing segue: \(Date())")
             let navigationController = segue.destination as! UINavigationController
             let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             tableViewController.tableView.dataSource = feedDataSource
             tableViewController.getRestOfImagesAsync()
             tableViewController.tableView.reloadData()
+            print("done with prepare: \(Date())")
         }
     }
 }

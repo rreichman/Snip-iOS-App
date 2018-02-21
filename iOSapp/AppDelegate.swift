@@ -33,10 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
-        print("start")
+        print("started app \(Date())")
         Fabric.with([Crashlytics.self])
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
+        print("app init done \(Date())")
         
         // Override point for customization after application launch.
         //return true
@@ -71,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication)
     {
-        print("become active")
+        print("did become active \(Date())")
         FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)
         Logger().logAppBecameActive()
@@ -84,6 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             self.window?.rootViewController = storyboard.instantiateInitialViewController()
         }
+        print("done did become active \(Date())")
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 

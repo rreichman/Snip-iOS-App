@@ -39,18 +39,28 @@ class FeedDataSource: NSObject, UITableViewDataSource
     
     func loadDataIntoSnippet(snippetView: SnippetView, shouldTruncate: Bool, postData: PostData)
     {
+        print("A: \(NSDate().timeIntervalSince1970)")
         snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
+        
+        print("B: \(NSDate().timeIntervalSince1970)")
         
         snippetView.writerPostTime.attributedText = postData.timeString
         snippetView.writerName.attributedText = postData.writerString
         
+        print("C: \(NSDate().timeIntervalSince1970)")
+        
         // TODO:: this needs to update when user deletes a comment, make it a generic function.
-        let numberOfComments = postData.comments.count
-        snippetView.numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: numberOfComments)
+        snippetView.numberOfCommentsLabel.attributedText = postData.attributedStringOfCommentCount
+        
+        print("D: \(NSDate().timeIntervalSince1970)")
         
         loadImageData(snippetView: snippetView, postData: postData)
         
+        print("E: \(NSDate().timeIntervalSince1970)")
+        
         fillImageDescription(snippetView: snippetView, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        
+        print("F: \(NSDate().timeIntervalSince1970)")
         
         snippetView.makeSnippetClickable(snippetView: snippetView)
         snippetView.isTextLongEnoughToBeTruncated = postData.m_isTextLongEnoughToBeTruncated
@@ -58,10 +68,16 @@ class FeedDataSource: NSObject, UITableViewDataSource
         snippetView.truncatedBody = postData.textAsAttributedStringWithTruncation
         snippetView.nonTruncatedBody = postData.textAsAttributedStringWithoutTruncation
         
+        print("G: \(NSDate().timeIntervalSince1970)")
+        
         setSnippetText(snippetView: snippetView, postData : postData, shouldTruncate: shouldTruncate)
+        
+        print("H: \(NSDate().timeIntervalSince1970)")
         
         setSnippetReferences(snippetView : snippetView, postData: postData, shouldTruncate: shouldTruncate, isTextLongEnoughToBeTruncated:
             postData.m_isTextLongEnoughToBeTruncated)
+        
+        print("I: \(NSDate().timeIntervalSince1970)")
         
         snippetView.headline.text = postData.headline
         snippetView.fullURL = postData.fullURL

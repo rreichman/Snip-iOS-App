@@ -38,8 +38,11 @@ class SnipRetrieverFromWeb
             return
         }
         
+        print("before data request \(Date())")
+        
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
+            print("at beginning of data request \(Date())")
             if (response != nil)
             {
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
@@ -55,6 +58,7 @@ class SnipRetrieverFromWeb
                     errorHandler!()
                 }
             }
+            print("at end of data request \(Date())")
         }).resume()
     }
 
@@ -65,11 +69,15 @@ class SnipRetrieverFromWeb
 
     func loadDataFromWebIntoFeed(resultArray: [String : Any], completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool)
     {
+        print("about to load web data into feed. \(Date())")
         let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
         var postDataArray : [PostData] = []
+        var count = 0
         
         for postAsJson in postsAsJson
         {
+            print("inside load web data into feed. \(Date())")
+            
             if !resultArray.keys.contains("next_page")
             {
                 areTherePostsRemainingOnServer = false
@@ -78,11 +86,23 @@ class SnipRetrieverFromWeb
             {
                 currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
             }
-            let newPost = PostData(receivedPostJson : postAsJson)
+            var useAsync = false
+            if (count > 1 && !appendDataAndNotReplace)
+            {
+                useAsync = true
+            }
+            
+            let newPost = PostData(receivedPostJson : postAsJson, useAsync: useAsync)
             postDataArray.append(newPost)
+            
+            count += 1
         }
         
+        print("done loading web data into feed. \(Date())")
+        
         completionHandler(postDataArray, appendDataAndNotReplace)
+        
+        print("done with completion handler. \(Date())")
     }
     
     func loadMorePosts(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> ())

@@ -19,7 +19,7 @@ class SnippetsTableViewController: UITableViewController
     
     override func viewDidLoad()
     {
-        print("loading snippetViewController")
+        print("loading snippetViewController: \(Date())")
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 700
@@ -32,7 +32,7 @@ class SnippetsTableViewController: UITableViewController
         
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-        print("done loading snippetViewController")
+        print("done loading snippetViewController: \(Date())")
     }
     
     func getRestOfImagesAsync()

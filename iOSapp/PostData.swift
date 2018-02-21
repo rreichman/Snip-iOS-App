@@ -41,12 +41,16 @@ class PostData : Encodable, Decodable
     var writerString : NSAttributedString = NSAttributedString()
     let WRITER_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_WRITER_COLOR]
     
+    var attributedStringOfCommentCount = NSAttributedString()
+    
     init() {}
     
-    init(receivedPostJson : [String : Any])
+    init(receivedPostJson : [String : Any], useAsync: Bool)
     {
+        print("1: \(NSDate().timeIntervalSince1970)")
         postJson = receivedPostJson
         loadRawJsonIntoVariables()
+        print("2: \(NSDate().timeIntervalSince1970)")
         
         // This is an optimization to make loading look better.
         if (isFirstTime)
@@ -61,6 +65,7 @@ class PostData : Encodable, Decodable
                 self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
             }
         }
+        print("3: \(NSDate().timeIntervalSince1970)")
         
         DispatchQueue.main.async
         {
@@ -76,13 +81,27 @@ class PostData : Encodable, Decodable
             self.imageDescriptionAfterHtmlRendering.addAttribute(NSAttributedStringKey.paragraphStyle, value: descriptionParagraphStyle, range: NSRange(location: 0, length: self.imageDescriptionAfterHtmlRendering.length))
         }
         
-        textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: true)
-        textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: false)
+        print("4: \(NSDate().timeIntervalSince1970)")
+        
+        handleProlongedOperations()
+        
+        print("5: \(NSDate().timeIntervalSince1970)")
         
         timeString = NSAttributedString(string: getTimeFromDateString(dateString: date), attributes: TIME_STRING_ATTRIBUTES)
+        
+        print("6: \(NSDate().timeIntervalSince1970)")
+        
         writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
         
+        print("7: \(NSDate().timeIntervalSince1970)")
+    }
+    
+    func handleProlongedOperations()
+    {
+        textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: true)
+        textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: getSnippetTextAreaWidth(), shouldTruncate: false)
         m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: getSnippetTextAreaWidth())
+        attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: comments.count)
     }
     
     func getSnippetTextAreaWidth() -> Float
