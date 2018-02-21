@@ -19,10 +19,14 @@ class SnippetsTableViewController: UITableViewController
     
     override func viewDidLoad()
     {
+        let loadingIndicator : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        loadingIndicator.startAnimating()
+        loadingIndicator.frame = CGRect(x: 0, y: 0, width: CachedData().getScreenWidth(), height: 44)
+        tableView.tableFooterView = loadingIndicator
+        
         print("loading snippetViewController: \(Date())")
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 700
         
         tableView.separatorColor = UIColor.clear
         
@@ -119,6 +123,7 @@ class SnippetsTableViewController: UITableViewController
         
         DispatchQueue.global(qos: .background).async
         {
+            print("started collecting all the images")
             for postData in postDataArray
             {
                 let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
@@ -126,14 +131,34 @@ class SnippetsTableViewController: UITableViewController
                 
                 newDataArray.append(postData)
             }
+            print("done collecting all the images")
             
             DispatchQueue.main.async
             {
-                (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-                self.tableView.reloadData()
+                print("starting to load data to feed")
+                UIView.performWithoutAnimation
+                {
+                    self.tableView.beginUpdates()
+                    
+                    var indexPaths = [IndexPath]()
+                    let addedUsersCount = newDataArray.count - (self.tableView.dataSource as! FeedDataSource).postDataArray.count
+                    for row in 0..<addedUsersCount
+                    {
+                        let i = (self.tableView.dataSource as! FeedDataSource).postDataArray.count + row
+                        indexPaths.append(IndexPath(row: i, section: 0))
+                    }
+                    (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                    self.tableView.insertRows(at: indexPaths as [IndexPath], with: UITableViewRowAnimation.none)
+                    //self.tableView.reloadData()
+                    self.tableView.endUpdates()
+                }
+                
+                //(self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                //self.tableView.reloadData()
                 
                 SnipRetrieverFromWeb.shared.lock.unlock()
                 self.finishedLoadingSnippets = true
+                print("done loading data async")
             }
         }
     }
@@ -176,32 +201,37 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
+        print("0: \(NSDate().timeIntervalSince1970)")
         
-        DispatchQueue.global(qos: .background).async{
-            let height = NSNumber(value: newCellHeightAsFloat)
-            let previousHeight = self.heightAtIndexPath.object(forKey: indexPath as NSCopying)
-            if (previousHeight != nil)
+        // TODO: This is buggy since I'm logging some snippets many times. Not too important now
+        if (self.finishedLoadingSnippets)
+        {
+            let foregroundSnippetIDs = self.getForegroundSnippetIDs()
+            print("0A: \(NSDate().timeIntervalSince1970)")
+            for snippetID in foregroundSnippetIDs
             {
-                if (newCellHeightAsFloat == previousHeight as! Float)
+                DispatchQueue.global(qos: .background).async
                 {
-                    return
-                }
-            }
-            self.heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
-            
-            DispatchQueue.main.async {
-                // TODO: This is buggy since I'm logging some snippets many times. Not too important now
-                if (self.finishedLoadingSnippets)
-                {
-                    let foregroundSnippetIDs = self.getForegroundSnippetIDs()
-                    for snippetID in foregroundSnippetIDs
-                    {
-                        Logger().logViewingSnippet(snippetID: snippetID)
-                    }
+                    Logger().logViewingSnippet(snippetID: snippetID)
                 }
             }
         }
+        
+        print("1: \(NSDate().timeIntervalSince1970)")
+        let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
+        
+        let height = NSNumber(value: Float(cell.frame.size.height))
+        let previousHeight = self.heightAtIndexPath.object(forKey: indexPath as NSCopying)
+        if (previousHeight != nil)
+        {
+            if (newCellHeightAsFloat == previousHeight as! Float)
+            {
+                return
+            }
+        }
+        
+        heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
+        print("2: \(NSDate().timeIntervalSince1970)")
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat

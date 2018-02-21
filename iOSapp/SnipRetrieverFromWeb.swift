@@ -74,35 +74,32 @@ class SnipRetrieverFromWeb
         var postDataArray : [PostData] = []
         var count = 0
         
+        let taskGroup = DispatchGroup()
+
         for postAsJson in postsAsJson
         {
-            print("inside load web data into feed. \(Date())")
+            taskGroup.enter()
             
             if !resultArray.keys.contains("next_page")
             {
-                areTherePostsRemainingOnServer = false
+                self.areTherePostsRemainingOnServer = false
             }
             else
             {
-                currentUrlString = getNextPage(next_page: resultArray["next_page"] as! Int)
-            }
-            var useAsync = false
-            if (count > 1 && !appendDataAndNotReplace)
-            {
-                useAsync = true
+                self.currentUrlString = self.getNextPage(next_page: resultArray["next_page"] as! Int)
             }
             
-            let newPost = PostData(receivedPostJson : postAsJson, useAsync: useAsync)
+            let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)
             postDataArray.append(newPost)
             
             count += 1
         }
         
-        print("done loading web data into feed. \(Date())")
-        
-        completionHandler(postDataArray, appendDataAndNotReplace)
-        
-        print("done with completion handler. \(Date())")
+        taskGroup.notify(queue: DispatchQueue.main)
+        {
+            print("done loading web data into feed. \(Date())")
+            completionHandler(postDataArray, appendDataAndNotReplace)
+        }
     }
     
     func loadMorePosts(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> ())
