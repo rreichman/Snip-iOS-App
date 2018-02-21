@@ -35,10 +35,14 @@ class SnippetView: UIView {
     
     @IBOutlet weak var writerPostTime: UILabel!
     
-    @IBOutlet weak var commentButton: UIImageView!
     @IBOutlet weak var numberOfCommentsLabel: UILabel!
     
-    @IBOutlet weak var shareButton: UIImageView!
+    @IBOutlet weak var upvoteView: UIView!
+    @IBOutlet weak var downvoteView: UIView!
+    
+    @IBOutlet weak var commentView: UIView!
+    @IBOutlet weak var shareView: UIView!
+    
     @IBOutlet weak var cellSeparator: UIImageView!
     
     var isTextLongEnoughToBeTruncated : Bool = true
@@ -105,34 +109,29 @@ class SnippetView: UIView {
     func turnActionImagesIntoButtons()
     {
         let upButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnUpvote(sender:)))
-        upvoteButton.isUserInteractionEnabled = true
-        upvoteButton.addGestureRecognizer(upButtonClickRecognizer)
+        upvoteView.isUserInteractionEnabled = true
+        upvoteView.addGestureRecognizer(upButtonClickRecognizer)
         
         let downButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleClickOnDownvote(sender:)))
-        downvoteButton.isUserInteractionEnabled = true
-        downvoteButton.addGestureRecognizer(downButtonClickRecognizer)
+        downvoteView.isUserInteractionEnabled = true
+        downvoteView.addGestureRecognizer(downButtonClickRecognizer)
         
         let commentButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnComment(sender:)))
-        commentButton.isUserInteractionEnabled = true
-        commentButton.addGestureRecognizer(commentButtonClickRecognizer)
-        
-        let commentLabelButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-            #selector(self.handleClickOnComment(sender:)))
-        numberOfCommentsLabel.isUserInteractionEnabled = true
-        numberOfCommentsLabel.addGestureRecognizer(commentLabelButtonClickRecognizer)
+        commentView.isUserInteractionEnabled = true
+        commentView.addGestureRecognizer(commentButtonClickRecognizer)
         
         let shareButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
             #selector(self.handleClickOnShare(sender:)))
-        shareButton.isUserInteractionEnabled = true
-        shareButton.addGestureRecognizer(shareButtonClickRecognizer)
+        shareView.isUserInteractionEnabled = true
+        shareView.addGestureRecognizer(shareButtonClickRecognizer)
     }
     
     func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
     {
         // TODO:: handle errors here
         
-        let imageViewWithMetadata = sender.view as! UIImageViewWithMetadata
+        let imageViewWithMetadata : UIImageViewWithMetadata = sender.view!.subviews[0] as! UIImageViewWithMetadata
         var otherButton : UIImageViewWithMetadata = downvoteButton
         
         if (!isUpButton)
@@ -283,9 +282,6 @@ class SnippetView: UIView {
             
             (currentViewController as! CommentsTableViewController).loadSnippetView(shouldTruncate: !isTruncated)
         }
-        
-        print(upvoteButton)
-        print(downvoteButton)
     }
     
     func setUpvoteDownvoteImagesAccordingtoVote(snippetView: SnippetView, postData : PostData)

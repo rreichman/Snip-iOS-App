@@ -14,8 +14,9 @@
             <connections>
                 <outlet property="body" destination="XDf-c8-kym" id="Buf-v3-o75"/>
                 <outlet property="cellSeparator" destination="IlM-CZ-ssI" id="H4E-LP-plR"/>
-                <outlet property="commentButton" destination="jfv-A1-3xS" id="wqz-v9-0dM"/>
+                <outlet property="commentView" destination="Bdx-aB-qdt" id="mcN-0I-UNn"/>
                 <outlet property="downvoteButton" destination="WTX-sF-6My" id="vt9-tz-bmv"/>
+                <outlet property="downvoteView" destination="v1c-Nd-gHP" id="90p-kN-m52"/>
                 <outlet property="headline" destination="m0N-tv-evb" id="keM-6H-wUJ"/>
                 <outlet property="imageDescription" destination="qHh-Y7-WeH" id="WTw-3o-r5s"/>
                 <outlet property="numberOfCommentsLabel" destination="h8m-Np-4zx" id="4wL-jB-6Hg"/>
@@ -23,8 +24,9 @@
                 <outlet property="postImageHeightConstraint" destination="dbp-MB-hcC" id="lbd-1Q-gYz"/>
                 <outlet property="references" destination="txB-BP-Xxb" id="3qr-XR-Qdb"/>
                 <outlet property="referencesTopConstraint" destination="VQ4-7g-C1q" id="BF5-sT-oh1"/>
-                <outlet property="shareButton" destination="eCl-k6-iPc" id="uTM-hZ-hx8"/>
+                <outlet property="shareView" destination="tFg-tH-JP9" id="XwC-LQ-RMz"/>
                 <outlet property="upvoteButton" destination="QdT-Q2-KIe" id="Ja8-nf-kAj"/>
+                <outlet property="upvoteView" destination="TyF-DN-fnF" id="tXb-OS-cj6"/>
                 <outlet property="writerImage" destination="O3h-s3-2SU" id="JWk-FI-afJ"/>
                 <outlet property="writerName" destination="Vex-gt-3O1" id="bVt-HT-DPm"/>
                 <outlet property="writerPostTime" destination="J3L-rY-Kwf" id="Wpk-9S-1ne"/>
@@ -62,71 +64,123 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mlq-hJ-1p5" userLabel="BottomBar">
-                    <rect key="frame" x="0.0" y="617" width="375" height="24"/>
+                    <rect key="frame" x="0.0" y="607" width="375" height="44"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareButton" translatesAutoresizingMaskIntoConstraints="NO" id="eCl-k6-iPc">
-                            <rect key="frame" x="355" y="2" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="3Q2-qO-16D"/>
-                                <constraint firstAttribute="width" constant="20" id="hNj-KG-KPb"/>
-                            </constraints>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downvote" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-sF-6My" userLabel="Downvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
-                            <rect key="frame" x="0.0" y="2" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="20" id="4fb-vh-0I6"/>
-                                <constraint firstAttribute="height" constant="20" id="Ncq-6l-Ndm"/>
-                            </constraints>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upvote" translatesAutoresizingMaskIntoConstraints="NO" id="QdT-Q2-KIe" userLabel="Upvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
-                            <rect key="frame" x="50" y="2" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="2ve-vH-KBw"/>
-                                <constraint firstAttribute="width" constant="20" id="Rzz-fu-bJa"/>
-                            </constraints>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newCommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-A1-3xS" userLabel="commentButton">
-                            <rect key="frame" x="90" y="2" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="20" id="P2q-hf-YYr"/>
-                                <constraint firstAttribute="height" constant="20" id="Wz5-dg-aEv"/>
-                            </constraints>
-                        </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="voteSeparator" translatesAutoresizingMaskIntoConstraints="NO" id="vUD-L4-uOa">
-                            <rect key="frame" x="25" y="2" width="20" height="20"/>
+                            <rect key="frame" x="31" y="12" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Jqz-EH-nLe"/>
                                 <constraint firstAttribute="width" constant="20" id="toq-ss-0w3"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No. Of Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8m-Np-4zx">
-                            <rect key="frame" x="115" y="2" width="94" height="20"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFg-tH-JP9" userLabel="Share View">
+                            <rect key="frame" x="331" y="0.0" width="44" height="44"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareButton" translatesAutoresizingMaskIntoConstraints="NO" id="eCl-k6-iPc">
+                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="3Q2-qO-16D"/>
+                                        <constraint firstAttribute="width" constant="20" id="hNj-KG-KPb"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="16X-Tb-aAJ"/>
+                                <constraint firstItem="eCl-k6-iPc" firstAttribute="leading" secondItem="tFg-tH-JP9" secondAttribute="leading" constant="12" id="7I3-GH-sNv"/>
+                                <constraint firstAttribute="bottom" secondItem="eCl-k6-iPc" secondAttribute="bottom" constant="12" id="S01-Kr-fTu"/>
+                                <constraint firstItem="eCl-k6-iPc" firstAttribute="top" secondItem="tFg-tH-JP9" secondAttribute="top" constant="12" id="feq-GU-RH9"/>
+                                <constraint firstAttribute="trailing" secondItem="eCl-k6-iPc" secondAttribute="trailing" constant="12" id="qh5-cS-Xqo"/>
+                                <constraint firstAttribute="height" constant="44" id="xR7-A9-5aP"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bdx-aB-qdt" userLabel="Comment View">
+                            <rect key="frame" x="94" y="0.0" width="56" height="44"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newCommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-A1-3xS" userLabel="commentButton">
+                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="20" id="P2q-hf-YYr"/>
+                                        <constraint firstAttribute="height" constant="20" id="Wz5-dg-aEv"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No. Of Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8m-Np-4zx">
+                                    <rect key="frame" x="37" y="0.0" width="19" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="gqP-hN-hAa"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="h8m-Np-4zx" firstAttribute="top" secondItem="Bdx-aB-qdt" secondAttribute="top" id="0mO-sD-3N8"/>
+                                <constraint firstItem="jfv-A1-3xS" firstAttribute="top" secondItem="Bdx-aB-qdt" secondAttribute="top" constant="12" id="3EE-zs-O3b"/>
+                                <constraint firstAttribute="bottom" secondItem="jfv-A1-3xS" secondAttribute="bottom" constant="12" id="8BB-Ub-CtW"/>
+                                <constraint firstAttribute="bottom" secondItem="h8m-Np-4zx" secondAttribute="bottom" id="JLw-5g-RJ1"/>
+                                <constraint firstItem="jfv-A1-3xS" firstAttribute="leading" secondItem="Bdx-aB-qdt" secondAttribute="leading" constant="12" id="T0W-lA-9Ok"/>
+                                <constraint firstItem="h8m-Np-4zx" firstAttribute="leading" secondItem="jfv-A1-3xS" secondAttribute="trailing" constant="5" id="TJN-uV-1G6"/>
+                                <constraint firstAttribute="trailing" secondItem="h8m-Np-4zx" secondAttribute="trailing" id="aoJ-Ua-gn0"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TyF-DN-fnF" userLabel="Upvote View">
+                            <rect key="frame" x="50" y="0.0" width="44" height="44"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upvote" translatesAutoresizingMaskIntoConstraints="NO" id="QdT-Q2-KIe" userLabel="Upvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="2ve-vH-KBw"/>
+                                        <constraint firstAttribute="width" constant="20" id="Rzz-fu-bJa"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="QdT-Q2-KIe" firstAttribute="leading" secondItem="TyF-DN-fnF" secondAttribute="leading" constant="12" id="8UH-GP-aV7"/>
+                                <constraint firstItem="QdT-Q2-KIe" firstAttribute="top" secondItem="TyF-DN-fnF" secondAttribute="top" constant="12" id="YKT-nP-2l5"/>
+                                <constraint firstAttribute="bottom" secondItem="QdT-Q2-KIe" secondAttribute="bottom" constant="12" id="aoi-fU-hjg"/>
+                                <constraint firstAttribute="trailing" secondItem="QdT-Q2-KIe" secondAttribute="trailing" constant="12" id="pFd-il-SHh"/>
+                                <constraint firstAttribute="width" constant="44" id="qOP-JJ-2BN"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v1c-Nd-gHP" userLabel="Downvote View">
+                            <rect key="frame" x="-5" y="0.0" width="44" height="44"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downvote" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-sF-6My" userLabel="Downvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
+                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="20" id="4fb-vh-0I6"/>
+                                        <constraint firstAttribute="height" constant="20" id="Ncq-6l-Ndm"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="WTX-sF-6My" firstAttribute="top" secondItem="v1c-Nd-gHP" secondAttribute="top" constant="12" id="2ul-p3-ULE"/>
+                                <constraint firstAttribute="width" constant="44" id="7vp-2s-41s"/>
+                                <constraint firstAttribute="trailing" secondItem="WTX-sF-6My" secondAttribute="trailing" constant="12" id="9i5-ys-XGP"/>
+                                <constraint firstItem="WTX-sF-6My" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="leading" constant="12" id="RfE-7H-r01"/>
+                                <constraint firstAttribute="bottom" secondItem="WTX-sF-6My" secondAttribute="bottom" constant="12" id="xcY-uL-CG7"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="QdT-Q2-KIe" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" constant="5" id="6Sk-gc-3Tn"/>
-                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="WTX-sF-6My" secondAttribute="trailing" constant="5" id="9da-GM-RBs"/>
-                        <constraint firstAttribute="bottom" secondItem="WTX-sF-6My" secondAttribute="bottom" constant="2" id="ATN-1t-jfw"/>
-                        <constraint firstAttribute="trailing" secondItem="eCl-k6-iPc" secondAttribute="trailing" id="CVG-Us-D16"/>
-                        <constraint firstItem="WTX-sF-6My" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="Cq2-jt-OLa"/>
-                        <constraint firstItem="QdT-Q2-KIe" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="Cqf-i4-zUc"/>
-                        <constraint firstAttribute="height" constant="24" id="KQr-1o-UWF"/>
-                        <constraint firstAttribute="bottom" secondItem="h8m-Np-4zx" secondAttribute="bottom" constant="2" id="LIe-CI-yWc"/>
-                        <constraint firstItem="jfv-A1-3xS" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="M4n-Sy-mNF"/>
-                        <constraint firstAttribute="bottom" secondItem="eCl-k6-iPc" secondAttribute="bottom" constant="2" id="Wvs-H3-zFv"/>
-                        <constraint firstAttribute="bottom" secondItem="jfv-A1-3xS" secondAttribute="bottom" constant="2" id="XeA-6n-4gE"/>
-                        <constraint firstAttribute="bottom" secondItem="QdT-Q2-KIe" secondAttribute="bottom" constant="2" id="bRF-dE-thL"/>
-                        <constraint firstItem="eCl-k6-iPc" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="cXT-zI-vPT"/>
-                        <constraint firstItem="jfv-A1-3xS" firstAttribute="leading" secondItem="QdT-Q2-KIe" secondAttribute="trailing" constant="20" id="lkg-4U-zf8"/>
-                        <constraint firstItem="h8m-Np-4zx" firstAttribute="leading" secondItem="jfv-A1-3xS" secondAttribute="trailing" constant="5" id="mHu-RX-5S3"/>
-                        <constraint firstItem="vUD-L4-uOa" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="tcV-Dl-nB3"/>
-                        <constraint firstAttribute="bottom" secondItem="vUD-L4-uOa" secondAttribute="bottom" constant="2" id="vvO-hq-G59"/>
-                        <constraint firstItem="h8m-Np-4zx" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="2" id="xPa-yk-qz0"/>
-                        <constraint firstItem="WTX-sF-6My" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" id="zPT-7d-iy1"/>
+                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="77F-EN-6Ff"/>
+                        <constraint firstAttribute="trailing" secondItem="tFg-tH-JP9" secondAttribute="trailing" id="ArR-fK-D5b"/>
+                        <constraint firstItem="TyF-DN-fnF" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="CQx-wk-KBb"/>
+                        <constraint firstAttribute="bottom" secondItem="v1c-Nd-gHP" secondAttribute="bottom" id="I4c-55-UyD"/>
+                        <constraint firstAttribute="height" constant="44" id="KQr-1o-UWF"/>
+                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" constant="-8" id="Lgy-v8-pXw"/>
+                        <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" constant="-8" id="TC6-ih-jew"/>
+                        <constraint firstItem="Bdx-aB-qdt" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="YAZ-1y-b76"/>
+                        <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" id="ZtY-KU-Rsl"/>
+                        <constraint firstItem="vUD-L4-uOa" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="12" id="f4p-Od-OUO"/>
+                        <constraint firstItem="Bdx-aB-qdt" firstAttribute="leading" secondItem="TyF-DN-fnF" secondAttribute="trailing" id="hlh-mS-ySQ"/>
+                        <constraint firstItem="tFg-tH-JP9" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="kPb-Yy-Ogy"/>
+                        <constraint firstAttribute="bottom" secondItem="Bdx-aB-qdt" secondAttribute="bottom" id="mUl-7H-HGB"/>
+                        <constraint firstAttribute="bottom" secondItem="vUD-L4-uOa" secondAttribute="bottom" constant="12" id="nyf-ec-w1G"/>
+                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" constant="-5" id="qNA-3t-DnU"/>
+                        <constraint firstAttribute="bottom" secondItem="TyF-DN-fnF" secondAttribute="bottom" id="tBM-eV-DgS"/>
+                        <constraint firstAttribute="bottom" secondItem="tFg-tH-JP9" secondAttribute="bottom" id="x2D-fd-RYp"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h4i-6O-YpX" userLabel="Time and Writer View">
@@ -185,11 +239,11 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="XDf-c8-kym" secondAttribute="trailing" id="1Sk-V7-9ps"/>
                 <constraint firstItem="IlM-CZ-ssI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="3bU-Hg-pgf"/>
                 <constraint firstItem="Mlq-hJ-1p5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="5yW-Lt-KjH"/>
-                <constraint firstItem="IlM-CZ-ssI" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="bottom" constant="25" id="DJd-TF-veW"/>
+                <constraint firstItem="IlM-CZ-ssI" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="bottom" constant="15" id="DJd-TF-veW"/>
                 <constraint firstItem="7gj-l2-RMY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Dv5-Uc-Hua"/>
                 <constraint firstItem="qHh-Y7-WeH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="E58-sY-mib"/>
                 <constraint firstItem="m0N-tv-evb" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="bottom" constant="3" id="Iw2-Yw-bl9"/>
-                <constraint firstItem="Mlq-hJ-1p5" firstAttribute="top" secondItem="txB-BP-Xxb" secondAttribute="bottom" constant="20" id="OWA-uz-l18"/>
+                <constraint firstItem="Mlq-hJ-1p5" firstAttribute="top" secondItem="txB-BP-Xxb" secondAttribute="bottom" constant="10" id="OWA-uz-l18"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qHh-Y7-WeH" secondAttribute="trailing" id="T7Z-nV-CjD"/>
                 <constraint firstItem="h4i-6O-YpX" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="TXc-fa-HT4"/>
                 <constraint firstItem="txB-BP-Xxb" firstAttribute="top" secondItem="XDf-c8-kym" secondAttribute="bottom" id="VQ4-7g-C1q"/>
@@ -215,7 +269,7 @@
         <image name="blue" width="600" height="600"/>
         <image name="downvote" width="10" height="10"/>
         <image name="newCommentIcon" width="10" height="10"/>
-        <image name="shareButton" width="9" height="10"/>
+        <image name="shareButton" width="180" height="180"/>
         <image name="upvote" width="10" height="10"/>
         <image name="voteSeparator" width="5" height="11"/>
     </resources>

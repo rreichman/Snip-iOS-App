@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class OpeningSplashScreenViewController: UIViewController
 {
     @IBOutlet weak var splashScreenBackgroundImage: UIImageView!
