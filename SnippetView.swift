@@ -14,6 +14,8 @@ class SnippetView: UIView {
     
     var contentView : UIView?
     
+    //@IBOutlet weak var writerImageTemp: UserImage!
+    
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postImageHeightConstraint: NSLayoutConstraint!
     

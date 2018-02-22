@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommentView" customModule="iOSapp">
             <connections>
@@ -20,7 +25,7 @@
                 <outlet property="replyButtonWidthConstraint" destination="Z6z-jK-ity" id="YJZ-M1-hdb"/>
                 <outlet property="surroundingView" destination="w4W-BD-uLh" id="QTu-0G-csw"/>
                 <outlet property="writer" destination="mzh-Sl-tYH" id="1E0-MI-jDL"/>
-                <outlet property="writerImage" destination="364-pN-Jrk" id="pu5-AR-WHp"/>
+                <outlet property="writerImage" destination="364-pN-Jrk" id="8g1-Wn-zCn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -32,7 +37,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Comment Writer" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzh-Sl-tYH" userLabel="Comment Writer">
-                            <rect key="frame" x="35" y="5" width="331" height="32"/>
+                            <rect key="frame" x="35" y="4" width="331" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="32" id="TRF-RC-fwn"/>
                             </constraints>
@@ -40,21 +45,21 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="997" verticalCompressionResistancePriority="997" scrollEnabled="NO" editable="NO" text="Comment Body" translatesAutoresizingMaskIntoConstraints="NO" id="0uz-hm-15c" userLabel="Comment Body">
-                            <rect key="frame" x="35" y="30" width="331" height="33"/>
+                            <rect key="frame" x="35" y="29" width="331" height="33"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Date" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kc9-lN-CQT" userLabel="Date">
-                            <rect key="frame" x="35" y="68" width="40.5" height="579"/>
+                            <rect key="frame" x="35" y="67" width="40.5" height="580"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Reply" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fH-LM-RC4" userLabel="Reply">
-                            <rect key="frame" x="90.5" y="68" width="45" height="579"/>
+                            <rect key="frame" x="92.5" y="67" width="55" height="580"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="45" id="Z6z-jK-ity"/>
+                                <constraint firstAttribute="width" constant="55" id="Z6z-jK-ity"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="J0U-5L-1tV" userLabel="Buffer Bottom of Comment">
@@ -65,11 +70,11 @@
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Delete" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIU-i8-YTK" userLabel="Delete Button">
-                            <rect key="frame" x="145.5" y="68" width="45" height="579"/>
+                            <rect key="frame" x="152.5" y="67" width="55" height="580"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="45" id="pll-og-bMe"/>
+                                <constraint firstAttribute="width" constant="55" id="pll-og-bMe"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQh-R7-uhX" userLabel="Writer Image Surrounding View">
@@ -93,14 +98,14 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="8fH-LM-RC4" firstAttribute="leading" secondItem="kc9-lN-CQT" secondAttribute="trailing" constant="15" id="3tY-Yi-KdQ"/>
+                        <constraint firstItem="8fH-LM-RC4" firstAttribute="leading" secondItem="kc9-lN-CQT" secondAttribute="trailing" constant="17" id="3tY-Yi-KdQ"/>
                         <constraint firstItem="0uz-hm-15c" firstAttribute="top" secondItem="mzh-Sl-tYH" secondAttribute="bottom" constant="-7" id="4Lf-Av-Umw"/>
-                        <constraint firstItem="mzh-Sl-tYH" firstAttribute="top" secondItem="w4W-BD-uLh" secondAttribute="top" constant="5" id="6Mf-8f-5aW"/>
+                        <constraint firstItem="mzh-Sl-tYH" firstAttribute="top" secondItem="w4W-BD-uLh" secondAttribute="top" constant="4" id="6Mf-8f-5aW"/>
                         <constraint firstAttribute="bottom" secondItem="J0U-5L-1tV" secondAttribute="bottom" id="7wS-Fk-jsN"/>
                         <constraint firstItem="J0U-5L-1tV" firstAttribute="top" secondItem="kc9-lN-CQT" secondAttribute="bottom" constant="5" id="8EK-9o-bRv"/>
                         <constraint firstItem="kc9-lN-CQT" firstAttribute="leading" secondItem="ZQh-R7-uhX" secondAttribute="trailing" id="9ne-IQ-Pm8"/>
                         <constraint firstAttribute="trailing" secondItem="mzh-Sl-tYH" secondAttribute="trailing" constant="9" id="BfL-UP-ghX"/>
-                        <constraint firstItem="tIU-i8-YTK" firstAttribute="leading" secondItem="8fH-LM-RC4" secondAttribute="trailing" constant="10" id="BpH-YJ-Vjd"/>
+                        <constraint firstItem="tIU-i8-YTK" firstAttribute="leading" secondItem="8fH-LM-RC4" secondAttribute="trailing" constant="5" id="BpH-YJ-Vjd"/>
                         <constraint firstItem="8fH-LM-RC4" firstAttribute="top" secondItem="0uz-hm-15c" secondAttribute="bottom" constant="5" id="FgV-0N-HAf"/>
                         <constraint firstItem="J0U-5L-1tV" firstAttribute="top" secondItem="ZQh-R7-uhX" secondAttribute="bottom" id="O9W-Oi-PsP"/>
                         <constraint firstAttribute="trailing" secondItem="J0U-5L-1tV" secondAttribute="trailing" id="PkH-PU-aQo"/>

@@ -18,36 +18,13 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-lK-IO6">
                     <rect key="frame" x="0.0" y="2" width="375" height="667"/>
+                    <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Boi-fk-pdC">
-                    <rect key="frame" x="84" y="294" width="80" height="76"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="80" id="PwV-fZ-gbe"/>
-                        <constraint firstAttribute="width" constant="80" id="yOc-Fu-vvv"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDj-t3-c3O">
-                    <rect key="frame" x="203" y="294" width="80" height="76"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="80" id="09J-L7-Okk"/>
-                        <constraint firstAttribute="height" constant="80" id="u3D-mw-JsX"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LDj-t3-c3O" secondAttribute="trailing" constant="40" id="2wR-1E-mfE"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WIA-Ee-88Y"/>
-                <constraint firstItem="LDj-t3-c3O" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="275" id="XxM-si-vzz"/>
-                <constraint firstItem="Boi-fk-pdC" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="275" id="Yf6-BX-IfN"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ZlA-KD-JAB"/>
-                <constraint firstItem="Boi-fk-pdC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="eiF-nI-svO"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="k3f-r3-ptK"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ugm-4M-rHf"/>
             </constraints>
