@@ -27,6 +27,7 @@
                 <outlet property="shareView" destination="tFg-tH-JP9" id="XwC-LQ-RMz"/>
                 <outlet property="upvoteButton" destination="QdT-Q2-KIe" id="Ja8-nf-kAj"/>
                 <outlet property="upvoteView" destination="TyF-DN-fnF" id="tXb-OS-cj6"/>
+                <outlet property="userImage" destination="ke7-xO-AoY" id="YRm-xj-R3L"/>
                 <outlet property="writerImage" destination="O3h-s3-2SU" id="hl4-xj-Uuf"/>
                 <outlet property="writerName" destination="Vex-gt-3O1" id="bVt-HT-DPm"/>
                 <outlet property="writerPostTime" destination="J3L-rY-Kwf" id="Wpk-9S-1ne"/>
@@ -187,30 +188,30 @@
                     <rect key="frame" x="0.0" y="283" width="375" height="32"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="blue" translatesAutoresizingMaskIntoConstraints="NO" id="O3h-s3-2SU" userLabel="WriterImage">
-                            <rect key="frame" x="0.0" y="1" width="30" height="30"/>
+                            <rect key="frame" x="0.0" y="1" width="60" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="CH8-6J-383"/>
-                                <constraint firstAttribute="width" constant="30" id="rWL-E6-gMh"/>
+                                <constraint firstAttribute="height" constant="60" id="CH8-6J-383"/>
+                                <constraint firstAttribute="width" constant="60" id="rWL-E6-gMh"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Post Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3L-rY-Kwf">
-                            <rect key="frame" x="82" y="0.0" width="65" height="32"/>
+                            <rect key="frame" x="112" y="0.0" width="65" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vex-gt-3O1">
-                            <rect key="frame" x="35" y="0.0" width="42" height="32"/>
+                            <rect key="frame" x="65" y="0.0" width="42" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ke7-xO-AoY" customClass="UserImage" customModule="iOSapp">
-                            <rect key="frame" x="345" y="1" width="30" height="30"/>
+                            <rect key="frame" x="315" y="1" width="60" height="30"/>
                             <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="30" id="bKD-us-WPF"/>
-                                <constraint firstAttribute="height" constant="30" id="cwU-Hx-3zs"/>
+                                <constraint firstAttribute="height" constant="60" id="LOe-Gf-xTh"/>
+                                <constraint firstAttribute="width" constant="60" id="YeJ-4B-1Uv"/>
                             </constraints>
                         </view>
                     </subviews>

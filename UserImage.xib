@@ -18,14 +18,38 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-lK-IO6">
                     <rect key="frame" x="0.0" y="2" width="375" height="667"/>
-                    <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </imageView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" editable="NO" text="R" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25i-Mq-SyI">
+                    <rect key="frame" x="8" y="33" width="18" height="30"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="18" id="i7m-eq-bjW"/>
+                        <constraint firstAttribute="height" constant="30" id="tqk-3F-ZkZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" editable="NO" text="R" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rA0-MR-3rt">
+                    <rect key="frame" x="31" y="33" width="18" height="30"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="18" id="RDi-fF-20M"/>
+                        <constraint firstAttribute="height" constant="30" id="bKL-TF-aXM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="rA0-MR-3rt" firstAttribute="leading" secondItem="25i-Mq-SyI" secondAttribute="trailing" constant="5" id="2Gj-OS-odo"/>
+                <constraint firstItem="rA0-MR-3rt" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="13" id="NrM-n9-jC1"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WIA-Ee-88Y"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ZlA-KD-JAB"/>
+                <constraint firstItem="25i-Mq-SyI" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="13" id="eTv-GL-GLx"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="k3f-r3-ptK"/>
+                <constraint firstItem="25i-Mq-SyI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="o9m-Z6-m0X"/>
                 <constraint firstItem="AHz-lK-IO6" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ugm-4M-rHf"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
