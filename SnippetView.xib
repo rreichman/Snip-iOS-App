@@ -27,7 +27,7 @@
                 <outlet property="shareView" destination="tFg-tH-JP9" id="XwC-LQ-RMz"/>
                 <outlet property="upvoteButton" destination="QdT-Q2-KIe" id="Ja8-nf-kAj"/>
                 <outlet property="upvoteView" destination="TyF-DN-fnF" id="tXb-OS-cj6"/>
-                <outlet property="writerImage" destination="O3h-s3-2SU" id="JWk-FI-afJ"/>
+                <outlet property="writerImage" destination="O3h-s3-2SU" id="hl4-xj-Uuf"/>
                 <outlet property="writerName" destination="Vex-gt-3O1" id="bVt-HT-DPm"/>
                 <outlet property="writerPostTime" destination="J3L-rY-Kwf" id="Wpk-9S-1ne"/>
             </connections>
@@ -205,13 +205,23 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ke7-xO-AoY" customClass="UserImage" customModule="iOSapp">
+                            <rect key="frame" x="345" y="1" width="30" height="30"/>
+                            <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="bKD-us-WPF"/>
+                                <constraint firstAttribute="height" constant="30" id="cwU-Hx-3zs"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="Vex-gt-3O1" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" id="0Ff-lQ-aQS"/>
                         <constraint firstItem="Vex-gt-3O1" firstAttribute="leading" secondItem="O3h-s3-2SU" secondAttribute="trailing" constant="5" id="2fe-Cf-QnE"/>
+                        <constraint firstAttribute="trailing" secondItem="ke7-xO-AoY" secondAttribute="trailing" id="9KH-ED-pQJ"/>
                         <constraint firstItem="O3h-s3-2SU" firstAttribute="leading" secondItem="h4i-6O-YpX" secondAttribute="leading" id="ACb-q5-FMX"/>
                         <constraint firstAttribute="bottom" secondItem="Vex-gt-3O1" secondAttribute="bottom" id="VE4-ki-Kqv"/>
+                        <constraint firstItem="ke7-xO-AoY" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" id="Ytu-hb-eDH"/>
                         <constraint firstAttribute="bottom" secondItem="J3L-rY-Kwf" secondAttribute="bottom" id="cES-T9-2nm"/>
                         <constraint firstItem="J3L-rY-Kwf" firstAttribute="leading" secondItem="Vex-gt-3O1" secondAttribute="trailing" constant="5" id="f2h-b8-Gvo"/>
                         <constraint firstAttribute="bottom" secondItem="O3h-s3-2SU" secondAttribute="bottom" constant="1" id="pBN-NU-PAL"/>

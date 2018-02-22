@@ -140,6 +140,7 @@ class SnippetsTableViewController: UITableViewController
                 {
                     self.tableView.beginUpdates()
                     
+                    // TODO:: perhaps just reload data is enough here.
                     var indexPaths = [IndexPath]()
                     let addedUsersCount = newDataArray.count - (self.tableView.dataSource as! FeedDataSource).postDataArray.count
                     for row in 0..<addedUsersCount
@@ -149,7 +150,6 @@ class SnippetsTableViewController: UITableViewController
                     }
                     (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
                     self.tableView.insertRows(at: indexPaths as [IndexPath], with: UITableViewRowAnimation.none)
-                    //self.tableView.reloadData()
                     self.tableView.endUpdates()
                 }
                 
@@ -201,13 +201,10 @@ class SnippetsTableViewController: UITableViewController
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        print("0: \(NSDate().timeIntervalSince1970)")
-        
         // TODO: This is buggy since I'm logging some snippets many times. Not too important now
         if (self.finishedLoadingSnippets)
         {
             let foregroundSnippetIDs = self.getForegroundSnippetIDs()
-            print("0A: \(NSDate().timeIntervalSince1970)")
             for snippetID in foregroundSnippetIDs
             {
                 DispatchQueue.global(qos: .background).async
@@ -217,7 +214,6 @@ class SnippetsTableViewController: UITableViewController
             }
         }
         
-        print("1: \(NSDate().timeIntervalSince1970)")
         let newCellHeightAsFloat : Float = Float(cell.frame.size.height)
         
         let height = NSNumber(value: Float(cell.frame.size.height))
@@ -231,7 +227,6 @@ class SnippetsTableViewController: UITableViewController
         }
         
         heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
-        print("2: \(NSDate().timeIntervalSince1970)")
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat

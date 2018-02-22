@@ -293,7 +293,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         for cell in self.tableView.visibleCells
         {
             heightInTableView += cell.bounds.height
-            if (cell as! CommentTableViewCell).commentID != commentID
+            if (cell as! CommentTableViewCell).commentView.commentID != commentID
             {
                 i+=1
             }
@@ -412,27 +412,27 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         let cell : CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
         let currentComment : Comment = getCommentArray()[indexPath.row]
-        cell.externalCommentBox = writeCommentBox
-        cell.replyingToBox = replyingToView
-        cell.closeReplyButton = closeReplyButton
-        cell.commentID = currentComment.id
+        cell.commentView.externalCommentBox = writeCommentBox
+        cell.commentView.replyingToBox = replyingToView
+        cell.commentView.closeReplyButton = closeReplyButton
+        cell.commentView.commentID = currentComment.id
 
         if (currentComment.level == 2)
         {
-            cell.replyButtonWidthConstraint.constant = 0
+            cell.commentView.replyButtonWidthConstraint.constant = 0
         }
         else
         {
-            cell.replyButtonWidthConstraint.constant = 45
+            cell.commentView.replyButtonWidthConstraint.constant = 45
         }
         // Note - You can only delete comment if you're the owner (i.e. username is same as yours)
-        cell.deleteButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))
+        cell.commentView.deleteButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))
         cell.setCellConstraintsAccordingToLevel(commentLevel: currentComment.level)
-        cell.viewController = self
+        cell.commentView.viewController = self
         
-        cell.body.text = currentComment.body
-        cell.date.text = getTimeFromDateString(dateString: currentComment.date)
-        cell.writer.text = currentComment.writer._name
+        cell.commentView.body.text = currentComment.body
+        cell.commentView.date.text = getTimeFromDateString(dateString: currentComment.date)
+        cell.commentView.writer.text = currentComment.writer._name
         return cell
     }
     
