@@ -436,6 +436,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         cell.commentView.date.text = getTimeFromDateString(dateString: currentComment.date)
         cell.commentView.writer.text = currentComment.writer._name
         
+        cell.commentView.setNeedsLayout()
+        cell.commentView.layoutIfNeeded()
+        
         loadInitialsIntoUserImage(writerName: NSAttributedString(string: currentComment.writer._name), userImage: cell.commentView.userImage)
         
         return cell

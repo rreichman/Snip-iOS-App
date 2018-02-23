@@ -253,19 +253,7 @@ func loadInitialsIntoUserImage(writerName : NSAttributedString, userImage: UserI
     
     let size = (str as NSString).size(withAttributes: INITIALS_ATTRIBUTES)
     
-    var adjustConstant : CGFloat = 0.0
-    if writerInitials[0] == "I"
-    {
-        adjustConstant = -2.5
-    }
-    if writerInitials[0] == "M"
-    {
-        adjustConstant = 2
-    }
-    userImage.initialsLeftConstraint.constant = 3.5 + (21 - size.width) + adjustConstant
-    
-    print(str)
-    print(size)
+    userImage.initialsLeftConstraint.constant = (30 - size.width)/2
 }
 
 func getWriterInitials(writerString : NSAttributedString) -> [Character]

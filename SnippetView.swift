@@ -32,7 +32,6 @@ class SnippetView: UIView {
     @IBOutlet weak var button: UIImageViewWithMetadata!
     @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
     
-    //@IBOutlet weak var writerImage: UIImageView!
     @IBOutlet weak var writerName: UILabel!
     
     @IBOutlet weak var writerPostTime: UILabel!
