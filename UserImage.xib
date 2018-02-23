@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="R" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="14M-Hg-fna">
-                    <rect key="frame" x="8" y="32" width="20" height="30"/>
+                    <rect key="frame" x="4" y="26" width="20" height="30"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="Tab-V2-Aca"/>
@@ -32,7 +32,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="R" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VrF-UQ-zj0">
-                    <rect key="frame" x="28" y="32" width="20" height="30"/>
+                    <rect key="frame" x="16" y="26" width="20" height="30"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="6jF-1g-Qdn"/>
@@ -43,12 +43,13 @@
                 </textView>
             </subviews>
             <constraints>
-                <constraint firstItem="VrF-UQ-zj0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="HPq-DZ-Vtl"/>
-                <constraint firstItem="VrF-UQ-zj0" firstAttribute="leading" secondItem="14M-Hg-fna" secondAttribute="trailing" id="Tj2-mX-I7k"/>
-                <constraint firstItem="14M-Hg-fna" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="arI-CZ-XKU"/>
-                <constraint firstItem="14M-Hg-fna" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="by7-pR-Zr7"/>
+                <constraint firstItem="VrF-UQ-zj0" firstAttribute="leading" secondItem="14M-Hg-fna" secondAttribute="trailing" constant="-8" id="F3y-pf-MmG"/>
+                <constraint firstItem="VrF-UQ-zj0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="6" id="HPq-DZ-Vtl"/>
+                <constraint firstItem="14M-Hg-fna" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="6" id="arI-CZ-XKU"/>
+                <constraint firstItem="14M-Hg-fna" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="4" id="by7-pR-Zr7"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="38.5" y="54.5"/>
         </view>
     </objects>
 </document>

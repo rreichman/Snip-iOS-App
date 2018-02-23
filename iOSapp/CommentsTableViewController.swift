@@ -58,6 +58,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         writeCommentBox.isUserInteractionEnabled = true
         writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
         
+        loadInitialsIntoUserImage(writerName: snippetView.writerName.attributedText!, userImage: snippetView.userImage)
+        
         self.navigationController?.navigationBar.tintColor = UIColor.black
         // This is for the cases where there are no comments
         setTableViewBackground()
@@ -433,6 +435,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         cell.commentView.body.text = currentComment.body
         cell.commentView.date.text = getTimeFromDateString(dateString: currentComment.date)
         cell.commentView.writer.text = currentComment.writer._name
+        
+        loadInitialsIntoUserImage(writerName: NSAttributedString(string: currentComment.writer._name), userImage: cell.commentView.userImage)
         
         return cell
     }

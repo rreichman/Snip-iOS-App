@@ -28,17 +28,10 @@ class FeedDataSource: NSObject, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
         let postData = postDataArray[indexPath.row]
         
-        /*print(cell.snippetView)
-        print(cell.snippetView.userImage)
-        print(cell.snippetView.userImage.imageView)
-        print(cell.snippetView.userImage.leftInitial)
-        print(cell.snippetView.userImage.rightInitial)*/
-        //cell.snippetView.userImage.imageView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        //cell.snippetView.userImage.leftInitial.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        //cell.snippetView.userImage.rightInitial.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        
         cell.m_isTextLongEnoughToBeTruncated = self.postDataArray[indexPath.row].m_isTextLongEnoughToBeTruncated
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
+        
+        loadInitialsIntoUserImage(writerName: postData.writerString, userImage: cell.snippetView.userImage)
         
         loadDataIntoSnippet(snippetView: cell.snippetView, shouldTruncate: shouldTruncate, postData: postData)
         cell.snippetView.currentViewController = _tableView.delegate as! SnippetsTableViewController

@@ -14,7 +14,7 @@ class CommentView: UIView
 {    
     var contentView : UIView?
     
-    @IBOutlet weak var writerImage: UIImageView!
+    @IBOutlet weak var userImage: UserImage!
     @IBOutlet weak var writer: UITextView!
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
@@ -67,8 +67,8 @@ class CommentView: UIView
         makeReplyButtonClickable()
         makeDeleteButtonClickable()
         
-        writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
-        writerImage.clipsToBounds = true
+        //writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
+        //writerImage.clipsToBounds = true
         
         return view
     }

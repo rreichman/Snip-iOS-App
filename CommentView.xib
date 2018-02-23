@@ -24,8 +24,8 @@
                 <outlet property="replyButton" destination="8fH-LM-RC4" id="hb0-Wr-jIl"/>
                 <outlet property="replyButtonWidthConstraint" destination="Z6z-jK-ity" id="YJZ-M1-hdb"/>
                 <outlet property="surroundingView" destination="w4W-BD-uLh" id="QTu-0G-csw"/>
+                <outlet property="userImage" destination="i20-pJ-kUY" id="o2a-II-WwR"/>
                 <outlet property="writer" destination="mzh-Sl-tYH" id="1E0-MI-jDL"/>
-                <outlet property="writerImage" destination="364-pN-Jrk" id="8g1-Wn-zCn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -80,19 +80,20 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQh-R7-uhX" userLabel="Writer Image Surrounding View">
                             <rect key="frame" x="0.0" y="0.0" width="35" height="652"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue" translatesAutoresizingMaskIntoConstraints="NO" id="364-pN-Jrk">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i20-pJ-kUY" customClass="UserImage" customModule="iOSapp">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="30" id="Xqs-zC-JOz"/>
-                                        <constraint firstAttribute="height" constant="30" id="yPu-Rh-XZo"/>
+                                        <constraint firstAttribute="height" constant="30" id="8FC-3e-Bse"/>
+                                        <constraint firstAttribute="width" constant="30" id="q1X-TD-VIy"/>
                                     </constraints>
-                                </imageView>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="364-pN-Jrk" secondAttribute="trailing" constant="5" id="Sxf-mF-AO0"/>
-                                <constraint firstItem="364-pN-Jrk" firstAttribute="leading" secondItem="ZQh-R7-uhX" secondAttribute="leading" id="omd-H5-zuO"/>
-                                <constraint firstItem="364-pN-Jrk" firstAttribute="top" secondItem="ZQh-R7-uhX" secondAttribute="top" id="xhk-ER-Fje"/>
+                                <constraint firstItem="i20-pJ-kUY" firstAttribute="leading" secondItem="ZQh-R7-uhX" secondAttribute="leading" id="DOq-H3-tmK"/>
+                                <constraint firstItem="i20-pJ-kUY" firstAttribute="top" secondItem="ZQh-R7-uhX" secondAttribute="top" id="Y8v-Jt-08M"/>
+                                <constraint firstAttribute="trailing" secondItem="i20-pJ-kUY" secondAttribute="trailing" constant="5" id="kaF-BI-iZn"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -130,9 +131,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="w4W-BD-uLh" secondAttribute="trailing" id="YCv-Ix-Nav"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="blue" width="600" height="600"/>
-    </resources>
 </document>

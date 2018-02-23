@@ -233,6 +233,36 @@ func getAttributedStringOfCommentCount(commentCount: Int) -> NSAttributedString
     }
 }
 
+func getCharInString(str : String, position: Int) -> Character
+{
+    let index = str.index(str.startIndex, offsetBy: position)
+    return str[index]
+}
+
+func loadInitialsIntoUserImage(writerName : NSAttributedString, userImage: UserImage)
+{
+    var writerInitials = getWriterInitials(writerString: writerName)
+    
+    let INITIALS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : UIFont.latoBold(size: 13), NSAttributedStringKey.foregroundColor : UIColor.white]
+    
+    userImage.leftInitial.attributedText = NSAttributedString(string: String(writerInitials[0]), attributes: INITIALS_ATTRIBUTES)
+    userImage.rightInitial.attributedText = NSAttributedString(string: String(writerInitials[1]), attributes: INITIALS_ATTRIBUTES)
+    
+    print(writerName)
+    print(userImage.leftInitial.bounds.width)
+    print(userImage.rightInitial.bounds.width)
+}
+
+func getWriterInitials(writerString : NSAttributedString) -> [Character]
+{
+    let fullNameArray : [String] = writerString.string.split{$0 == " "}.map(String.init)
+    
+    let firstName : String = fullNameArray[0]
+    let lastName : String = fullNameArray[fullNameArray.count - 1]
+    
+    return [getCharInString(str: firstName, position: 0), getCharInString(str: lastName, position: 0)]
+}
+
 // Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()

@@ -32,7 +32,7 @@ class SnippetView: UIView {
     @IBOutlet weak var button: UIImageViewWithMetadata!
     @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
     
-    @IBOutlet weak var writerImage: UIImageView!
+    //@IBOutlet weak var writerImage: UIImageView!
     @IBOutlet weak var writerName: UILabel!
     
     @IBOutlet weak var writerPostTime: UILabel!
@@ -97,8 +97,8 @@ class SnippetView: UIView {
         
         cellSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
         
-        writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
-        writerImage.clipsToBounds = true
+        //writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
+        //writerImage.clipsToBounds = true
         
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
