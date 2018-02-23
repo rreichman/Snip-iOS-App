@@ -2,7 +2,7 @@
 //  UserImage.swift
 //  iOSapp
 //
-//  Created by Ran Reichman on 2/16/18.
+//  Created by Ran Reichman on 2/22/18.
 //  Copyright © 2018 Ran Reichman. All rights reserved.
 //
 
@@ -10,11 +10,12 @@ import UIKit
 
 @IBDesignable
 
-class UserImage: UIView
-{
+class UserImage: UIView {
+    
     var contentView : UIView?
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var leftInitial: UITextView!
+    @IBOutlet weak var rightInitial: UITextView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,19 +28,16 @@ class UserImage: UIView
     }
     
     func xibSetup() {
-        if self.subviews.count == 0
-        {
-            contentView = loadViewFromNib()
-            
-            // use bounds not frame or it'll be offset
-            contentView!.frame = bounds
-            
-            // Make the view stretch with containing view
-            contentView!.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-            
-            // Adding custom subview on top of our view (over any custom drawing > see note below)
-            addSubview(contentView!)
-        }
+        contentView = loadViewFromNib()
+        
+        // use bounds not frame or it'll be offset
+        contentView!.frame = bounds
+        
+        // Make the view stretch with containing view
+        contentView!.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        
+        // Adding custom subview on top of our view (over any custom drawing > see note below)
+        addSubview(contentView!)
     }
     
     func loadViewFromNib() -> UIView! {
@@ -48,18 +46,13 @@ class UserImage: UIView
         let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
-        self.layer.cornerRadius = CGFloat(self.frame.size.width / 2)
+        self.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         self.clipsToBounds = true
+        self.layer.cornerRadius = CGFloat(self.frame.size.width / 2)
+        
+        leftInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        rightInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         return view
     }
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

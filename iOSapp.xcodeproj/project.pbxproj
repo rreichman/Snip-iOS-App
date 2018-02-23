@@ -15,6 +15,8 @@
 		7D00480D1F997E3E00B02D1A /* iOSappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D00480C1F997E3E00B02D1A /* iOSappTests.swift */; };
 		7D0048181F997E3E00B02D1A /* iOSappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0048171F997E3E00B02D1A /* iOSappUITests.swift */; };
 		7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D09A3961FC4F79B00E51553 /* MenuViewController.swift */; };
+		7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D1EC475203F928D004B7B44 /* UserImage.xib */; };
+		7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1EC477203F92A6004B7B44 /* UserImage.swift */; };
 		7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56A1FA418B7005482C9 /* ProgramError.swift */; };
 		7D44B56D1FA47264005482C9 /* NoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56C1FA47264005482C9 /* NoError.swift */; };
 		7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */; };
@@ -54,8 +56,6 @@
 		7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */; };
 		7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */; };
 		7DE89D8F1FD60D9E004AD45E /* CommentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */; };
-		7DEA58A22037D406007B343A /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DEA58A12037D406007B343A /* UserImage.swift */; };
-		7DEA58A42037D417007B343A /* UserImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DEA58A32037D417007B343A /* UserImage.xib */; };
 		7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */; };
 		7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +94,8 @@
 		7D0048171F997E3E00B02D1A /* iOSappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSappUITests.swift; sourceTree = "<group>"; };
 		7D0048191F997E3E00B02D1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D09A3961FC4F79B00E51553 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		7D1EC475203F928D004B7B44 /* UserImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserImage.xib; sourceTree = "<group>"; };
+		7D1EC477203F92A6004B7B44 /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
 		7D44B56A1FA418B7005482C9 /* ProgramError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramError.swift; sourceTree = "<group>"; };
 		7D44B56C1FA47264005482C9 /* NoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoError.swift; sourceTree = "<group>"; };
 		7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSource.swift; sourceTree = "<group>"; };
@@ -133,8 +135,6 @@
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
 		7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericProgramViewController.swift; sourceTree = "<group>"; };
 		7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentUtils.swift; sourceTree = "<group>"; };
-		7DEA58A12037D406007B343A /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
-		7DEA58A32037D417007B343A /* UserImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserImage.xib; sourceTree = "<group>"; };
 		7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVariables.swift; sourceTree = "<group>"; };
 		91348999CB5C8264EC947068 /* Pods-iOSapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -187,8 +187,8 @@
 		7D0047EB1F997E3E00B02D1A = {
 			isa = PBXGroup;
 			children = (
-				7DEA58A32037D417007B343A /* UserImage.xib */,
-				7DEA58A12037D406007B343A /* UserImage.swift */,
+				7D1EC477203F92A6004B7B44 /* UserImage.swift */,
+				7D1EC475203F928D004B7B44 /* UserImage.xib */,
 				7D85D30E202BEC9600867F8B /* SnippetView.xib */,
 				7D85D30C202BEC7500867F8B /* SnippetView.swift */,
 				7DAD9292203E303600337922 /* CommentView.xib */,
@@ -405,8 +405,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DEA58A42037D417007B343A /* UserImage.xib in Resources */,
 				7DAD9293203E303600337922 /* CommentView.xib in Resources */,
+				7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */,
 				7D0047FD1F997E3E00B02D1A /* Main.storyboard in Resources */,
 				7D85D30F202BEC9600867F8B /* SnippetView.xib in Resources */,
 				7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */,
@@ -635,7 +635,6 @@
 				7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */,
 				7D7F25CD1FD0EE19000D9860 /* ProfileViewController.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,
-				7DEA58A22037D406007B343A /* UserImage.swift in Sources */,
 				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
 				7DE89D8F1FD60D9E004AD45E /* CommentUtils.swift in Sources */,
 				7D6E9EA31FD495B00068D614 /* UserInformation.swift in Sources */,
@@ -653,6 +652,7 @@
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
 				7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */,
+				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
