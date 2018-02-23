@@ -14,8 +14,8 @@ class UserImage: UIView {
     
     var contentView : UIView?
     
-    @IBOutlet weak var leftInitial: UITextView!
-    @IBOutlet weak var rightInitial: UITextView!
+    @IBOutlet weak var initials: UITextView!
+    @IBOutlet weak var initialsLeftConstraint: NSLayoutConstraint!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,16 +47,13 @@ class UserImage: UIView {
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         self.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        leftInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        rightInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        initials.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         self.clipsToBounds = true
         self.layer.cornerRadius = CGFloat(self.frame.size.width / 2)
         
-        leftInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        rightInitial.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        initials.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        removePaddingFromTextView(textView: leftInitial)
-        removePaddingFromTextView(textView: rightInitial)
+        removePaddingFromTextView(textView: initials)
         
         return view
     }

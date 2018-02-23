@@ -12,8 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserImage" customModule="iOSapp">
             <connections>
-                <outlet property="leftInitial" destination="14M-Hg-fna" id="PZj-wK-2fq"/>
-                <outlet property="rightInitial" destination="VrF-UQ-zj0" id="zXC-ey-8Cf"/>
+                <outlet property="initials" destination="14M-Hg-fna" id="qZv-fv-egw"/>
+                <outlet property="initialsLeftConstraint" destination="by7-pR-Zr7" id="Aia-lh-HNC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -21,30 +21,18 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="R" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="14M-Hg-fna">
-                    <rect key="frame" x="4" y="26" width="20" height="30"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="RR" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="14M-Hg-fna">
+                    <rect key="frame" x="4" y="26" width="35" height="30"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="20" id="Tab-V2-Aca"/>
+                        <constraint firstAttribute="width" constant="35" id="Tab-V2-Aca"/>
                         <constraint firstAttribute="height" constant="30" id="xYd-ew-h2L"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="R" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VrF-UQ-zj0">
-                    <rect key="frame" x="16" y="26" width="20" height="30"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="20" id="6jF-1g-Qdn"/>
-                        <constraint firstAttribute="height" constant="30" id="xGi-B8-iNr"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
             <constraints>
-                <constraint firstItem="VrF-UQ-zj0" firstAttribute="leading" secondItem="14M-Hg-fna" secondAttribute="trailing" constant="-8" id="F3y-pf-MmG"/>
-                <constraint firstItem="VrF-UQ-zj0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="6" id="HPq-DZ-Vtl"/>
                 <constraint firstItem="14M-Hg-fna" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="6" id="arI-CZ-XKU"/>
                 <constraint firstItem="14M-Hg-fna" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="4" id="by7-pR-Zr7"/>
             </constraints>
