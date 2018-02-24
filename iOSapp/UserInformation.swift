@@ -81,7 +81,7 @@ class UserInformation
                 }
                 else
                 {
-                    // TODO:: log this error
+                    // TODO: log this error
                 }
             }).resume()
         }

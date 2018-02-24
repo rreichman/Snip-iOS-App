@@ -33,6 +33,7 @@ class SnippetsTableViewController: UITableViewController
         turnNavigationBarTitleIntoButton(title: "Home")
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
+        navigationController?.navigationBar.barTintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
@@ -143,13 +144,16 @@ class SnippetsTableViewController: UITableViewController
                     // TODO:: perhaps just reload data is enough here.
                     var indexPaths = [IndexPath]()
                     let addedUsersCount = newDataArray.count - (self.tableView.dataSource as! FeedDataSource).postDataArray.count
-                    for row in 0..<addedUsersCount
+                    if (addedUsersCount > 0)
                     {
-                        let i = (self.tableView.dataSource as! FeedDataSource).postDataArray.count + row
-                        indexPaths.append(IndexPath(row: i, section: 0))
+                        for row in 0..<addedUsersCount
+                        {
+                            let i = (self.tableView.dataSource as! FeedDataSource).postDataArray.count + row
+                            indexPaths.append(IndexPath(row: i, section: 0))
+                        }
+                        (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                        self.tableView.insertRows(at: indexPaths as [IndexPath], with: UITableViewRowAnimation.none)
                     }
-                    (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-                    self.tableView.insertRows(at: indexPaths as [IndexPath], with: UITableViewRowAnimation.none)
                     self.tableView.endUpdates()
                 }
                 

@@ -146,7 +146,7 @@ class SignupViewController : GenericProgramViewController
         return signupData
     }
     
-    // TODO:: improve validation for email
+    // TODO: improve validation for email
     func validateRegisterData() -> Bool
     {
         if emailSignupField.text?.count == 0
@@ -228,7 +228,7 @@ class SignupViewController : GenericProgramViewController
         }
         else
         {
-            // TODO:: answer this
+            // TODO: answer this
             print("what to do here?")
         }
     }

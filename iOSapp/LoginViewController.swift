@@ -96,7 +96,7 @@ class LoginViewController : GenericProgramViewController
         }
         else
         {
-            // TODO:: answer this
+            // TODO: answer this
             print("what to do here?")
         }
     }

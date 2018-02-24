@@ -130,7 +130,7 @@ class SnippetView: UIView {
     
     func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
     {
-        // TODO:: handle errors here
+        // TODO: handle errors here
         
         let imageViewWithMetadata : UIImageViewWithMetadata = sender.view!.subviews[0] as! UIImageViewWithMetadata
         var otherButton : UIImageViewWithMetadata = downvoteButton
@@ -183,7 +183,7 @@ class SnippetView: UIView {
         snippetView.references.addGestureRecognizer(singleTapRecognizerReferences)
     }
     
-    // TODO:: do this for all text views
+    // TODO: do this for all text views
     // Returns if the operation was handled
     func handleClickOnTextView(sender: UITapGestureRecognizer) -> Bool
     {

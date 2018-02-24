@@ -9,7 +9,7 @@
 // Using this manual to submit the app
 // https://www.youtube.com/watch?v=tnbOcpwJGa8
 
-// TODO:: To allow non-SSL communication, remove this from plist: <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
+// To allow non-SSL communication, remove this from plist: <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
 
 import UIKit
 import Fabric
@@ -73,6 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication)
     {
         print("did become active \(Date())")
+        
+        // TODO:: handle deep linking
+        
         FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)
         Logger().logAppBecameActive()

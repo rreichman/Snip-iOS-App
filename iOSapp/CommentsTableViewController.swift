@@ -272,7 +272,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            // TODO:: What happens here?
+            // TODO: What happens here?
         }
         
         isPostButtonValid = true

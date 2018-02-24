@@ -38,7 +38,7 @@ class ForgotPasswordController : GenericProgramViewController
         }
         else
         {
-            // TODO:: What happens here?
+            // TODO: What happens here?
         }
     }
     
