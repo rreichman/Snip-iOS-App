@@ -13,10 +13,6 @@ class ProfileViewController : GenericProgramViewController
 {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var welcomeText: UITextView!
-
-    
-    
-    //var containerViewController: Conta
     
     //let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/keystore"
     //var ks : GethKeyStore = GethKeyStore()

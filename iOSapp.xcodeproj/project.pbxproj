@@ -55,6 +55,7 @@
 		7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */; };
 		7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */; };
 		7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */; };
+		7DD405E520449A0F00FF3ACB /* SnippetMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */; };
 		7DE89D8F1FD60D9E004AD45E /* CommentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */; };
 		7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */; };
 		7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */; };
@@ -135,6 +136,7 @@
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
 		7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericProgramViewController.swift; sourceTree = "<group>"; };
 		7DD405E320423F8300FF3ACB /* iOSapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSapp.entitlements; sourceTree = "<group>"; };
+		7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetMenu.swift; sourceTree = "<group>"; };
 		7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentUtils.swift; sourceTree = "<group>"; };
 		7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVariables.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				7D93CAE61FD8F6B60044C246 /* CachedData.swift */,
 				7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */,
 				7D812FC5202423F700968B9E /* CellTextUtils.swift */,
+				7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DD405E520449A0F00FF3ACB /* SnippetMenu.swift in Sources */,
 				7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */,
 				7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */,
 				7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */,

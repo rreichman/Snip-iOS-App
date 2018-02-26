@@ -14,6 +14,8 @@ class SnippetView: UIView {
     
     var contentView : UIView?
     
+    @IBOutlet weak var menuButton: UIView!
+    
     @IBOutlet weak var userImage: UserImage!
     
     @IBOutlet weak var postImage: UIImageView!
@@ -96,9 +98,6 @@ class SnippetView: UIView {
         
         cellSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
         
-        //writerImage.layer.cornerRadius = CGFloat(writerImage.frame.size.width / 2)
-        //writerImage.clipsToBounds = true
-        
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
@@ -126,6 +125,11 @@ class SnippetView: UIView {
             #selector(self.handleClickOnShare(sender:)))
         shareView.isUserInteractionEnabled = true
         shareView.addGestureRecognizer(shareButtonClickRecognizer)
+        
+        let menuButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnSnippetMenu(sender:)))
+        menuButton.isUserInteractionEnabled = true
+        menuButton.addGestureRecognizer(menuButtonClickRecognizer)
     }
     
     func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
@@ -173,10 +177,6 @@ class SnippetView: UIView {
         let singleTapRecognizerHeadline : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         snippetView.headline.isUserInteractionEnabled = true
         snippetView.headline.addGestureRecognizer(singleTapRecognizerHeadline)
-        
-        //let singleTapRecognizerPostTimeAndAuthor : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
-        //snippetView.postTimeAndWriter.isUserInteractionEnabled = true
-        //snippetView.postTimeAndWriter.addGestureRecognizer(singleTapRecognizerPostTimeAndAuthor)
         
         let singleTapRecognizerReferences : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.textLabelPressed(sender:)))
         snippetView.references.isUserInteractionEnabled = true
@@ -348,6 +348,14 @@ class SnippetView: UIView {
             currentViewController.present(activityVC, animated: true, completion: nil)
             //currentViewController.dismiss(animated: true, completion: nullFunc)
         }
+    }
+    
+    @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)
+    {
+        print("clicked on snippet menu")
+        Logger().logClickSnippetMenuButton()
+        
+        handleSnippetMenuButtonClicked(viewController: currentViewController)
     }
     
     func nullFunc() -> Void

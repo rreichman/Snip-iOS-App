@@ -183,6 +183,11 @@ public class Logger
         logEvent(actionName: "clickShareButton")
     }
     
+    func logClickSnippetMenuButton()
+    {
+        logEvent(actionName: "clickSnippetMenuButton")
+    }
+    
     func logInternetConnectionFailed()
     {
         logEvent(actionName: "connectionFailed")

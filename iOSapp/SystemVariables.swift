@@ -21,8 +21,9 @@ public class SystemVariables
     let IMAGE_DESCRIPTION_HEIGHT = 10
     let IMAGE_DESCRIPTION_TEXT_FONT = UIFont.lato(size: 10)
     let IMAGE_DESCRIPTION_COLOR = UIColor.lightGray
-    let PUBLISH_WRITER_FONT = UIFont.latoBold(size: 14)
+    let PUBLISH_WRITER_FONT = UIFont.latoBold(size: 15)
     let PUBLISH_WRITER_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
+    let COMMENT_ACTION_FONT = UIFont.latoBold(size: 14)
     let PUBLISH_TIME_FONT = UIFont.lato(size: 14)
     let PUBLISH_TIME_COLOR = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)
     let NUMBER_OF_COMMENTS_FONT = UIFont.lato(size: 16)

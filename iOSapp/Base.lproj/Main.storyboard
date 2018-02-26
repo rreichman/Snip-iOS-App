@@ -336,10 +336,6 @@
                                     <action selector="logoutButton:" destination="Dcv-Tk-xld" eventType="touchUpInside" id="RI5-pK-H1h"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05o-2N-fzd">
-                                <rect key="frame" x="10" y="344" width="355" height="169"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -348,11 +344,7 @@
                             <constraint firstItem="CY7-0q-m0k" firstAttribute="leading" secondItem="aru-aC-76Q" secondAttribute="leading" constant="20" id="EQn-Mx-bx0"/>
                             <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="mPL-RA-hKs" secondAttribute="trailing" constant="20" id="Has-dJ-A0M"/>
                             <constraint firstItem="aru-aC-76Q" firstAttribute="bottom" secondItem="mPL-RA-hKs" secondAttribute="bottom" constant="30" id="KVt-nr-vjo"/>
-                            <constraint firstItem="05o-2N-fzd" firstAttribute="top" secondItem="CY7-0q-m0k" secondAttribute="bottom" constant="10" id="LvV-2y-AyS"/>
-                            <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="05o-2N-fzd" secondAttribute="trailing" constant="10" id="h7Q-C6-iHi"/>
                             <constraint firstItem="CY7-0q-m0k" firstAttribute="top" secondItem="aru-aC-76Q" secondAttribute="top" constant="20" id="mSg-mp-8Te"/>
-                            <constraint firstItem="mPL-RA-hKs" firstAttribute="top" secondItem="05o-2N-fzd" secondAttribute="bottom" constant="10" id="n9N-rq-Gr4"/>
-                            <constraint firstItem="05o-2N-fzd" firstAttribute="leading" secondItem="aru-aC-76Q" secondAttribute="leading" constant="10" id="su7-DG-ZJ4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aru-aC-76Q"/>
                     </view>

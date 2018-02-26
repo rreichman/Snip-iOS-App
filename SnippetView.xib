@@ -19,6 +19,7 @@
                 <outlet property="downvoteView" destination="v1c-Nd-gHP" id="90p-kN-m52"/>
                 <outlet property="headline" destination="m0N-tv-evb" id="keM-6H-wUJ"/>
                 <outlet property="imageDescription" destination="qHh-Y7-WeH" id="WTw-3o-r5s"/>
+                <outlet property="menuButton" destination="gBS-za-AMv" id="Tuq-uX-fEJ"/>
                 <outlet property="numberOfCommentsLabel" destination="h8m-Np-4zx" id="4wL-jB-6Hg"/>
                 <outlet property="postImage" destination="7gj-l2-RMY" id="Mrj-QK-Nku"/>
                 <outlet property="postImageHeightConstraint" destination="dbp-MB-hcC" id="lbd-1Q-gYz"/>
@@ -206,15 +207,38 @@
                                 <constraint firstAttribute="width" constant="30" id="YeJ-4B-1Uv"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBS-za-AMv" userLabel="Menu Button View">
+                            <rect key="frame" x="318" y="-6" width="67" height="49"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="snippetMenuButton" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-1S-tvc">
+                                    <rect key="frame" x="25" y="12" width="32" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="EkS-wy-rJF"/>
+                                        <constraint firstAttribute="width" constant="30" id="eMV-mj-Rid"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="0pc-1S-tvc" secondAttribute="trailing" constant="12" id="HIb-bO-AgI"/>
+                                <constraint firstAttribute="bottom" secondItem="0pc-1S-tvc" secondAttribute="bottom" constant="12" id="eA6-YK-GGv"/>
+                                <constraint firstAttribute="width" constant="44" id="gRz-d4-doy"/>
+                                <constraint firstItem="0pc-1S-tvc" firstAttribute="top" secondItem="gBS-za-AMv" secondAttribute="top" constant="12" id="heb-eV-Qm4"/>
+                                <constraint firstItem="0pc-1S-tvc" firstAttribute="leading" secondItem="gBS-za-AMv" secondAttribute="leading" constant="12" id="zEw-BV-blV"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Vex-gt-3O1" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" constant="7" id="16d-lQ-7MH"/>
+                        <constraint firstAttribute="bottom" secondItem="gBS-za-AMv" secondAttribute="bottom" constant="-7" id="CqP-77-UbV"/>
+                        <constraint firstItem="gBS-za-AMv" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" constant="-7" id="Nhr-ir-deD"/>
                         <constraint firstItem="ke7-xO-AoY" firstAttribute="leading" secondItem="h4i-6O-YpX" secondAttribute="leading" id="Vtv-dQ-3yu"/>
                         <constraint firstItem="ke7-xO-AoY" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" id="Ytu-hb-eDH"/>
-                        <constraint firstItem="J3L-rY-Kwf" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" constant="7" id="ayF-0P-Cyy"/>
+                        <constraint firstItem="J3L-rY-Kwf" firstAttribute="top" secondItem="h4i-6O-YpX" secondAttribute="top" constant="7.5" id="ayF-0P-Cyy"/>
                         <constraint firstItem="J3L-rY-Kwf" firstAttribute="leading" secondItem="Vex-gt-3O1" secondAttribute="trailing" constant="5" id="f2h-b8-Gvo"/>
                         <constraint firstItem="Vex-gt-3O1" firstAttribute="leading" secondItem="ke7-xO-AoY" secondAttribute="trailing" constant="5" id="frz-c8-Jsi"/>
                         <constraint firstAttribute="bottom" secondItem="ke7-xO-AoY" secondAttribute="bottom" constant="3" id="stW-um-7u5"/>
+                        <constraint firstAttribute="trailing" secondItem="gBS-za-AMv" secondAttribute="trailing" constant="-12" id="zJs-4h-LaT"/>
                     </constraints>
                 </view>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Image Description" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHh-Y7-WeH">
@@ -267,6 +291,7 @@
         <image name="downvote" width="10" height="10"/>
         <image name="newCommentIcon" width="10" height="10"/>
         <image name="shareButton" width="180" height="180"/>
+        <image name="snippetMenuButton" width="35" height="34"/>
         <image name="upvote" width="10" height="10"/>
         <image name="voteSeparator" width="5" height="11"/>
     </resources>
