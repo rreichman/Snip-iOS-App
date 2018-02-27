@@ -39,6 +39,7 @@
 		7D85D30D202BEC7500867F8B /* SnippetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D85D30C202BEC7500867F8B /* SnippetView.swift */; };
 		7D85D30F202BEC9600867F8B /* SnippetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D85D30E202BEC9600867F8B /* SnippetView.xib */; };
 		7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */; };
+		7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */; };
 		7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC591FBF79E400771820 /* Logger.swift */; };
 		7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */; };
 		7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1AB1FA033380014D31D /* Images.xcassets */; };
@@ -120,6 +121,7 @@
 		7D85D30C202BEC7500867F8B /* SnippetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetView.swift; sourceTree = "<group>"; };
 		7D85D30E202BEC9600867F8B /* SnippetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnippetView.xib; sourceTree = "<group>"; };
 		7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetTableViewCell.swift; sourceTree = "<group>"; };
+		7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportInfo.swift; sourceTree = "<group>"; };
 		7D91DC591FBF79E400771820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MixpanelType+ToString.swift"; sourceTree = "<group>"; };
 		7D92A1AB1FA033380014D31D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				7D09A3961FC4F79B00E51553 /* MenuViewController.swift */,
 				7D7F25C81FD0EBB6000D9860 /* LoginViewController.swift */,
 				7D7F25CE1FD10955000D9860 /* SignupViewController.swift */,
+				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
 				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
 				7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */,
@@ -661,6 +664,7 @@
 				7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */,
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
+				7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
 				7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */,
 				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,

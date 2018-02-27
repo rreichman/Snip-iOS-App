@@ -373,7 +373,7 @@ class SnippetView: UIView {
         print("clicked on snippet menu")
         Logger().logClickSnippetMenuButton()
         
-        handleSnippetMenuButtonClicked(viewController: currentViewController)
+        handleSnippetMenuButtonClicked(snippetID : currentSnippetId, viewController: currentViewController)
     }
     
     func nullFunc() -> Void
