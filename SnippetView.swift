@@ -135,29 +135,45 @@ class SnippetView: UIView {
     func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
     {
         // TODO: handle errors here
-        
-        let imageViewWithMetadata : UIImageViewWithMetadata = sender.view!.subviews[0] as! UIImageViewWithMetadata
+        var currentButton : UIImageViewWithMetadata = upvoteButton
         var otherButton : UIImageViewWithMetadata = downvoteButton
         
         if (!isUpButton)
         {
+            currentButton = downvoteButton
             otherButton = upvoteButton
         }
 
-        Logger().logClickedLikeOrDislike(isLikeClick: isUpButton, snipID: currentSnippetId, wasClickedBefore: imageViewWithMetadata.isClicked)
+        Logger().logClickedLikeOrDislike(isLikeClick: isUpButton, snipID: currentSnippetId, wasClickedBefore: currentButton.isClicked)
         
-        if (imageViewWithMetadata.isClicked)
+        if (currentButton.isClicked)
         {
-            imageViewWithMetadata.isClicked = false
-            imageViewWithMetadata.image = imageViewWithMetadata.unclickedImage
+            currentButton.isClicked = false
+            currentButton.image = currentButton.unclickedImage
         }
         else
         {
-            imageViewWithMetadata.isClicked = true
-            imageViewWithMetadata.image = imageViewWithMetadata.clickedImage
+            currentButton.isClicked = true
+            currentButton.image = currentButton.clickedImage
             otherButton.image = otherButton.unclickedImage
             otherButton.isClicked = false
         }
+        
+        getSnippetsTableViewController().updatePostDataAfterClick(snippetID: currentSnippetId, upvoteButton: upvoteButton, downvoteButton: downvoteButton)
+    }
+    
+    func getSnippetsTableViewController() -> SnippetsTableViewController
+    {
+        if (currentViewController is SnippetsTableViewController)
+        {
+            return currentViewController as! SnippetsTableViewController
+        }
+        if (currentViewController is CommentsTableViewController)
+        {
+            return (currentViewController as! CommentsTableViewController).snippetsViewController
+        }
+        
+        return SnippetsTableViewController()
     }
     
     func makeSnippetClickable(snippetView : SnippetView)

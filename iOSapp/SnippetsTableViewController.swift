@@ -139,26 +139,9 @@ class SnippetsTableViewController: UITableViewController
                 print("starting to load data to feed")
                 UIView.performWithoutAnimation
                 {
-                    self.tableView.beginUpdates()
-                    
-                    // TODO:: perhaps just reload data is enough here.
-                    var indexPaths = [IndexPath]()
-                    let addedUsersCount = newDataArray.count - (self.tableView.dataSource as! FeedDataSource).postDataArray.count
-                    if (addedUsersCount > 0)
-                    {
-                        for row in 0..<addedUsersCount
-                        {
-                            let i = (self.tableView.dataSource as! FeedDataSource).postDataArray.count + row
-                            indexPaths.append(IndexPath(row: i, section: 0))
-                        }
-                        (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-                        self.tableView.insertRows(at: indexPaths as [IndexPath], with: UITableViewRowAnimation.none)
-                    }
-                    self.tableView.endUpdates()
+                    (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                    self.tableView.reloadData()
                 }
-                
-                //(self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
-                //self.tableView.reloadData()
                 
                 SnipRetrieverFromWeb.shared.lock.unlock()
                 self.finishedLoadingSnippets = true
@@ -236,6 +219,19 @@ class SnippetsTableViewController: UITableViewController
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return UITableViewAutomaticDimension
+    }
+    
+    func updatePostDataAfterClick(snippetID : Int, upvoteButton: UIImageViewWithMetadata, downvoteButton: UIImageViewWithMetadata)
+    {
+        let postDataArray : [PostData] = (tableView.dataSource as! FeedDataSource).postDataArray
+        for postData in postDataArray
+        {
+            if (postData.id == snippetID)
+            {
+                postData.isLiked = upvoteButton.isClicked
+                postData.isDisliked = downvoteButton.isClicked
+            }
+        }
     }
     
     func getForegroundSnippetIDs() -> [Int]
