@@ -101,6 +101,8 @@ class SnippetView: UIView {
         headline.font = SystemVariables().HEADLINE_TEXT_FONT
         headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
         
+        imageDescription.tintColor = UIColor.gray
+        
         turnActionImagesIntoButtons()
         
         return view
