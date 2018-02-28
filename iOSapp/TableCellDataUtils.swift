@@ -18,11 +18,11 @@ func setSnippetText(snippetView : SnippetView, postData : PostData, shouldTrunca
 {    
     if (shouldTruncate)
     {
-        snippetView.body.attributedText = postData.textAsAttributedStringWithTruncation
+        snippetView.body.attributedText = snippetView.truncatedBody
     }
     else
     {
-        snippetView.body.attributedText = postData.textAsAttributedStringWithoutTruncation
+        snippetView.body.attributedText = snippetView.nonTruncatedBody
     }
     
     removePaddingFromTextView(textView: snippetView.body)

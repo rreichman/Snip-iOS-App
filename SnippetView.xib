@@ -171,7 +171,6 @@
                         <constraint firstAttribute="bottom" secondItem="v1c-Nd-gHP" secondAttribute="bottom" id="I4c-55-UyD"/>
                         <constraint firstAttribute="height" constant="44" id="KQr-1o-UWF"/>
                         <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" constant="-8" id="Lgy-v8-pXw"/>
-                        <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" constant="-8" id="TC6-ih-jew"/>
                         <constraint firstItem="Bdx-aB-qdt" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="YAZ-1y-b76"/>
                         <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" id="ZtY-KU-Rsl"/>
                         <constraint firstItem="vUD-L4-uOa" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="12" id="f4p-Od-OUO"/>
@@ -212,10 +211,6 @@
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="snippetMenuButton" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-1S-tvc">
                                     <rect key="frame" x="25" y="12" width="32" height="20"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="EkS-wy-rJF"/>
-                                        <constraint firstAttribute="width" constant="30" id="eMV-mj-Rid"/>
-                                    </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

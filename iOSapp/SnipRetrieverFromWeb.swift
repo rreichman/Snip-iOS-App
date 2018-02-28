@@ -47,7 +47,9 @@ class SnipRetrieverFromWeb
             {
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                 {
+                    print("after deserialization of data request \(Date())")
                     self.loadDataFromWebIntoFeed(resultArray: jsonObj, completionHandler: completionHandler, appendDataAndNotReplace : appendDataAndNotReplace)
+                    print("after loading of data request \(Date())")
                 }
             }
             else
@@ -94,6 +96,8 @@ class SnipRetrieverFromWeb
             
             count += 1
         }
+        
+        print("waiting for posts. \(Date())")
         
         taskGroup.notify(queue: DispatchQueue.main)
         {
