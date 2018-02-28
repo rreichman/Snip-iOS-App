@@ -8,25 +8,26 @@
 
 import UIKit
 
+// Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
+let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
+
 func isTextLongEnoughToBeTruncated(postData : PostData, widthOfTextArea : Float) -> Bool
 {
-    return postData.textAfterHtmlRendering.length >= getMaxLengthToTruncate(widthOfTextArea: widthOfTextArea)
+    let textLength = postData.textAfterHtmlRendering.length
+    let maxLengthToTruncate = getMaxLengthToTruncate(widthOfTextArea: widthOfTextArea)
+    
+    return textLength > maxLengthToTruncate
 }
 
 func getPreviewSize(widthOfTextArea : Float) -> Int
 {
-    let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
-    // Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
     let sizeOfRowInChars = widthOfTextArea / widthOfSingleChar
     return Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - SystemVariables().READ_MORE_TEXT.count
 }
 
 func getMaxLengthToTruncate(widthOfTextArea : Float) -> Int
 {
-    // Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
-    let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
     let sizeOfRowInChars = widthOfTextArea / widthOfSingleChar
-    
     return Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
 }
 

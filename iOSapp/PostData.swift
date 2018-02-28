@@ -43,6 +43,8 @@ class PostData : Encodable, Decodable
     
     var attributedStringOfCommentCount = NSAttributedString()
     
+    let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
+    
     init() {}
     
     init(receivedPostJson : [String : Any], taskGroup: DispatchGroup)
@@ -80,45 +82,43 @@ class PostData : Encodable, Decodable
         DispatchQueue.global(qos: .default).async
         {
             var time = Date().timeIntervalSince1970
-            print(String(self.id) + " A1: \(Date().timeIntervalSince1970 - time)")
             self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
-            print(String(self.id) + " A2: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A2: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             
             self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: true)
-            print(String(self.id) + " A3: \(Date().timeIntervalSince1970 - time)")
+            print(String(self.id) + " A3: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: false)
-            print(String(self.id) + " A4: \(Date().timeIntervalSince1970 - time)")
+            print(String(self.id) + " A4: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth())
-            print(String(self.id) + " A5: \(Date().timeIntervalSince1970 - time)")
+            print(String(self.id) + " A5: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: self.comments.count)
-            print(String(self.id) + " A6: \(Date().timeIntervalSince1970 - time)")
+            print(String(self.id) + " A6: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             
-            let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
-            print(String(self.id) + " A7: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A7: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             let updatedHtmlString = self.removePaddingFromHtmlString(str: self.image._imageDescription)
-            print(String(self.id) + " A8: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A8: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
-            print(String(self.id) + " A9: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A9: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
-            imageDescriptionString.addAttributes(imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
-            print(String(self.id) + " A10: \(Date().timeIntervalSince1970 - time)")
+            imageDescriptionString.addAttributes(self.imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
+            //print(String(self.id) + " A10: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
-            print(String(self.id) + " A11: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A11: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             
             let descriptionParagraphStyle = NSMutableParagraphStyle()
             descriptionParagraphStyle.alignment = .right
             
             self.imageDescriptionAfterHtmlRendering.addAttribute(NSAttributedStringKey.paragraphStyle, value: descriptionParagraphStyle, range: NSRange(location: 0, length: self.imageDescriptionAfterHtmlRendering.length))
-            print(String(self.id) + " A12: \(Date().timeIntervalSince1970 - time)")
+            //print(String(self.id) + " A12: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             
             taskGroup.leave()
