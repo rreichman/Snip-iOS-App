@@ -87,17 +87,12 @@ class PostData : Encodable, Decodable
             time = Date().timeIntervalSince1970
             
             self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: true)
-            print(String(self.id) + " A3: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: false)
-            print(String(self.id) + " A4: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth())
-            print(String(self.id) + " A5: \(1000 * (Date().timeIntervalSince1970 - time))")
             time = Date().timeIntervalSince1970
             self.attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: self.comments.count)
-            print(String(self.id) + " A6: \(1000 * (Date().timeIntervalSince1970 - time))")
-            time = Date().timeIntervalSince1970
             
             //print(String(self.id) + " A7: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970

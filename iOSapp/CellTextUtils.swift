@@ -11,6 +11,20 @@ import UIKit
 // Note - perhaps it would have been better to use the width of the table cell but that number subtly changes sometimes, creating annoying inconsistencies
 let widthOfSingleChar = getWidthOfSingleChar(font : SystemVariables().CELL_TEXT_FONT!)
 
+let READ_MORE_ATTRIBUTED_STRING = NSAttributedString(string: SystemVariables().READ_MORE_TEXT,
+                                                     attributes : [NSAttributedStringKey.foregroundColor: SystemVariables().READ_MORE_TEXT_COLOR, NSAttributedStringKey.font : SystemVariables().READ_MORE_TEXT_FONT!])
+
+let paragraphStyle = CachedData().getParagraphStyle()
+
+let stringAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().CELL_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().CELL_TEXT_COLOR]
+
+// Above this number of rows we want to truncate the snippet because it's too long
+let NUMBER_OF_ROWS_TO_TRUNCATE : Float = Float(6)
+let NUMBER_OF_ROWS_IN_PREVIEW : Float = Float(2)
+
+// This is not ideal but more efficient
+let READ_MORE_TEXT_LENGTH = SystemVariables().READ_MORE_TEXT.count
+
 func isTextLongEnoughToBeTruncated(postData : PostData, widthOfTextArea : Float) -> Bool
 {
     let textLength = postData.textAfterHtmlRendering.length
@@ -22,30 +36,24 @@ func isTextLongEnoughToBeTruncated(postData : PostData, widthOfTextArea : Float)
 func getPreviewSize(widthOfTextArea : Float) -> Int
 {
     let sizeOfRowInChars = widthOfTextArea / widthOfSingleChar
-    return Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_IN_PREVIEW))) - SystemVariables().READ_MORE_TEXT.count
+    return Int(floor(Float(sizeOfRowInChars) * NUMBER_OF_ROWS_IN_PREVIEW)) - READ_MORE_TEXT_LENGTH
 }
 
 func getMaxLengthToTruncate(widthOfTextArea : Float) -> Int
 {
     let sizeOfRowInChars = widthOfTextArea / widthOfSingleChar
-    return Int(floor(Float(sizeOfRowInChars) * Float(SystemVariables().NUMBER_OF_ROWS_TO_TRUNCATE)))
+    return Int(floor(Float(sizeOfRowInChars) * NUMBER_OF_ROWS_TO_TRUNCATE))
 }
 
 func getAttributedTextOfCell(postData : PostData, widthOfTextArea : Float, shouldTruncate : Bool) -> NSMutableAttributedString
 {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.hyphenationFactor = 1.0
-    paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
-    paragraphStyle.paragraphSpacing = 7.0
-    
     let text : NSMutableAttributedString = getAttributedTextAfterPossibleTruncation(postData : postData, widthOfTextArea: widthOfTextArea, shouldTruncate : shouldTruncate)
     
     if (isTextLongEnoughToBeTruncated(postData: postData, widthOfTextArea: widthOfTextArea) && shouldTruncate)
     {
-        let READ_MORE_ATTRIBUTED_STRING = NSAttributedString(string: SystemVariables().READ_MORE_TEXT,
-                                                             attributes : [NSAttributedStringKey.foregroundColor: SystemVariables().READ_MORE_TEXT_COLOR, NSAttributedStringKey.font : SystemVariables().READ_MORE_TEXT_FONT!])
         text.append(READ_MORE_ATTRIBUTED_STRING)
     }
+    
     text.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: text.length))
     
     return text
@@ -54,13 +62,17 @@ func getAttributedTextOfCell(postData : PostData, widthOfTextArea : Float, shoul
 func getAttributedTextAfterPossibleTruncation(postData : PostData, widthOfTextArea : Float, shouldTruncate : Bool) -> NSMutableAttributedString
 {
     let text = postData.textAfterHtmlRendering
+    
     var updatedText : NSMutableAttributedString = text
-    if (text.length >= getMaxLengthToTruncate(widthOfTextArea: widthOfTextArea) && shouldTruncate)
+    
+    let maxLengthToTruncate = getMaxLengthToTruncate(widthOfTextArea: widthOfTextArea)
+    
+    if (text.length >= maxLengthToTruncate && shouldTruncate)
     {
         updatedText = text.attributedSubstring(from: NSRange(location: 0, length: getPreviewSize(widthOfTextArea: widthOfTextArea))).mutableCopy() as! NSMutableAttributedString
     }
     
-    let stringAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().CELL_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().CELL_TEXT_COLOR]
     updatedText.addAttributes(stringAttributes, range: NSRange(location: 0, length: updatedText.length))
+    
     return updatedText
 }

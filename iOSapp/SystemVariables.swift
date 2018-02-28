@@ -36,10 +36,6 @@ public class SystemVariables
     let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
     let COMMENT_PREVIEW_TEXT_FONT = UIFont.systemFont(ofSize: 13)
     
-    let READ_MORE_TEXT : String = "... Read More"
-    let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
-    let READ_MORE_TEXT_FONT = UIFont.lato(size: 15)
-    
     let LOGIN_BACKGROUND_COLOR : UIColor = UIColorFromRGB(rgbValue: 0xf6f6f6)
     let LOGIN_BUTTON_COLOR : UIColor = UIColorFromRGB(rgbValue: 0x4d90fe)
     
@@ -56,16 +52,16 @@ public class SystemVariables
     // Number of objects stored in app memory cache
     let MEMORY_COUNT_LIMIT = 20
     
-    // Above this number of rows we want to truncate the snippet because it's too long
-    let NUMBER_OF_ROWS_TO_TRUNCATE = 6
-    let NUMBER_OF_ROWS_IN_PREVIEW = 2
-    
     //let URL_STRING = "http://localhost:8000/"
     let URL_STRING = "https://www.snip.today/"
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     
     let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60
+    
+    let READ_MORE_TEXT : String = "... Read More"
+    let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
+    let READ_MORE_TEXT_FONT = UIFont.lato(size: 15)
     
     let COMMENT_INDENTATION_FROM_LEFT_PER_LEVEL = 25
     

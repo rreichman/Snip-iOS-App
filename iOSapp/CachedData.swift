@@ -14,6 +14,8 @@ class CachedData
     
     var screenWidth : CGFloat = 0
     var screenHeight : CGFloat = 0
+    let paragraphStyle : NSMutableParagraphStyle = NSMutableParagraphStyle()
+    var alreadySetParagraphStyle = false
     
     func getScreenWidth() -> CGFloat
     {
@@ -33,5 +35,18 @@ class CachedData
         }
         
         return screenHeight
+    }
+    
+    func getParagraphStyle() -> NSMutableParagraphStyle
+    {
+        if (!alreadySetParagraphStyle)
+        {
+            paragraphStyle.hyphenationFactor = 1.0
+            paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_TEXT
+            paragraphStyle.paragraphSpacing = 7.0
+            alreadySetParagraphStyle = true
+        }
+        
+        return paragraphStyle
     }
 }

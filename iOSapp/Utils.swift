@@ -8,6 +8,8 @@
 
 import UIKit
 
+let NUMBER_OF_COMMENTS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().NUMBER_OF_COMMENTS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().NUMBER_OF_COMMENTS_COLOR]
+
 func getAuthorizationString() -> String
 {
     var tokenDeclarationString: String = "Token "
@@ -224,7 +226,6 @@ func getAttributedStringOfCommentCount(commentCount: Int) -> NSAttributedString
 {
     if (commentCount > 0)
     {
-        let NUMBER_OF_COMMENTS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().NUMBER_OF_COMMENTS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().NUMBER_OF_COMMENTS_COLOR]
         return NSAttributedString(string: commentCount.description, attributes: NUMBER_OF_COMMENTS_ATTRIBUTES)
     }
     else
