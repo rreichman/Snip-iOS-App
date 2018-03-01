@@ -211,21 +211,24 @@ class SnippetView: UIView {
         location.x -= textView.textContainerInset.left;
         location.y -= textView.textContainerInset.top;
         let characterIndex : Int = layoutManager.characterIndex(for: location, in: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-        
-        let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
-        for attribute in attributes
+
+        if (textView.attributedText.length > 0)
         {
-            if attribute.key._rawValue == "NSLink"
+            let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
+            for attribute in attributes
             {
-                // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
-                var linkAddress = attribute.value
-                if attribute.value is NSURL
+                if attribute.key._rawValue == "NSLink"
                 {
-                    linkAddress = (attribute.value as! NSURL).absoluteString!
+                    // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
+                    var linkAddress = attribute.value
+                    if attribute.value is NSURL
+                    {
+                        linkAddress = (attribute.value as! NSURL).absoluteString!
+                    }
+                    
+                    UIApplication.shared.open(URL(string: linkAddress as! String)!, options: [:], completionHandler: nil)
+                    return true
                 }
-                
-                UIApplication.shared.open(URL(string: linkAddress as! String)!, options: [:], completionHandler: nil)
-                return true
             }
         }
         return false
