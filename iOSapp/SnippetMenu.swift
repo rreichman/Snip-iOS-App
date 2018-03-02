@@ -104,8 +104,8 @@ extension SnippetView {
         alertController.addAction(notOriginalContentAction)
         alertController.addAction(notOriginalPhotoAction)
         alertController.addAction(harmfulOrOffendingAction)
-        alertController.addAction(dontLikeThisAction)
         alertController.addAction(unwantedAdvertisingAction)
+        alertController.addAction(dontLikeThisAction)
         alertController.addAction(cancelAction)
         
         viewController.present(alertController, animated: true)
