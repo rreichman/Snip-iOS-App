@@ -16,6 +16,9 @@ class SnippetsTableViewController: UITableViewController
     var heightAtIndexPath = NSMutableDictionary()
     var finishedLoadingSnippets = false
     var rowCurrentlyClicked = 0
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+    // TODO: perhaps there's a better way
+    var shouldEnterCommentOfFirstSnippet = false
     
     override func viewDidLoad()
     {
@@ -37,6 +40,7 @@ class SnippetsTableViewController: UITableViewController
         
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+        
         print("done loading snippetViewController: \(Date())")
     }
     
@@ -98,15 +102,35 @@ class SnippetsTableViewController: UITableViewController
             {
                 self.refreshControl?.endRefreshing()
             }
+            
+            if (self.activityIndicator.isAnimating)
+            {
+                self.activityIndicator.stopAnimating()
+            }
         }
+    }
+    
+    func operateRefresh(newUrlString: String, useActivityIndicator: Bool)
+    {
+        print("refresh")
+        
+        if (useActivityIndicator)
+        {
+            activityIndicator.center = self.view.center
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+            
+            self.view.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+        }
+        Logger().logRefreshOfTableView()
+        SnipRetrieverFromWeb.shared.clean(newUrlString: newUrlString)
+        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
     }
     
     @objc func refresh(_ sender: UIRefreshControl)
     {
-        print("refresh")
-        Logger().logRefreshOfTableView()
-        SnipRetrieverFromWeb.shared.clean()
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
+        operateRefresh(newUrlString: "", useActivityIndicator: false)
     }
     
     func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
@@ -159,6 +183,18 @@ class SnippetsTableViewController: UITableViewController
                 self.refreshControl?.endRefreshing()
             }
             self.updateTableInfoFeedDataSource(postDataArray: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
+            if (self.activityIndicator.isAnimating)
+            {
+                self.activityIndicator.stopAnimating()
+            }
+            
+            if (self.shouldEnterCommentOfFirstSnippet)
+            {
+                let firstCell : SnippetTableViewCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SnippetTableViewCell
+                firstCell.snippetView.operateHandleClickOnComment(tableView: self.tableView, rowCurrentlyClicked: 0)
+                print("entered first comment")
+                self.shouldEnterCommentOfFirstSnippet = false
+            }
         }
     }
     

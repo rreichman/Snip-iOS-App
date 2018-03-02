@@ -43,6 +43,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //return true
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
+    
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool
+    {
+        print("User Activity: ")
+        print(Date().timeIntervalSince1970 - enteredBackgroundTime.timeIntervalSince1970)
+        
+        let snippetsTableViewController = (window?.rootViewController as! OpeningSplashScreenViewController).snippetsTableViewController
+        
+        snippetsTableViewController.operateRefresh(newUrlString: (userActivity.webpageURL?.absoluteString)!, useActivityIndicator: true)
+        snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
+        
+        return true
+    }
 
     func applicationWillResignActive(_ application: UIApplication)
     {
@@ -82,7 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let currentTime : Date = Date()
         
-        if (currentTime.seconds(from: enteredBackgroundTime)) > SystemVariables().SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH && currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
+        let wasAppLongInBackground : Bool = currentTime.seconds(from: enteredBackgroundTime) > SystemVariables().SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH
+        // Making sure that it's not the initial time of the program.
+        let didWeEverEnterBackground : Bool = currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
+        
+        if wasAppLongInBackground && didWeEverEnterBackground
         {
             print("back to opening screen")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -19,6 +19,7 @@ class OpeningSplashScreenViewController: UIViewController
     @IBOutlet weak var logoViewLeadingConstraint: NSLayoutConstraint!
     
     var feedDataSource : FeedDataSource = FeedDataSource()
+    var snippetsTableViewController : SnippetsTableViewController = SnippetsTableViewController()
     
     override func viewDidLoad()
     {
@@ -92,6 +93,7 @@ class OpeningSplashScreenViewController: UIViewController
         {
             print("preparing segue: \(Date())")
             let navigationController = segue.destination as! UINavigationController
+            snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             tableViewController.tableView.dataSource = feedDataSource
             tableViewController.getRestOfImagesAsync()

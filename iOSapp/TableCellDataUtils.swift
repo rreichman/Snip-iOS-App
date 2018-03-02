@@ -8,6 +8,8 @@
 
 import UIKit
 
+let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().REFERENCES_COLOR]
+
 func fillImageDescription(snippetView : SnippetView, imageDescription : NSMutableAttributedString)
 {
     snippetView.imageDescription.attributedText = imageDescription
@@ -51,7 +53,6 @@ func addReferencesStringsToSnippet(snippetView: SnippetView, postData: PostData)
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_REFERENCES
     allReferencesString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: allReferencesString.length))
-    allReferencesString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: allReferencesString.length))
     
     snippetView.references.attributedText = allReferencesString
     snippetView.references.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : SystemVariables().REFERENCES_COLOR]
@@ -88,23 +89,26 @@ func setStateOfHeightConstraint(view : UIView, identifier : String, state : Bool
 
 func getReferencesStringFromPostData(postData : PostData) -> NSMutableAttributedString
 {
-    var isFirstReference : Bool = true
     let referencesString = NSMutableAttributedString()
+    var count = 1
+    
+    let commaSeparatorString = NSAttributedString(string : ", ", attributes: referenceAttributes)
     
     for reference in postData.relatedLinks
     {
-        if (!isFirstReference)
-        {
-            referencesString.append(NSAttributedString(string : "\n"))
-        }
-        isFirstReference = false
-        
         let title : String = reference["title"] as! String
-        let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!]
         let referenceString = NSMutableAttributedString(string: title, attributes: referenceAttributes)
         referenceString.addAttribute(.link, value: reference["link"]!, range: NSRange(location:0, length: title.count))
+        referenceString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0,length: referenceString.length))
         
         referencesString.append(referenceString)
+        
+        if count < postData.relatedLinks.count
+        {
+            referencesString.append(commaSeparatorString)
+        }
+        
+        count += 1
     }
     return referencesString
 }

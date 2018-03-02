@@ -13,14 +13,34 @@ class SnipRetrieverFromWeb
     static let shared = SnipRetrieverFromWeb()
     
     var areTherePostsRemainingOnServer : Bool = true
+    // This is not ideal but is a useful trick to avoid losing the feed's order in case of a bad external snippet
+    var previousUrlString : String = SystemVariables().URL_STRING
     var currentUrlString : String = SystemVariables().URL_STRING
     var lock : NSLock = NSLock()
     
+    func setCurrentUrlString(urlString: String)
+    {
+        previousUrlString = currentUrlString
+        currentUrlString = urlString
+    }
+    
     func clean()
+    {
+        clean(newUrlString: "")
+    }
+    
+    func clean(newUrlString : String)
     {
         areTherePostsRemainingOnServer = true
         WebUtils().csrfTokenValue = ""
-        currentUrlString = SystemVariables().URL_STRING
+        if (newUrlString == "")
+        {
+            setCurrentUrlString(urlString: SystemVariables().URL_STRING)
+        }
+        else
+        {
+            setCurrentUrlString(urlString: newUrlString)
+        }
         lock.unlock()
     }
     
@@ -51,12 +71,24 @@ class SnipRetrieverFromWeb
                     self.loadDataFromWebIntoFeed(resultArray: jsonObj, completionHandler: completionHandler, appendDataAndNotReplace : appendDataAndNotReplace)
                     print("after loading of data request \(Date())")
                 }
+                else
+                {
+                    print("unable to deserialize snippets")
+                    if (errorHandler != nil)
+                    {
+                        Logger().logErrorInSnippetCollecting()
+                        self.currentUrlString = self.previousUrlString
+                        errorHandler!()
+                    }
+                }
             }
             else
             {
                 if (errorHandler != nil)
                 {
+                    print("got error in data request")
                     Logger().logErrorInSnippetCollecting()
+                    self.currentUrlString = SystemVariables().URL_STRING
                     errorHandler!()
                 }
             }
@@ -88,7 +120,7 @@ class SnipRetrieverFromWeb
             }
             else
             {
-                self.currentUrlString = self.getNextPage(next_page: resultArray["next_page"] as! Int)
+                self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
             }
             
             let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)

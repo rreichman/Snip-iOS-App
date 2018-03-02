@@ -74,6 +74,12 @@ extension SnippetView {
         sendReportToServer(snippetID: currentSnippetId, reasons: "harmfuloroffending")
         print("harmful or offending")
     }
+    
+    func handleUnwantedAdvertising(alertAction: UIAlertAction)
+    {
+        sendReportToServer(snippetID: currentSnippetId, reasons: "unwantedadvertising")
+        print("harmful or offending")
+    }
 
     func handleIdontLikeThisReport(alertAction: UIAlertAction)
     {
@@ -90,6 +96,7 @@ extension SnippetView {
         let notOriginalContentAction = UIAlertAction(title: "Content Isn't Original", style: .default, handler: handleContentNotOriginalReport)
         let notOriginalPhotoAction = UIAlertAction(title: "Photo Isn't Original", style: .default, handler: handlePhotoNotOriginalReport)
         let harmfulOrOffendingAction = UIAlertAction(title: "Post is Harmful or Offending", style: .default, handler: handleHarmfulOrOffendingReport)
+        let unwantedAdvertisingAction = UIAlertAction(title: "This is Unwanted Advertising", style: .default, handler: handleUnwantedAdvertising)
         let dontLikeThisAction = UIAlertAction(title: "I Don't Like This", style: .default, handler: handleIdontLikeThisReport)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
         

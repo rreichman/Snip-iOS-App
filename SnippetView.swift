@@ -337,21 +337,26 @@ class SnippetView: UIView {
         handleClickOnUpvoteDownvote(isUpButton: false, sender: sender)
     }
     
-    @objc func handleClickOnComment(sender : UITapGestureRecognizer)
+    func operateHandleClickOnComment(tableView : UITableView, rowCurrentlyClicked : Int)
     {
-        print("clicked on comment")
         Logger().logClickCommentButton()
         
         if (currentViewController is SnippetsTableViewController)
         {
-            let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
-            (currentViewController as! SnippetsTableViewController).rowCurrentlyClicked = getRowNumberOfClickOnTableView(sender: sender, tableView: tableView)
+            (currentViewController as! SnippetsTableViewController).rowCurrentlyClicked = rowCurrentlyClicked
             (currentViewController as! SnippetsTableViewController).commentsButtonPressed(currentViewController)
         }
         if (currentViewController is CommentsTableViewController)
         {
             (currentViewController as! CommentsTableViewController).writeCommentBox.becomeFirstResponder()
         }
+    }
+    
+    @objc func handleClickOnComment(sender : UITapGestureRecognizer)
+    {
+        print("clicked on comment")
+        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
+        operateHandleClickOnComment(tableView: tableView, rowCurrentlyClicked: getRowNumberOfClickOnTableView(sender: sender, tableView: tableView))
     }
     
     @objc func handleClickOnShare(sender : UITapGestureRecognizer)

@@ -4,5 +4,14 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>webcredentials:snip.today</string>
+		<string>handoff:snip.today</string>
+		<string>applinks:snip.today</string>
+		<string>webcredentials:www.snip.today</string>
+		<string>handoff:www.snip.today</string>
+		<string>applinks:www.snip.today</string>
+	</array>
 </dict>
 </plist>
