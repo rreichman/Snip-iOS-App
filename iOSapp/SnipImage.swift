@@ -35,7 +35,10 @@ public class SnipImage
     func setImageData(imageData: UIImage)
     {
         _imageData = imageData
-        let ratio = imageData.size.width / CachedData().getScreenWidth()
+        print("image data")
+        print(imageData.size.width)
+        print(imageData.size.height)
+        let ratio = imageData.size.width / getSnippetAreaWidth()
         _imageHeight = imageData.size.height / ratio
         _gotImageData = true
     }

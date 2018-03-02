@@ -52,33 +52,6 @@ class PostData : Encodable, Decodable
         postJson = receivedPostJson
         loadRawJsonIntoVariables()
         
-        // This is an optimization to make loading look better.
-        /*if (isFirstTime)
-        {
-            print("about to html render first time. \(Date())")
-            self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
-            isFirstTime = false
-            print("done html render first time. \(Date())")
-        }
-        else
-        {
-            DispatchQueue.main.async
-            {
-                print("about to html render. \(Date())")
-                self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
-                print("after html render. \(Date())")
-            }
-        }*/
-        
-        //let startTime = Date().timeIntervalSince1970
-        
-        /*DispatchQueue.global(qos: .background).async
-        {
-            print(String(self.id) + "-A2: \(Date().timeIntervalSince1970 - startTime)")
-            //self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: false)
-            print(String(self.id) + "-A1: \(Date().timeIntervalSince1970 - startTime)")
-        }*/
-        
         DispatchQueue.global(qos: .default).async
         {
             var time = Date().timeIntervalSince1970
@@ -86,11 +59,11 @@ class PostData : Encodable, Decodable
             //print(String(self.id) + " A2: \(Date().timeIntervalSince1970 - time)")
             time = Date().timeIntervalSince1970
             
-            self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: true)
+            self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: true)
             time = Date().timeIntervalSince1970
-            self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth(), shouldTruncate: false)
+            self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: false)
             time = Date().timeIntervalSince1970
-            self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: self.getSnippetTextAreaWidth())
+            self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()))
             time = Date().timeIntervalSince1970
             self.attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: self.comments.count)
             
@@ -122,15 +95,6 @@ class PostData : Encodable, Decodable
         timeString = NSAttributedString(string: getTimeFromDateString(dateString: date), attributes: TIME_STRING_ATTRIBUTES)
         
         writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
-    }
-    
-    func getSnippetTextAreaWidth() -> Float
-    {
-        // TODO: this is not ideal
-        let sizeOfLeftBorder = 20
-        let sizeOfRightBorder = 20
-
-        return Float(Int(CachedData().getScreenWidth()) - sizeOfLeftBorder - sizeOfRightBorder)
     }
     
     func removePaddingFromHtmlString(str: String) -> String

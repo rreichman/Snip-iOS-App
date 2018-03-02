@@ -10,6 +10,15 @@ import UIKit
 
 let NUMBER_OF_COMMENTS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().NUMBER_OF_COMMENTS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().NUMBER_OF_COMMENTS_COLOR]
 
+func getSnippetAreaWidth() -> CGFloat
+{
+    // TODO: this is not ideal
+    let sizeOfLeftBorder = 20
+    let sizeOfRightBorder = 20
+    
+    return CGFloat(Int(CachedData().getScreenWidth()) - sizeOfLeftBorder - sizeOfRightBorder)
+}
+
 func getAuthorizationString() -> String
 {
     var tokenDeclarationString: String = "Token "
