@@ -233,7 +233,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             }
             else
             {
-                popAlertController()
+                if (!UserInformation().isUserLoggedIn())
+                {
+                    popAlertController()
+                }
             }
         }
     }

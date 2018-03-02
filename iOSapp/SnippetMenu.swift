@@ -96,7 +96,7 @@ extension SnippetView {
         let notOriginalContentAction = UIAlertAction(title: "Content Isn't Original", style: .default, handler: handleContentNotOriginalReport)
         let notOriginalPhotoAction = UIAlertAction(title: "Photo Isn't Original", style: .default, handler: handlePhotoNotOriginalReport)
         let harmfulOrOffendingAction = UIAlertAction(title: "Post is Harmful or Offending", style: .default, handler: handleHarmfulOrOffendingReport)
-        let unwantedAdvertisingAction = UIAlertAction(title: "This is Unwanted Advertising", style: .default, handler: handleUnwantedAdvertising)
+        let unwantedAdvertisingAction = UIAlertAction(title: "Post is Unwanted Advertising", style: .default, handler: handleUnwantedAdvertising)
         let dontLikeThisAction = UIAlertAction(title: "I Don't Like This", style: .default, handler: handleIdontLikeThisReport)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
         
@@ -105,6 +105,7 @@ extension SnippetView {
         alertController.addAction(notOriginalPhotoAction)
         alertController.addAction(harmfulOrOffendingAction)
         alertController.addAction(dontLikeThisAction)
+        alertController.addAction(unwantedAdvertisingAction)
         alertController.addAction(cancelAction)
         
         viewController.present(alertController, animated: true)
