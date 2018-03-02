@@ -36,8 +36,11 @@ class OpeningSplashScreenViewController: UIViewController
     {
         splashScreenLogoImage.image = #imageLiteral(resourceName: "snipLogo")
         splashScreenSummarizedLineImage.image = #imageLiteral(resourceName: "newsSummarized")
+        splashScreenLogoImage.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        splashScreenSummarizedLineImage.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         splashScreenBackgroundImage.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         logoView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
         logoViewTopConstraint.constant = (CachedData().getScreenHeight() - logoView.bounds.height) / 2
         logoViewLeadingConstraint.constant = (CachedData().getScreenWidth() - logoView.bounds.width) / 2
     }

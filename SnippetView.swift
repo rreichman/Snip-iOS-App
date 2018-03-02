@@ -91,7 +91,10 @@ class SnippetView: UIView {
         downvoteButton.unclickedImage = #imageLiteral(resourceName: "downvote")
         downvoteButton.clickedImage = #imageLiteral(resourceName: "downvoteRed")
         
-        postImage.image = #imageLiteral(resourceName: "genericImage")
+        print("menu button")
+        print(menuButton.bounds.height)
+        print(menuButton.bounds.width)
+        
         //postImage.layer.shouldRasterize = true
         postImage.layer.cornerRadius = CGFloat(10.0)
         postImage.clipsToBounds = true

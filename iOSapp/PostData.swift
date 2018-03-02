@@ -54,40 +54,22 @@ class PostData : Encodable, Decodable
         
         DispatchQueue.global(qos: .default).async
         {
-            var time = Date().timeIntervalSince1970
             self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
-            //print(String(self.id) + " A2: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             
             self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: true)
-            time = Date().timeIntervalSince1970
             self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: false)
-            time = Date().timeIntervalSince1970
             self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()))
-            time = Date().timeIntervalSince1970
             self.attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: self.comments.count)
             
-            //print(String(self.id) + " A7: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             let updatedHtmlString = self.removePaddingFromHtmlString(str: self.image._imageDescription)
-            //print(String(self.id) + " A8: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
-            //print(String(self.id) + " A9: \(1000 * (Date().timeIntervalSince1970 - time))")
-            time = Date().timeIntervalSince1970
             imageDescriptionString.addAttributes(self.imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
-            //print(String(self.id) + " A10: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
-            //print(String(self.id) + " A11: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             
             let descriptionParagraphStyle = NSMutableParagraphStyle()
             descriptionParagraphStyle.alignment = .right
             
             self.imageDescriptionAfterHtmlRendering.addAttribute(NSAttributedStringKey.paragraphStyle, value: descriptionParagraphStyle, range: NSRange(location: 0, length: self.imageDescriptionAfterHtmlRendering.length))
-            //print(String(self.id) + " A12: \(Date().timeIntervalSince1970 - time)")
-            time = Date().timeIntervalSince1970
             
             taskGroup.leave()
         }

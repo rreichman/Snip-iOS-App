@@ -166,11 +166,11 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="v1c-Nd-gHP" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="77F-EN-6Ff"/>
-                        <constraint firstAttribute="trailing" secondItem="tFg-tH-JP9" secondAttribute="trailing" id="ArR-fK-D5b"/>
+                        <constraint firstAttribute="trailing" secondItem="tFg-tH-JP9" secondAttribute="trailing" constant="-12" id="ArR-fK-D5b"/>
                         <constraint firstItem="TyF-DN-fnF" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="CQx-wk-KBb"/>
                         <constraint firstAttribute="bottom" secondItem="v1c-Nd-gHP" secondAttribute="bottom" id="I4c-55-UyD"/>
                         <constraint firstAttribute="height" constant="44" id="KQr-1o-UWF"/>
-                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" constant="-8" id="Lgy-v8-pXw"/>
+                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" constant="-4" id="Lgy-v8-pXw"/>
                         <constraint firstItem="Bdx-aB-qdt" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="YAZ-1y-b76"/>
                         <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" id="ZtY-KU-Rsl"/>
                         <constraint firstItem="vUD-L4-uOa" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="12" id="f4p-Od-OUO"/>
@@ -178,7 +178,7 @@
                         <constraint firstItem="tFg-tH-JP9" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="kPb-Yy-Ogy"/>
                         <constraint firstAttribute="bottom" secondItem="Bdx-aB-qdt" secondAttribute="bottom" id="mUl-7H-HGB"/>
                         <constraint firstAttribute="bottom" secondItem="vUD-L4-uOa" secondAttribute="bottom" constant="12" id="nyf-ec-w1G"/>
-                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" constant="-5" id="qNA-3t-DnU"/>
+                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" constant="-12" id="qNA-3t-DnU"/>
                         <constraint firstAttribute="bottom" secondItem="TyF-DN-fnF" secondAttribute="bottom" id="tBM-eV-DgS"/>
                         <constraint firstAttribute="bottom" secondItem="tFg-tH-JP9" secondAttribute="bottom" id="x2D-fd-RYp"/>
                     </constraints>
@@ -206,20 +206,22 @@
                                 <constraint firstAttribute="width" constant="30" id="YeJ-4B-1Uv"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBS-za-AMv" userLabel="Menu Button View">
-                            <rect key="frame" x="318" y="-6" width="67" height="49"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBS-za-AMv" userLabel="Menu Button View">
+                            <rect key="frame" x="343" y="-6" width="44" height="49"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="snippetMenuButton" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-1S-tvc">
-                                    <rect key="frame" x="25" y="12" width="32" height="20"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="snippetMenuButton" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-1S-tvc">
+                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="4" id="QIj-67-f4e"/>
+                                        <constraint firstAttribute="width" constant="18" id="arq-ed-xRq"/>
+                                    </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="0pc-1S-tvc" secondAttribute="trailing" constant="12" id="HIb-bO-AgI"/>
-                                <constraint firstAttribute="bottom" secondItem="0pc-1S-tvc" secondAttribute="bottom" constant="12" id="eA6-YK-GGv"/>
+                                <constraint firstItem="0pc-1S-tvc" firstAttribute="top" secondItem="gBS-za-AMv" secondAttribute="top" constant="20" id="Hdj-Me-wqt"/>
+                                <constraint firstAttribute="trailing" secondItem="0pc-1S-tvc" secondAttribute="trailing" constant="13" id="VgO-1f-KZ5"/>
                                 <constraint firstAttribute="width" constant="44" id="gRz-d4-doy"/>
-                                <constraint firstItem="0pc-1S-tvc" firstAttribute="top" secondItem="gBS-za-AMv" secondAttribute="top" constant="12" id="heb-eV-Qm4"/>
-                                <constraint firstItem="0pc-1S-tvc" firstAttribute="leading" secondItem="gBS-za-AMv" secondAttribute="leading" constant="12" id="zEw-BV-blV"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -283,11 +285,11 @@
         </view>
     </objects>
     <resources>
-        <image name="downvote" width="10" height="10"/>
-        <image name="newCommentIcon" width="10" height="10"/>
-        <image name="shareButton" width="180" height="180"/>
-        <image name="snippetMenuButton" width="35" height="34"/>
-        <image name="upvote" width="10" height="10"/>
-        <image name="voteSeparator" width="5" height="11"/>
+        <image name="downvote" width="1000" height="1000"/>
+        <image name="newCommentIcon" width="1000" height="1000"/>
+        <image name="shareButton" width="900" height="1000"/>
+        <image name="snippetMenuButton" width="80" height="20"/>
+        <image name="upvote" width="1000" height="1000"/>
+        <image name="voteSeparator" width="55" height="115"/>
     </resources>
 </document>
