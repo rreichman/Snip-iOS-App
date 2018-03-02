@@ -8,7 +8,7 @@
 
 import UIKit
 
-// TODO:: spread this class to another one
+// TODO: spread this class to another one
 class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIGestureRecognizerDelegate
 {
     @IBOutlet weak var snippetView: SnippetView!

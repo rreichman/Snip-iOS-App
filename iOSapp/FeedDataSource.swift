@@ -46,7 +46,7 @@ class FeedDataSource: NSObject, UITableViewDataSource
         snippetView.writerPostTime.attributedText = postData.timeString
         snippetView.writerName.attributedText = postData.writerString
         
-        // TODO:: this needs to update when user deletes a comment, make it a generic function.
+        // TODO: this needs to update when user deletes a comment, make it a generic function.
         snippetView.numberOfCommentsLabel.attributedText = postData.attributedStringOfCommentCount
         
         loadImageData(snippetView: snippetView, postData: postData)

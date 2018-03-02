@@ -89,8 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         print("did become active \(Date())")
         
-        // TODO:: handle deep linking
-        
         FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)
         Logger().logAppBecameActive()
