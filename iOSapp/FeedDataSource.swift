@@ -64,7 +64,8 @@ class FeedDataSource: NSObject, UITableViewDataSource
         setSnippetReferences(snippetView : snippetView, postData: postData, shouldTruncate: shouldTruncate, isTextLongEnoughToBeTruncated:
             postData.m_isTextLongEnoughToBeTruncated)
         
-        snippetView.headline.text = postData.headline
+        setSnippetHeadline(snippetView: snippetView, postData : postData)
+        
         snippetView.fullURL = postData.fullURL
         snippetView.currentSnippetId = postData.id
         

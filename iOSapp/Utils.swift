@@ -270,8 +270,8 @@ func getWriterInitials(writerString : NSAttributedString) -> [Character]
 {
     let fullNameArray : [String] = writerString.string.split{$0 == " "}.map(String.init)
     
-    let firstName : String = fullNameArray[0]
-    let lastName : String = fullNameArray[fullNameArray.count - 1]
+    let firstName : String = fullNameArray[0].uppercased()
+    let lastName : String = fullNameArray[fullNameArray.count - 1].uppercased()
     
     return [getCharInString(str: firstName, position: 0), getCharInString(str: lastName, position: 0)]
 }

@@ -101,9 +101,6 @@ class SnippetView: UIView {
         
         cellSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
         
-        headline.font = SystemVariables().HEADLINE_TEXT_FONT
-        headline.textColor = SystemVariables().HEADLINE_TEXT_COLOR
-        
         imageDescription.tintColor = UIColor.gray
         
         turnActionImagesIntoButtons()
@@ -342,7 +339,10 @@ class SnippetView: UIView {
     
     func operateHandleClickOnComment(tableView : UITableView, rowCurrentlyClicked : Int)
     {
-        Logger().logClickCommentButton()
+        DispatchQueue.global(qos: .default).async
+        {
+            Logger().logClickCommentButton()
+        }
         
         if (currentViewController is SnippetsTableViewController)
         {
@@ -357,9 +357,12 @@ class SnippetView: UIView {
     
     @objc func handleClickOnComment(sender : UITapGestureRecognizer)
     {
-        print("clicked on comment")
-        let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
-        operateHandleClickOnComment(tableView: tableView, rowCurrentlyClicked: getRowNumberOfClickOnTableView(sender: sender, tableView: tableView))
+        if (currentViewController is SnippetsTableViewController)
+        {
+            
+            let tableView = sender.view?.superview?.superview?.superview?.superview?.superview?.superview as! UITableView
+            operateHandleClickOnComment(tableView: tableView, rowCurrentlyClicked: getRowNumberOfClickOnTableView(sender: sender, tableView: tableView))
+        }
     }
     
     @objc func handleClickOnShare(sender : UITapGestureRecognizer)

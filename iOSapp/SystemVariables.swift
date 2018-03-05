@@ -31,7 +31,7 @@ public class SystemVariables
     let REFERENCES_FONT = UIFont.lato(size: 11)
     let REFERENCES_COLOR = UIColor.gray
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)
-    let LINE_SPACING_IN_COMMENT_PREVIEW = CGFloat(3)
+    let LINE_SPACING_IN_HEADLINE = CGFloat(2.2)
     
     let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
     let COMMENT_PREVIEW_TEXT_FONT = UIFont.systemFont(ofSize: 13)
@@ -47,7 +47,7 @@ public class SystemVariables
     let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30
     
     // The spacing between lines in the text
-    let LINE_SPACING_IN_TEXT = CGFloat(2)
+    let LINE_SPACING_IN_TEXT = CGFloat(2.2)
     
     // Number of objects stored in app memory cache
     let MEMORY_COUNT_LIMIT = 20
@@ -57,7 +57,7 @@ public class SystemVariables
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     
-    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60
+    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60 * 5
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray

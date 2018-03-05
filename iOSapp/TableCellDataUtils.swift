@@ -9,6 +9,18 @@
 import UIKit
 
 let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().REFERENCES_COLOR]
+let headlineAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().HEADLINE_TEXT_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().HEADLINE_TEXT_COLOR]
+
+func setSnippetHeadline(snippetView : SnippetView, postData: PostData)
+{
+    let headlineParagraphStyle = NSMutableParagraphStyle()
+    headlineParagraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_HEADLINE
+    
+    let headlineString = NSMutableAttributedString(string: postData.headline, attributes: headlineAttributes)
+    headlineString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: headlineString.length))
+    
+    snippetView.headline.attributedText = headlineString
+}
 
 func fillImageDescription(snippetView : SnippetView, imageDescription : NSMutableAttributedString)
 {
@@ -40,7 +52,7 @@ func setSnippetReferences(snippetView: SnippetView, postData : PostData, shouldT
     else
     {
         addReferencesStringsToSnippet(snippetView: snippetView, postData: postData)
-        snippetView.referencesTopConstraint.constant = -5
+        snippetView.referencesTopConstraint.constant = -15
     }
     
     setStateOfHeightConstraint(view: snippetView.references, identifier: "referencesHeightConstraint", state: isTextLongEnoughToBeTruncated && shouldTruncate)
