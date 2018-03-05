@@ -99,7 +99,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Making sure that it's not the initial time of the program.
         let didWeEverEnterBackground : Bool = currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
         
-        if wasAppLongInBackground && didWeEverEnterBackground
+        print("Current URL in become active is ")
+        print(SnipRetrieverFromWeb.shared.currentUrlString)
+        
+        let isComingFromSpecificPost : Bool = (SnipRetrieverFromWeb.shared.currentUrlString.range(of: "/post/") != nil)
+        
+        if wasAppLongInBackground && didWeEverEnterBackground && !isComingFromSpecificPost
         {
             print("back to opening screen")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
