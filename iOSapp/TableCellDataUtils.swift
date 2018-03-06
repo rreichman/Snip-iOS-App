@@ -9,16 +9,20 @@
 import UIKit
 
 let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().REFERENCES_COLOR]
-let headlineAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().HEADLINE_TEXT_FONT, NSAttributedStringKey.foregroundColor : SystemVariables().HEADLINE_TEXT_COLOR]
+let headlineAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().HEADLINE_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().HEADLINE_TEXT_COLOR]
+let headlineParagraphStyle = getHeadlineParagraphStyle()
 
-func setSnippetHeadline(snippetView : SnippetView, postData: PostData)
+func getHeadlineParagraphStyle() -> NSMutableParagraphStyle
 {
     let headlineParagraphStyle = NSMutableParagraphStyle()
     headlineParagraphStyle.lineSpacing = SystemVariables().LINE_SPACING_IN_HEADLINE
-    
+    return headlineParagraphStyle
+}
+
+func setSnippetHeadline(snippetView : SnippetView, postData: PostData)
+{
     let headlineString = NSMutableAttributedString(string: postData.headline, attributes: headlineAttributes)
     headlineString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0,length: headlineString.length))
-    
     snippetView.headline.attributedText = headlineString
 }
 
