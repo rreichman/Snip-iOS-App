@@ -108,6 +108,8 @@ extension SnippetView {
         alertController.addAction(dontLikeThisAction)
         alertController.addAction(cancelAction)
         
+        alertController.popoverPresentationController?.sourceView = shareView
+        
         viewController.present(alertController, animated: true)
     }
 }

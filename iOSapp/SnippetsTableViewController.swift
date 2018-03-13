@@ -126,6 +126,9 @@ class SnippetsTableViewController: UITableViewController
         Logger().logRefreshOfTableView()
         SnipRetrieverFromWeb.shared.clean(newUrlString: newUrlString)
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
+        
+        let top = NSIndexPath(row: NSNotFound , section: 0)
+        tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: false)
     }
     
     @objc func refresh(_ sender: UIRefreshControl)
@@ -135,7 +138,7 @@ class SnippetsTableViewController: UITableViewController
     
     func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
     {
-        // TODO: there's some code multiplication here with opening splash screen but not sure it's worth the trouble.
+        // TODO: there's some code duplication here with opening splash screen but not sure it's worth the trouble.
         var newDataArray : [PostData] = []
         if (appendDataAndNotReplace)
         {

@@ -376,6 +376,8 @@ class SnippetView: UIView {
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            //activityVC.popoverPresentationController?.barButtonItem = #imageLiteral(resourceName: "shareButton")
+            activityVC.popoverPresentationController?.sourceView = shareView
             
             currentViewController.present(activityVC, animated: true, completion: nil)
             //currentViewController.dismiss(animated: true, completion: nullFunc)
