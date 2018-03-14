@@ -65,6 +65,7 @@ class SnipRetrieverFromWeb
             print("at beginning of data request \(Date())")
             if (response != nil)
             {
+                self.handleResponse(response: response as! HTTPURLResponse, url: url)
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                 {
                     print("after deserialization of data request \(Date())")
@@ -94,6 +95,23 @@ class SnipRetrieverFromWeb
             }
             print("at end of data request \(Date())")
         }).resume()
+    }
+    
+    func handleResponse(response : HTTPURLResponse, url: URL)
+    {
+        let responseHeaderFields = response.allHeaderFields as! [String : String]
+        let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
+        for cookie in cookies
+        {
+            if cookie.name == "csrftoken"
+            {
+                WebUtils.shared.csrfTokenValue = cookie.value
+            }
+            if cookie.name == "sniptoday"
+            {
+                WebUtils.shared.sessionID = cookie.value
+            }
+        }
     }
 
     func getNextPage(next_page : Int) -> String

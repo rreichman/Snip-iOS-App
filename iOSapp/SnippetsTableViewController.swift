@@ -41,6 +41,8 @@ class SnippetsTableViewController: UITableViewController
         refreshControl?.backgroundColor = UIColor.lightGray
         refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
         
+        scrollToTopOfTable()
+        
         print("done loading snippetViewController: \(Date())")
     }
     
@@ -126,7 +128,11 @@ class SnippetsTableViewController: UITableViewController
         Logger().logRefreshOfTableView()
         SnipRetrieverFromWeb.shared.clean(newUrlString: newUrlString)
         SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
-        
+        scrollToTopOfTable()
+    }
+    
+    func scrollToTopOfTable()
+    {
         let top = NSIndexPath(row: NSNotFound , section: 0)
         tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: false)
     }

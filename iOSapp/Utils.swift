@@ -76,6 +76,7 @@ func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLReques
     
     urlRequest.httpMethod = "POST"
     urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
+    urlRequest.setValue(WebUtils.shared.sessionID, forHTTPHeaderField: "Cookie")
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     if (UserInformation().isUserLoggedIn())

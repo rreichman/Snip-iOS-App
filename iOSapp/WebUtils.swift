@@ -14,6 +14,7 @@ class WebUtils
     static let shared = WebUtils()
     
     var csrfTokenValue : String = ""
+    var sessionID : String = ""
     
     func runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
     {
@@ -42,6 +43,7 @@ class WebUtils
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
             if (response != nil)
             {
+                // TODO: There's code duplication here. Fix it.
                 let httpResponse = response as! HTTPURLResponse
                 let responseHeaderFields = httpResponse.allHeaderFields as! [String : String]
                 let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
@@ -50,6 +52,10 @@ class WebUtils
                     if cookie.name == "csrftoken"
                     {
                         self.csrfTokenValue = cookie.value
+                    }
+                    if cookie.name == "sniptoday"
+                    {
+                        self.sessionID = cookie.value
                     }
                 }
                 completionHandler(handlerParams, self.csrfTokenValue)
