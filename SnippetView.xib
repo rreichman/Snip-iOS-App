@@ -94,8 +94,8 @@
                                 <constraint firstAttribute="height" constant="44" id="xR7-A9-5aP"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bdx-aB-qdt" userLabel="Comment View">
-                            <rect key="frame" x="94" y="0.0" width="56" height="44"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bdx-aB-qdt" userLabel="Comment View">
+                            <rect key="frame" x="82" y="-5" width="66" height="54"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newCommentIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-A1-3xS" userLabel="commentButton">
                                     <rect key="frame" x="12" y="17" width="20" height="20"/>
@@ -124,8 +124,8 @@
                                 <constraint firstAttribute="trailing" secondItem="h8m-Np-4zx" secondAttribute="trailing" constant="10" id="aoJ-Ua-gn0"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TyF-DN-fnF" userLabel="Upvote View">
-                            <rect key="frame" x="50" y="0.0" width="44" height="44"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TyF-DN-fnF" userLabel="Upvote View">
+                            <rect key="frame" x="-12" y="0.0" width="44" height="44"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upvote" translatesAutoresizingMaskIntoConstraints="NO" id="QdT-Q2-KIe" userLabel="Upvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                                     <rect key="frame" x="12" y="12" width="20" height="20"/>
@@ -144,7 +144,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v1c-Nd-gHP" userLabel="Downvote View">
-                            <rect key="frame" x="-12" y="0.0" width="44" height="44"/>
+                            <rect key="frame" x="38" y="0.0" width="44" height="44"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downvote" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-sF-6My" userLabel="Downvote Button" customClass="UIImageViewWithMetadata" customModule="iOSapp">
                                     <rect key="frame" x="12" y="12" width="20" height="20"/>
@@ -166,19 +166,19 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="v1c-Nd-gHP" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="77F-EN-6Ff"/>
+                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="TyF-DN-fnF" secondAttribute="trailing" constant="-3" id="8EG-Cm-WbL"/>
                         <constraint firstAttribute="trailing" secondItem="tFg-tH-JP9" secondAttribute="trailing" constant="-12" id="ArR-fK-D5b"/>
                         <constraint firstItem="TyF-DN-fnF" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="CQx-wk-KBb"/>
                         <constraint firstAttribute="bottom" secondItem="v1c-Nd-gHP" secondAttribute="bottom" id="I4c-55-UyD"/>
                         <constraint firstAttribute="height" constant="44" id="KQr-1o-UWF"/>
-                        <constraint firstItem="vUD-L4-uOa" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" constant="-3" id="Lgy-v8-pXw"/>
+                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" constant="-1" id="Wgg-dJ-ZvX"/>
                         <constraint firstItem="Bdx-aB-qdt" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="-5" id="YAZ-1y-b76"/>
-                        <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="vUD-L4-uOa" secondAttribute="trailing" constant="-2" id="ZtY-KU-Rsl"/>
+                        <constraint firstItem="TyF-DN-fnF" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" constant="-12" id="cwg-8F-YB0"/>
+                        <constraint firstItem="Bdx-aB-qdt" firstAttribute="leading" secondItem="v1c-Nd-gHP" secondAttribute="trailing" id="e3a-vm-3IA"/>
                         <constraint firstItem="vUD-L4-uOa" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" constant="10.5" id="f4p-Od-OUO"/>
-                        <constraint firstItem="Bdx-aB-qdt" firstAttribute="leading" secondItem="TyF-DN-fnF" secondAttribute="trailing" id="hlh-mS-ySQ"/>
                         <constraint firstItem="tFg-tH-JP9" firstAttribute="top" secondItem="Mlq-hJ-1p5" secondAttribute="top" id="kPb-Yy-Ogy"/>
                         <constraint firstAttribute="bottom" secondItem="Bdx-aB-qdt" secondAttribute="bottom" constant="-5" id="mUl-7H-HGB"/>
                         <constraint firstAttribute="bottom" secondItem="vUD-L4-uOa" secondAttribute="bottom" constant="10.5" id="nyf-ec-w1G"/>
-                        <constraint firstItem="v1c-Nd-gHP" firstAttribute="leading" secondItem="Mlq-hJ-1p5" secondAttribute="leading" constant="-12" id="qNA-3t-DnU"/>
                         <constraint firstAttribute="bottom" secondItem="TyF-DN-fnF" secondAttribute="bottom" id="tBM-eV-DgS"/>
                         <constraint firstAttribute="bottom" secondItem="tFg-tH-JP9" secondAttribute="bottom" id="x2D-fd-RYp"/>
                     </constraints>
