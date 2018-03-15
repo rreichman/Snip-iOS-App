@@ -72,21 +72,22 @@ func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
 func getCookiesHeaderString() -> String
 {
     var cookieString = ""
+    var isFirst : Bool = true
+    
     for cookie in HTTPCookieStorage.shared.cookies!
     {
-        if (cookie.name == "sniptoday")
+        if (isFirst)
         {
-            cookieString.append(cookie.name)
-            cookieString.append("=")
-            cookieString.append(cookie.value)
+            isFirst = false
+        }
+        else
+        {
             cookieString.append(";")
         }
-        if (cookie.name == "csrftoken")
-        {
-            cookieString.append(cookie.name)
-            cookieString.append("=")
-            cookieString.append(cookie.value)
-        }
+        
+        cookieString.append(cookie.name)
+        cookieString.append("=")
+        cookieString.append(cookie.value)
     }
     
     return cookieString
