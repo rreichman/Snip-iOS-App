@@ -125,7 +125,7 @@ class SnipRetrieverFromWeb
         var count = 0
         
         let taskGroup = DispatchGroup()
-
+        
         for postAsJson in postsAsJson
         {
             taskGroup.enter()
