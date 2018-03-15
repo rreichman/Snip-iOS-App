@@ -69,6 +69,29 @@ func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
     return messageString
 }
 
+func getCookiesHeaderString() -> String
+{
+    var cookieString = ""
+    for cookie in HTTPCookieStorage.shared.cookies!
+    {
+        if (cookie.name == "sniptoday")
+        {
+            cookieString.append(cookie.name)
+            cookieString.append("=")
+            cookieString.append(cookie.value)
+            cookieString.append(";")
+        }
+        if (cookie.name == "csrftoken")
+        {
+            cookieString.append(cookie.name)
+            cookieString.append("=")
+            cookieString.append(cookie.value)
+        }
+    }
+    
+    return cookieString
+}
+
 func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!
@@ -76,7 +99,8 @@ func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLReques
     
     urlRequest.httpMethod = "POST"
     urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
-    urlRequest.setValue(WebUtils.shared.sessionID, forHTTPHeaderField: "Cookie")
+    
+    urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     if (UserInformation().isUserLoggedIn())

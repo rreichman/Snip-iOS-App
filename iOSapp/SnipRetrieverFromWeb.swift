@@ -52,6 +52,7 @@ class SnipRetrieverFromWeb
         
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
         
         if (!areTherePostsRemainingOnServer)
         {
@@ -107,10 +108,7 @@ class SnipRetrieverFromWeb
             {
                 WebUtils.shared.csrfTokenValue = cookie.value
             }
-            if cookie.name == "sniptoday"
-            {
-                WebUtils.shared.sessionID = cookie.value
-            }
+            HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
         }
     }
 

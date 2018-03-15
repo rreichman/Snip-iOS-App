@@ -86,6 +86,7 @@ public class Logger
                 print("error=\(String(describing: error))")
                 return
             }
+            SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: urlRequest.url!)
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors

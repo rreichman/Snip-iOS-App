@@ -14,7 +14,6 @@ class WebUtils
     static let shared = WebUtils()
     
     var csrfTokenValue : String = ""
-    var sessionID : String = ""
     
     func runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
     {
@@ -53,11 +52,9 @@ class WebUtils
                     {
                         self.csrfTokenValue = cookie.value
                     }
-                    if cookie.name == "sniptoday"
-                    {
-                        self.sessionID = cookie.value
-                    }
+                    HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
                 }
+                
                 completionHandler(handlerParams, self.csrfTokenValue)
             }
             else
