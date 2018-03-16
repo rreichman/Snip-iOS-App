@@ -37,33 +37,31 @@ class PostData : Encodable, Decodable
     var textAfterHtmlRendering : NSMutableAttributedString = NSMutableAttributedString()
     
     var timeString : NSAttributedString = NSAttributedString()
-    let TIME_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_TIME_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_TIME_COLOR]
     var writerString : NSAttributedString = NSAttributedString()
-    let WRITER_STRING_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PUBLISH_WRITER_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().PUBLISH_WRITER_COLOR]
     
     var attributedStringOfCommentCount = NSAttributedString()
-    
-    let imageDescriptionAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().IMAGE_DESCRIPTION_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().IMAGE_DESCRIPTION_COLOR]
     
     init() {}
     
     init(receivedPostJson : [String : Any], taskGroup: DispatchGroup)
-    {
+    {        
         postJson = receivedPostJson
         loadRawJsonIntoVariables()
         
         DispatchQueue.global(qos: .default).async
         {
             self.textAfterHtmlRendering = NSMutableAttributedString(htmlString: self.text)!
-            
             self.textAsAttributedStringWithTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: true)
             self.textAsAttributedStringWithoutTruncation = getAttributedTextOfCell(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()), shouldTruncate: false)
+            
             self.m_isTextLongEnoughToBeTruncated = isTextLongEnoughToBeTruncated(postData: self, widthOfTextArea: Float(getSnippetAreaWidth()))
             self.attributedStringOfCommentCount = getAttributedStringOfCommentCount(commentCount: self.comments.count)
             
             let updatedHtmlString = self.removePaddingFromHtmlString(str: self.image._imageDescription)
+            
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
-            imageDescriptionString.addAttributes(self.imageDescriptionAttributes, range: NSRange(location: 0,length: imageDescriptionString.length))
+            
+            imageDescriptionString.addAttributes(IMAGE_DESCRIPTION_ATTRIBUTES, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
             
             let descriptionParagraphStyle = NSMutableParagraphStyle()
@@ -75,8 +73,9 @@ class PostData : Encodable, Decodable
         }
         
         timeString = NSAttributedString(string: getTimeFromDateString(dateString: date), attributes: TIME_STRING_ATTRIBUTES)
-        
         writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
+        
+        print("end time: \(Date().timeIntervalSince1970)")
     }
     
     func removePaddingFromHtmlString(str: String) -> String

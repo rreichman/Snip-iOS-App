@@ -60,15 +60,12 @@ class SnipRetrieverFromWeb
         }
         
         print("before data request \(Date())")
-        print("URL STRING TITLE: \(currentUrlString)")
-        //print("TITLE: \(currentUrlString)")
         
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
             print("at beginning of data request \(Date())")
             if (response != nil)
             {
-                print(response)
                 self.handleResponse(response: response as! HTTPURLResponse, url: url)
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                 {
@@ -129,26 +126,20 @@ class SnipRetrieverFromWeb
         
         let taskGroup = DispatchGroup()
         
-        print("RESULT ARRAY TITLE: \(resultArray["next_page"])")
+        if !resultArray.keys.contains("next_page")
+        {
+            self.areTherePostsRemainingOnServer = false
+        }
+        else
+        {
+            self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
+        }
         
         for postAsJson in postsAsJson
         {
-            print("TITLE: \(postAsJson["title"])")
-            
             taskGroup.enter()
-            
-            if !resultArray.keys.contains("next_page")
-            {
-                self.areTherePostsRemainingOnServer = false
-            }
-            else
-            {
-                self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
-            }
-            
             let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)
             postDataArray.append(newPost)
-            
             count += 1
         }
         

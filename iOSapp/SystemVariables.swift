@@ -57,8 +57,7 @@ public class SystemVariables
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     
-    //let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60 * 5
-    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 10
+    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60 * 5
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray
