@@ -52,7 +52,12 @@ class SnipRetrieverFromWeb
         
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
+        //urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
+        var cookieStringArray = getCookiesForUrlRequest()
+        for cookieString in cookieStringArray
+        {
+            urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
+        }
         
         if (!areTherePostsRemainingOnServer)
         {
@@ -137,6 +142,7 @@ class SnipRetrieverFromWeb
         
         for postAsJson in postsAsJson
         {
+            print("TITLE: \(postAsJson["title"])")
             taskGroup.enter()
             let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)
             postDataArray.append(newPost)

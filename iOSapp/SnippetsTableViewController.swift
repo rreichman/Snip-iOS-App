@@ -282,7 +282,7 @@ class SnippetsTableViewController: UITableViewController
     func getForegroundSnippetIDs() -> [Int]
     {
         let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
-        let indexPathsForVisibleRows : [IndexPath] = tableView.indexPathsForVisibleRows as! [IndexPath]
+        let indexPathsForVisibleRows : [IndexPath] = tableView.indexPathsForVisibleRows!
         let numberOfVisibleRows = indexPathsForVisibleRows.count
         
         if numberOfVisibleRows == 2

@@ -69,39 +69,68 @@ func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
     return messageString
 }
 
-func getCookiesHeaderString() -> String
+func convertDateToCookieString(date: Date) -> String
+{
+    let formatter = DateFormatter()
+    formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss"
+    formatter.timeZone = TimeZone(abbreviation: "GMT")
+    var res = formatter.string(from: date)
+    res.append(" GMT")
+    return res
+}
+
+func getCookiesForUrlRequest() -> [String]
 {
     var cookieString = ""
-    var isFirst : Bool = true
+    var cookieStringArray : [String] = []
     
     for cookie in HTTPCookieStorage.shared.cookies!
     {
-        if (isFirst)
+        if (cookie.name == "sniptoday")
         {
-            isFirst = false
+            cookieString.append(cookie.name)
+            cookieString.append("=")
+            cookieString.append(cookie.value)
+            cookieString.append("; ")
+            cookieString.append("path=")
+            cookieString.append(cookie.path)
+            cookieString.append("; ")
+            cookieString.append("domain=")
+            cookieString.append(cookie.domain)
+            cookieString.append("; ")
+            if (cookie.isHTTPOnly)
+            {
+                cookieString.append("HttpOnly; ")
+            }
+            if (cookie.expiresDate != nil)
+            {
+                cookieString.append("Expires=")
+                cookieString.append(convertDateToCookieString(date: cookie.expiresDate!))
+                cookieString.append(";")
+            }
+            cookieStringArray.append(cookieString)
         }
-        else
-        {
-            cookieString.append(";")
-        }
-        
-        cookieString.append(cookie.name)
-        cookieString.append("=")
-        cookieString.append(cookie.value)
+        cookieString = ""
     }
     
-    return cookieString
+    //print("TITLE: COOKIE: \(cookieString)")
+    return cookieStringArray
 }
 
 func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!
+    HTTPCookieStorage.shared.setCookies(HTTPCookieStorage.shared.cookies!, for: url, mainDocumentURL: url)
     var urlRequest: URLRequest = URLRequest(url: url)
     
     urlRequest.httpMethod = "POST"
     urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
-    
-    urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
+    var cookieStringArray = getCookiesForUrlRequest()
+    for cookieString in cookieStringArray
+    {
+        print("TITLE: COOKIE: \(cookieString)")
+        urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
+    }
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     if (UserInformation().isUserLoggedIn())

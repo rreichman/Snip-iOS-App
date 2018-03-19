@@ -60,7 +60,12 @@ class UserInformation
             urlRequest.httpMethod = "GET"
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
             urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
-            urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
+            //urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
+            var cookieStringArray = getCookiesForUrlRequest()
+            for cookieString in cookieStringArray
+            {
+                urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
+            }
             
             //fetching the data from the url
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
