@@ -26,8 +26,8 @@ class OpeningSplashScreenViewController: UIViewController
         super.viewDidLoad()
         print("loaded splash screen: \(Date())")
         
-        Logger().logStartedSplashScreen()
         UserInformation().getUserInformationFromWeb()
+        Logger().logStartedSplashScreen()
         loadSplashScreenImages()
         print("done loading splash screen: \(Date())")
     }

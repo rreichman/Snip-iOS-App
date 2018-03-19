@@ -22,6 +22,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     @IBOutlet weak var writeCommentBox: UITextView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var postIcon: UIImageView!
+    
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var replyingToView: UITextView!
     
@@ -230,9 +232,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             if (UserInformation().isUserLoggedIn() && isPostButtonValid)
             {
                 isPostButtonValid = false
+                postIcon.image = #imageLiteral(resourceName: "postIconDisabled")
                 performCommentPostAction(handlerParams: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()))
-                
-                //WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
             }
             else
             {
@@ -274,14 +275,15 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                 self.scrollToPublishedComment(commentID: postedComment.id)
                 
                 self.snippetView.numberOfCommentsLabel.attributedText = getAttributedStringOfCommentCount(commentCount: self.tableView.visibleCells.count)
+                
+                self.isPostButtonValid = true
+                self.postIcon.image = #imageLiteral(resourceName: "postIconEnabled")
             }
         }
         else
         {
             // TODO: What happens here?
         }
-        
-        isPostButtonValid = true
     }
     
     func updateHeightsInCommentsController()

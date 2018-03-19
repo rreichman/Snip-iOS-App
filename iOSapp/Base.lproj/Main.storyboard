@@ -155,7 +155,7 @@
                                             <constraint firstAttribute="height" constant="1" id="dWA-eT-4X2"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postIcon" translatesAutoresizingMaskIntoConstraints="NO" id="eqU-c1-UGC">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postIconEnabled" translatesAutoresizingMaskIntoConstraints="NO" id="eqU-c1-UGC">
                                         <rect key="frame" x="333" y="42" width="21" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="21" id="3nA-R6-xuU"/>
@@ -298,6 +298,7 @@
                         <outlet property="closeReplyButton" destination="9ta-gS-0uS" id="UWL-zw-WK1"/>
                         <outlet property="commentView" destination="xbi-ud-jYc" id="3Io-XX-zkA"/>
                         <outlet property="postButton" destination="OXj-OJ-fmJ" id="qVQ-dh-jOJ"/>
+                        <outlet property="postIcon" destination="eqU-c1-UGC" id="ZBh-WS-sdg"/>
                         <outlet property="replyingToView" destination="qGh-et-U3Q" id="SRS-xB-eCq"/>
                         <outlet property="scrollView" destination="GOQ-M5-1e5" id="FBI-O1-J01"/>
                         <outlet property="scrollviewHeightConstraint" destination="w2W-io-SZc" id="MRm-dm-FAV"/>
@@ -962,7 +963,7 @@
     <resources>
         <image name="MenuBarButton" width="25" height="25"/>
         <image name="fbloginbutton" width="287" height="50"/>
-        <image name="postIcon" width="1050" height="900"/>
+        <image name="postIconEnabled" width="1050" height="900"/>
         <image name="userProfile" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
