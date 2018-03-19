@@ -42,19 +42,20 @@ class ForgotPasswordController : GenericProgramViewController
         }
     }
     
-    func postResetPassword(handlerParams: Any, csrfToken : String)
+    func postResetPassword(handlerParams: Any)
     {
         var postResetUrlString : String = SystemVariables().URL_STRING
         postResetUrlString.append("rest-auth/password/reset/")
         
         let emailString : String = handlerParams as! String
         
-        WebUtils().postContentWithJsonBody(jsonString : ["email" : emailString], urlString : postResetUrlString, csrfToken : csrfToken, completionHandler : handleResponseString)
+        WebUtils().postContentWithJsonBody(jsonString : ["email" : emailString], urlString : postResetUrlString, completionHandler : handleResponseString)
     }
     
     @IBAction func resetPasswordPressed(_ sender: Any)
     {
-        WebUtils().runFunctionAfterGettingCsrfToken(functionData: emailTextField.text, completionHandler: postResetPassword)
+        //WebUtils().runFunctionAfterGettingCsrfToken(functionData: emailTextField.text, completionHandler: postResetPassword)
+        postResetPassword(handlerParams: emailTextField.text)
     }
     
     override func viewDidLoad()

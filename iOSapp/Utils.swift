@@ -113,24 +113,29 @@ func getCookiesForUrlRequest() -> [String]
         cookieString = ""
     }
     
-    //print("TITLE: COOKIE: \(cookieString)")
     return cookieStringArray
 }
 
-func getDefaultURLRequest(serverString: String, csrfValue : String) -> URLRequest
+func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!
-    HTTPCookieStorage.shared.setCookies(HTTPCookieStorage.shared.cookies!, for: url, mainDocumentURL: url)
     var urlRequest: URLRequest = URLRequest(url: url)
     
-    urlRequest.httpMethod = "POST"
-    urlRequest.setValue(csrfValue, forHTTPHeaderField: "X-CSRFTOKEN")
-    var cookieStringArray = getCookiesForUrlRequest()
+    urlRequest.httpMethod = method
+    for cookie in HTTPCookieStorage.shared.cookies!
+    {
+        if (cookie.name == "csrftoken")
+        {
+            urlRequest.setValue(cookie.value, forHTTPHeaderField: "X-CSRFTOKEN")
+        }
+    }
+    
+    let cookieStringArray = getCookiesForUrlRequest()
     for cookieString in cookieStringArray
     {
-        print("TITLE: COOKIE: \(cookieString)")
         urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
     }
+    print("TITLE: COOKIE STRING: \(cookieStringArray)")
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     if (UserInformation().isUserLoggedIn())

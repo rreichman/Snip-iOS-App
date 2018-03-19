@@ -230,8 +230,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             if (UserInformation().isUserLoggedIn() && isPostButtonValid)
             {
                 isPostButtonValid = false
+                performCommentPostAction(handlerParams: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()))
                 
-                WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
+                //WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()), completionHandler: self.performCommentPostAction)
             }
             else
             {
@@ -367,16 +368,16 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         return newCommentArray
     }
     
-    func performCommentPostAction(handlerParams : Any, csrfToken : String)
+    func performCommentPostAction(handlerParams : Any)
     {
         let actionParams : CommentActionData = handlerParams as! CommentActionData
-        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handlePostedComment)
+        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), completionHandler: self.handlePostedComment)
     }
     
-    func performCommentDeleteAction(handlerParams: Any, csrfToken : String)
+    func performCommentDeleteAction(handlerParams: Any)
     {
         let actionParams : CommentActionData = handlerParams as! CommentActionData
-        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), csrfToken: csrfToken, completionHandler: self.handleDeletedComment)
+        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), completionHandler: self.handleDeletedComment)
     }
     
     func getServerStringForComment(commentActionString : String) -> String

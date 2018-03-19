@@ -55,22 +55,13 @@ class UserInformation
             urlString.append("user/my_profile/")
             
             let url: URL = URL(string: urlString)!
-            var urlRequest: URLRequest = URLRequest(url: url)
-            
-            urlRequest.httpMethod = "GET"
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-            urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
-            //urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
-            var cookieStringArray = getCookiesForUrlRequest()
-            for cookieString in cookieStringArray
-            {
-                urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
-            }
+            var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "GET")
             
             //fetching the data from the url
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
                 if (response != nil)
                 {
+                    SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
                     if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     {
                         print("got user info from web: \(Date())")

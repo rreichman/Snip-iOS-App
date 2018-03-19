@@ -11,8 +11,9 @@ import UIKit
 extension SnippetView {
     func sendReportToServer(snippetID: Int, reasons: String)
     {
-        WebUtils().runFunctionAfterGettingCsrfToken(
-            functionData: ReportInfo(snippetID: snippetID, reasons : reasons), completionHandler: sendReportToServer)
+        //WebUtils().runFunctionAfterGettingCsrfToken(
+          //  functionData: ReportInfo(snippetID: snippetID, reasons : reasons), completionHandler: sendReportToServer)
+        sendReportToServer(snippetID: snippetID, reasons: reasons)
     }
 
     func getServerStringForReport() -> String
@@ -23,17 +24,24 @@ extension SnippetView {
         return urlString
     }
 
-    func sendReportToServer(reportParams : Any, csrfValue : String)
+    func sendReportToServer(reportParams : Any)
     {
         let convertedReportParams : ReportInfo = reportParams as! ReportInfo
         
-        var urlRequest = getDefaultURLRequest(serverString: getServerStringForReport(), csrfValue: csrfValue)
+        let serverString = getServerStringForReport()
+        let url : URL = URL(string: serverString)!
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         let jsonString = convertDictionaryToJsonString(dictionary: convertedReportParams.getDataAsDictionary())
         urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-                    guard let _ = data, error == nil else
+            if (response != nil)
+            {
+                SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
+            }
+            
+            guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
                 return

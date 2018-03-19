@@ -64,7 +64,8 @@ class LoginViewController : GenericProgramViewController
             facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
             facebookLoginDataAsJson["code"] = "null"
             let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
-            WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
+            //WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
+            self.performLoginAction(handlerParams: loginData)
             
             print("Login is successful!")
         }
@@ -111,16 +112,17 @@ class LoginViewController : GenericProgramViewController
         return loginData
     }
     
-    func performLoginAction(handlerParams : Any, csrfToken : String)
+    func performLoginAction(handlerParams : Any)
     {
         let loginData : LoginOrSignupData = handlerParams as! LoginOrSignupData
-        WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, csrfToken: csrfToken, completionHandler: completeLoginAction)
+        WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, completionHandler: completeLoginAction)
     }
     
     @IBAction func loginButtonPressed(_ sender: Any)
     {
         let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
-        WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
+        //WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
+        self.performLoginAction(handlerParams: loginData)
     }
     
     @IBAction func signupButtonPressed(_ sender: Any)

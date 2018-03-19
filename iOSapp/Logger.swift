@@ -44,8 +44,9 @@ public class Logger
     {
         for logID in logsNotYetSentToServer.keys
         {
-            WebUtils().runFunctionAfterGettingCsrfToken(
-                functionData: LogInfo(receivedLogID: logID, receivedLogInfo: logsNotYetSentToServer[logID]!), completionHandler: self.sendLogToServer)
+            //WebUtils().runFunctionAfterGettingCsrfToken(
+                //functionData: LogInfo(receivedLogID: logID, receivedLogInfo: logsNotYetSentToServer[logID]!), completionHandler: self.sendLogToServer)
+            sendLogToServer(logParams: LogInfo(receivedLogID: logID, receivedLogInfo: logsNotYetSentToServer[logID]!))
         }
     }
     
@@ -66,13 +67,15 @@ public class Logger
         return urlString
     }
     
-    private func sendLogToServer(logParams : Any, csrfValue : String)
+    private func sendLogToServer(logParams : Any)
     {
         let convertedLogParams : LogInfo = logParams as! LogInfo
         let logID : Int = convertedLogParams.logID
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
-        var urlRequest = getDefaultURLRequest(serverString: getServerStringForLog(logInfo: logInfo), csrfValue: csrfValue)
+        var serverString = getServerStringForLog(logInfo: logInfo)
+        let url: URL = URL(string: serverString)!
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
         // Note - the current implementation is perhaps not ideal and should use JSONSerialization but otherwise need to change server side
@@ -81,6 +84,10 @@ public class Logger
         
         //sending the data to the url
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if (response != nil)
+            {
+                SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
+            }
             guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")

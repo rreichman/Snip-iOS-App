@@ -32,7 +32,8 @@ class SnipRetrieverFromWeb
     func clean(newUrlString : String)
     {
         areTherePostsRemainingOnServer = true
-        WebUtils().csrfTokenValue = ""
+        // TODO:: how to do a full refresh? Clean cookies?
+        //WebUtils().csrfTokenValue = ""
         if (newUrlString == "")
         {
             setCurrentUrlString(urlString: SystemVariables().URL_STRING)
@@ -46,25 +47,29 @@ class SnipRetrieverFromWeb
     
     func getSnipsJsonFromWebServer(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool, errorHandler : (() -> Void)? = nil)
     {
-        print("getting posts. Current URL string: \(currentUrlString)")
+        print("POSTS: getting posts. Current URL string: \(currentUrlString)")
         let url: URL = URL(string: currentUrlString)!
+        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
+        
+        /*let url: URL = URL(string: currentUrlString)!
         var urlRequest: URLRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
         //urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
         var cookieStringArray = getCookiesForUrlRequest()
         for cookieString in cookieStringArray
         {
             urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
-        }
+        }*/
         
         if (!areTherePostsRemainingOnServer)
         {
             return
         }
         
-        print("before data request \(Date())")
+        print("TITLE: before data request \(Date())")
         
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
@@ -107,14 +112,7 @@ class SnipRetrieverFromWeb
     {
         let responseHeaderFields = response.allHeaderFields as! [String : String]
         let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
-        for cookie in cookies
-        {
-            if cookie.name == "csrftoken"
-            {
-                WebUtils.shared.csrfTokenValue = cookie.value
-            }
-            HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
-        }
+        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
     }
 
     func getNextPage(next_page : Int) -> String
@@ -142,7 +140,7 @@ class SnipRetrieverFromWeb
         
         for postAsJson in postsAsJson
         {
-            print("TITLE: \(postAsJson["title"])")
+            print("TITLE: \(postAsJson["id"])")
             taskGroup.enter()
             let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)
             postDataArray.append(newPost)

@@ -17,65 +17,14 @@ class WebUtils
 {
     static let shared = WebUtils()
     
-    var csrfTokenValue : String = ""
-    
-    func runFunctionAfterGettingCsrfToken(functionData : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
+    func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String)
     {
-        if csrfTokenValue != ""
-        {
-            completionHandler(functionData, csrfTokenValue)
-        }
-        else
-        {
-            getCookiesFromServer(handlerParams: functionData, completionHandler: completionHandler)
-        }
+        postContentWithJsonBody(jsonString: jsonString, urlString: urlString, completionHandler: nilFunction)
     }
     
-    func getCookiesFromServer(handlerParams : Any, completionHandler: @escaping (_ handlerParams : Any, _ csrfToken : String) -> ())
+    func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, completionHandler : @escaping (_ responseString : String) -> ())
     {
-        let url : URL = URL(string: SystemVariables().URL_STRING)!
-        
-        let cookieStorage = HTTPCookieStorage.shared
-        let cookieHeaderField = ["Set-Cookie": "key=value"]
-        let cookies = HTTPCookie.cookies(withResponseHeaderFields: cookieHeaderField, for: url)
-        cookieStorage.setCookies(cookies, for: url, mainDocumentURL: url)
-        
-        var urlRequest: URLRequest = URLRequest(url: url)
-        urlRequest.httpShouldHandleCookies = true
-        
-        URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
-            if (response != nil)
-            {
-                // TODO: There's code duplication here. Fix it.
-                let httpResponse = response as! HTTPURLResponse
-                let responseHeaderFields = httpResponse.allHeaderFields as! [String : String]
-                let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
-                for cookie in cookies
-                {
-                    if cookie.name == "csrftoken"
-                    {
-                        self.csrfTokenValue = cookie.value
-                    }
-                    HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
-                }
-                
-                completionHandler(handlerParams, self.csrfTokenValue)
-            }
-            else
-            {
-                Logger().logInternetConnectionFailed()
-            }
-        }).resume()
-    }
-    
-    func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, csrfToken : String)
-    {
-        postContentWithJsonBody(jsonString: jsonString, urlString: urlString, csrfToken: csrfToken, completionHandler: nilFunction)
-    }
-    
-    func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, csrfToken : String, completionHandler : @escaping (_ responseString : String) -> ())
-    {
-        var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, csrfValue: csrfToken)
+        var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "POST")
         
         let commentData : Dictionary<String,String> = jsonString
         let jsonString = convertDictionaryToJsonString(dictionary: commentData)
