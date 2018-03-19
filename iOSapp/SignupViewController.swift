@@ -73,7 +73,6 @@ class SignupViewController : GenericProgramViewController
             
             let signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
             
-            //WebUtils().runFunctionAfterGettingCsrfToken(functionData: signupData, completionHandler: self.performSignupAction)
             self.performSignupAction(handlerParams: signupData)
         }
     }
@@ -131,7 +130,6 @@ class SignupViewController : GenericProgramViewController
         if (validateRegisterData())
         {
             let loginOrSignupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
-            //WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginOrSignupData, completionHandler: self.performSignupAction)
             self.performSignupAction(handlerParams: loginOrSignupData)
         }
     }

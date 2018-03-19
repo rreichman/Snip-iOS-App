@@ -32,8 +32,6 @@ class SnipRetrieverFromWeb
     func clean(newUrlString : String)
     {
         areTherePostsRemainingOnServer = true
-        // TODO:: how to do a full refresh? Clean cookies?
-        //WebUtils().csrfTokenValue = ""
         if (newUrlString == "")
         {
             setCurrentUrlString(urlString: SystemVariables().URL_STRING)

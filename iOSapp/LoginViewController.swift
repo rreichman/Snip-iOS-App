@@ -64,7 +64,6 @@ class LoginViewController : GenericProgramViewController
             facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
             facebookLoginDataAsJson["code"] = "null"
             let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
-            //WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
             self.performLoginAction(handlerParams: loginData)
             
             print("Login is successful!")
@@ -121,7 +120,6 @@ class LoginViewController : GenericProgramViewController
     @IBAction func loginButtonPressed(_ sender: Any)
     {
         let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
-        //WebUtils().runFunctionAfterGettingCsrfToken(functionData: loginData, completionHandler: self.performLoginAction)
         self.performLoginAction(handlerParams: loginData)
     }
     

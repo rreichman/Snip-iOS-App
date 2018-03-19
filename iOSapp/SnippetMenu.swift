@@ -11,8 +11,6 @@ import UIKit
 extension SnippetView {
     func sendReportToServer(snippetID: Int, reasons: String)
     {
-        //WebUtils().runFunctionAfterGettingCsrfToken(
-          //  functionData: ReportInfo(snippetID: snippetID, reasons : reasons), completionHandler: sendReportToServer)
         sendReportToServer(snippetID: snippetID, reasons: reasons)
     }
 

@@ -110,7 +110,6 @@ class CommentView: UIView
         var deleteCommandJson : Dictionary<String,String> = Dictionary<String,String>()
         deleteCommandJson["id"] = String(commentID)
         viewController.performCommentDeleteAction(handlerParams: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson))
-        //WebUtils().runFunctionAfterGettingCsrfToken(functionData: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson), completionHandler: viewController.performCommentDeleteAction)
     }
     
     @objc func deleteButtonPressed(sender: UITapGestureRecognizer)

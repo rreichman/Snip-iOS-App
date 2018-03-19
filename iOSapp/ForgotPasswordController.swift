@@ -54,7 +54,6 @@ class ForgotPasswordController : GenericProgramViewController
     
     @IBAction func resetPasswordPressed(_ sender: Any)
     {
-        //WebUtils().runFunctionAfterGettingCsrfToken(functionData: emailTextField.text, completionHandler: postResetPassword)
         postResetPassword(handlerParams: emailTextField.text)
     }
     
