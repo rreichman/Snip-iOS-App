@@ -71,7 +71,7 @@ public class Logger
         let logID : Int = convertedLogParams.logID
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
-        var serverString = getServerStringForLog(logInfo: logInfo)
+        let serverString = getServerStringForLog(logInfo: logInfo)
         let url: URL = URL(string: serverString)!
         var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
@@ -187,6 +187,11 @@ public class Logger
     func logClickShareButton()
     {
         logEvent(actionName: "clickShareButton")
+    }
+    
+    func logClickAuthorView()
+    {
+        logEvent(actionName: "clickAuthorView")
     }
     
     func logClickSnippetMenuButton()

@@ -34,8 +34,9 @@ class SnippetView: UIView {
     @IBOutlet weak var button: UIImageViewWithMetadata!
     @IBOutlet weak var buttonTwo: UIImageViewWithMetadata!
     
-    @IBOutlet weak var writerName: UILabel!
+    @IBOutlet weak var writerView: UIView!
     
+    @IBOutlet weak var writerName: UILabel!
     @IBOutlet weak var writerPostTime: UILabel!
     
     @IBOutlet weak var numberOfCommentsLabel: UILabel!
@@ -132,6 +133,11 @@ class SnippetView: UIView {
             #selector(self.handleClickOnSnippetMenu(sender:)))
         menuButton.isUserInteractionEnabled = true
         menuButton.addGestureRecognizer(menuButtonClickRecognizer)
+        
+        let authorViewClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:
+            #selector(self.handleClickOnAuthorView(sender:)))
+        writerView.isUserInteractionEnabled = true
+        writerView.addGestureRecognizer(authorViewClickRecognizer)
     }
     
     func handleClickOnUpvoteDownvote(isUpButton : Bool, sender : UITapGestureRecognizer)
@@ -382,6 +388,14 @@ class SnippetView: UIView {
             currentViewController.present(activityVC, animated: true, completion: nil)
             //currentViewController.dismiss(animated: true, completion: nullFunc)
         }
+    }
+    
+    @objc func handleClickOnAuthorView(sender : UITapGestureRecognizer)
+    {
+        print("clicked on author view")
+        Logger().logClickAuthorView()
+        
+        currentViewController.performSegue(withIdentifier: "segueToWriterInfo", sender: currentViewController)
     }
     
     @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)

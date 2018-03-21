@@ -67,8 +67,6 @@ class SnipRetrieverFromWeb
             return
         }
         
-        print("TITLE: before data request \(Date())")
-        
         //fetching the data from the url
         URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
             print("at beginning of data request \(Date())")
@@ -138,7 +136,6 @@ class SnipRetrieverFromWeb
         
         for postAsJson in postsAsJson
         {
-            print("TITLE: \(postAsJson["id"])")
             taskGroup.enter()
             let newPost = PostData(receivedPostJson : postAsJson, taskGroup: taskGroup)
             postDataArray.append(newPost)
