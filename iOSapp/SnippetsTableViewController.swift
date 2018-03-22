@@ -77,7 +77,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         navigationController?.navigationBar.barTintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
     }
-    
+
     @objc func goBack()
     {
         navigationController?.popViewController(animated: true)
@@ -226,7 +226,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         }
     }
     
-    func dataCollectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
+    func dataCollectionCompletionHandler(postsCollected: [PostData], appendDataAndNotReplace : Bool)
     {
         DispatchQueue.main.async
         {
@@ -238,7 +238,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
                 }
             }
 
-            self.updateTableInfoFeedDataSource(postsToAdd: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
+            self.updateTableInfoFeedDataSource(postsToAdd: postsCollected, appendDataAndNotReplace : appendDataAndNotReplace)
             
             if (self.activityIndicator.isAnimating)
             {
@@ -406,6 +406,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.writerPostTime.attributedText = postData.timeString
         snippetView.writerName.attributedText = postData.writerString
+        snippetView.writerUsername = postData.author._username
         
         // TODO: this needs to update when user deletes a comment, make it a generic function.
         snippetView.numberOfCommentsLabel.attributedText = postData.attributedStringOfCommentCount

@@ -56,6 +56,8 @@ class SnippetView: UIView {
     
     var currentSnippetId : Int = 0
     var fullURL : String = ""
+    var writerUsername : String = ""
+    
     var currentViewController = UIViewController()
     
     override init(frame: CGRect) {
@@ -400,7 +402,8 @@ class SnippetView: UIView {
         snippetsViewController.shouldHaveBackButton = true
         // TODO:: fix this
         snippetsViewController.pageTitle = writerName.text!
-        snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "likes")
+        //snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "my-upvotes/")
+        snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
         snippetsViewController.fillSnippetViewController()
         
         currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
