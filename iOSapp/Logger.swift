@@ -72,7 +72,6 @@ public class Logger
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
         let serverString = getServerStringForLog(logInfo: logInfo)
-        let url: URL = URL(string: serverString)!
         var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
@@ -82,16 +81,12 @@ public class Logger
         
         //sending the data to the url
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if (response != nil)
-            {
-                SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
-            }
             guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
                 return
             }
-            SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: urlRequest.url!)
+            WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: urlRequest.url!)
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors

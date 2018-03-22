@@ -275,15 +275,15 @@ class SnippetView: UIView {
             let tableView : UITableView = viewController.tableView
             
             let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView))
-            let isReadMore : Bool = !(viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.contains(indexPath!.row)
+            let isReadMore : Bool = !viewController.cellsNotToTruncate.contains(indexPath!.row)
             
             if (isReadMore)
             {
-                (viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.insert(indexPath!.row)
+                viewController.cellsNotToTruncate.insert(indexPath!.row)
             }
             else
             {
-                (viewController.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.remove(indexPath!.row)
+                viewController.cellsNotToTruncate.remove(indexPath!.row)
             }
             
             logClickOnText(isReadMore: isReadMore, sender: sender)
@@ -400,6 +400,8 @@ class SnippetView: UIView {
         snippetsViewController.shouldHaveBackButton = true
         // TODO:: fix this
         snippetsViewController.pageTitle = writerName.text!
+        snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "likes")
+        snippetsViewController.fillSnippetViewController()
         
         currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
         //currentViewController.present(navigationController, animated: true, completion: nil)

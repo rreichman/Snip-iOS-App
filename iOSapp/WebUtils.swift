@@ -88,4 +88,11 @@ class WebUtils
         
         return UIImage()
     }
+    
+    func handleResponse(response : HTTPURLResponse, url: URL)
+    {
+        let responseHeaderFields = response.allHeaderFields as! [String : String]
+        let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
+        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
+    }
 }

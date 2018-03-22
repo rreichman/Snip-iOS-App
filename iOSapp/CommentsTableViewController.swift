@@ -84,17 +84,17 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func loadSnippetView(shouldTruncate: Bool)
     {
-        (snippetsViewController.tableView.dataSource as! FeedDataSource).loadSnippetFromID(snippetView: snippetView, snippetID: currentSnippetID, shouldTruncate: shouldTruncate)
+        snippetsViewController.loadSnippetFromID(snippetView: snippetView, snippetID: currentSnippetID, shouldTruncate: shouldTruncate)
     }
     
     func getCommentArray() -> [Comment]
     {
-        return (snippetsViewController.tableView.dataSource as! FeedDataSource).getSnippetComments(snippetID: currentSnippetID)
+        return snippetsViewController.getSnippetComments(snippetID: currentSnippetID)
     }
     
     func setCommentArray(newCommentArray: [Comment])
     {
-        (snippetsViewController.tableView.dataSource as! FeedDataSource).setSnippetComments(snippetID: currentSnippetID, newComments: newCommentArray)
+        snippetsViewController.setSnippetComments(snippetID: currentSnippetID, newComments: newCommentArray)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

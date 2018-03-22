@@ -36,7 +36,7 @@ extension SnippetView {
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if (response != nil)
             {
-                SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
+                WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
             }
             
             guard let _ = data, error == nil else

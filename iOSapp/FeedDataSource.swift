@@ -8,9 +8,10 @@
 
 import UIKit
 
-class FeedDataSource: NSObject, UITableViewDataSource
+/*class FeedDataSource: NSObject, UITableViewDataSource
 {
     var postDataArray: [PostData] = []
+    // TODO:: probably remove this
     var _tableView: UITableView
     var cellsNotToTruncate : Set<Int> = Set<Int>()
     
@@ -137,4 +138,4 @@ class FeedDataSource: NSObject, UITableViewDataSource
             }
         }
     }
-}
+}*/

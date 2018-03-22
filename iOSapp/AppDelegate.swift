@@ -99,10 +99,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Making sure that it's not the initial time of the program.
         let didWeEverEnterBackground : Bool = currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
         
-        print("Current URL in become active is ")
-        print(SnipRetrieverFromWeb.shared.currentUrlString)
+        //print("Current URL in become active is ")
+        //print(SnipRetrieverFromWeb.shared.currentUrlString)
         
-        let isComingFromSpecificPost : Bool = (SnipRetrieverFromWeb.shared.currentUrlString.range(of: "/post/") != nil)
+        //let isComingFromSpecificPost : Bool = (SnipRetrieverFromWeb.shared.currentUrlString.range(of: "/post/") != nil)
+        // TODO:: return this
+        let isComingFromSpecificPost : Bool = false
         
         if wasAppLongInBackground && didWeEverEnterBackground && !isComingFromSpecificPost
         {

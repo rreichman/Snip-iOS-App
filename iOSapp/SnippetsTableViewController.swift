@@ -9,6 +9,7 @@
 import UIKit
 import Cache
 
+// TODO:: divide this to several classes
 class SnippetsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
@@ -21,7 +22,10 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     var shouldHaveBackButton = false
     var pageTitle = "Home"
     
-    var dataSource : FeedDataSource = FeedDataSource()
+    var _postDataArray: [PostData] = []
+    var cellsNotToTruncate : Set<Int> = Set<Int>()
+    
+    var snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,7 +38,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         loadingIndicator.startAnimating()
         loadingIndicator.frame = CGRect(x: 0, y: 0, width: CachedData().getScreenWidth(), height: 44)
      
-        tableView.dataSource = dataSource
+        tableView.dataSource = self
         tableView.delegate = self
      
         getRestOfImagesAsync()
@@ -45,6 +49,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         handleNavigationBar()
         
+        tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.backgroundColor = UIColor.lightGray
         tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
      
@@ -52,19 +57,6 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         print("done loading snippetViewController: \(Date())")
     }
-    
-    /*func getEmptyImage(color: UIColor, size: CGSize) -> UIImage
-    {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        let cgImage : CGImage = image.cgImage!
-        return UIImage(cgImage: cgImage)
-    }*/
     
     func handleNavigationBar()
     {
@@ -76,13 +68,6 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
             backButton.tintColor = UIColor.black
             navigationItem.leftBarButtonItem = backButton
             navigationItem.rightBarButtonItem?.image = nil
-            print("BOUNDS")
-            print(navigationItem.titleView?.frame)
-            
-            //navigationItem.rightBarButtonItem?.tintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-            
-            //navigationItem.titleView?.bounds
-            //navigationItem.rightBarButtonItem?.tintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         }
         else
         {
@@ -102,7 +87,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     {
         let storage = AppCache.shared.getStorage()
         
-        for postData in (self.tableView.dataSource as! FeedDataSource).postDataArray
+        for postData in _postDataArray
         {
             if !postData.image._gotImageData
             {
@@ -179,9 +164,14 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
             activityIndicator.startAnimating()
         }
         Logger().logRefreshOfTableView()
-        SnipRetrieverFromWeb.shared.clean(newUrlString: newUrlString)
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
+        snipRetrieverFromWeb.clean(newUrlString: newUrlString)
+        fillSnippetViewController()
         scrollToTopOfTable()
+    }
+    
+    func fillSnippetViewController()
+    {
+        snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
     }
     
     func scrollToTopOfTable()
@@ -195,23 +185,23 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         operateRefresh(newUrlString: "", useActivityIndicator: false)
     }
     
-    func updateTableInfoFeedDataSource(postDataArray : [PostData], appendDataAndNotReplace : Bool)
+    func updateTableInfoFeedDataSource(postsToAdd : [PostData], appendDataAndNotReplace : Bool)
     {
         // TODO: there's some code duplication here with opening splash screen but not sure it's worth the trouble.
         var newDataArray : [PostData] = []
         if (appendDataAndNotReplace)
         {
-            newDataArray = (self.tableView.dataSource as! FeedDataSource).postDataArray
+            newDataArray = _postDataArray
         }
         else
         {
-            (self.tableView.dataSource as! FeedDataSource).cellsNotToTruncate.removeAll()
+            cellsNotToTruncate.removeAll()
         }
         
         DispatchQueue.global(qos: .background).async
         {
             print("started collecting all the images")
-            for postData in postDataArray
+            for postData in postsToAdd
             {
                 let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
                 postData.image.setImageData(imageData: imageData)
@@ -225,11 +215,11 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
                 print("starting to load data to feed")
                 UIView.performWithoutAnimation
                 {
-                    (self.tableView.dataSource as! FeedDataSource).postDataArray = newDataArray
+                    self._postDataArray = newDataArray
                     self.tableView.reloadData()
                 }
                 
-                SnipRetrieverFromWeb.shared.lock.unlock()
+                self.snipRetrieverFromWeb.lock.unlock()
                 self.finishedLoadingSnippets = true
                 print("done loading data async")
             }
@@ -247,7 +237,9 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
                     self.tableView.refreshControl?.endRefreshing()
                 }
             }
-            self.updateTableInfoFeedDataSource(postDataArray: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
+
+            self.updateTableInfoFeedDataSource(postsToAdd: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
+            
             if (self.activityIndicator.isAnimating)
             {
                 self.activityIndicator.stopAnimating()
@@ -268,7 +260,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         if (segue.identifier == "showCommentsSegue")
         {
             let commentsViewController = segue.destination as! CommentsTableViewController
-            let currentPost : PostData = (tableView.dataSource as! FeedDataSource).postDataArray[rowCurrentlyClicked]
+            let currentPost : PostData = _postDataArray[rowCurrentlyClicked]
             commentsViewController.currentSnippetID = currentPost.id
         }
         
@@ -324,8 +316,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     
     func updatePostDataAfterClick(snippetID : Int, upvoteButton: UIImageViewWithMetadata, downvoteButton: UIImageViewWithMetadata)
     {
-        let postDataArray : [PostData] = (tableView.dataSource as! FeedDataSource).postDataArray
-        for postData in postDataArray
+        for postData in _postDataArray
         {
             if (postData.id == snippetID)
             {
@@ -337,13 +328,12 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     
     func getForegroundSnippetIDs() -> [Int]
     {
-        let dataSource : FeedDataSource = tableView.dataSource as! FeedDataSource
         let indexPathsForVisibleRows : [IndexPath] = tableView.indexPathsForVisibleRows!
         let numberOfVisibleRows = indexPathsForVisibleRows.count
         
         if numberOfVisibleRows == 2
         {
-            return [dataSource.postDataArray[indexPathsForVisibleRows[0].row].id]
+            return [_postDataArray[indexPathsForVisibleRows[0].row].id]
         }
         
         var snippetIDs : [Int] = []
@@ -353,7 +343,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
             // Getting all the middle rows
             for i in 0...numberOfVisibleRows-1
             {
-                snippetIDs.append(dataSource.postDataArray[indexPathsForVisibleRows[i].row].id)
+                snippetIDs.append(_postDataArray[indexPathsForVisibleRows[i].row].id)
             }
         }
         else
@@ -389,11 +379,118 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return (tableView.dataSource as! FeedDataSource).postDataArray.count
+        return _postDataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        return (tableView.dataSource as! FeedDataSource).tableView(tableView, cellForRowAt: indexPath)
+        handleInfiniteScroll(tableView : tableView, currentRow: indexPath.row)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SnippetTableViewCell
+        let postData = _postDataArray[indexPath.row]
+        
+        cell.m_isTextLongEnoughToBeTruncated = self._postDataArray[indexPath.row].m_isTextLongEnoughToBeTruncated
+        let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
+        
+        loadInitialsIntoUserImage(writerName: postData.writerString, userImage: cell.snippetView.userImage)
+        
+        loadDataIntoSnippet(snippetView: cell.snippetView, shouldTruncate: shouldTruncate, postData: postData)
+        cell.snippetView.currentViewController = self
+        
+        return cell
+    }
+    
+    func loadDataIntoSnippet(snippetView: SnippetView, shouldTruncate: Bool, postData: PostData)
+    {
+        snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
+        
+        snippetView.writerPostTime.attributedText = postData.timeString
+        snippetView.writerName.attributedText = postData.writerString
+        
+        // TODO: this needs to update when user deletes a comment, make it a generic function.
+        snippetView.numberOfCommentsLabel.attributedText = postData.attributedStringOfCommentCount
+        
+        loadImageData(snippetView: snippetView, postData: postData)
+        
+        fillImageDescription(snippetView: snippetView, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        
+        snippetView.makeSnippetClickable(snippetView: snippetView)
+        snippetView.isTextLongEnoughToBeTruncated = postData.m_isTextLongEnoughToBeTruncated
+        
+        snippetView.truncatedBody = postData.textAsAttributedStringWithTruncation
+        snippetView.nonTruncatedBody = postData.textAsAttributedStringWithoutTruncation
+        
+        setSnippetText(snippetView: snippetView, postData : postData, shouldTruncate: shouldTruncate)
+        
+        setSnippetReferences(snippetView : snippetView, postData: postData, shouldTruncate: shouldTruncate, isTextLongEnoughToBeTruncated:
+            postData.m_isTextLongEnoughToBeTruncated)
+        
+        setSnippetHeadline(snippetView: snippetView, postData : postData)
+        
+        snippetView.fullURL = postData.fullURL
+        snippetView.currentSnippetId = postData.id
+        
+        snippetView.setNeedsLayout()
+        snippetView.layoutIfNeeded()
+    }
+    
+    func handleInfiniteScroll(tableView : UITableView, currentRow : Int)
+    {
+        let SPARE_ROWS_UNTIL_MORE_SCROLL = 5
+        if _postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
+        {
+            print("getting more posts. Current URL string: \(snipRetrieverFromWeb.currentUrlString)")
+            Logger().logScrolledToInfiniteScroll()
+            let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
+            snipRetrieverFromWeb.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
+        }
+    }
+    
+    func loadImageData(snippetView: SnippetView, postData: PostData)
+    {
+        snippetView.postImage.image = nil
+        if (postData.image._gotImageData)
+        {
+            snippetView.postImageHeightConstraint.constant = postData.image._imageHeight
+            snippetView.postImage.image = postData.image.getImageData()
+        }
+    }
+    
+    func loadSnippetFromID(snippetView : SnippetView, snippetID: Int, shouldTruncate: Bool)
+    {
+        for i in 0..._postDataArray.count-1
+        {
+            if (_postDataArray[i].id == snippetID)
+            {
+                let postData = _postDataArray[i]
+                loadDataIntoSnippet(snippetView: snippetView, shouldTruncate: shouldTruncate, postData: postData)
+            }
+        }
+    }
+    
+    func getSnippetComments(snippetID : Int) -> [Comment]
+    {
+        for i in 0..._postDataArray.count-1
+        {
+            if (_postDataArray[i].id == snippetID)
+            {
+                return _postDataArray[i].comments
+            }
+        }
+        
+        return []
+    }
+    
+    func setSnippetComments(snippetID : Int, newComments : [Comment])
+    {
+        for i in 0..._postDataArray.count-1
+        {
+            if (_postDataArray[i].id == snippetID)
+            {
+                let newPostData = _postDataArray[i]
+                newPostData.comments = newComments
+                _postDataArray[i] = newPostData
+            }
+        }
     }
 }

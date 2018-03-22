@@ -18,8 +18,9 @@ class OpeningSplashScreenViewController: UIViewController
     @IBOutlet weak var logoViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var logoViewLeadingConstraint: NSLayoutConstraint!
     
-    var feedDataSource : FeedDataSource = FeedDataSource()
-    var snippetsTableViewController : SnippetsTableViewController = SnippetsTableViewController()
+    var snippetsTableViewController = SnippetsTableViewController()
+    var _snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
+    var _postDataArray : [PostData] = []
     
     override func viewDidLoad()
     {
@@ -51,10 +52,10 @@ class OpeningSplashScreenViewController: UIViewController
         super.viewDidAppear(animated)
         print("after super didAppear \(Date())")
         
-        SnipRetrieverFromWeb.shared.clean()
-        SnipRetrieverFromWeb.shared.lock.lock()
+        _snipRetrieverFromWeb.clean()
+        _snipRetrieverFromWeb.lock.lock()
         print("about to get snips from server \(Date())")
-        SnipRetrieverFromWeb.shared.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
+        _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }
     
     func collectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
@@ -62,16 +63,16 @@ class OpeningSplashScreenViewController: UIViewController
         print("starting here: \(Date())")
         if (!appendDataAndNotReplace)
         {
-            feedDataSource.postDataArray = []
+            _postDataArray = []
         }
         
         for postData in postDataArray
         {
-            feedDataSource.postDataArray.append(postData)
+            _postDataArray.append(postData)
         }
         
         var i = 0
-        for postData in feedDataSource.postDataArray
+        for postData in _postDataArray
         {
             let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
             if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
@@ -86,7 +87,7 @@ class OpeningSplashScreenViewController: UIViewController
         print("performing segue: \(Date())")
 
         performSegue(withIdentifier: "segueToTableView", sender: self)
-        SnipRetrieverFromWeb.shared.lock.unlock()
+        _snipRetrieverFromWeb.lock.unlock()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -96,9 +97,10 @@ class OpeningSplashScreenViewController: UIViewController
         {
             print("preparing segue: \(Date())")
             let navigationController = segue.destination as! UINavigationController
-            snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
-            let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
-            tableViewController.dataSource = feedDataSource
+            let snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
+            // TODO:: review this
+            snippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
+            snippetsTableViewController._postDataArray = _postDataArray
             print("done with prepare: \(Date())")
         }
     }

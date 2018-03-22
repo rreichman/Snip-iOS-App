@@ -9,15 +9,11 @@
 import UIKit
 
 class SnipRetrieverFromWeb
-{
-    static let shared = SnipRetrieverFromWeb()
-    
+{    
     var areTherePostsRemainingOnServer : Bool = true
     // This is not ideal but is a useful trick to avoid losing the feed's order in case of a bad external snippet
     var previousUrlString : String = SystemVariables().URL_STRING
     var currentUrlString : String = SystemVariables().URL_STRING
-    
-    // TODO:: change this to be a mapping between snippet controller and snip retriever
     
     var lock : NSLock = NSLock()
     
@@ -62,7 +58,7 @@ class SnipRetrieverFromWeb
             print("at beginning of data request \(Date())")
             if (response != nil)
             {
-                self.handleResponse(response: response as! HTTPURLResponse, url: url)
+                WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                 {
                     print("after deserialization of data request \(Date())")
@@ -92,13 +88,6 @@ class SnipRetrieverFromWeb
             }
             print("at end of data request \(Date())")
         }).resume()
-    }
-    
-    func handleResponse(response : HTTPURLResponse, url: URL)
-    {
-        let responseHeaderFields = response.allHeaderFields as! [String : String]
-        let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
-        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
     }
 
     func getNextPage(next_page : Int) -> String

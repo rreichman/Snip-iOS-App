@@ -61,7 +61,7 @@ class UserInformation
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
                 if (response != nil)
                 {
-                    SnipRetrieverFromWeb.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
+                    WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
                     if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     {
                         print("got user info from web: \(Date())")
