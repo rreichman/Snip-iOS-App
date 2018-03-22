@@ -60,8 +60,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         writeCommentBox.isUserInteractionEnabled = true
         writeCommentBox.addGestureRecognizer(writeCommentRecognizer)
         
-        //postButton.setBackgroundImage(#imageLiteral(resourceName: "postIcon"), for: .normal)
-        
         loadInitialsIntoUserImage(writerName: snippetView.writerName.attributedText!, userImage: snippetView.userImage)
         
         self.navigationController?.navigationBar.tintColor = UIColor.black

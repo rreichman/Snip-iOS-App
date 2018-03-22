@@ -74,8 +74,6 @@ class PostData : Encodable, Decodable
         
         timeString = NSAttributedString(string: getTimeFromDateString(dateString: date), attributes: TIME_STRING_ATTRIBUTES)
         writerString = NSAttributedString(string: author._name, attributes: WRITER_STRING_ATTRIBUTES)
-        
-        print("end time: \(Date().timeIntervalSince1970)")
     }
     
     func removePaddingFromHtmlString(str: String) -> String

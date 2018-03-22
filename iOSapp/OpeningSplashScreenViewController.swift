@@ -98,9 +98,7 @@ class OpeningSplashScreenViewController: UIViewController
             let navigationController = segue.destination as! UINavigationController
             snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
             let tableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
-            tableViewController.tableView.dataSource = feedDataSource
-            tableViewController.getRestOfImagesAsync()
-            tableViewController.tableView.reloadData()
+            tableViewController.dataSource = feedDataSource
             print("done with prepare: \(Date())")
         }
     }

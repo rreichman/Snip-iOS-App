@@ -9,8 +9,7 @@
 import UIKit
 import Cache
 
-// TODO: This should be a GenericProgramViewController
-class SnippetsTableViewController: UITableViewController
+class SnippetsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
@@ -20,17 +19,26 @@ class SnippetsTableViewController: UITableViewController
     // TODO: perhaps there's a better way
     var shouldEnterCommentOfFirstSnippet = false
     
+    var dataSource : FeedDataSource = FeedDataSource()
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad()
     {
+        print("loading snippetViewController: \(Date())")
+        super.viewDidLoad()
+     
         let loadingIndicator : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         loadingIndicator.startAnimating()
         loadingIndicator.frame = CGRect(x: 0, y: 0, width: CachedData().getScreenWidth(), height: 44)
+     
+        tableView.dataSource = dataSource
+        tableView.delegate = self
+     
+        getRestOfImagesAsync()
+        
         tableView.tableFooterView = loadingIndicator
-        
-        print("loading snippetViewController: \(Date())")
-        super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
-        
         tableView.separatorColor = UIColor.clear
         
         turnNavigationBarTitleIntoButton(title: "Home")
@@ -38,9 +46,9 @@ class SnippetsTableViewController: UITableViewController
         navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
         navigationController?.navigationBar.barTintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        refreshControl?.backgroundColor = UIColor.lightGray
-        refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-        
+        tableView.refreshControl?.backgroundColor = UIColor.lightGray
+        tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+     
         scrollToTopOfTable()
         
         print("done loading snippetViewController: \(Date())")
@@ -74,17 +82,18 @@ class SnippetsTableViewController: UITableViewController
         }
     }
     
-    @IBAction func menuButtonPressed(_ sender: UIBarButtonItem)
+    
+    @IBAction func menuButtonPressed(_ sender: Any)
     {
         performSegue(withIdentifier: "showMenuSegue", sender: self)
     }
     
-    @IBAction func commentsButtonPressed(_ sender: Any)
+    func commentsButtonPressed(_ sender: Any)
     {
         performSegue(withIdentifier: "showCommentsSegue", sender: self)
     }
     
-    @objc func profileButtonPressed()
+    @IBAction func profileButtonPressed(_ sender: Any)
     {
         if (UserInformation().isUserLoggedIn())
         {
@@ -100,9 +109,9 @@ class SnippetsTableViewController: UITableViewController
     {
         DispatchQueue.main.async
         {
-            if (self.refreshControl?.isRefreshing)!
+            if (self.tableView.refreshControl?.isRefreshing)!
             {
-                self.refreshControl?.endRefreshing()
+                self.tableView.refreshControl?.endRefreshing()
             }
             
             if (self.activityIndicator.isAnimating)
@@ -187,9 +196,12 @@ class SnippetsTableViewController: UITableViewController
     {
         DispatchQueue.main.async
         {
-            if (self.refreshControl?.isRefreshing)!
+            if (self.tableView.refreshControl != nil)
             {
-                self.refreshControl?.endRefreshing()
+                if (self.tableView.refreshControl?.isRefreshing)!
+                {
+                    self.tableView.refreshControl?.endRefreshing()
+                }
             }
             self.updateTableInfoFeedDataSource(postDataArray: postDataArray, appendDataAndNotReplace : appendDataAndNotReplace)
             if (self.activityIndicator.isAnimating)
@@ -221,7 +233,7 @@ class SnippetsTableViewController: UITableViewController
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if let height = heightAtIndexPath.object(forKey: indexPath) as? NSNumber {
             return CGFloat(height.floatValue)
@@ -231,7 +243,7 @@ class SnippetsTableViewController: UITableViewController
     }
     
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
         // TODO: This is buggy since I'm logging some snippets many times. Not too important now
         if (self.finishedLoadingSnippets)
@@ -261,7 +273,7 @@ class SnippetsTableViewController: UITableViewController
         heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return UITableViewAutomaticDimension
     }
@@ -329,5 +341,15 @@ class SnippetsTableViewController: UITableViewController
                          action: #selector(self.homeButtonAction),
                          for: .touchUpInside)
         self.navigationItem.titleView = button
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return (tableView.dataSource as! FeedDataSource).postDataArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        return (tableView.dataSource as! FeedDataSource).tableView(tableView, cellForRowAt: indexPath)
     }
 }

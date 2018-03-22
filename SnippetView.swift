@@ -395,7 +395,12 @@ class SnippetView: UIView {
         print("clicked on author view")
         Logger().logClickAuthorView()
         
-        currentViewController.performSegue(withIdentifier: "segueToWriterInfo", sender: currentViewController)
+        //currentViewController.performSegue(withIdentifier: "segueToWriterInfo", sender: currentViewController)
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //let vc1 : UIViewController = storyboard.instantiateViewController(withIdentifier: "Snippets")
+        //currentViewController.present(vc1 , animated: true, completion: nullFunc)
+        //let vc1 = storyboard.instantiateViewControllerWithIdentifier("WebViewController")
+        currentViewController.performSegue(withIdentifier: "segueToSnippets", sender: currentViewController)
     }
     
     @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)
