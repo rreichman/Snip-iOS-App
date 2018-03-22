@@ -386,7 +386,7 @@ class SnippetView: UIView {
             activityVC.popoverPresentationController?.sourceView = shareView
             
             currentViewController.present(activityVC, animated: true, completion: nil)
-            //currentViewController.dismiss(animated: true, completion: nullFunc)
+            //currentViewController.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -395,12 +395,14 @@ class SnippetView: UIView {
         print("clicked on author view")
         Logger().logClickAuthorView()
         
-        //currentViewController.performSegue(withIdentifier: "segueToWriterInfo", sender: currentViewController)
-        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //let vc1 : UIViewController = storyboard.instantiateViewController(withIdentifier: "Snippets")
-        //currentViewController.present(vc1 , animated: true, completion: nullFunc)
-        //let vc1 = storyboard.instantiateViewControllerWithIdentifier("WebViewController")
-        currentViewController.performSegue(withIdentifier: "segueToSnippets", sender: currentViewController)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
+        snippetsViewController.shouldHaveBackButton = true
+        // TODO:: fix this
+        snippetsViewController.pageTitle = writerName.text!
+        
+        currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
+        //currentViewController.present(navigationController, animated: true, completion: nil)
     }
     
     @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)
@@ -409,10 +411,5 @@ class SnippetView: UIView {
         Logger().logClickSnippetMenuButton()
         
         handleSnippetMenuButtonClicked(snippetID : currentSnippetId, viewController: currentViewController)
-    }
-    
-    func nullFunc() -> Void
-    {
-        
     }
 }

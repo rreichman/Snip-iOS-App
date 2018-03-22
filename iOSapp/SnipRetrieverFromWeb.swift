@@ -16,6 +16,9 @@ class SnipRetrieverFromWeb
     // This is not ideal but is a useful trick to avoid losing the feed's order in case of a bad external snippet
     var previousUrlString : String = SystemVariables().URL_STRING
     var currentUrlString : String = SystemVariables().URL_STRING
+    
+    // TODO:: change this to be a mapping between snippet controller and snip retriever
+    
     var lock : NSLock = NSLock()
     
     func setCurrentUrlString(urlString: String)
@@ -48,19 +51,6 @@ class SnipRetrieverFromWeb
         print("POSTS: getting posts. Current URL string: \(currentUrlString)")
         let url: URL = URL(string: currentUrlString)!
         let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
-        
-        /*let url: URL = URL(string: currentUrlString)!
-        var urlRequest: URLRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        //urlRequest.setValue(getCookiesHeaderString(), forHTTPHeaderField: "Cookie")
-        var cookieStringArray = getCookiesForUrlRequest()
-        for cookieString in cookieStringArray
-        {
-            urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
-        }*/
         
         if (!areTherePostsRemainingOnServer)
         {

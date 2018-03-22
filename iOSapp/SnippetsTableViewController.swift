@@ -18,6 +18,8 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     // TODO: perhaps there's a better way
     var shouldEnterCommentOfFirstSnippet = false
+    var shouldHaveBackButton = false
+    var pageTitle = "Home"
     
     var dataSource : FeedDataSource = FeedDataSource()
     
@@ -41,10 +43,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorColor = UIColor.clear
         
-        turnNavigationBarTitleIntoButton(title: "Home")
-        navigationItem.rightBarButtonItem?.target = self
-        navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
-        navigationController?.navigationBar.barTintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        handleNavigationBar()
         
         tableView.refreshControl?.backgroundColor = UIColor.lightGray
         tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
@@ -52,6 +51,51 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         scrollToTopOfTable()
         
         print("done loading snippetViewController: \(Date())")
+    }
+    
+    /*func getEmptyImage(color: UIColor, size: CGSize) -> UIImage
+    {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        let cgImage : CGImage = image.cgImage!
+        return UIImage(cgImage: cgImage)
+    }*/
+    
+    func handleNavigationBar()
+    {
+        turnNavigationBarTitleIntoButton(title: pageTitle)
+        
+        if (shouldHaveBackButton)
+        {
+            let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.goBack))
+            backButton.tintColor = UIColor.black
+            navigationItem.leftBarButtonItem = backButton
+            navigationItem.rightBarButtonItem?.image = nil
+            print("BOUNDS")
+            print(navigationItem.titleView?.frame)
+            
+            //navigationItem.rightBarButtonItem?.tintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+            
+            //navigationItem.titleView?.bounds
+            //navigationItem.rightBarButtonItem?.tintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        }
+        else
+        {
+            navigationItem.rightBarButtonItem?.target = self
+            navigationItem.rightBarButtonItem?.action = #selector(profileButtonPressed)
+        }
+        
+        navigationController?.navigationBar.barTintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+    }
+    
+    @objc func goBack()
+    {
+        navigationController?.popViewController(animated: true)
     }
     
     func getRestOfImagesAsync()
