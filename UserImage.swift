@@ -16,6 +16,7 @@ class UserImage: UIView {
     
     @IBOutlet weak var initials: UITextView!
     @IBOutlet weak var initialsLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var initialsTopConstraint: NSLayoutConstraint!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,10 +52,36 @@ class UserImage: UIView {
         self.clipsToBounds = true
         self.layer.cornerRadius = CGFloat(self.frame.size.width / 2)
         
-        initials.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        
         removePaddingFromTextView(textView: initials)
         
         return view
+    }
+    
+    func loadInitialsIntoUserImage(writerName : NSAttributedString, sizeOfView : CGFloat, sizeOfFont: CGFloat)
+    {
+        var writerInitials = getWriterInitials(writerString: writerName)
+        
+        var str : String = ""
+        str.append(writerInitials[0])
+        str.append(writerInitials[1])
+        
+        let INITIALS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : UIFont.latoBold(size: sizeOfFont), NSAttributedStringKey.foregroundColor : UIColor.white]
+        
+        initials.attributedText = NSAttributedString(string: str, attributes: INITIALS_ATTRIBUTES)
+        
+        let size = (str as NSString).size(withAttributes: INITIALS_ATTRIBUTES)
+        
+        initialsLeftConstraint.constant = (sizeOfView - size.width)/2
+        initialsTopConstraint.constant = (sizeOfView - size.height)/2
+    }
+    
+    func getWriterInitials(writerString : NSAttributedString) -> [Character]
+    {
+        let fullNameArray : [String] = writerString.string.split{$0 == " "}.map(String.init)
+        
+        let firstName : String = fullNameArray[0].uppercased()
+        let lastName : String = fullNameArray[fullNameArray.count - 1].uppercased()
+        
+        return [getCharInString(str: firstName, position: 0), getCharInString(str: lastName, position: 0)]
     }
 }

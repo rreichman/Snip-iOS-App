@@ -21,11 +21,15 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     var shouldEnterCommentOfFirstSnippet = false
     var shouldHaveBackButton = false
     var pageTitle = "Home"
+    var pageWriterIfExists = "Page Writer"
     
     var _postDataArray: [PostData] = []
     var cellsNotToTruncate : Set<Int> = Set<Int>()
     
     var snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
+    
+    @IBOutlet weak var profileView: ProfileView!
+    @IBOutlet weak var profileViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,6 +45,11 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.dataSource = self
         tableView.delegate = self
      
+        if (snipRetrieverFromWeb.isCoreSnipViewController)
+        {
+            profileViewHeightConstraint.constant = 0
+        }
+        
         getRestOfImagesAsync()
         
         tableView.tableFooterView = loadingIndicator
@@ -49,10 +58,13 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         handleNavigationBar()
         
+        profileView.setUI(receivedUserFullName: pageWriterIfExists)
+        profileView.currentViewController = self
+        
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.backgroundColor = UIColor.lightGray
         tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-     
+        
         scrollToTopOfTable()
         
         print("done loading snippetViewController: \(Date())")
@@ -80,6 +92,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
 
     @objc func goBack()
     {
+        navigationController?.navigationBar.isHidden = false
         navigationController?.popViewController(animated: true)
     }
     
@@ -392,7 +405,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         cell.m_isTextLongEnoughToBeTruncated = self._postDataArray[indexPath.row].m_isTextLongEnoughToBeTruncated
         let shouldTruncate : Bool = !self.cellsNotToTruncate.contains(indexPath.row)
         
-        loadInitialsIntoUserImage(writerName: postData.writerString, userImage: cell.snippetView.userImage)
+        cell.snippetView.userImage.loadInitialsIntoUserImage(writerName: postData.writerString, sizeOfView: 30, sizeOfFont: 13)
         
         loadDataIntoSnippet(snippetView: cell.snippetView, shouldTruncate: shouldTruncate, postData: postData)
         cell.snippetView.currentViewController = self
@@ -430,9 +443,6 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.fullURL = postData.fullURL
         snippetView.currentSnippetId = postData.id
-        
-        snippetView.setNeedsLayout()
-        snippetView.layoutIfNeeded()
     }
     
     func handleInfiniteScroll(tableView : UITableView, currentRow : Int)

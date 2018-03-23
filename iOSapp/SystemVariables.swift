@@ -33,6 +33,8 @@ public class SystemVariables
     let LINE_SPACING_IN_REFERENCES = CGFloat(5)
     let LINE_SPACING_IN_HEADLINE = CGFloat(2.2)
     
+    let PROFILE_NAME_TEXT_FONT = UIFont.latoBold(size: 24)
+    
     let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
     let COMMENT_PREVIEW_TEXT_FONT = UIFont.systemFont(ofSize: 13)
     

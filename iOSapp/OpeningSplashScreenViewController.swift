@@ -52,6 +52,7 @@ class OpeningSplashScreenViewController: UIViewController
         super.viewDidAppear(animated)
         print("after super didAppear \(Date())")
         
+        _snipRetrieverFromWeb.isCoreSnipViewController = true
         _snipRetrieverFromWeb.clean()
         _snipRetrieverFromWeb.lock.lock()
         print("about to get snips from server \(Date())")
@@ -98,7 +99,6 @@ class OpeningSplashScreenViewController: UIViewController
             print("preparing segue: \(Date())")
             let navigationController = segue.destination as! UINavigationController
             let snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
-            // TODO:: review this
             snippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
             snippetsTableViewController._postDataArray = _postDataArray
             print("done with prepare: \(Date())")

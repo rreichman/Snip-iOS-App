@@ -308,33 +308,6 @@ func getCharInString(str : String, position: Int) -> Character
     return str[index]
 }
 
-func loadInitialsIntoUserImage(writerName : NSAttributedString, userImage: UserImage)
-{
-    var writerInitials = getWriterInitials(writerString: writerName)
-    
-    let INITIALS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : UIFont.latoBold(size: 13), NSAttributedStringKey.foregroundColor : UIColor.white]
-    
-    var str : String = ""
-    str.append(writerInitials[0])
-    str.append(writerInitials[1])
-    
-    userImage.initials.attributedText = NSAttributedString(string: str, attributes: INITIALS_ATTRIBUTES)
-    
-    let size = (str as NSString).size(withAttributes: INITIALS_ATTRIBUTES)
-    
-    userImage.initialsLeftConstraint.constant = (30 - size.width)/2
-}
-
-func getWriterInitials(writerString : NSAttributedString) -> [Character]
-{
-    let fullNameArray : [String] = writerString.string.split{$0 == " "}.map(String.init)
-    
-    let firstName : String = fullNameArray[0].uppercased()
-    let lastName : String = fullNameArray[fullNameArray.count - 1].uppercased()
-    
-    return [getCharInString(str: firstName, position: 0), getCharInString(str: lastName, position: 0)]
-}
-
 // Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()

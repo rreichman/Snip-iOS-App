@@ -15,12 +15,20 @@ class SnipRetrieverFromWeb
     var previousUrlString : String = SystemVariables().URL_STRING
     var currentUrlString : String = SystemVariables().URL_STRING
     
+    // This is a not to pretty way to know if we're currently at the core view controller. TODO: change this
+    var isCoreSnipViewController : Bool = false
+    
     var lock : NSLock = NSLock()
     
     func setCurrentUrlString(urlString: String)
     {
         previousUrlString = currentUrlString
         currentUrlString = urlString
+        
+        if (isCoreSnipViewController)
+        {
+            WebUtils.shared.currentURLString = currentUrlString
+        }
     }
     
     func clean()
@@ -71,7 +79,8 @@ class SnipRetrieverFromWeb
                     if (errorHandler != nil)
                     {
                         Logger().logErrorInSnippetCollecting()
-                        self.currentUrlString = self.previousUrlString
+                        self.setCurrentUrlString(urlString: self.previousUrlString)
+                        
                         errorHandler!()
                     }
                 }
@@ -82,7 +91,8 @@ class SnipRetrieverFromWeb
                 {
                     print("got error in data request")
                     Logger().logErrorInSnippetCollecting()
-                    self.currentUrlString = SystemVariables().URL_STRING
+                    self.setCurrentUrlString(urlString: SystemVariables().URL_STRING)
+                    
                     errorHandler!()
                 }
             }

@@ -15,11 +15,12 @@
 		7D00480D1F997E3E00B02D1A /* iOSappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D00480C1F997E3E00B02D1A /* iOSappTests.swift */; };
 		7D0048181F997E3E00B02D1A /* iOSappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0048171F997E3E00B02D1A /* iOSappUITests.swift */; };
 		7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D09A3961FC4F79B00E51553 /* MenuViewController.swift */; };
+		7D160E8320649DB500D41279 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D160E8220649DB500D41279 /* ProfileView.xib */; };
+		7D160E872064A14D00D41279 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D160E862064A14D00D41279 /* ProfileView.swift */; };
 		7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D1EC475203F928D004B7B44 /* UserImage.xib */; };
 		7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1EC477203F92A6004B7B44 /* UserImage.swift */; };
 		7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56A1FA418B7005482C9 /* ProgramError.swift */; };
 		7D44B56D1FA47264005482C9 /* NoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56C1FA47264005482C9 /* NoError.swift */; };
-		7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */; };
 		7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44B5701FA6ECCA005482C9 /* PostData.swift */; };
 		7D4641931FBBC4C300E29578 /* OpeningSplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */; };
 		7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */; };
@@ -96,11 +97,12 @@
 		7D0048171F997E3E00B02D1A /* iOSappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSappUITests.swift; sourceTree = "<group>"; };
 		7D0048191F997E3E00B02D1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D09A3961FC4F79B00E51553 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		7D160E8220649DB500D41279 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		7D160E862064A14D00D41279 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7D1EC475203F928D004B7B44 /* UserImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserImage.xib; sourceTree = "<group>"; };
 		7D1EC477203F92A6004B7B44 /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
 		7D44B56A1FA418B7005482C9 /* ProgramError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramError.swift; sourceTree = "<group>"; };
 		7D44B56C1FA47264005482C9 /* NoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoError.swift; sourceTree = "<group>"; };
-		7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSource.swift; sourceTree = "<group>"; };
 		7D44B5701FA6ECCA005482C9 /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningSplashScreenViewController.swift; sourceTree = "<group>"; };
 		7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipRetrieverFromWeb.swift; sourceTree = "<group>"; };
@@ -192,6 +194,8 @@
 		7D0047EB1F997E3E00B02D1A = {
 			isa = PBXGroup;
 			children = (
+				7D160E862064A14D00D41279 /* ProfileView.swift */,
+				7D160E8220649DB500D41279 /* ProfileView.xib */,
 				7D1EC477203F92A6004B7B44 /* UserImage.swift */,
 				7D1EC475203F928D004B7B44 /* UserImage.xib */,
 				7D85D30E202BEC9600867F8B /* SnippetView.xib */,
@@ -239,7 +243,6 @@
 				7D0048031F997E3E00B02D1A /* Info.plist */,
 				7D44B56A1FA418B7005482C9 /* ProgramError.swift */,
 				7D44B56C1FA47264005482C9 /* NoError.swift */,
-				7D44B56E1FA6EB10005482C9 /* FeedDataSource.swift */,
 				7D44B5701FA6ECCA005482C9 /* PostData.swift */,
 				7D7F25C41FD0D6EA000D9860 /* CommentActionData.swift */,
 				7D820EAE1FCD19DB00404FA2 /* UITextView+Placeholder.swift */,
@@ -423,6 +426,7 @@
 			files = (
 				7DAD9293203E303600337922 /* CommentView.xib in Resources */,
 				7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */,
+				7D160E8320649DB500D41279 /* ProfileView.xib in Resources */,
 				7D0047FD1F997E3E00B02D1A /* Main.storyboard in Resources */,
 				7D85D30F202BEC9600867F8B /* SnippetView.xib in Resources */,
 				7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */,
@@ -644,6 +648,7 @@
 				7D4641931FBBC4C300E29578 /* OpeningSplashScreenViewController.swift in Sources */,
 				7D85D30D202BEC7500867F8B /* SnippetView.swift in Sources */,
 				7D93CAE31FD73E650044C246 /* ForgotPasswordController.swift in Sources */,
+				7D160E872064A14D00D41279 /* ProfileView.swift in Sources */,
 				7D93CAE71FD8F6B60044C246 /* CachedData.swift in Sources */,
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,
 				7D7F25CF1FD10955000D9860 /* SignupViewController.swift in Sources */,
@@ -663,7 +668,6 @@
 				7D6E27851FD0D12400E7C2FF /* LogInfo.swift in Sources */,
 				7D820EAF1FCD19DB00404FA2 /* UITextView+Placeholder.swift in Sources */,
 				7D44B56D1FA47264005482C9 /* NoError.swift in Sources */,
-				7D44B56F1FA6EB10005482C9 /* FeedDataSource.swift in Sources */,
 				7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */,
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,

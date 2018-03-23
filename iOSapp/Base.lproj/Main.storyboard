@@ -709,51 +709,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RRk-Iv-X4T">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxJ-7g-oX1" userLabel="Top View" customClass="ProfileView" customModule="iOSapp">
+                                <rect key="frame" x="0.0" y="64" width="375" height="130"/>
+                                <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="185" id="acW-Gc-bQw"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Gl9-hj-S9O">
+                                <rect key="frame" x="0.0" y="194" width="375" height="473"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="236" id="F7u-3N-U9k" customClass="SnippetTableViewCell" customModule="iOSapp">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="236"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="177" id="DM6-k7-gnA" customClass="SnippetTableViewCell" customModule="iOSapp">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="177"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="F7u-3N-U9k" id="KUB-Y1-vyC">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="235.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DM6-k7-gnA" id="lhv-XQ-xmP">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="176.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iac-cL-qzb" customClass="SnippetView" customModule="iOSapp">
-                                                    <rect key="frame" x="20" y="0.0" width="335" height="235.5"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evW-83-36Q" customClass="SnippetView" customModule="iOSapp">
+                                                    <rect key="frame" x="20" y="0.0" width="335" height="177"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GI9-yO-kH7" userLabel="LeftBorderView">
-                                                    <rect key="frame" x="355" y="0.0" width="20" height="236"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="bN9-K7-Tp1"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="15M-3f-U5m" userLabel="LeftBorderView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="236"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="Bw8-Vb-LUJ"/>
-                                                    </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="15M-3f-U5m" secondAttribute="bottom" id="Hrb-oa-L3M"/>
-                                                <constraint firstItem="GI9-yO-kH7" firstAttribute="leading" secondItem="Iac-cL-qzb" secondAttribute="trailing" id="KbY-iG-NAm"/>
-                                                <constraint firstAttribute="bottom" secondItem="GI9-yO-kH7" secondAttribute="bottom" id="Vcq-x8-i5H"/>
-                                                <constraint firstItem="Iac-cL-qzb" firstAttribute="leading" secondItem="15M-3f-U5m" secondAttribute="trailing" id="YbN-LP-JK3"/>
-                                                <constraint firstAttribute="bottom" secondItem="Iac-cL-qzb" secondAttribute="bottom" id="ZgW-Gh-Cw5"/>
-                                                <constraint firstAttribute="trailing" secondItem="GI9-yO-kH7" secondAttribute="trailing" id="cfz-rF-P8f"/>
-                                                <constraint firstItem="GI9-yO-kH7" firstAttribute="top" secondItem="KUB-Y1-vyC" secondAttribute="top" id="hXz-Jn-dpV"/>
-                                                <constraint firstItem="15M-3f-U5m" firstAttribute="top" secondItem="KUB-Y1-vyC" secondAttribute="top" id="hnd-sw-lJe"/>
-                                                <constraint firstItem="Iac-cL-qzb" firstAttribute="top" secondItem="KUB-Y1-vyC" secondAttribute="top" id="trA-1S-3Wn"/>
-                                                <constraint firstItem="15M-3f-U5m" firstAttribute="leading" secondItem="KUB-Y1-vyC" secondAttribute="leading" id="uAA-Jt-cNT"/>
+                                                <constraint firstItem="evW-83-36Q" firstAttribute="top" secondItem="lhv-XQ-xmP" secondAttribute="top" id="JRO-BF-LgB"/>
+                                                <constraint firstItem="evW-83-36Q" firstAttribute="leading" secondItem="lhv-XQ-xmP" secondAttribute="leading" constant="20" id="WtW-nd-xJA"/>
+                                                <constraint firstAttribute="trailing" secondItem="evW-83-36Q" secondAttribute="trailing" constant="20" id="hyL-Pc-G2f"/>
+                                                <constraint firstAttribute="bottom" secondItem="evW-83-36Q" secondAttribute="bottom" id="n7D-mV-uZ9"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="snippetView" destination="Iac-cL-qzb" id="3we-bd-8Pg"/>
+                                            <outlet property="snippetView" destination="evW-83-36Q" id="CU5-cr-V0j"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -761,9 +748,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="RRk-Iv-X4T" firstAttribute="leading" secondItem="b3S-fP-N9L" secondAttribute="leading" id="HDJ-T1-M1N"/>
-                            <constraint firstItem="b3S-fP-N9L" firstAttribute="bottom" secondItem="RRk-Iv-X4T" secondAttribute="bottom" id="x2S-Cz-5hw"/>
-                            <constraint firstItem="b3S-fP-N9L" firstAttribute="trailing" secondItem="RRk-Iv-X4T" secondAttribute="trailing" id="zlS-M3-YMg"/>
+                            <constraint firstItem="b3S-fP-N9L" firstAttribute="bottom" secondItem="Gl9-hj-S9O" secondAttribute="bottom" id="9Ad-9d-oHj"/>
+                            <constraint firstItem="b3S-fP-N9L" firstAttribute="trailing" secondItem="lxJ-7g-oX1" secondAttribute="trailing" id="jJu-YN-7pj"/>
+                            <constraint firstItem="Gl9-hj-S9O" firstAttribute="top" secondItem="lxJ-7g-oX1" secondAttribute="bottom" id="nCi-vf-hgD"/>
+                            <constraint firstItem="lxJ-7g-oX1" firstAttribute="leading" secondItem="b3S-fP-N9L" secondAttribute="leading" id="pnC-oI-dOs"/>
+                            <constraint firstItem="Gl9-hj-S9O" firstAttribute="leading" secondItem="b3S-fP-N9L" secondAttribute="leading" id="wbb-95-r4K"/>
+                            <constraint firstItem="b3S-fP-N9L" firstAttribute="trailing" secondItem="Gl9-hj-S9O" secondAttribute="trailing" id="whP-G0-DMa"/>
+                            <constraint firstItem="lxJ-7g-oX1" firstAttribute="top" secondItem="b3S-fP-N9L" secondAttribute="top" id="x4c-7t-C11"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b3S-fP-N9L"/>
                     </view>
@@ -782,7 +773,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="RRk-Iv-X4T" id="ghI-va-GB4"/>
+                        <outlet property="profileView" destination="lxJ-7g-oX1" id="CLw-dM-RrD"/>
+                        <outlet property="profileViewHeightConstraint" destination="acW-Gc-bQw" id="2Fu-gc-NSa"/>
+                        <outlet property="tableView" destination="Gl9-hj-S9O" id="tja-Ff-Jzx"/>
                         <segue destination="SkD-JV-d0f" kind="show" identifier="showMenuSegue" id="8c8-d3-7Ed"/>
                         <segue destination="ZV8-xk-9wk" kind="show" identifier="showCommentsSegue" id="WF5-TF-lwd"/>
                         <segue destination="Dcv-Tk-xld" kind="show" identifier="showProfileSegue" id="PP5-Xv-AcO"/>

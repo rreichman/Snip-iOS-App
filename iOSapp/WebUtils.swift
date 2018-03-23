@@ -17,6 +17,8 @@ class WebUtils
 {
     static let shared = WebUtils()
     
+    var currentURLString : String = SystemVariables().URL_STRING
+    
     func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String)
     {
         postContentWithJsonBody(jsonString: jsonString, urlString: urlString, completionHandler: nilFunction)
