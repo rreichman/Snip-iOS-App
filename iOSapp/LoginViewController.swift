@@ -45,7 +45,6 @@ class LoginViewController : GenericProgramViewController
     @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
     {
         let loginManager = LoginManager()
-        //loginManager.loginBehavior = .native
         loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
     }
     
