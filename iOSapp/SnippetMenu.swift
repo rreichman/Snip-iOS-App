@@ -28,7 +28,7 @@ extension SnippetView {
         
         let serverString = getServerStringForReport()
         let url : URL = URL(string: serverString)!
-        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST", withCsrf: false)
         
         let jsonString = convertDictionaryToJsonString(dictionary: convertedReportParams.getDataAsDictionary())
         urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)

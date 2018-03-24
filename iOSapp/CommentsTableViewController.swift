@@ -32,10 +32,13 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
     var currentSnippetID : Int = 0
+    var currentCommentID : Int = 0
     var isCurrentlyReplyingToComment : Bool = false
     var commentIdReplyingTo : Int = 0
+    var isCurrentlyEditingComment: Bool = false
+    var commentIdInEdit : Int = 0
     var noDataLabel: UILabel = UILabel()
-    var isPostButtonValid = true
+    var isPostButtonValid : Bool = true
     
     override func viewDidLoad()
     {
@@ -143,6 +146,12 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         hideReplyingToBox()
         setNotReplyingTo()
+        
+        if !isCurrentlyReplyingToComment
+        {
+            writeCommentBox.text = ""
+            textViewDidChange(writeCommentBox)
+        }
     }
     
     func setNotReplyingTo()
@@ -151,11 +160,18 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         commentIdReplyingTo = 0
     }
     
+    func setNotEditing()
+    {
+        isCurrentlyEditingComment = false
+        commentIdInEdit = 0
+    }
+    
     func hideReplyingToBox()
     {
         replyingToView.isHidden = true
         setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToView, constant: 0)
         closeReplyButton.isHidden = true
+        writeCommentBox.resignFirstResponder()
     }
     
     func setTableViewBackground()
@@ -231,7 +247,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
             {
                 isPostButtonValid = false
                 postIcon.image = #imageLiteral(resourceName: "postIconDisabled")
-                performCommentPostAction(handlerParams: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()))
+                performCommentPostAction(commentActionData: CommentActionData(receivedActionString: "publish", receivedActionJson: getCommentDataAsJson()))
             }
             else
             {
@@ -243,17 +259,39 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
     }
     
+    func insertCommentIntoCommentArray(comment : Comment)
+    {
+        var newCommentArray : [Comment] = getCommentArray()
+        if (isCurrentlyEditingComment)
+        {
+            for i in 0...newCommentArray.count-1
+            {
+                if (newCommentArray[i].id == comment.id)
+                {
+                    newCommentArray[i] = comment
+                }
+            }
+            print("here")
+        }
+        else
+        {
+            newCommentArray.insert(comment, at: 0)
+        }
+        
+        setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: newCommentArray))
+    }
+    
     func handlePostedComment(responseString: String)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
-            let postedComment = Comment(commentData: jsonObj)
-            var newCommentArray : [Comment] = getCommentArray()
-            newCommentArray.insert(postedComment, at: 0)
-            setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: newCommentArray))
+            var postedComment : Comment = Comment(commentData: jsonObj)
+            insertCommentIntoCommentArray(comment: postedComment)
             DispatchQueue.main.async
             {
                 self.setNotReplyingTo()
+                self.setNotEditing()
+                
                 self.tableHeightConstraint.constant = 10000
                 self.tableView.reloadData()
                 self.hideReplyingToBox()
@@ -368,16 +406,14 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         return newCommentArray
     }
     
-    func performCommentPostAction(handlerParams : Any)
+    func performCommentPostAction(commentActionData : CommentActionData)
     {
-        let actionParams : CommentActionData = handlerParams as! CommentActionData
-        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), completionHandler: self.handlePostedComment)
+        WebUtils().postContentWithJsonBody(jsonString: commentActionData.actionJson, urlString: getServerStringForComment(commentActionString: commentActionData.actionString), completionHandler: self.handlePostedComment)
     }
     
-    func performCommentDeleteAction(handlerParams: Any)
+    func performCommentDeleteAction(commentActionData: CommentActionData)
     {
-        let actionParams : CommentActionData = handlerParams as! CommentActionData
-        WebUtils().postContentWithJsonBody(jsonString: actionParams.actionJson, urlString: getServerStringForComment(commentActionString: actionParams.actionString), completionHandler: self.handleDeletedComment)
+        WebUtils().postContentWithJsonBody(jsonString: commentActionData.actionJson, urlString: getServerStringForComment(commentActionString: commentActionData.actionString), completionHandler: self.handleDeletedComment)
     }
     
     func getServerStringForComment(commentActionString : String) -> String
@@ -397,6 +433,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         if (isCurrentlyReplyingToComment)
         {
             commentDataAsJson["parent"] = String(commentIdReplyingTo)
+        }
+        if (isCurrentlyEditingComment)
+        {
+            commentDataAsJson["id"] = String(commentIdInEdit)
         }
         let text = writeCommentBox.text
         

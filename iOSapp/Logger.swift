@@ -72,7 +72,8 @@ public class Logger
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
         let serverString = getServerStringForLog(logInfo: logInfo)
-        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
+        // TODO:: fix this
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST", withCsrf: false)
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
         // Note - the current implementation is perhaps not ideal and should use JSONSerialization but otherwise need to change server side
@@ -106,7 +107,8 @@ public class Logger
         Mixpanel.mainInstance().track(event: actionName, properties: eventProperties)
         var currentLog : Dictionary<String,String> = Dictionary<String,String>()
         currentLog["action"] = actionName
-        currentLog["appleid"] = getUniqueDeviceID()
+        // TODO: Think where to put this
+        //currentLog["appleid"] = getUniqueDeviceID()
         for eventProperty in eventProperties.keys
         {
             currentLog[eventProperty] = eventProperties[eventProperty]?.toString()
@@ -216,7 +218,7 @@ public class Logger
     
     func logWeirdNumberOfSnippetsOnScreen(numberOfSnippets : Int)
     {
-        logEvent(actionName: "manyOnScreen", eventProperties: ["numberOfSnips" : numberOfSnippets], shouldFlushNow: false)
+        logEvent(actionName: "manyOnScreen", eventProperties: ["param1" : numberOfSnippets], shouldFlushNow: false)
     }
     
     func logViewingSnippet(snippetID : Int)

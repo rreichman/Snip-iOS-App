@@ -21,6 +21,7 @@
                 <outlet property="bufferBetweenComments" destination="J0U-5L-1tV" id="WOO-as-Nx0"/>
                 <outlet property="date" destination="kc9-lN-CQT" id="XNz-dI-3fM"/>
                 <outlet property="deleteButton" destination="tIU-i8-YTK" id="Ptp-zJ-R0u"/>
+                <outlet property="editButton" destination="LxF-0A-IXe" id="CYK-FL-Etd"/>
                 <outlet property="replyButton" destination="8fH-LM-RC4" id="hb0-Wr-jIl"/>
                 <outlet property="replyButtonWidthConstraint" destination="Z6z-jK-ity" id="YJZ-M1-hdb"/>
                 <outlet property="surroundingView" destination="w4W-BD-uLh" id="QTu-0G-csw"/>
@@ -70,7 +71,7 @@
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Delete" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIU-i8-YTK" userLabel="Delete Button">
-                            <rect key="frame" x="152.5" y="67" width="55" height="580"/>
+                            <rect key="frame" x="207.5" y="67" width="55" height="580"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="55" id="pll-og-bMe"/>
                             </constraints>
@@ -96,17 +97,28 @@
                                 <constraint firstAttribute="trailing" secondItem="i20-pJ-kUY" secondAttribute="trailing" constant="5" id="kaF-BI-iZn"/>
                             </constraints>
                         </view>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="996" horizontalCompressionResistancePriority="996" verticalCompressionResistancePriority="996" scrollEnabled="NO" editable="NO" text="Edit" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LxF-0A-IXe" userLabel="Edit Button">
+                            <rect key="frame" x="152.5" y="67" width="55" height="580"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="55" id="XKF-s3-WND"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="J0U-5L-1tV" firstAttribute="top" secondItem="LxF-0A-IXe" secondAttribute="bottom" constant="5" id="1kS-S8-MKW"/>
                         <constraint firstItem="8fH-LM-RC4" firstAttribute="leading" secondItem="kc9-lN-CQT" secondAttribute="trailing" constant="17" id="3tY-Yi-KdQ"/>
                         <constraint firstItem="0uz-hm-15c" firstAttribute="top" secondItem="mzh-Sl-tYH" secondAttribute="bottom" constant="-7" id="4Lf-Av-Umw"/>
                         <constraint firstItem="mzh-Sl-tYH" firstAttribute="top" secondItem="w4W-BD-uLh" secondAttribute="top" constant="4" id="6Mf-8f-5aW"/>
                         <constraint firstAttribute="bottom" secondItem="J0U-5L-1tV" secondAttribute="bottom" id="7wS-Fk-jsN"/>
                         <constraint firstItem="J0U-5L-1tV" firstAttribute="top" secondItem="kc9-lN-CQT" secondAttribute="bottom" constant="5" id="8EK-9o-bRv"/>
+                        <constraint firstItem="LxF-0A-IXe" firstAttribute="leading" secondItem="8fH-LM-RC4" secondAttribute="trailing" constant="5" id="8JJ-GB-6Vq"/>
+                        <constraint firstItem="LxF-0A-IXe" firstAttribute="top" secondItem="0uz-hm-15c" secondAttribute="bottom" constant="5" id="8Na-Rn-VoU"/>
                         <constraint firstItem="kc9-lN-CQT" firstAttribute="leading" secondItem="ZQh-R7-uhX" secondAttribute="trailing" id="9ne-IQ-Pm8"/>
                         <constraint firstAttribute="trailing" secondItem="mzh-Sl-tYH" secondAttribute="trailing" constant="9" id="BfL-UP-ghX"/>
-                        <constraint firstItem="tIU-i8-YTK" firstAttribute="leading" secondItem="8fH-LM-RC4" secondAttribute="trailing" constant="5" id="BpH-YJ-Vjd"/>
+                        <constraint firstItem="tIU-i8-YTK" firstAttribute="leading" secondItem="LxF-0A-IXe" secondAttribute="trailing" id="Cp0-OG-ca7"/>
                         <constraint firstItem="8fH-LM-RC4" firstAttribute="top" secondItem="0uz-hm-15c" secondAttribute="bottom" constant="5" id="FgV-0N-HAf"/>
                         <constraint firstItem="J0U-5L-1tV" firstAttribute="top" secondItem="ZQh-R7-uhX" secondAttribute="bottom" id="O9W-Oi-PsP"/>
                         <constraint firstAttribute="trailing" secondItem="J0U-5L-1tV" secondAttribute="trailing" id="PkH-PU-aQo"/>

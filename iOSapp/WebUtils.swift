@@ -26,7 +26,7 @@ class WebUtils
     
     func postContentWithJsonBody(jsonString : Dictionary<String,String>, urlString : String, completionHandler : @escaping (_ responseString : String) -> ())
     {
-        var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "POST")
+        var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "POST", withCsrf: false)
         
         let commentData : Dictionary<String,String> = jsonString
         let jsonString = convertDictionaryToJsonString(dictionary: commentData)
@@ -95,6 +95,26 @@ class WebUtils
     {
         let responseHeaderFields = response.allHeaderFields as! [String : String]
         let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaderFields, for: url)
-        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: url)
+        let otherCookies = HTTPCookieStorage.shared.cookies
+        //for cookie in otherCookies!
+        //{
+            //print(cookie)
+        //}
+        print("here")
+        // TODO:: fix this
+        /*for cookie in cookies
+        {
+            //if doesAlreadyHaveCsrfToken()
+            //{
+            if (cookie.name != "csrftoken")
+            {
+                HTTPCookieStorage.shared.setCookie(cookie)
+            }
+            //}
+            //else
+            //{
+                //HTTPCookieStorage.shared.setCookie(cookie)
+            //}
+        }*/
     }
 }

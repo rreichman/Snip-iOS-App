@@ -54,7 +54,7 @@ class SnipRetrieverFromWeb
     {
         print("POSTS: getting posts. Current URL string: \(currentUrlString)")
         let url: URL = URL(string: currentUrlString)!
-        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
+        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET", withCsrf: false)
         
         if (!areTherePostsRemainingOnServer)
         {
@@ -79,6 +79,7 @@ class SnipRetrieverFromWeb
                     if (errorHandler != nil)
                     {
                         Logger().logErrorInSnippetCollecting()
+                        print("REVERTED to previous string!")
                         self.setCurrentUrlString(urlString: self.previousUrlString)
                         
                         errorHandler!()

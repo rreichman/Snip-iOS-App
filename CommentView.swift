@@ -19,7 +19,9 @@ class CommentView: UIView
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var date: UITextView!
     @IBOutlet weak var replyButton: UITextView!
+    @IBOutlet weak var editButton: UITextView!
     @IBOutlet weak var deleteButton: UITextView!
+    
     @IBOutlet weak var surroundingView: UIView!
     
     @IBOutlet weak var bufferBetweenComments: UIImageView!
@@ -65,6 +67,7 @@ class CommentView: UIView
         
         setCellStyles()
         makeReplyButtonClickable()
+        makeEditButtonClickable()
         makeDeleteButtonClickable()
         
         return view
@@ -75,6 +78,13 @@ class CommentView: UIView
         let replyButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.replyButtonPressed(sender:)))
         replyButton.isUserInteractionEnabled = true
         replyButton.addGestureRecognizer(replyButtonRecognizer)
+    }
+    
+    func makeEditButtonClickable()
+    {
+        let editButtonRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.editButtonPressed(sender:)))
+        editButton.isUserInteractionEnabled = true
+        editButton.addGestureRecognizer(editButtonRecognizer)
     }
     
     func makeDeleteButtonClickable()
@@ -89,12 +99,8 @@ class CommentView: UIView
         if (UserInformation().isUserLoggedIn())
         {
             externalCommentBox.becomeFirstResponder()
-            setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: CGFloat(SystemVariables().DEFAULT_HEIGHT_OF_REPLYING_TO_BAR))
             let comment : CommentView = sender.view?.superview?.superview?.superview as! CommentView
-            let replyingToString : String = "Replying to " + comment.writer.text
-            replyingToBox.attributedText = NSAttributedString(string: replyingToString)
-            replyingToBox.isHidden = false
-            closeReplyButton.isHidden = false
+            loadReplyingToBox(replyingToText: "Replying to " + comment.writer.text)
             
             viewController.isCurrentlyReplyingToComment = true
             viewController.commentIdReplyingTo = commentID
@@ -105,11 +111,19 @@ class CommentView: UIView
         }
     }
     
+    func loadReplyingToBox(replyingToText: String)
+    {
+        setConstraintConstantForView(constraintName: "replyingHeightConstraint", view: replyingToBox, constant: CGFloat(SystemVariables().DEFAULT_HEIGHT_OF_REPLYING_TO_BAR))
+        replyingToBox.attributedText = NSAttributedString(string: replyingToText)
+        replyingToBox.isHidden = false
+        closeReplyButton.isHidden = false
+    }
+    
     func deleteComment(alertAction: UIAlertAction)
     {
         var deleteCommandJson : Dictionary<String,String> = Dictionary<String,String>()
         deleteCommandJson["id"] = String(commentID)
-        viewController.performCommentDeleteAction(handlerParams: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson))
+        viewController.performCommentDeleteAction(commentActionData: CommentActionData(receivedActionString: "delete", receivedActionJson: deleteCommandJson))
     }
     
     @objc func deleteButtonPressed(sender: UITapGestureRecognizer)
@@ -122,18 +136,31 @@ class CommentView: UIView
         viewController.present(alertController, animated: true, completion: nil)
     }
     
+    @objc func editButtonPressed(sender: UITapGestureRecognizer)
+    {
+        print("edit button")
+        loadReplyingToBox(replyingToText: "Editing...")
+        viewController.writeCommentBox.text = body.text
+        viewController.textViewDidChange(viewController.writeCommentBox)
+        viewController.writeCommentBox.becomeFirstResponder()
+        viewController.isCurrentlyEditingComment = true
+        viewController.commentIdInEdit = commentID
+    }
+    
     func setCellStyles()
     {
         addFontAndForegroundColorToView(textView: writer, newFont: SystemVariables().PUBLISH_WRITER_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
         addFontAndForegroundColorToView(textView: body, newFont: SystemVariables().CELL_TEXT_FONT!, newColor: SystemVariables().CELL_TEXT_COLOR)
         addFontAndForegroundColorToView(textView: date, newFont: SystemVariables().PUBLISH_TIME_FONT!, newColor: SystemVariables().PUBLISH_TIME_COLOR)
         addFontAndForegroundColorToView(textView: replyButton, newFont: SystemVariables().COMMENT_ACTION_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
+        addFontAndForegroundColorToView(textView: editButton, newFont: SystemVariables().COMMENT_ACTION_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
         addFontAndForegroundColorToView(textView: deleteButton, newFont: SystemVariables().COMMENT_ACTION_FONT!, newColor: SystemVariables().PUBLISH_WRITER_COLOR)
         
         removePaddingFromTextView(textView: writer)
         removePaddingFromTextView(textView: body)
         removePaddingFromTextView(textView: date)
         removePaddingFromTextView(textView: replyButton)
+        removePaddingFromTextView(textView: editButton)
         removePaddingFromTextView(textView: deleteButton)
     }
 
