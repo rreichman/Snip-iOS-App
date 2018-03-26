@@ -231,8 +231,19 @@ extension SnippetsTableViewController
         snippetView.postImage.image = nil
         if (postData.image._gotImageData)
         {
-            snippetView.postImageHeightConstraint.constant = postData.image._imageHeight
+            if (postData.image._imageHeight == .nan)
+            {
+                snippetView.postImageHeightConstraint.constant = 0
+            }
+            else
+            {
+                snippetView.postImageHeightConstraint.constant = postData.image._imageHeight
+            }
             snippetView.postImage.image = postData.image.getImageData()
+        }
+        else
+        {
+            snippetView.postImageHeightConstraint.constant = 0
         }
     }
     
