@@ -28,17 +28,12 @@ extension SnippetView {
         
         let serverString = getServerStringForReport()
         let url : URL = URL(string: serverString)!
-        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST", withCsrf: false)
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         let jsonString = convertDictionaryToJsonString(dictionary: convertedReportParams.getDataAsDictionary())
         urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
         
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if (response != nil)
-            {
-                WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
-            }
-            
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in            
             guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")

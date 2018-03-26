@@ -271,7 +271,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                     newCommentArray[i] = comment
                 }
             }
-            print("here")
         }
         else
         {
@@ -371,8 +370,13 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
                     {
                         self.tableHeightConstraint.constant = 10000
                         
-                        let deletedIDs : [Int] = jsonObj["deleted"] as! [Int]
-                        self.setCommentArray(newCommentArray: self.getCommentListWithoutDeletedComments(commentArray: self.getCommentArray(), deletedIDs: deletedIDs))
+                        let deletedID : Int = (jsonObj["deleted"] as! [Int])[0]
+                        let hasSubcomments : Bool = jsonObj["has_subcomments"] as! Bool
+                        let newCommentBody : String = jsonObj["body"] as! String
+                        
+                        let commentListWithoutDeletedComments : [Comment] =
+                            self.getCommentListWithoutDeletedComments(commentArray: self.getCommentArray(), deletedID: deletedID, hasSubComments: hasSubcomments, bodyAfterDelete : newCommentBody)
+                        self.setCommentArray(newCommentArray: commentListWithoutDeletedComments)
                         self.setTableViewBackground()
                         self.tableView.reloadData()
                         
@@ -391,15 +395,23 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
     }
     
-    func getCommentListWithoutDeletedComments(commentArray: [Comment], deletedIDs: [Int]) -> [Comment]
+    func getCommentListWithoutDeletedComments(commentArray: [Comment], deletedID: Int, hasSubComments : Bool, bodyAfterDelete : String) -> [Comment]
     {
         var newCommentArray : [Comment] = []
         
         for comment in commentArray
         {
-            if (!deletedIDs.contains(comment.id))
+            if (deletedID != comment.id)
             {
                 newCommentArray.append(comment)
+            }
+            else
+            {
+                if hasSubComments
+                {
+                    comment.body = bodyAfterDelete
+                    newCommentArray.append(comment)
+                }
             }
         }
         

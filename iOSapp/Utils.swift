@@ -79,14 +79,14 @@ func convertDateToCookieString(date: Date) -> String
     return res
 }
 
-func getCookiesForUrlRequest(withCsrf : Bool) -> [String]
+func getCookiesForUrlRequest() -> [String]
 {
     var cookieString = ""
     var cookieStringArray : [String] = []
     
     for cookie in HTTPCookieStorage.shared.cookies!
     {
-        if ((cookie.name == "sniptoday") || ((cookie.name == "csrftoken") && (withCsrf)))
+        if (cookie.name == "sniptoday")
         {
             cookieString.append(cookie.name)
             cookieString.append("=")
@@ -116,25 +116,14 @@ func getCookiesForUrlRequest(withCsrf : Bool) -> [String]
     return cookieStringArray
 }
 
-func getDefaultURLRequest(serverString: String, method: String, withCsrf: Bool) -> URLRequest
+func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!
     var urlRequest: URLRequest = URLRequest(url: url)
     
     urlRequest.httpMethod = method
-    print("CSRF COOKIES HERE")
-    for cookie in HTTPCookieStorage.shared.cookies!
-    {
-        if (cookie.name == "csrftoken")
-        {
-            print("CSRF COOKIES")
-            print(serverString)
-            print(cookie.value)
-            urlRequest.setValue(cookie.value, forHTTPHeaderField: "X-CSRFTOKEN")
-        }
-    }
     
-    let cookieStringArray = getCookiesForUrlRequest(withCsrf: withCsrf)
+    let cookieStringArray = getCookiesForUrlRequest()
     for cookieString in cookieStringArray
     {
         urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")

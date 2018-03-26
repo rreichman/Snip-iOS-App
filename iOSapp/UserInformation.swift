@@ -55,13 +55,12 @@ class UserInformation
             urlString.append("user/my_profile/")
             
             let url: URL = URL(string: urlString)!
-            var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "GET", withCsrf: false)
+            var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "GET")
             
             //fetching the data from the url
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in
                 if (response != nil)
                 {
-                    WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
                     if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     {
                         print("got user info from web: \(Date())")

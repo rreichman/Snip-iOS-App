@@ -72,8 +72,7 @@ public class Logger
         let logInfo : Dictionary<String,String> = convertedLogParams.logInfo
         
         let serverString = getServerStringForLog(logInfo: logInfo)
-        // TODO:: fix this
-        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST", withCsrf: false)
+        var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         //let jsonData = try? JSONSerialization.data(withJSONObject: logInfo)
         // Note - the current implementation is perhaps not ideal and should use JSONSerialization but otherwise need to change server side
@@ -87,7 +86,6 @@ public class Logger
                 print("error=\(String(describing: error))")
                 return
             }
-            WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: urlRequest.url!)
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors

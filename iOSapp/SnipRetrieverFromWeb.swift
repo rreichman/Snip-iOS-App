@@ -53,8 +53,7 @@ class SnipRetrieverFromWeb
     func getSnipsJsonFromWebServer(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool, errorHandler : (() -> Void)? = nil)
     {
         print("POSTS: getting posts. Current URL string: \(currentUrlString)")
-        let url: URL = URL(string: currentUrlString)!
-        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET", withCsrf: false)
+        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
         
         if (!areTherePostsRemainingOnServer)
         {
@@ -66,7 +65,6 @@ class SnipRetrieverFromWeb
             print("at beginning of data request \(Date())")
             if (response != nil)
             {
-                WebUtils.shared.handleResponse(response: response as! HTTPURLResponse, url: url)
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                 {
                     print("after deserialization of data request \(Date())")
