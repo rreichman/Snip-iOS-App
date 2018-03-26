@@ -22,6 +22,9 @@ class SnippetView: UIView {
     @IBOutlet weak var postImageHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var imageDescription: UITextView!
+    
+    
+    
     @IBOutlet weak var headline: UITextView!
     
     @IBOutlet weak var body: UITextView!
