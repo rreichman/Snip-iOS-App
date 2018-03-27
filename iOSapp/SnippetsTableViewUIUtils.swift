@@ -38,8 +38,7 @@ extension SnippetsTableViewController
     
     @objc func goBack()
     {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.popViewController(animated: true)
+        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: true)
     }
     
     func scrollToTopOfTable()

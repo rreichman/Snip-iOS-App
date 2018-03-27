@@ -301,6 +301,12 @@ func getCharInString(str : String, position: Int) -> Character
     return str[index]
 }
 
+func goBackWithoutNavigationBar(navigationController : UINavigationController, showNavigationBar : Bool)
+{
+    navigationController.navigationBar.isHidden = !showNavigationBar
+    navigationController.popViewController(animated: true)
+}
+
 // Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()

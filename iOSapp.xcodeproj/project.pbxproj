@@ -56,6 +56,7 @@
 		7DAD9295203E304500337922 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAD9294203E304500337922 /* CommentView.swift */; };
 		7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */; };
 		7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */; };
+		7DC588722069C51600BFA5AD /* SignupWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */; };
 		7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */; };
 		7DCB69DE20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */; };
 		7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */; };
@@ -140,6 +141,7 @@
 		7DAD9292203E303600337922 /* CommentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentView.xib; sourceTree = "<group>"; };
 		7DAD9294203E304500337922 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
+		7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupWelcomeViewController.swift; sourceTree = "<group>"; };
 		7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewUIUtils.swift; sourceTree = "<group>"; };
 		7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewDataUtils.swift; sourceTree = "<group>"; };
 		7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericProgramViewController.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */,
 				7D812FC5202423F700968B9E /* CellTextUtils.swift */,
 				7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */,
+				7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
+				7DC588722069C51600BFA5AD /* SignupWelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
