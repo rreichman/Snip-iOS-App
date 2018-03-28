@@ -60,10 +60,20 @@ func getErrorMessageFromResponse(jsonObj : Dictionary<String, Any>) -> String
         {
             messageString.append("\n- ")
         }
-        let arrayInJsonResponse : Any = (jsonObj[key] as! Array)[0]
+        
+        var stringResponse : String = "Error"
+        
+        if (jsonObj[key] is String)
+        {
+            stringResponse = jsonObj[key] as! String
+        }
+        else
+        {
+            stringResponse = (jsonObj[key] as! Array<String>)[0]
+        }
         messageString.append(key)
         messageString.append(": ")
-        messageString.append(arrayInJsonResponse as! String)
+        messageString.append(stringResponse)
     }
     
     return messageString
@@ -123,17 +133,20 @@ func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
     
     urlRequest.httpMethod = method
     
-    let cookieStringArray = getCookiesForUrlRequest()
-    for cookieString in cookieStringArray
-    {
-        urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
-    }
-    urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
-    urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     if (UserInformation().isUserLoggedIn())
     {
         urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
     }
+    else
+    {
+        let cookieStringArray = getCookiesForUrlRequest()
+        for cookieString in cookieStringArray
+        {
+            urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
+        }
+    }
+    urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
+    urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     
     return urlRequest
 }
@@ -305,6 +318,11 @@ func goBackWithoutNavigationBar(navigationController : UINavigationController, s
 {
     navigationController.navigationBar.isHidden = !showNavigationBar
     navigationController.popViewController(animated: true)
+}
+
+func setConstraintToMiddleOfScreen(constraint : NSLayoutConstraint, view : UIView)
+{
+    constraint.constant = CachedData().getScreenWidth() / 2 - view.frame.width / 2
 }
 
 // Use this for tests

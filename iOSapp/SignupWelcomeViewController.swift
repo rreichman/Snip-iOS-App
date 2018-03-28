@@ -39,7 +39,7 @@ class SignupWelcomeViewController : GenericProgramViewController
     @IBOutlet weak var termsAndConditionsLeadingConstraint: NSLayoutConstraint!
     
     let LOGIN_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().LOGIN_SIGNUP_BUTTON_FONT!, NSAttributedStringKey.foregroundColor : UIColor.white]
-        
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -62,24 +62,19 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     func updateConstraints()
     {
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: commentImageLeadingConstraint, view: commentImageView)
+        setConstraintToMiddleOfScreen(constraint: commentImageLeadingConstraint, view: commentImageView)
         
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: signUpMessageLeadingConstraint, view: signupMessageView)
+        setConstraintToMiddleOfScreen(constraint: signUpMessageLeadingConstraint, view: signupMessageView)
         
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: takesLessThanMinuteLeadingConstraint, view: takesLessThanMinuteView)
-            
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: signUpWithSnipViewLeadingConstraint, view: signupWithSnipView)
+        setConstraintToMiddleOfScreen(constraint: takesLessThanMinuteLeadingConstraint, view: takesLessThanMinuteView)
         
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: orSeparatorLeadingConstraint, view: orSeparator)
+        setConstraintToMiddleOfScreen(constraint: signUpWithSnipViewLeadingConstraint, view: signupWithSnipView)
         
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: continueWithFacebookLeadingConstraint, view: continueWithFacebookView)
+        setConstraintToMiddleOfScreen(constraint: orSeparatorLeadingConstraint, view: orSeparator)
+        
+        setConstraintToMiddleOfScreen(constraint: continueWithFacebookLeadingConstraint, view: continueWithFacebookView)
 
-        setLeadingConstraintInMiddleOfScreen(leadingConstraint: termsAndConditionsLeadingConstraint, view: termsAndConditionsView)
-    }
-    
-    func setLeadingConstraintInMiddleOfScreen(leadingConstraint : NSLayoutConstraint, view : UIView)
-    {
-        leadingConstraint.constant = CachedData().getScreenWidth() / 2 - view.frame.width / 2
+        setConstraintToMiddleOfScreen(constraint: termsAndConditionsLeadingConstraint, view: termsAndConditionsView)
     }
     
     func setButtons()
@@ -113,7 +108,7 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     @objc func loginButtonClicked(sender : UITapGestureRecognizer)
     {
-        // TODO:: implement
+        performSegue(withIdentifier: "showLoginSegue", sender: self)
         print("login button clicked")
     }
     
@@ -133,5 +128,11 @@ class SignupWelcomeViewController : GenericProgramViewController
     {
         // TODO:: implement
         print("open terms and conditions")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
     }
 }

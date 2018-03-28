@@ -34,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         print("started app \(Date())")
+        HTTPCookieStorage.shared.removeCookies(since: Date(timeIntervalSince1970: 0))
+        
         Fabric.with([Crashlytics.self])
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())

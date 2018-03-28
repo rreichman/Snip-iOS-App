@@ -60,7 +60,6 @@ class PostData : Encodable, Decodable
             let updatedHtmlString = self.removePaddingFromHtmlString(str: self.image._imageDescription)
             
             let imageDescriptionString : NSMutableAttributedString = NSMutableAttributedString(htmlString : updatedHtmlString)!
-            
             imageDescriptionString.addAttributes(IMAGE_DESCRIPTION_ATTRIBUTES, range: NSRange(location: 0,length: imageDescriptionString.length))
             self.imageDescriptionAfterHtmlRendering = imageDescriptionString
             

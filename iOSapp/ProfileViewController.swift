@@ -7,40 +7,14 @@
 //
 
 import UIKit
-import Geth
 
 class ProfileViewController : GenericProgramViewController
 {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var welcomeText: UITextView!
     
-    //let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/keystore"
-    //var ks : GethKeyStore = GethKeyStore()
-    
     override func viewDidLoad()
-    {
-        /*print("here")
-        super.viewDidLoad()
-
-        ks = GethNewKeyStore(datadir, GethLightScryptN, GethLightScryptP)
-
-        let passcode = "pizza pizza"
-        var account = GethAccount()
-        do
-        {
-            account = try ks.newAccount(passcode)
-        }
-        catch
-        {
-            print("error in keyscore")
-        }
-        let address = account?.getAddress()
-        let hex = address?.getHex()
-        let url = account?.getURL()
-        print(address)
-        print(url)
-        print(hex)*/
-        
+    {       
         let userFirstName : String = UserInformation().getUserInfo(key: UserInformation().firstNameKey)
         var welcomeTextString : String = "Hey "
         welcomeTextString.append(userFirstName)

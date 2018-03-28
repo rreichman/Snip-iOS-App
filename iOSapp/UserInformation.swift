@@ -54,8 +54,7 @@ class UserInformation
             var urlString = SystemVariables().URL_STRING
             urlString.append("user/my_profile/")
             
-            let url: URL = URL(string: urlString)!
-            var urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "GET")
+            let urlRequest : URLRequest = getDefaultURLRequest(serverString: urlString, method: "GET")
             
             //fetching the data from the url
             URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) -> Void in

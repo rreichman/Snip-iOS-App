@@ -54,7 +54,7 @@ class ForgotPasswordController : GenericProgramViewController
     
     @IBAction func resetPasswordPressed(_ sender: Any)
     {
-        postResetPassword(handlerParams: emailTextField.text)
+        postResetPassword(handlerParams: emailTextField.text!)
     }
     
     override func viewDidLoad()

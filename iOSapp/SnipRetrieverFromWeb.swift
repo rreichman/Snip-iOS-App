@@ -122,6 +122,7 @@ class SnipRetrieverFromWeb
             self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
         }
         
+        print("loading posts")
         for postAsJson in postsAsJson
         {
             taskGroup.enter()

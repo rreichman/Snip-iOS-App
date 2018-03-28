@@ -12,7 +12,6 @@ target 'iOSapp' do
   pod 'FacebookLogin'
   pod 'FacebookShare'
   pod 'LatoFont'
-  pod 'Geth'
 
   # Pods for iOSapp
 

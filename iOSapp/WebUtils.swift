@@ -90,4 +90,37 @@ class WebUtils
         
         return UIImage()
     }
+    
+    func addPostsToFeed(snipRetriever: SnipRetrieverFromWeb, originalPostDataArray : [PostData], postsToAdd : [PostData], appendDataAndNotReplace : Bool) -> [PostData]
+    {
+        var newPostDataArray : [PostData] = originalPostDataArray
+        
+        print("starting here: \(Date())")
+        if (!appendDataAndNotReplace)
+        {
+            newPostDataArray = []
+        }
+        
+        for postData in postsToAdd
+        {
+            newPostDataArray.append(postData)
+        }
+        
+        var i = 0
+        for postData in originalPostDataArray
+        {
+            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
+            if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
+            {
+                let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
+                postData.image.setImageData(imageData: imageData)
+            }
+            
+            i += 1
+        }
+        
+        snipRetriever.lock.unlock()
+        
+        return newPostDataArray
+    }
 }

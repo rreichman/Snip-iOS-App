@@ -59,15 +59,16 @@ class OpeningSplashScreenViewController: UIViewController
         _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }
     
-    func collectionCompletionHandler(postDataArray: [PostData], appendDataAndNotReplace : Bool)
+    func collectionCompletionHandler(postsToAdd: [PostData], appendDataAndNotReplace : Bool)
     {
         print("starting here: \(Date())")
-        if (!appendDataAndNotReplace)
+        _postDataArray = WebUtils.shared.addPostsToFeed(snipRetriever: _snipRetrieverFromWeb, originalPostDataArray: _postDataArray, postsToAdd: postsToAdd, appendDataAndNotReplace: appendDataAndNotReplace)
+        /*if (!appendDataAndNotReplace)
         {
             _postDataArray = []
         }
         
-        for postData in postDataArray
+        for postData in postsToAdd
         {
             _postDataArray.append(postData)
         }
@@ -85,10 +86,10 @@ class OpeningSplashScreenViewController: UIViewController
             i += 1
         }
         
+        _snipRetrieverFromWeb.lock.unlock()*/
+        
         print("performing segue: \(Date())")
-
         performSegue(withIdentifier: "segueToTableView", sender: self)
-        _snipRetrieverFromWeb.lock.unlock()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

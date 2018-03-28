@@ -30,7 +30,7 @@
 		7D6E27851FD0D12400E7C2FF /* LogInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6E27841FD0D12400E7C2FF /* LogInfo.swift */; };
 		7D6E9EA31FD495B00068D614 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6E9EA21FD495B00068D614 /* UserInformation.swift */; };
 		7D7F25C51FD0D6EA000D9860 /* CommentActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F25C41FD0D6EA000D9860 /* CommentActionData.swift */; };
-		7D7F25C91FD0EBB6000D9860 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F25C81FD0EBB6000D9860 /* LoginViewController.swift */; };
+		7D7F25C91FD0EBB6000D9860 /* OldLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F25C81FD0EBB6000D9860 /* OldLoginViewController.swift */; };
 		7D7F25CD1FD0EE19000D9860 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */; };
 		7D7F25CF1FD10955000D9860 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F25CE1FD10955000D9860 /* SignupViewController.swift */; };
 		7D812FC6202423F700968B9E /* CellTextUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D812FC5202423F700968B9E /* CellTextUtils.swift */; };
@@ -57,6 +57,7 @@
 		7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */; };
 		7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */; };
 		7DC588722069C51600BFA5AD /* SignupWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */; };
+		7DC58874206B021300BFA5AD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC58873206B021300BFA5AD /* LoginViewController.swift */; };
 		7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */; };
 		7DCB69DE20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */; };
 		7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */; };
@@ -116,7 +117,7 @@
 		7D6E27841FD0D12400E7C2FF /* LogInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInfo.swift; sourceTree = "<group>"; };
 		7D6E9EA21FD495B00068D614 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
 		7D7F25C41FD0D6EA000D9860 /* CommentActionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentActionData.swift; sourceTree = "<group>"; };
-		7D7F25C81FD0EBB6000D9860 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7D7F25C81FD0EBB6000D9860 /* OldLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldLoginViewController.swift; sourceTree = "<group>"; };
 		7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7D7F25CE1FD10955000D9860 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		7D812FC5202423F700968B9E /* CellTextUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellTextUtils.swift; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		7DAD9294203E304500337922 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeDifferences.swift"; sourceTree = "<group>"; };
 		7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupWelcomeViewController.swift; sourceTree = "<group>"; };
+		7DC58873206B021300BFA5AD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewUIUtils.swift; sourceTree = "<group>"; };
 		7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewDataUtils.swift; sourceTree = "<group>"; };
 		7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericProgramViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		7D0047F61F997E3E00B02D1A /* iOSapp */ = {
 			isa = PBXGroup;
 			children = (
+				7DC58873206B021300BFA5AD /* LoginViewController.swift */,
 				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
 				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
 				7D820EB01FCE22F800404FA2 /* CommentsTableViewController.swift */,
@@ -238,7 +241,7 @@
 				7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */,
 				7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */,
 				7D09A3961FC4F79B00E51553 /* MenuViewController.swift */,
-				7D7F25C81FD0EBB6000D9860 /* LoginViewController.swift */,
+				7D7F25C81FD0EBB6000D9860 /* OldLoginViewController.swift */,
 				7D7F25CE1FD10955000D9860 /* SignupViewController.swift */,
 				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
 				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
@@ -651,7 +654,7 @@
 				7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */,
 				7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */,
 				7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */,
-				7D7F25C91FD0EBB6000D9860 /* LoginViewController.swift in Sources */,
+				7D7F25C91FD0EBB6000D9860 /* OldLoginViewController.swift in Sources */,
 				7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */,
 				7D820EB11FCE22F800404FA2 /* CommentsTableViewController.swift in Sources */,
 				7D4641931FBBC4C300E29578 /* OpeningSplashScreenViewController.swift in Sources */,
@@ -684,6 +687,7 @@
 				7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
 				7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */,
+				7DC58874206B021300BFA5AD /* LoginViewController.swift in Sources */,
 				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,

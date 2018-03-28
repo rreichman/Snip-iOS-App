@@ -87,7 +87,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            performSegue(withIdentifier: "showLoginSegue", sender: self)
+            performSegue(withIdentifier: "showLoginWelcomeSegue", sender: self)
         }
     }
     

@@ -35,6 +35,8 @@ public class SystemVariables
     
     let PROFILE_NAME_TEXT_FONT = UIFont.latoBold(size: 24)
     let LOGIN_SIGNUP_BUTTON_FONT = UIFont.latoBold(size: 17)
+    let LOGIN_LABEL_FONT = UIFont.lato(size: 14)
+    let FORGOT_PASSWORD_FONT = UIFont.lato(size: 15)
     
     let COMMENT_PREVIEW_AUTHOR_FONT = UIFont.boldSystemFont(ofSize : 14)
     let COMMENT_PREVIEW_TEXT_FONT = UIFont.systemFont(ofSize: 13)

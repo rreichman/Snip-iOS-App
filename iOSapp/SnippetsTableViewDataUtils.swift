@@ -60,47 +60,6 @@ extension SnippetsTableViewController
         snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
     }
     
-    func updateTableInfoFeedDataSource(postsToAdd : [PostData], appendDataAndNotReplace : Bool)
-    {
-        // TODO: there's some code duplication here with opening splash screen but not sure it's worth the trouble.
-        var newDataArray : [PostData] = []
-        if (appendDataAndNotReplace)
-        {
-            newDataArray = _postDataArray
-        }
-        else
-        {
-            cellsNotToTruncate.removeAll()
-        }
-        
-        DispatchQueue.global(qos: .background).async
-            {
-                print("started collecting all the images")
-                for postData in postsToAdd
-                {
-                    let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
-                    postData.image.setImageData(imageData: imageData)
-                    
-                    newDataArray.append(postData)
-                }
-                print("done collecting all the images")
-                
-                DispatchQueue.main.async
-                    {
-                        print("starting to load data to feed")
-                        UIView.performWithoutAnimation
-                            {
-                                self._postDataArray = newDataArray
-                                self.tableView.reloadData()
-                        }
-                        
-                        self.snipRetrieverFromWeb.lock.unlock()
-                        self.finishedLoadingSnippets = true
-                        print("done loading data async")
-                }
-        }
-    }
-    
     func dataCollectionCompletionHandler(postsCollected: [PostData], appendDataAndNotReplace : Bool)
     {
         DispatchQueue.main.async
@@ -113,7 +72,11 @@ extension SnippetsTableViewController
                     }
                 }
                 
-                self.updateTableInfoFeedDataSource(postsToAdd: postsCollected, appendDataAndNotReplace : appendDataAndNotReplace)
+                self._postDataArray =
+                    WebUtils.shared.addPostsToFeed(snipRetriever: self.snipRetrieverFromWeb, originalPostDataArray: self._postDataArray, postsToAdd: postsCollected, appendDataAndNotReplace : appendDataAndNotReplace)
+                self.getRestOfImagesAsync()
+                self.tableView.reloadData()
+                self.finishedLoadingSnippets = true
                 
                 if (self.activityIndicator.isAnimating)
                 {
