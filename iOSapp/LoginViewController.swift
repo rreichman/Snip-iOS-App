@@ -37,6 +37,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     var inLoginProcess : Bool = false
     
     let LOGIN_STRING : NSAttributedString = NSAttributedString(string: "Login", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
+    let LOGIN_STRING_BOTTOM : NSAttributedString = NSAttributedString(string: "Log In", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
     let FORGOT_PASSWORD_STRING : NSAttributedString = NSAttributedString(string: "Forgot?", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
     
     let EMAIL_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
@@ -59,7 +60,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         setConstraintToMiddleOfScreen(constraint: loginButtonViewLeadingConstraint, view: loginButtonView)
         
         headlineLabel.attributedText = LOGIN_STRING
-        bottomLoginLabel.attributedText = headlineLabel.attributedText
+        bottomLoginLabel.attributedText = LOGIN_STRING_BOTTOM
         
         emailLabel.attributedText = EMAIL_ACTIVE_STRING
         passwordLabel.attributedText = PASSWORD_PASSIVE_STRING

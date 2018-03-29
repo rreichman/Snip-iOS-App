@@ -122,7 +122,6 @@ class SnipRetrieverFromWeb
             self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
         }
         
-        print("loading posts")
         for postAsJson in postsAsJson
         {
             taskGroup.enter()
@@ -131,11 +130,8 @@ class SnipRetrieverFromWeb
             count += 1
         }
         
-        print("waiting for posts. \(Date())")
-        
         taskGroup.notify(queue: DispatchQueue.main)
         {
-            print("done loading web data into feed. \(Date())")
             completionHandler(postDataArray, appendDataAndNotReplace)
         }
     }

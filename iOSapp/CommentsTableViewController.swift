@@ -487,6 +487,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         // Note - You can only delete comment if you're the owner (i.e. username is same as yours)
         cell.commentView.deleteButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))
+        cell.commentView.editButton.isHidden = (currentComment.writer._username != UserInformation().getUserInfo(key: "username"))
         cell.setCellConstraintsAccordingToLevel(commentLevel: currentComment.level)
         cell.commentView.viewController = self
         

@@ -107,7 +107,7 @@ class WebUtils
         }
         
         var i = 0
-        for postData in originalPostDataArray
+        for postData in newPostDataArray
         {
             let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
             if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)

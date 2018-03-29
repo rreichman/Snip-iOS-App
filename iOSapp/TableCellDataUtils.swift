@@ -30,6 +30,7 @@ func fillImageDescription(snippetView : SnippetView, imageDescription : NSMutabl
 {
     snippetView.imageDescription.attributedText = imageDescription
     removePaddingFromTextView(textView: snippetView.imageDescription)
+    snippetView.imageDescription.layoutIfNeeded()
 }
 
 func setSnippetText(snippetView : SnippetView, postData : PostData, shouldTruncate : Bool)
