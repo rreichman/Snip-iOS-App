@@ -13,8 +13,9 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     @IBOutlet weak var closeScreenView: UIView!
     
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var loginImageView: UIImageView!
-    @IBOutlet weak var loginTrailingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var headlineLabel: UILabel!
+    @IBOutlet weak var headlineLabelTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailInputView: UITextField!
@@ -27,6 +28,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     
     @IBOutlet weak var passwordInputViewSeparator: UIView!
     
+    @IBOutlet weak var bottomLoginLabel: UILabel!
     @IBOutlet weak var loginButtonView: UIView!
     @IBOutlet weak var loginButtonViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var loginButtonViewBottomConstraint: NSLayoutConstraint!
@@ -34,14 +36,13 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     var inForgotPasswordProcess : Bool = false
     var inLoginProcess : Bool = false
     
-    let LABEL_PASSIVE_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().LOGIN_LABEL_FONT!, NSAttributedStringKey.foregroundColor : UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)]
+    let LOGIN_STRING : NSAttributedString = NSAttributedString(string: "Login", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
+    let FORGOT_PASSWORD_STRING : NSAttributedString = NSAttributedString(string: "Forgot?", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
     
-    let LABEL_ACTIVE_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().LOGIN_LABEL_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR]
-    
-    let FORGOT_PASSWORD_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().FORGOT_PASSWORD_FONT!, NSAttributedStringKey.foregroundColor : UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)]
-    let FORGOT_PASSWORD_ACTIVE_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().FORGOT_PASSWORD_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR]
-    
-    let UNDERLINE_DEFAULT_COLOR = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
+    let EMAIL_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let EMAIL_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
+    let PASSWORD_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let PASSWORD_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
     
     override func viewDidLoad()
     {
@@ -52,15 +53,17 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         headerView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         loginButtonView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        emailInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        passwordInputViewSeparator.backgroundColor = UNDERLINE_DEFAULT_COLOR
+        colorEmailInputBackground()
         
-        setConstraintToMiddleOfScreen(constraint: loginTrailingConstraint, view: loginImageView)
+        setConstraintToMiddleOfScreen(constraint: headlineLabelTrailingConstraint, view: headlineLabel)
         setConstraintToMiddleOfScreen(constraint: loginButtonViewLeadingConstraint, view: loginButtonView)
         
-        emailLabel.attributedText = NSAttributedString(string: "Email", attributes: LABEL_ACTIVE_ATTRIBUTES)
-        passwordLabel.attributedText = NSAttributedString(string: "Password", attributes: LABEL_PASSIVE_ATTRIBUTES)
-        forgotPasswordView.attributedText = NSAttributedString(string: "Forgot?", attributes: FORGOT_PASSWORD_ATTRIBUTES)
+        headlineLabel.attributedText = LOGIN_STRING
+        bottomLoginLabel.attributedText = headlineLabel.attributedText
+        
+        emailLabel.attributedText = EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+        forgotPasswordView.attributedText = FORGOT_PASSWORD_STRING
         
         setButtons()
         
@@ -108,44 +111,36 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     {
         if (!inLoginProcess)
         {
-            inLoginProcess = true
-            print("actually login button clicked")
-            let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
-            WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, completionHandler: completeLoginAction)
+            if (emailInputView.text?.count == 0)
+            {
+                emailInputView.becomeFirstResponder()
+                colorEmailInputBackground()
+                promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing an e-mail address...", viewController: self)
+            }
+            else if (passwordInputView.text?.count == 0)
+            {
+                passwordInputView.becomeFirstResponder()
+                colorPasswordInputBackround()
+                promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing a password...", viewController: self)
+            }
+            else
+            {
+                inLoginProcess = true
+                print("actually login button clicked")
+                let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
+                WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, completionHandler: completeLoginAction)
+            }
         }
     }
     
     @objc func emailButtonClicked(sender : UITapGestureRecognizer)
     {
-        emailLabel.attributedText = NSAttributedString(string: emailLabel.text!, attributes: LABEL_ACTIVE_ATTRIBUTES)
-        passwordLabel.attributedText = NSAttributedString(string: passwordLabel.text!, attributes: LABEL_PASSIVE_ATTRIBUTES)
-        
-        emailInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        passwordInputViewSeparator.backgroundColor = UNDERLINE_DEFAULT_COLOR
+        colorEmailInputBackground()
     }
     
     @objc func passwordButtonClicked(sender : UITapGestureRecognizer)
     {
-        emailLabel.attributedText = NSAttributedString(string: emailLabel.text!, attributes: LABEL_PASSIVE_ATTRIBUTES)
-        passwordLabel.attributedText = NSAttributedString(string: passwordLabel.text!, attributes: LABEL_ACTIVE_ATTRIBUTES)
-        
-        emailInputViewSeparator.backgroundColor = UNDERLINE_DEFAULT_COLOR
-        passwordInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
-    {
-        return true
-    }
-    
-    // TODO:: either remove this or implement it (including in class)
-    func textViewDidChange(_ textView: UITextView)
-    {
-        print("text view changed")
-        /*if let placeholderLabel = textView.viewWithTag(TEXTVIEW_PLACEHOLDER_TAG) as? UILabel
-        {
-            placeholderLabel.isHidden = textView.attributedText.length > 0
-        }*/
+        colorPasswordInputBackround()
     }
 
     // TODO: There's some code duplication here with the CommentsTableViewController but not too important now
@@ -185,14 +180,35 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
             if (emailInputView.text!.count > 0)
             {
                 inForgotPasswordProcess = true
-                forgotPasswordView.attributedText = NSAttributedString(string: forgotPasswordView.text, attributes: FORGOT_PASSWORD_ACTIVE_ATTRIBUTES)
+                forgotPasswordView.attributedText = NSAttributedString(string: forgotPasswordView.text, attributes: LoginDesignUtils().FORGOT_PASSWORD_ACTIVE_ATTRIBUTES)
                 postResetPassword(emailString: emailInputView.text!)
             }
             else
             {
-                promptToUser(promptMessageTitle: "Unable to send Recover E-mail", promptMessageBody: "Please enter e-mail address", viewController: self)
+                emailInputView.becomeFirstResponder()
+                colorEmailInputBackground()
+                
+                promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing an e-mail address...", viewController: self)
             }
         }
+    }
+    
+    func colorEmailInputBackground()
+    {
+        emailInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        passwordInputViewSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+        
+        emailLabel.attributedText = EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+    }
+    
+    func colorPasswordInputBackround()
+    {
+        emailInputViewSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+        passwordInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
+        emailLabel.attributedText = EMAIL_PASSIVE_STRING
+        passwordLabel.attributedText = PASSWORD_ACTIVE_STRING
     }
     
     func postResetPassword(emailString: String)
@@ -229,7 +245,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         inForgotPasswordProcess = false
         DispatchQueue.main.async
         {
-            self.forgotPasswordView.attributedText = NSAttributedString(string: self.forgotPasswordView.text, attributes: self.FORGOT_PASSWORD_ATTRIBUTES)
+            self.forgotPasswordView.attributedText = NSAttributedString(string: self.forgotPasswordView.text, attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
         }
     }
     
@@ -274,5 +290,10 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         }
         
         inLoginProcess = false
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        return true
     }
 }

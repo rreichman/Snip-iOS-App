@@ -32,7 +32,7 @@ class OldLoginViewController : GenericProgramViewController
         loginButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
         
         termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        termsAndConditionsBox.attributedText = getTermsAndConditionsString()
+        termsAndConditionsBox.attributedText = getTermsAndConditionsString(color: SystemVariables().TERMS_AND_CONDITIONS_COLOR)
         
         // TODO: this is code copying from SignupViewController. Should fix but not now
         let singleTapRecognizerFacebookLogin : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(facebookLoginPressed(sender:)))

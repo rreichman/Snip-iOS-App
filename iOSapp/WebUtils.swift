@@ -123,4 +123,31 @@ class WebUtils
         
         return newPostDataArray
     }
+    
+    func completeSignupAction(responseString: String, viewController : GenericProgramViewController)
+    {
+        if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
+        {
+            DispatchQueue.main.async
+                {
+                    if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
+                    {
+                        storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
+                        UserInformation().getUserInformationFromWeb()
+                        
+                        promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: viewController, completionHandler: viewController.segueBackToContent)
+                    }
+                    else
+                    {
+                        let errorMessageString : String = getErrorMessageFromResponse(jsonObj: jsonObj)
+                        promptToUser(promptMessageTitle: "Error", promptMessageBody: errorMessageString, viewController: viewController)
+                    }
+            }
+        }
+        else
+        {
+            // TODO: answer this
+            print("what to do here?")
+        }
+    }
 }

@@ -2,82 +2,226 @@
 //  SignupViewController.swift
 //  iOSapp
 //
-//  Created by Ran Reichman on 11/30/17.
-//  Copyright © 2017 Ran Reichman. All rights reserved.
+//  Created by Ran Reichman on 3/28/18.
+//  Copyright © 2018 Ran Reichman. All rights reserved.
 //
 
 import UIKit
-import FacebookLogin
 
 class SignupViewController : GenericProgramViewController
 {
-    @IBOutlet weak var viewInsideOfScrollView: UIView!
-    @IBOutlet weak var viewOutsideOfScrollView: UIView!
+    @IBOutlet weak var headlineView: UIView!
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var closeButtonView: UIView!
     
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var termsAndConditionsBox: UITextView!
-    @IBOutlet weak var emailSignupField: UITextField!
-    @IBOutlet weak var firstNameSignupField: UITextField!
-    @IBOutlet weak var lastNameSignupField: UITextField!
-    @IBOutlet weak var firstPasswordInput: UITextField!
-    @IBOutlet weak var secondPasswordInput: UITextField!
+    @IBOutlet weak var headlineLabel: UILabel!
+    @IBOutlet weak var headlineLabelTrailingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var loginWithFacebookButton: UIImageView!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailSeparator: UIView!
+    
+    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordSeparator: UIView!
+    @IBOutlet weak var showPasswordView: UITextView!
+    
+    @IBOutlet weak var firstNameLabel: UILabel!
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var firstNameSeparator: UIView!
+    @IBOutlet weak var firstNameWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var lastNameLabel: UILabel!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var lastNameSeparator: UIView!
+    @IBOutlet weak var lastNameViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var lastNameWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var termsAndConditionsView: UITextView!
+    @IBOutlet weak var termsAndConditionsLeadingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomSignupLabel: UILabel!
+    @IBOutlet weak var bottomSurroundingView: UIView!
+    @IBOutlet weak var bottomSurroundingViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomSurroundingViewBottomConstraint: NSLayoutConstraint!
+    
+    let EMAIL_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let EMAIL_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
+    let PASSWORD_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let PASSWORD_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
+    let FIRST_NAME_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "First Name", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let FIRST_NAME_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "First Name", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
+    let LAST_NAME_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Last Name", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
+    let LAST_NAME_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Last Name", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
+    let SHOW_TEXT = NSAttributedString(string: "Show", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
+    let HIDE_TEXT = NSAttributedString(string: "Hide", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
+    
+    let SIGNUP_TEXT = NSAttributedString(string: "Sign Up", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
+    
+    let TERMS_AND_CONDITIONS_STRING = getTermsAndConditionsString(color: SystemVariables().TERMS_AND_CONDITIONS_COLOR)
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+    
+        headlineView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        headlineLabel.attributedText = SIGNUP_TEXT
+        bottomSignupLabel.attributedText = headlineLabel.attributedText
         
-        // Making the "Back" button black instead of blue
-        self.navigationController?.navigationBar.tintColor = UIColor.black
+        designTextFieldHighlights()
         
-        self.view.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        scrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        viewInsideOfScrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        viewOutsideOfScrollView.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
+        setTexts()
         
-        termsAndConditionsBox.backgroundColor = SystemVariables().LOGIN_BACKGROUND_COLOR
-        registerButton.backgroundColor = SystemVariables().LOGIN_BUTTON_COLOR
+        bottomSurroundingView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        termsAndConditionsBox.attributedText = getTermsAndConditionsString()
+        bottomSurroundingView.layer.cornerRadius = 24
         
+        emailTextField.borderStyle = UITextBorderStyle.none
+        passwordTextField.borderStyle = UITextBorderStyle.none
+        firstNameTextField.borderStyle = UITextBorderStyle.none
+        lastNameTextField.borderStyle = UITextBorderStyle.none
+        
+        firstNameWidthConstraint.constant = (CachedData().getScreenWidth() - 80) / 2
+        lastNameWidthConstraint.constant = (CachedData().getScreenWidth() - 80) / 2
+        
+        termsAndConditionsView.attributedText = TERMS_AND_CONDITIONS_STRING
+        termsAndConditionsView.tintColor = SystemVariables().TERMS_AND_CONDITIONS_COLOR
         registerForKeyboardNotifications()
         
-        let singleTapRecognizerFacebookLogin : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(facebookLoginPressed(sender:)))
-        loginWithFacebookButton.isUserInteractionEnabled = true
-        loginWithFacebookButton.addGestureRecognizer(singleTapRecognizerFacebookLogin)
+        setButtons()
+        updateConstraints()
+        
+        emailTextField.becomeFirstResponder()
     }
     
-    @objc func facebookLoginPressed(sender: UITapGestureRecognizer)
+    func designTextFieldHighlights()
     {
-        let loginManager = LoginManager()
-        loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
+        emailSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+        firstNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+        lastNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
     }
     
-    func facebookResultHandler(loginResult : LoginResult)
+    func setTexts()
     {
-        switch loginResult
+        emailLabel.attributedText = EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+        firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
+        lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+        showPasswordView.attributedText = SHOW_TEXT
+    }
+    
+    func setButtons()
+    {
+        let closeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.closeButtonClicked(sender:)))
+        closeButtonView.isUserInteractionEnabled = true
+        closeButtonView.addGestureRecognizer(closeButtonClickRecognizer)
+        
+        let emailButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.emailButtonClicked(sender:)))
+        emailTextField.isUserInteractionEnabled = true
+        emailTextField.addGestureRecognizer(emailButtonClickRecognizer)
+        
+        let passwordButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.passwordButtonClicked(sender:)))
+        passwordTextField.isUserInteractionEnabled = true
+        passwordTextField.addGestureRecognizer(passwordButtonClickRecognizer)
+        
+        let showPasswordButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.showPasswordButtonClicked(sender:)))
+        showPasswordView.isUserInteractionEnabled = true
+        showPasswordView.addGestureRecognizer(showPasswordButtonClickRecognizer)
+        
+        let firstNameButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.firstNameButtonClicked(sender:)))
+        firstNameTextField.isUserInteractionEnabled = true
+        firstNameTextField.addGestureRecognizer(firstNameButtonClickRecognizer)
+        
+        let lastNameButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.lastNameButtonClicked(sender:)))
+        lastNameTextField.isUserInteractionEnabled = true
+        lastNameTextField.addGestureRecognizer(lastNameButtonClickRecognizer)
+        
+        let signupButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.signupButtonClicked(sender:)))
+        bottomSurroundingView.isUserInteractionEnabled = true
+        bottomSurroundingView.addGestureRecognizer(signupButtonClickRecognizer)
+    }
+    
+    func updateConstraints()
+    {
+        setConstraintToMiddleOfScreen(constraint: headlineLabelTrailingConstraint, view: headlineLabel)
+        
+        setConstraintToMiddleOfScreen(constraint: termsAndConditionsLeadingConstraint, view: termsAndConditionsView)
+        
+        setConstraintToMiddleOfScreen(constraint: bottomSurroundingViewLeadingConstraint, view: bottomSurroundingView)
+    }
+    
+    @objc func closeButtonClicked(sender : UITapGestureRecognizer)
+    {
+        print("signup close button clicked")
+        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: false)
+    }
+    
+    @objc func emailButtonClicked(sender : UITapGestureRecognizer)
+    {
+        emailTextField.becomeFirstResponder()
+        colorInputBackground(nameOfDrawnInput: "email")
+    }
+    
+    @objc func passwordButtonClicked(sender : UITapGestureRecognizer)
+    {
+        passwordTextField.becomeFirstResponder()
+        colorInputBackground(nameOfDrawnInput: "password")
+    }
+    
+    @objc func showPasswordButtonClicked(sender : UITapGestureRecognizer)
+    {
+        if (showPasswordView.text == "Hide")
         {
-        case LoginResult.failed(let error):
-            promptToUser(promptMessageTitle: "Unable to sign up with Facebook", promptMessageBody: "Sign up above or using the Facebook button", viewController: self)
-            print(error)
-        case LoginResult.cancelled:
-            print("User cancelled login.")
-        case LoginResult.success(_, _, let accessToken):
-            var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
-            facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
-            facebookLoginDataAsJson["code"] = "null"
-            
-            let signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
-            
-            self.performSignupAction(handlerParams: signupData)
+            passwordTextField.isSecureTextEntry = true
+            showPasswordView.attributedText = SHOW_TEXT
+        }
+        else
+        {
+            passwordTextField.isSecureTextEntry = false
+            showPasswordView.attributedText = HIDE_TEXT
         }
     }
     
-    // TODO: Perhaps unite with other register for notifications function
+    @objc func firstNameButtonClicked(sender : UITapGestureRecognizer)
+    {
+        firstNameTextField.becomeFirstResponder()
+        colorInputBackground(nameOfDrawnInput: "firstname")
+    }
+    
+    @objc func lastNameButtonClicked(sender : UITapGestureRecognizer)
+    {
+        lastNameTextField.becomeFirstResponder()
+        colorInputBackground(nameOfDrawnInput: "lastname")
+    }
+    
+    @objc func signupButtonClicked(sender : UITapGestureRecognizer)
+    {
+        if (validateRegisterData())
+        {
+            let signupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
+            WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, completionHandler: completeSignupAction)
+        }
+        print("signup button clicked")
+    }
+    
+    func completeSignupAction(responseString: String)
+    {
+        WebUtils().completeSignupAction(responseString: responseString, viewController: self)
+    }
+    
+    func getSignupDataAsJson() -> Dictionary<String,String>
+    {
+        var signupData : Dictionary<String,String> = Dictionary<String,String>()
+        signupData["email"] = emailTextField.text
+        signupData["first_name"] = firstNameTextField.text
+        signupData["last_name"] = lastNameTextField.text
+        signupData["password1"] = passwordTextField.text
+        
+        return signupData
+    }
+    
+    // TODO: There's some code duplication here with the CommentsTableViewController but not too important now
     func registerForKeyboardNotifications()
     {
         //Adding notifications on keyboard appearing
@@ -89,7 +233,7 @@ class SignupViewController : GenericProgramViewController
     {
         var info = notification.userInfo!
         let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        scrollViewBottomConstraint.constant = keyboardHeight!
+        bottomSurroundingViewBottomConstraint.constant = 15 + keyboardHeight!
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -99,7 +243,7 @@ class SignupViewController : GenericProgramViewController
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
     {
-        scrollViewBottomConstraint.constant = 0
+        bottomSurroundingViewBottomConstraint.constant = 15
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -107,129 +251,91 @@ class SignupViewController : GenericProgramViewController
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    // Note - this is an ugly implementation but at least it's fast...
+    func colorInputBackground(nameOfDrawnInput : String)
     {
-        let nextViewController = segue.destination as! GenericProgramViewController
-        nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
-    }
-    
-    @IBAction func alreadyMemberButton(_ sender: Any)
-    {
-        if (shouldPressBackAndNotSegue)
+        if (nameOfDrawnInput == "email")
         {
-            navigationController?.popViewController(animated: true)
+            emailLabel.attributedText = EMAIL_ACTIVE_STRING
+            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            
+            emailSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+            passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            firstNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            lastNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
         }
-        else
+        else if (nameOfDrawnInput == "password")
         {
-            performSegue(withIdentifier: "segueToLoginScreenFromSignup", sender: self)
+            emailLabel.attributedText = EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = PASSWORD_ACTIVE_STRING
+            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            
+            emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            passwordSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+            firstNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            lastNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
         }
-    }
-    
-    @IBAction func pressedRegisterButton(_ sender: Any)
-    {
-        if (validateRegisterData())
+        else if (nameOfDrawnInput == "firstname")
         {
-            let loginOrSignupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
-            self.performSignupAction(handlerParams: loginOrSignupData)
+            emailLabel.attributedText = EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = FIRST_NAME_ACTIVE_STRING
+            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            
+            emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            firstNameSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+            lastNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+        }
+        else if (nameOfDrawnInput == "lastname")
+        {
+            emailLabel.attributedText = EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LAST_NAME_ACTIVE_STRING
+            
+            emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            firstNameSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
+            lastNameSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         }
     }
     
-    func getSignupDataAsJson() -> Dictionary<String,String>
-    {
-        var signupData : Dictionary<String,String> = Dictionary<String,String>()
-        signupData["email"] = emailSignupField.text
-        signupData["first_name"] = firstNameSignupField.text
-        signupData["last_name"] = lastNameSignupField.text
-        signupData["password1"] = firstPasswordInput.text
-        signupData["password2"] = secondPasswordInput.text
-        
-        return signupData
-    }
-    
-    // TODO: improve validation for email
     func validateRegisterData() -> Bool
     {
-        if emailSignupField.text?.count == 0
+        if emailTextField.text?.count == 0
         {
             promptToUser(promptMessageTitle: "Error", promptMessageBody: "Please insert email address", viewController: self)
             return false
         }
         
-        if firstNameSignupField.text?.count == 0
+        if firstNameTextField.text?.count == 0
         {
             promptToUser(promptMessageTitle: "Error", promptMessageBody: "Please insert first name", viewController: self)
             return false
         }
         
-        if lastNameSignupField.text?.count == 0
+        if lastNameTextField.text?.count == 0
         {
             promptToUser(promptMessageTitle: "Error", promptMessageBody: "Please insert last name", viewController: self)
             return false
         }
         
-        if (firstPasswordInput.text?.count)! == 0
+        if (passwordTextField.text?.count)! == 0
         {
             promptToUser(promptMessageTitle: "Error", promptMessageBody: "Please enter password", viewController: self)
             return false
         }
         
-        if (firstPasswordInput.text?.count)! < SystemVariables().PASSWORD_LENGTH_LIMIT
+        if (passwordTextField.text?.count)! < SystemVariables().PASSWORD_LENGTH_LIMIT
         {
             promptToUser(promptMessageTitle: "Error", promptMessageBody: "Password is too short", viewController: self)
             return false
         }
         
-        if (firstPasswordInput.text?.count)! == 0
-        {
-            promptToUser(promptMessageTitle: "Error", promptMessageBody: "Please re-enter password", viewController: self)
-            return false
-        }
-        
-        if (secondPasswordInput.text?.count)! < SystemVariables().PASSWORD_LENGTH_LIMIT
-        {
-            promptToUser(promptMessageTitle: "Error", promptMessageBody: "Re-entered password is too short", viewController: self)
-            return false
-        }
-        
-        if (secondPasswordInput.text != firstPasswordInput.text)
-        {
-            promptToUser(promptMessageTitle: "Error", promptMessageBody: "Re-entered password isn't the same as original password", viewController: self)
-            return false
-        }
-        
         return true
-    }
-    
-    func performSignupAction(handlerParams : Any)
-    {
-        let signupData : LoginOrSignupData = handlerParams as! LoginOrSignupData
-        WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, completionHandler: completeSignupAction)
-    }
-    
-    func completeSignupAction(responseString: String)
-    {
-        if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
-        {
-            DispatchQueue.main.async
-            {
-                if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
-                {
-                        storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
-                        UserInformation().getUserInformationFromWeb()
-                    
-                        promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
-                }
-                else
-                {
-                    let errorMessageString : String = getErrorMessageFromResponse(jsonObj: jsonObj)
-                    promptToUser(promptMessageTitle: "Error", promptMessageBody: errorMessageString, viewController: self)
-                }
-            }
-        }
-        else
-        {
-            // TODO: answer this
-            print("what to do here?")
-        }
     }
 }

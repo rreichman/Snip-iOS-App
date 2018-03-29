@@ -45,8 +45,10 @@ public class SystemVariables
     let LOGIN_BUTTON_COLOR : UIColor = UIColorFromRGB(rgbValue: 0x4d90fe)
     
     let SPLASH_SCREEN_BACKGROUND_COLOR = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+    let UNDERLINE_DEFAULT_COLOR = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
     
     let TERMS_AND_CONDITIONS_FONT = UIFont.lato(size: 14)
+    let TERMS_AND_CONDITIONS_COLOR = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)
     
     let PASSWORD_LENGTH_LIMIT = 6
     let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30

@@ -28,17 +28,17 @@ func getAuthorizationString() -> String
     return tokenDeclarationString
 }
 
-func getTermsAndConditionsString() -> NSMutableAttributedString
+func getTermsAndConditionsString(color: UIColor) -> NSMutableAttributedString
 {
     let termsStringPartOne : String = "By registering you confirm that you accept the "
-    let termsStringPartTwo : String = "\nTerms and Conditions"
+    let termsStringPartTwo : String = "Terms and Conditions"
     let fullText : String = termsStringPartOne + termsStringPartTwo
     
     let termsAttributedString : NSMutableAttributedString = NSMutableAttributedString(string : fullText)
     
     let linkAttributes : [NSAttributedStringKey : Any] = [
         NSAttributedStringKey.link: "https://media.snip.today/Snip+-+Terms+of+Service.pdf",
-        NSAttributedStringKey.foregroundColor: UIColor.blue
+        NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue
     ]
     
     let style = NSMutableParagraphStyle()
@@ -46,6 +46,7 @@ func getTermsAndConditionsString() -> NSMutableAttributedString
     
     termsAttributedString.addAttributes(linkAttributes, range: NSMakeRange(termsStringPartOne.count, termsStringPartTwo.count))
     termsAttributedString.addAttribute(NSAttributedStringKey.font, value: SystemVariables().TERMS_AND_CONDITIONS_FONT!, range: NSMakeRange(0, fullText.count))
+    termsAttributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSMakeRange(0, fullText.count))
     termsAttributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, fullText.count))
     
     return termsAttributedString
