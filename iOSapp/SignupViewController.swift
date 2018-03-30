@@ -45,27 +45,12 @@ class SignupViewController : GenericProgramViewController
     @IBOutlet weak var bottomSurroundingViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomSurroundingViewBottomConstraint: NSLayoutConstraint!
     
-    let EMAIL_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let EMAIL_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    let PASSWORD_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let PASSWORD_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    let FIRST_NAME_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "First Name", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let FIRST_NAME_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "First Name", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    let LAST_NAME_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Last Name", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let LAST_NAME_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Last Name", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    let SHOW_TEXT = NSAttributedString(string: "Show", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
-    let HIDE_TEXT = NSAttributedString(string: "Hide", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
-    
-    let SIGNUP_TEXT = NSAttributedString(string: "Sign Up", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
-    
-    let TERMS_AND_CONDITIONS_STRING = getTermsAndConditionsString(color: SystemVariables().TERMS_AND_CONDITIONS_COLOR)
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
     
         headlineView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        headlineLabel.attributedText = SIGNUP_TEXT
+        headlineLabel.attributedText = LoginDesignUtils.shared.SIGNUP_TEXT
         bottomSignupLabel.attributedText = headlineLabel.attributedText
         
         designTextFieldHighlights()
@@ -84,7 +69,7 @@ class SignupViewController : GenericProgramViewController
         firstNameWidthConstraint.constant = (CachedData().getScreenWidth() - 80) / 2
         lastNameWidthConstraint.constant = (CachedData().getScreenWidth() - 80) / 2
         
-        termsAndConditionsView.attributedText = TERMS_AND_CONDITIONS_STRING
+        termsAndConditionsView.attributedText = LoginDesignUtils.shared.TERMS_AND_CONDITIONS_STRING
         termsAndConditionsView.tintColor = SystemVariables().TERMS_AND_CONDITIONS_COLOR
         registerForKeyboardNotifications()
         
@@ -104,11 +89,11 @@ class SignupViewController : GenericProgramViewController
     
     func setTexts()
     {
-        emailLabel.attributedText = EMAIL_ACTIVE_STRING
-        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
-        firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
-        lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
-        showPasswordView.attributedText = SHOW_TEXT
+        emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
+        firstNameLabel.attributedText = LoginDesignUtils.shared.FIRST_NAME_PASSIVE_STRING
+        lastNameLabel.attributedText = LoginDesignUtils.shared.LAST_NAME_PASSIVE_STRING
+        showPasswordView.attributedText = LoginDesignUtils.shared.SHOW_TEXT
     }
     
     func setButtons()
@@ -174,12 +159,12 @@ class SignupViewController : GenericProgramViewController
         if (showPasswordView.text == "Hide")
         {
             passwordTextField.isSecureTextEntry = true
-            showPasswordView.attributedText = SHOW_TEXT
+            showPasswordView.attributedText = LoginDesignUtils.shared.SHOW_TEXT
         }
         else
         {
             passwordTextField.isSecureTextEntry = false
-            showPasswordView.attributedText = HIDE_TEXT
+            showPasswordView.attributedText = LoginDesignUtils.shared.HIDE_TEXT
         }
     }
     
@@ -233,7 +218,7 @@ class SignupViewController : GenericProgramViewController
     {
         var info = notification.userInfo!
         let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        bottomSurroundingViewBottomConstraint.constant = 15 + keyboardHeight!
+        bottomSurroundingViewBottomConstraint.constant = 10 + keyboardHeight!
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -243,7 +228,7 @@ class SignupViewController : GenericProgramViewController
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
     {
-        bottomSurroundingViewBottomConstraint.constant = 15
+        bottomSurroundingViewBottomConstraint.constant = 10
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -256,10 +241,10 @@ class SignupViewController : GenericProgramViewController
     {
         if (nameOfDrawnInput == "email")
         {
-            emailLabel.attributedText = EMAIL_ACTIVE_STRING
-            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
-            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
-            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_ACTIVE_STRING
+            passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = LoginDesignUtils.shared.FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LoginDesignUtils.shared.LAST_NAME_PASSIVE_STRING
             
             emailSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
             passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
@@ -268,10 +253,10 @@ class SignupViewController : GenericProgramViewController
         }
         else if (nameOfDrawnInput == "password")
         {
-            emailLabel.attributedText = EMAIL_PASSIVE_STRING
-            passwordLabel.attributedText = PASSWORD_ACTIVE_STRING
-            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
-            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_ACTIVE_STRING
+            firstNameLabel.attributedText = LoginDesignUtils.shared.FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LoginDesignUtils.shared.LAST_NAME_PASSIVE_STRING
             
             emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
             passwordSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
@@ -280,10 +265,10 @@ class SignupViewController : GenericProgramViewController
         }
         else if (nameOfDrawnInput == "firstname")
         {
-            emailLabel.attributedText = EMAIL_PASSIVE_STRING
-            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
-            firstNameLabel.attributedText = FIRST_NAME_ACTIVE_STRING
-            lastNameLabel.attributedText = LAST_NAME_PASSIVE_STRING
+            emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = LoginDesignUtils.shared.FIRST_NAME_ACTIVE_STRING
+            lastNameLabel.attributedText = LoginDesignUtils.shared.LAST_NAME_PASSIVE_STRING
             
             emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
             passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
@@ -292,10 +277,10 @@ class SignupViewController : GenericProgramViewController
         }
         else if (nameOfDrawnInput == "lastname")
         {
-            emailLabel.attributedText = EMAIL_PASSIVE_STRING
-            passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
-            firstNameLabel.attributedText = FIRST_NAME_PASSIVE_STRING
-            lastNameLabel.attributedText = LAST_NAME_ACTIVE_STRING
+            emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_PASSIVE_STRING
+            passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
+            firstNameLabel.attributedText = LoginDesignUtils.shared.FIRST_NAME_PASSIVE_STRING
+            lastNameLabel.attributedText = LoginDesignUtils.shared.LAST_NAME_ACTIVE_STRING
             
             emailSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
             passwordSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR

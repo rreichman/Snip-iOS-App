@@ -38,8 +38,8 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     @IBOutlet weak var termsAndConditionsView: UITextView!
     @IBOutlet weak var termsAndConditionsLeadingConstraint: NSLayoutConstraint!
-    
-    let LOGIN_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().LOGIN_SIGNUP_BUTTON_FONT!, NSAttributedStringKey.foregroundColor : UIColor.white]
+
+    let LOGIN_STRING = NSAttributedString(string: "Log In", attributes: [NSAttributedStringKey.font : SystemVariables().LOGIN_SIGNUP_BUTTON_FONT!, NSAttributedStringKey.foregroundColor : UIColor.white])
     
     override func viewDidLoad()
     {
@@ -57,7 +57,7 @@ class SignupWelcomeViewController : GenericProgramViewController
         termsAndConditionsView.tintColor = UIColor.white
         
         loginLabel.textColor = UIColor.white
-        loginLabel.attributedText = NSAttributedString(string: loginLabel.text!, attributes: LOGIN_ATTRIBUTES)
+        loginLabel.attributedText = LOGIN_STRING
         
         navigationController?.navigationBar.isHidden = true
         
@@ -108,14 +108,16 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     @objc func loginButtonClicked(sender : UITapGestureRecognizer)
     {
-        performSegue(withIdentifier: "showLoginSegue", sender: self)
         print("login button clicked")
+        performSegue(withIdentifier: "showLoginSegue", sender: self)
+        print("login button clicked. After segue")
     }
     
     @objc func signupButtonClicked(sender : UITapGestureRecognizer)
     {
-        performSegue(withIdentifier: "showSignupSegue", sender: self)
         print("signup button clicked")
+        performSegue(withIdentifier: "showSignupSegue", sender: self)
+        print("signup button clicked. After segue")
     }
     
     @objc func continueWithFacebookClicked(sender : UITapGestureRecognizer)
@@ -152,7 +154,9 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
+        print("preparing")
         let nextViewController = segue.destination as! GenericProgramViewController
         nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
+        print("done preparing")
     }
 }

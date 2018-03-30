@@ -36,17 +36,9 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     var inForgotPasswordProcess : Bool = false
     var inLoginProcess : Bool = false
     
-    let LOGIN_STRING : NSAttributedString = NSAttributedString(string: "Login", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
-    let LOGIN_STRING_BOTTOM : NSAttributedString = NSAttributedString(string: "Log In", attributes: LoginDesignUtils().HEADLINE_ATTRIBUTES)
-    let FORGOT_PASSWORD_STRING : NSAttributedString = NSAttributedString(string: "Forgot?", attributes: LoginDesignUtils().FORGOT_PASSWORD_ATTRIBUTES)
-    
-    let EMAIL_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let EMAIL_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Email", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    let PASSWORD_ACTIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_ACTIVE_ATTRIBUTES)
-    let PASSWORD_PASSIVE_STRING : NSAttributedString = NSAttributedString(string: "Password", attributes: LoginDesignUtils().LABEL_PASSIVE_ATTRIBUTES)
-    
     override func viewDidLoad()
     {
+        print("start login")
         super.viewDidLoad()
         
         loginButtonView.layer.cornerRadius = 24
@@ -59,12 +51,12 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         setConstraintToMiddleOfScreen(constraint: headlineLabelTrailingConstraint, view: headlineLabel)
         setConstraintToMiddleOfScreen(constraint: loginButtonViewLeadingConstraint, view: loginButtonView)
         
-        headlineLabel.attributedText = LOGIN_STRING
-        bottomLoginLabel.attributedText = LOGIN_STRING_BOTTOM
+        headlineLabel.attributedText = LoginDesignUtils.shared.LOGIN_STRING
+        bottomLoginLabel.attributedText = LoginDesignUtils.shared.LOGIN_STRING_BOTTOM
         
-        emailLabel.attributedText = EMAIL_ACTIVE_STRING
-        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
-        forgotPasswordView.attributedText = FORGOT_PASSWORD_STRING
+        emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
+        forgotPasswordView.attributedText = LoginDesignUtils.shared.FORGOT_PASSWORD_STRING
         
         setButtons()
         
@@ -75,6 +67,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         registerForKeyboardNotifications()
         
         emailInputView.becomeFirstResponder()
+        print("end login")
     }
     
     func setButtons()
@@ -156,7 +149,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     {
         var info = notification.userInfo!
         let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        loginButtonViewBottomConstraint.constant = 15 + keyboardHeight!
+        loginButtonViewBottomConstraint.constant = 10 + keyboardHeight!
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -166,7 +159,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
     {
-        loginButtonViewBottomConstraint.constant = 15
+        loginButtonViewBottomConstraint.constant = 10
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -181,7 +174,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
             if (emailInputView.text!.count > 0)
             {
                 inForgotPasswordProcess = true
-                forgotPasswordView.attributedText = NSAttributedString(string: forgotPasswordView.text, attributes: LoginDesignUtils().FORGOT_PASSWORD_ACTIVE_ATTRIBUTES)
+                forgotPasswordView.attributedText = NSAttributedString(string: forgotPasswordView.text, attributes: LoginDesignUtils.shared.FORGOT_PASSWORD_ACTIVE_ATTRIBUTES)
                 postResetPassword(emailString: emailInputView.text!)
             }
             else
@@ -199,8 +192,8 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         emailInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         passwordInputViewSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
         
-        emailLabel.attributedText = EMAIL_ACTIVE_STRING
-        passwordLabel.attributedText = PASSWORD_PASSIVE_STRING
+        emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_ACTIVE_STRING
+        passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_PASSIVE_STRING
     }
     
     func colorPasswordInputBackround()
@@ -208,8 +201,8 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         emailInputViewSeparator.backgroundColor = SystemVariables().UNDERLINE_DEFAULT_COLOR
         passwordInputViewSeparator.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        emailLabel.attributedText = EMAIL_PASSIVE_STRING
-        passwordLabel.attributedText = PASSWORD_ACTIVE_STRING
+        emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_PASSIVE_STRING
+        passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_ACTIVE_STRING
     }
     
     func postResetPassword(emailString: String)
