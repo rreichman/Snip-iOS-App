@@ -224,7 +224,7 @@ class SnippetView: UIView {
             let attributes : [NSAttributedStringKey : Any] = textView.attributedText.attributes(at: characterIndex, longestEffectiveRange: nil, in: NSRange(location: characterIndex, length: characterIndex + 1))
             for attribute in attributes
             {
-                if attribute.key._rawValue == "NSLink"
+                if attribute.key.rawValue == "NSLink"
                 {
                     // In the references these are just regular strings and not NSURLS. Perhaps change this in the future
                     var linkAddress = attribute.value

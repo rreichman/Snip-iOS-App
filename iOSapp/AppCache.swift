@@ -30,7 +30,7 @@ final class AppCache
         return storage
     }
     
-    func insertPostDataIntoCache(postData : PostData)
+    /*func insertPostDataIntoCache(postData : PostData)
     {
         do
         {
@@ -53,5 +53,5 @@ final class AppCache
         {
             return PostData()
         }
-    }
+    }*/
 }

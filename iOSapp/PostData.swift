@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostData : Encodable, Decodable
+class PostData// : Encodable, Decodable
 {
     var postJson : [String : Any] = [:]
     var id : Int = 0
@@ -127,7 +127,7 @@ class PostData : Encodable, Decodable
         return comments
     }
     
-    func encode(to encoder: Encoder) throws
+    /*func encode(to encoder: Encoder) throws
     {
         var container = encoder.singleValueContainer()
         try container.encode(postJson)
@@ -137,5 +137,5 @@ class PostData : Encodable, Decodable
     {
         postJson = try decoder.singleValueContainer() as! [String : Any]
         loadRawJsonIntoVariables()
-    }
+    }*/
 }
