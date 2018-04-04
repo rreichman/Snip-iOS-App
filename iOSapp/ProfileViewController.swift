@@ -13,6 +13,8 @@ class ProfileViewController : GenericProgramViewController
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var welcomeText: UITextView!
     
+    @IBOutlet weak var profileTopView: ProfileView!
+    
     override func viewDidLoad()
     {       
         let userFirstName : String = UserInformation().getUserInfo(key: UserInformation().firstNameKey)
@@ -25,6 +27,11 @@ class ProfileViewController : GenericProgramViewController
         
         logoutButton.layer.borderColor = UIColor.black.cgColor
         logoutButton.layer.borderWidth = 0.5
+        
+        let userFullName = UserInformation().getUserInfo(key: UserInformation().firstNameKey) + " " + UserInformation().getUserInfo(key: UserInformation().lastNameKey)
+        profileTopView.setUI(receivedUserFullName: userFullName)
+        profileTopView.backButtonView.isHidden = true
+        
         // Making the "Back" button black instead of blue
         self.navigationController?.navigationBar.tintColor = UIColor.black
     }

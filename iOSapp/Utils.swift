@@ -138,14 +138,13 @@ func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
     {
         urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
     }
-    else
+    
+    let cookieStringArray = getCookiesForUrlRequest()
+    for cookieString in cookieStringArray
     {
-        let cookieStringArray = getCookiesForUrlRequest()
-        for cookieString in cookieStringArray
-        {
-            urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
-        }
+        urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
     }
+
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     
