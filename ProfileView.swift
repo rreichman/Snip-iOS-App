@@ -78,7 +78,7 @@ class ProfileView: UIView
     
     @objc func backButtonClicked(sender: UITapGestureRecognizer)
     {
-        currentViewController.navigationController?.navigationBar.isHidden = false
+        currentViewController.navigationController?.navigationBar.isHidden = !currentViewController.shouldShowNavigationBar
         currentViewController.navigationController?.popViewController(animated: true)
     }
     

@@ -41,8 +41,8 @@ class UserInformation
     {
         setUserInfo(key: authenticationTokenKey, value: "")
         setUserInfo(key: emailKey, value: "")
-        setUserInfo(key: firstNameKey, value: "")
-        setUserInfo(key: lastNameKey, value: "")
+        setUserInfo(key: firstNameKey, value: "Snip")
+        setUserInfo(key: lastNameKey, value: "Guest")
         setUserInfo(key: usernameKey, value: "")
     }
     

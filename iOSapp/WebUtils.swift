@@ -106,10 +106,15 @@ class WebUtils
             newPostDataArray.append(postData)
         }
         
+        var INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
+        if (appendDataAndNotReplace)
+        {
+            INITIAL_NUMBER_OF_IMAGES_COLLECTED = postsToAdd.count
+        }
+        
         var i = 0
         for postData in newPostDataArray
         {
-            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
             if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
             {
                 let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)

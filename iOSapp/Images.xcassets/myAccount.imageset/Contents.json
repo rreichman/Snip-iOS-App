@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "whiteBackArrow.png",
+      "filename" : "myAccount.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "whiteBackArrow-1.png",
+      "filename" : "myAccount-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "whiteBackArrow-2.png",
+      "filename" : "myAccount-2.png",
       "scale" : "3x"
     }
   ],

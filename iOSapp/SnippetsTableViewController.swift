@@ -19,6 +19,10 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     // TODO: perhaps there's a better way
     var shouldEnterCommentOfFirstSnippet = false
     var shouldHaveBackButton = false
+    var shouldShowNavigationBar = true
+    var shouldShowProfileView = true
+    var shouldShowBackView = false
+    
     var pageTitle = "Home"
     var pageWriterIfExists = "Page Writer"
     
@@ -26,8 +30,12 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     var cellsNotToTruncate : Set<Int> = Set<Int>()
     
     var snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
+    var titleHeadlineString : NSAttributedString = NSAttributedString()
     
     let loadingIndicator : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    @IBOutlet weak var backHeaderView: BackHeaderView!
+    @IBOutlet weak var backHeaderViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var profileView: ProfileView!
     @IBOutlet weak var profileViewHeightConstraint: NSLayoutConstraint!
@@ -44,9 +52,18 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.dataSource = self
         tableView.delegate = self
      
-        if (snipRetrieverFromWeb.isCoreSnipViewController)
+        if (snipRetrieverFromWeb.isCoreSnipViewController || !shouldShowProfileView)
         {
             profileViewHeightConstraint.constant = 0
+        }
+        if (!shouldShowBackView)
+        {
+            backHeaderView.isHidden = true
+            backHeaderViewHeightConstraint.constant = 0
+        }
+        else
+        {
+            backHeaderView.titleLabel.attributedText = titleHeadlineString
         }
         
         getRestOfImagesAsync()
@@ -59,6 +76,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         profileView.setUI(receivedUserFullName: pageWriterIfExists)
         profileView.currentViewController = self
+        backHeaderView.currentViewController = self
         
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.backgroundColor = UIColor.lightGray

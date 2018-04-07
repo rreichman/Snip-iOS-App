@@ -23,8 +23,6 @@ class SnippetView: UIView {
     
     @IBOutlet weak var imageDescription: UITextView!
     
-    
-    
     @IBOutlet weak var headline: UITextView!
     
     @IBOutlet weak var body: UITextView!
@@ -383,11 +381,9 @@ class SnippetView: UIView {
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            //activityVC.popoverPresentationController?.barButtonItem = #imageLiteral(resourceName: "shareButton")
             activityVC.popoverPresentationController?.sourceView = shareView
             
             currentViewController.present(activityVC, animated: true, completion: nil)
-            //currentViewController.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -399,16 +395,15 @@ class SnippetView: UIView {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
         snippetsViewController.shouldHaveBackButton = true
-        //snippetsViewController.profileView.userFullName = writerName.text!
-        //snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "my-upvotes/")
         snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
+        snippetsViewController.shouldShowBackView = false
+        snippetsViewController.shouldShowNavigationBar = false
         snippetsViewController.fillSnippetViewController()
         snippetsViewController.pageWriterIfExists = writerName.text!
         
         currentViewController.navigationController?.navigationBar.isHidden = true
         
         currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
-        //currentViewController.present(navigationController, animated: true, completion: nil)
     }
     
     @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)

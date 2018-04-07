@@ -38,7 +38,7 @@ extension SnippetsTableViewController
     
     @objc func goBack()
     {
-        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: true)
+        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: shouldShowNavigationBar)
     }
     
     func scrollToTopOfTable()
@@ -61,7 +61,7 @@ extension SnippetsTableViewController
         // 0.8 is arbitrary ratio of bar to be clickable
         let buttonWidth = self.navigationController!.navigationBar.frame.size.width * 0.8
         button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = SystemVariables().NAVIGATION_BAR_TITLE_FONT
         button.addTarget(self,

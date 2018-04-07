@@ -60,6 +60,13 @@
 		7DC58874206B021300BFA5AD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC58873206B021300BFA5AD /* LoginViewController.swift */; };
 		7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */; };
 		7DCB69DE20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */; };
+		7DD073B620757C24001D24BD /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD073B520757C24001D24BD /* MainTabBarViewController.swift */; };
+		7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD073B72076DA30001D24BD /* SettingsViewController.swift */; };
+		7DD073BA20771B9D001D24BD /* BackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD073B920771B9D001D24BD /* BackHeaderView.xib */; };
+		7DD073BC20771BB7001D24BD /* BackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD073BB20771BB7001D24BD /* BackHeaderView.swift */; };
+		7DD073BE20784D7D001D24BD /* SettingsMember.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD073BD20784D7D001D24BD /* SettingsMember.xib */; };
+		7DD073C020784D8D001D24BD /* SettingsMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD073BF20784D8D001D24BD /* SettingsMember.swift */; };
+		7DD073C220785AB0001D24BD /* SnipWalletController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD073C120785AB0001D24BD /* SnipWalletController.swift */; };
 		7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */; };
 		7DD405E520449A0F00FF3ACB /* SnippetMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */; };
 		7DDA3D9D206C5DAE00960252 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA3D9C206C5DAE00960252 /* SignupViewController.swift */; };
@@ -148,6 +155,13 @@
 		7DC58873206B021300BFA5AD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewUIUtils.swift; sourceTree = "<group>"; };
 		7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTableViewDataUtils.swift; sourceTree = "<group>"; };
+		7DD073B520757C24001D24BD /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		7DD073B72076DA30001D24BD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		7DD073B920771B9D001D24BD /* BackHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BackHeaderView.xib; sourceTree = "<group>"; };
+		7DD073BB20771BB7001D24BD /* BackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackHeaderView.swift; sourceTree = "<group>"; };
+		7DD073BD20784D7D001D24BD /* SettingsMember.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsMember.xib; sourceTree = "<group>"; };
+		7DD073BF20784D8D001D24BD /* SettingsMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMember.swift; sourceTree = "<group>"; };
+		7DD073C120785AB0001D24BD /* SnipWalletController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipWalletController.swift; sourceTree = "<group>"; };
 		7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericProgramViewController.swift; sourceTree = "<group>"; };
 		7DD405E320423F8300FF3ACB /* iOSapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSapp.entitlements; sourceTree = "<group>"; };
 		7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetMenu.swift; sourceTree = "<group>"; };
@@ -206,6 +220,10 @@
 		7D0047EB1F997E3E00B02D1A = {
 			isa = PBXGroup;
 			children = (
+				7DD073BF20784D8D001D24BD /* SettingsMember.swift */,
+				7DD073BD20784D7D001D24BD /* SettingsMember.xib */,
+				7DD073BB20771BB7001D24BD /* BackHeaderView.swift */,
+				7DD073B920771B9D001D24BD /* BackHeaderView.xib */,
 				7D160E862064A14D00D41279 /* ProfileView.swift */,
 				7D160E8220649DB500D41279 /* ProfileView.xib */,
 				7D1EC477203F92A6004B7B44 /* UserImage.swift */,
@@ -236,10 +254,12 @@
 		7D0047F61F997E3E00B02D1A /* iOSapp */ = {
 			isa = PBXGroup;
 			children = (
+				7DD073B520757C24001D24BD /* MainTabBarViewController.swift */,
 				7DC58873206B021300BFA5AD /* LoginViewController.swift */,
 				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
 				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
 				7D820EB01FCE22F800404FA2 /* CommentsTableViewController.swift */,
+				7DD073B72076DA30001D24BD /* SettingsViewController.swift */,
 				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
 				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
 				7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */,
@@ -248,6 +268,7 @@
 				7D7F25C81FD0EBB6000D9860 /* OldLoginViewController.swift */,
 				7D7F25CE1FD10955000D9860 /* OldSignupViewController.swift */,
 				7DDA3D9C206C5DAE00960252 /* SignupViewController.swift */,
+				7DD073C120785AB0001D24BD /* SnipWalletController.swift */,
 				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
 				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
@@ -443,8 +464,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DAD9293203E303600337922 /* CommentView.xib in Resources */,
+				7DD073BA20771B9D001D24BD /* BackHeaderView.xib in Resources */,
 				7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */,
 				7D160E8320649DB500D41279 /* ProfileView.xib in Resources */,
+				7DD073BE20784D7D001D24BD /* SettingsMember.xib in Resources */,
 				7D0047FD1F997E3E00B02D1A /* Main.storyboard in Resources */,
 				7D85D30F202BEC9600867F8B /* SnippetView.xib in Resources */,
 				7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */,
@@ -658,6 +681,7 @@
 				7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */,
 				7DF3F93F1FB63B7100B0E8A3 /* SystemVariables.swift in Sources */,
 				7DF3927F1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift in Sources */,
+				7DD073B620757C24001D24BD /* MainTabBarViewController.swift in Sources */,
 				7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */,
 				7DD29BBB1FD5F31C0048FC15 /* GenericProgramViewController.swift in Sources */,
 				7D7F25C91FD0EBB6000D9860 /* OldLoginViewController.swift in Sources */,
@@ -674,6 +698,7 @@
 				7D7F25C51FD0D6EA000D9860 /* CommentActionData.swift in Sources */,
 				7D5C434F1FBBB42F00551E49 /* TableCellDataUtils.swift in Sources */,
 				7D7F25CD1FD0EE19000D9860 /* ProfileViewController.swift in Sources */,
+				7DD073C220785AB0001D24BD /* SnipWalletController.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,
 				7DED9F92206C82EF00218C4C /* LoginDesignUtils.swift in Sources */,
 				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
@@ -681,8 +706,11 @@
 				7D6E9EA31FD495B00068D614 /* UserInformation.swift in Sources */,
 				7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */,
 				7DAD9295203E304500337922 /* CommentView.swift in Sources */,
+				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
 				7D839E2F1FC6843E007501F2 /* CommentTableViewCell.swift in Sources */,
 				7D812FC6202423F700968B9E /* CellTextUtils.swift in Sources */,
+				7DD073C020784D8D001D24BD /* SettingsMember.swift in Sources */,
+				7DD073BC20771BB7001D24BD /* BackHeaderView.swift in Sources */,
 				7DA1A94F1FCB7CF600ABB0C4 /* SnipUser.swift in Sources */,
 				7D6E27851FD0D12400E7C2FF /* LogInfo.swift in Sources */,
 				7D820EAF1FCD19DB00404FA2 /* UITextView+Placeholder.swift in Sources */,

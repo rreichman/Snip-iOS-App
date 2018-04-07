@@ -189,6 +189,16 @@ public class Logger
         logEvent(actionName: "clickAuthorView")
     }
     
+    func logClickMyUpvotes()
+    {
+        logEvent(actionName: "myUpvotes")
+    }
+    
+    func logClickedOnSettings()
+    {
+        logEvent(actionName: "clickSettings")
+    }
+    
     func logClickSnippetMenuButton()
     {
         logEvent(actionName: "clickSnippetMenuButton")

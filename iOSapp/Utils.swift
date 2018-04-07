@@ -325,6 +325,11 @@ func setConstraintToMiddleOfScreen(constraint : NSLayoutConstraint, view : UIVie
     constraint.constant = CachedData().getScreenWidth() / 2 - view.frame.width / 2
 }
 
+func setConstraintToMiddleOfView(constraint: NSLayoutConstraint, surroundingViewHeight : CGFloat, view : UIView)
+{
+    constraint.constant = surroundingViewHeight / 2 - view.frame.height / 2
+}
+
 // Use this for tests
 /*let calendar = NSCalendar.current
  var componentSet = Set<Calendar.Component>()

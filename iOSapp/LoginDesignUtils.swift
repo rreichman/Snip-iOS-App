@@ -34,6 +34,13 @@ class LoginDesignUtils
     
     let TERMS_AND_CONDITIONS_STRING = getTermsAndConditionsString(color: SystemVariables().TERMS_AND_CONDITIONS_COLOR)
     
+    let SAVED_SNIPS_HEADLINE_STRING = NSAttributedString(string: "Saved Snips", attributes: HEADLINE_ATTRIBUTES)
+    let SETTINGS_HEADLINE_STRING = NSAttributedString(string: "Settings", attributes: HEADLINE_ATTRIBUTES)
+    
+    let PRIVACY_POLICY_STRING = NSAttributedString(string: "Privacy Policy", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
+    let TERMS_OF_SERVICE_STRING = NSAttributedString(string: "Terms Of Service", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
+    let LOGOUT_STRING = NSAttributedString(string: "Logout", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
+    
     let LOGIN_STRING = NSAttributedString(string: "Login", attributes: HEADLINE_ATTRIBUTES)
     let LOGIN_STRING_BOTTOM = NSAttributedString(string: "Log In", attributes: HEADLINE_ATTRIBUTES)
     let FORGOT_PASSWORD_STRING = NSAttributedString(string: "Forgot?", attributes: [NSAttributedStringKey.font : SystemVariables().FORGOT_PASSWORD_FONT!, NSAttributedStringKey.foregroundColor : UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)])

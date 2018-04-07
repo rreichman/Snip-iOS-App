@@ -63,46 +63,24 @@ class OpeningSplashScreenViewController: UIViewController
     {
         print("starting here: \(Date())")
         _postDataArray = WebUtils.shared.addPostsToFeed(snipRetriever: _snipRetrieverFromWeb, originalPostDataArray: _postDataArray, postsToAdd: postsToAdd, appendDataAndNotReplace: appendDataAndNotReplace)
-        /*if (!appendDataAndNotReplace)
-        {
-            _postDataArray = []
-        }
-        
-        for postData in postsToAdd
-        {
-            _postDataArray.append(postData)
-        }
-        
-        var i = 0
-        for postData in _postDataArray
-        {
-            let INITIAL_NUMBER_OF_IMAGES_COLLECTED = 2
-            if (i < INITIAL_NUMBER_OF_IMAGES_COLLECTED)
-            {
-                let imageData = WebUtils().getImageFromWebSync(urlString: postData.image._imageURL)
-                postData.image.setImageData(imageData: imageData)
-            }
 
-            i += 1
-        }
-        
-        _snipRetrieverFromWeb.lock.unlock()*/
-        
         print("performing segue: \(Date())")
-        performSegue(withIdentifier: "segueToTableView", sender: self)
+        performSegue(withIdentifier: "segueToTabBarView", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         print("preparing")
-        if (segue.identifier == "segueToTableView")
+        if (segue.identifier == "segueToTabBarView")
         {
-            print("preparing segue: \(Date())")
-            let navigationController = segue.destination as! UINavigationController
-            let snippetsTableViewController = navigationController.viewControllers.first as! SnippetsTableViewController
+            print("preparing to segue to tab bar view")
+            
+            let barViewController : MainTabBarViewController = segue.destination as! MainTabBarViewController
+            let snippetsTableViewController = (barViewController.viewControllers?.first as! UINavigationController).viewControllers.first as! SnippetsTableViewController
             snippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
             snippetsTableViewController._postDataArray = _postDataArray
-            print("done with prepare: \(Date())")
+            
+            print("done seguing to tab bar view")
         }
     }
 }

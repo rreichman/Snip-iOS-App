@@ -50,6 +50,14 @@ public class SystemVariables
     let TERMS_AND_CONDITIONS_FONT = UIFont.lato(size: 14)
     let TERMS_AND_CONDITIONS_COLOR = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1)
     
+    let SAVED_SNIPS_FONT = UIFont.latoBold(size: 16)
+    let SAVED_SNIPS_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
+    
+    let SETTINGS_DESCRIPTION_FONT = UIFont.latoBold(size: 16)
+    let SETTINGS_DESCRIPTION_COLOR = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1)
+    
+    let SEPARATOR_COLOR = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
+    
     let PASSWORD_LENGTH_LIMIT = 6
     let DEFAULT_HEIGHT_OF_REPLYING_TO_BAR = 30
     
