@@ -139,7 +139,7 @@ class SignupViewController : GenericProgramViewController
     @objc func closeButtonClicked(sender : UITapGestureRecognizer)
     {
         print("signup close button clicked")
-        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: false)
+        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: false)
     }
     
     @objc func emailButtonClicked(sender : UITapGestureRecognizer)

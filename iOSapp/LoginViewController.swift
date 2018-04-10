@@ -98,7 +98,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     @objc func closeButtonClicked(sender : UITapGestureRecognizer)
     {
         print("login close button clicked")
-        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: false)
+        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: false)
     }
     
     @objc func loginButtonClicked(sender : UITapGestureRecognizer)

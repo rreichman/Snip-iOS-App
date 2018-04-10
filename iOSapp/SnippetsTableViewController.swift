@@ -77,6 +77,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         profileView.setUI(receivedUserFullName: pageWriterIfExists)
         profileView.currentViewController = self
         backHeaderView.currentViewController = self
+        backHeaderView.showNavigationBarOnBack = shouldShowNavigationBar
         
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.backgroundColor = UIColor.lightGray

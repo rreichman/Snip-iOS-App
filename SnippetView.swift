@@ -398,6 +398,7 @@ class SnippetView: UIView {
         snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
         snippetsViewController.shouldShowBackView = false
         snippetsViewController.shouldShowNavigationBar = false
+        snippetsViewController.viewControllerToReturnTo = currentViewController
         snippetsViewController.fillSnippetViewController()
         snippetsViewController.pageWriterIfExists = writerName.text!
         

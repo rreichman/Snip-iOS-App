@@ -103,7 +103,7 @@ class SignupWelcomeViewController : GenericProgramViewController
     @objc func closeButtonClicked(sender : UITapGestureRecognizer)
     {
         // TODO:: fix this
-        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: false)
+        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: false)
         print("close button clicked")
     }
     

@@ -23,6 +23,8 @@ class ProfileViewController : GenericProgramViewController
     @IBOutlet weak var logInTextView: UITextView!
     @IBOutlet weak var logInSeparatorView: UIView!
     
+    @IBOutlet weak var statusBarView: UIView!
+    
     @IBOutlet weak var settingsView: UIView!
     
     let SAVED_SNIPS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().SAVED_SNIPS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SAVED_SNIPS_COLOR]
@@ -47,6 +49,10 @@ class ProfileViewController : GenericProgramViewController
         
         setButtons()
         setUsername()
+        
+        statusBarView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
+        navigationController?.navigationBar.isHidden = true
         
         profileTopView.backButtonView.isHidden = true
         
@@ -128,6 +134,7 @@ class ProfileViewController : GenericProgramViewController
         let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
         snippetsViewController.shouldShowProfileView = false
         snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "my-upvotes/")
+        snippetsViewController.viewControllerToReturnTo = self
         snippetsViewController.shouldShowNavigationBar = false
         snippetsViewController.shouldShowBackView = true
         snippetsViewController.fillSnippetViewController()

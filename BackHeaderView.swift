@@ -15,13 +15,13 @@ class BackHeaderView: UIView
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     
-    
-    
     @IBOutlet weak var backButton: UIImageView!
     @IBOutlet weak var backButtonView: UIView!
     @IBOutlet weak var headerView: UIView!
     
-    var currentViewController : UIViewController = UIViewController()
+    var showNavigationBarOnBack : Bool = false
+    
+    var currentViewController : UIViewController = GenericProgramViewController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,8 +59,6 @@ class BackHeaderView: UIView
         backButtonView.addGestureRecognizer(backButtonClickRecognizer)
         
         setConstraintToMiddleOfScreen(constraint: titleLabelTrailingConstraint, view: titleLabel)
-        //setConstraintToMiddleOfView(constraint: titleTopConstraint, surroundingViewHeight: 60, view: titleLabel)
-        //setConstraintToMiddleOfView(constraint: backArrowTopConstraint, surroundingViewHeight: 60, view: backButton)
         
         return view
     }
@@ -68,6 +66,6 @@ class BackHeaderView: UIView
     @objc func backButtonClicked(sender : UITapGestureRecognizer)
     {
         print("back button clicked")
-        goBackWithoutNavigationBar(navigationController: currentViewController.navigationController!, showNavigationBar: false)
+        goBackToPreviousViewController(navigationController: currentViewController.navigationController!, showNavigationBar: showNavigationBarOnBack)
     }
 }

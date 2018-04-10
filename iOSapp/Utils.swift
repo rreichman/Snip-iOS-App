@@ -314,7 +314,7 @@ func getCharInString(str : String, position: Int) -> Character
     return str[index]
 }
 
-func goBackWithoutNavigationBar(navigationController : UINavigationController, showNavigationBar : Bool)
+func goBackToPreviousViewController(navigationController : UINavigationController, showNavigationBar : Bool)
 {
     navigationController.navigationBar.isHidden = !showNavigationBar
     navigationController.popViewController(animated: true)

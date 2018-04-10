@@ -38,7 +38,7 @@ extension SnippetsTableViewController
     
     @objc func goBack()
     {
-        goBackWithoutNavigationBar(navigationController: navigationController!, showNavigationBar: shouldShowNavigationBar)
+        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: shouldShowNavigationBar)
     }
     
     func scrollToTopOfTable()

@@ -14,7 +14,6 @@
 		7D0047FD1F997E3E00B02D1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D0047FB1F997E3E00B02D1A /* Main.storyboard */; };
 		7D00480D1F997E3E00B02D1A /* iOSappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D00480C1F997E3E00B02D1A /* iOSappTests.swift */; };
 		7D0048181F997E3E00B02D1A /* iOSappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0048171F997E3E00B02D1A /* iOSappUITests.swift */; };
-		7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D09A3961FC4F79B00E51553 /* MenuViewController.swift */; };
 		7D160E8320649DB500D41279 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D160E8220649DB500D41279 /* ProfileView.xib */; };
 		7D160E872064A14D00D41279 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D160E862064A14D00D41279 /* ProfileView.swift */; };
 		7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D1EC475203F928D004B7B44 /* UserImage.xib */; };
@@ -107,7 +106,6 @@
 		7D0048131F997E3E00B02D1A /* iOSappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0048171F997E3E00B02D1A /* iOSappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSappUITests.swift; sourceTree = "<group>"; };
 		7D0048191F997E3E00B02D1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7D09A3961FC4F79B00E51553 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		7D160E8220649DB500D41279 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		7D160E862064A14D00D41279 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7D1EC475203F928D004B7B44 /* UserImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserImage.xib; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
 				7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */,
 				7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */,
-				7D09A3961FC4F79B00E51553 /* MenuViewController.swift */,
 				7DDA3D9C206C5DAE00960252 /* SignupViewController.swift */,
 				7DD073C120785AB0001D24BD /* SnipWalletController.swift */,
 				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
@@ -696,7 +693,6 @@
 				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
 				7DE89D8F1FD60D9E004AD45E /* CommentUtils.swift in Sources */,
 				7D6E9EA31FD495B00068D614 /* UserInformation.swift in Sources */,
-				7D09A3971FC4F79B00E51553 /* MenuViewController.swift in Sources */,
 				7DAD9295203E304500337922 /* CommentView.swift in Sources */,
 				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
 				7D839E2F1FC6843E007501F2 /* CommentTableViewCell.swift in Sources */,

@@ -78,8 +78,15 @@ class ProfileView: UIView
     
     @objc func backButtonClicked(sender: UITapGestureRecognizer)
     {
-        currentViewController.navigationController?.navigationBar.isHidden = !currentViewController.shouldShowNavigationBar
-        currentViewController.navigationController?.popViewController(animated: true)
+        if (currentViewController.viewControllerToReturnTo is SnippetsTableViewController)
+        {
+            currentViewController.navigationController?.navigationBar.isHidden = !(currentViewController.viewControllerToReturnTo as! SnippetsTableViewController).shouldShowNavigationBar
+        }
+        else
+        {
+            currentViewController.navigationController?.navigationBar.isHidden = !currentViewController.shouldShowNavigationBar
+        }
+        currentViewController.segueBackToContent(alertAction: UIAlertAction())
     }
     
     func setUI(receivedUserFullName: String)

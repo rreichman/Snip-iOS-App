@@ -11,6 +11,7 @@ import UIKit
 class SnipWalletController : UIViewController
 {
     @IBOutlet weak var backHeaderView: BackHeaderView!
+    @IBOutlet weak var backgroundView: UIView!
     
     override func viewDidLoad()
     {
@@ -20,6 +21,8 @@ class SnipWalletController : UIViewController
         
         backHeaderView.titleLabel.attributedText = NSAttributedString(string: "SNIP Wallet", attributes: HEADLINE_ATTRIBUTES)
         backHeaderView.backButtonView.isHidden = true
+        
+        backgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         //backHeaderView.titleTopConstraint.constant = 32
     }
