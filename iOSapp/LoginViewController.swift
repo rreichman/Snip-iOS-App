@@ -264,6 +264,10 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
                         storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
                         UserInformation().getUserInformationFromWeb()
                         
+                        if (self.viewControllerToReturnTo is ProfileViewController)
+                        {
+                            (self.viewControllerToReturnTo as! ProfileViewController).setUsername()
+                        }
                         promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
                     }
                     else if jsonObj.keys.count == 1 && jsonObj.keys.contains("non_field_errors")

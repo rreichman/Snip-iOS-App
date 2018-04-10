@@ -65,7 +65,11 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.userImage.loadInitialsIntoUserImage(writerName: snippetView.writerName.attributedText!, sizeOfView: 30, sizeOfFont: 13)
         
-        self.navigationController?.navigationBar.tintColor = UIColor.black
+        if (viewControllerToReturnTo is SnippetsTableViewController)
+        {
+            self.navigationController?.navigationBar.isHidden = !(viewControllerToReturnTo as! SnippetsTableViewController).shouldShowNavigationBar
+        }
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         // This is for the cases where there are no comments
         setTableViewBackground()
     }

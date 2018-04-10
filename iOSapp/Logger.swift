@@ -194,6 +194,11 @@ public class Logger
         logEvent(actionName: "myUpvotes")
     }
     
+    func logClickProfileLoginButton()
+    {
+        logEvent(actionName: "profileLoginButton")
+    }
+    
     func logClickedOnSettings()
     {
         logEvent(actionName: "clickSettings")

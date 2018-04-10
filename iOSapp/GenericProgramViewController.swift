@@ -16,7 +16,6 @@ class GenericProgramViewController : UIViewController
     
     func segueBackToContent(alertAction: UIAlertAction)
     {
-        viewControllerToReturnTo.navigationController?.navigationBar.isHidden = false
         navigationController?.popToViewController(viewControllerToReturnTo, animated: true)
     }
 }

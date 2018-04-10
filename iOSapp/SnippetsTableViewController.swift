@@ -87,6 +87,11 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         print("done loading snippetViewController: \(Date())")
     }
     
+    override func viewDidAppear(_ animated: Bool)
+    {
+        navigationController?.navigationBar.isHidden = !shouldShowNavigationBar
+    }
+    
     @IBAction func menuButtonPressed(_ sender: Any)
     {
         performSegue(withIdentifier: "showMenuSegue", sender: self)

@@ -155,9 +155,9 @@ class SignupWelcomeViewController : GenericProgramViewController
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        print("preparing")
+        print("welcome preparing")
         let nextViewController = segue.destination as! GenericProgramViewController
         nextViewController.viewControllerToReturnTo = self.viewControllerToReturnTo
-        print("done preparing")
+        print("welcome done preparing")
     }
 }

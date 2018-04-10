@@ -10,7 +10,7 @@ import UIKit
 
 let SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().SETTINGS_DESCRIPTION_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SETTINGS_DESCRIPTION_COLOR]
 
-class SettingsViewController : UIViewController
+class SettingsViewController : GenericProgramViewController
 {
     @IBOutlet weak var backHeaderView: BackHeaderView!
     
@@ -41,6 +41,8 @@ class SettingsViewController : UIViewController
         secondSetting.textView.attributedText = LoginDesignUtils.shared.TERMS_OF_SERVICE_STRING
         thirdSetting.imageView.image = #imageLiteral(resourceName: "logout")
         thirdSetting.textView.attributedText = LoginDesignUtils.shared.LOGOUT_STRING
+        
+        thirdSetting.isHidden = (!UserInformation().isUserLoggedIn())
     }
     
     func setButtons()
@@ -89,11 +91,11 @@ class SettingsViewController : UIViewController
     func operateLogout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.moveToHomeTab)
+        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.moveToProfileTab)
     }
     
-    func moveToHomeTab(action: UIAlertAction)
+    func moveToProfileTab(action: UIAlertAction)
     {
-        print("move to home tab")
+        segueBackToContent(alertAction: action)
     }
 }

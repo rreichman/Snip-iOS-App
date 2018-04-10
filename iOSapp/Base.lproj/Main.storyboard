@@ -274,14 +274,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xro-3x-4cI" customClass="ProfileView" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="64" width="375" height="155"/>
+                                <rect key="frame" x="0.0" y="-20" width="375" height="175"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="Z7U-3V-A5D"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfC-Qm-XLd" userLabel="Saved Snippets View">
-                                <rect key="frame" x="16" y="226" width="343" height="63"/>
+                                <rect key="frame" x="16" y="162" width="343" height="63"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Saved Snips" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9s-8n-QAg" userLabel="Saved Snippets Text">
                                         <rect key="frame" x="0.0" y="22" width="343" height="40"/>
@@ -328,15 +328,48 @@
                                     <constraint firstItem="Lc5-Tt-Mjs" firstAttribute="top" secondItem="z6Y-cm-MbD" secondAttribute="top" constant="6" id="tSP-H5-rjC"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MlF-Y2-bq1" userLabel="Login View">
+                                <rect key="frame" x="16" y="233" width="343" height="63"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Log In" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byx-ck-NdG" userLabel="Login Text">
+                                        <rect key="frame" x="0.0" y="22" width="343" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="CBS-ZF-JTW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRD-Jg-Ut3" userLabel="loginSeparator">
+                                        <rect key="frame" x="0.0" y="62" width="343" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="vps-E5-8Yk"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="HRD-Jg-Ut3" firstAttribute="leading" secondItem="MlF-Y2-bq1" secondAttribute="leading" id="6xn-ES-gNs"/>
+                                    <constraint firstItem="HRD-Jg-Ut3" firstAttribute="top" secondItem="Byx-ck-NdG" secondAttribute="bottom" id="9z4-vT-QYH"/>
+                                    <constraint firstItem="Byx-ck-NdG" firstAttribute="leading" secondItem="MlF-Y2-bq1" secondAttribute="leading" id="VfM-sc-fqH"/>
+                                    <constraint firstAttribute="trailing" secondItem="Byx-ck-NdG" secondAttribute="trailing" id="Y9B-nS-Sci"/>
+                                    <constraint firstItem="Byx-ck-NdG" firstAttribute="top" secondItem="MlF-Y2-bq1" secondAttribute="top" constant="22" id="Yex-6W-4G2"/>
+                                    <constraint firstAttribute="bottom" secondItem="HRD-Jg-Ut3" secondAttribute="bottom" id="kca-G4-T2A"/>
+                                    <constraint firstAttribute="trailing" secondItem="HRD-Jg-Ut3" secondAttribute="trailing" id="vmD-oK-6cQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="MlF-Y2-bq1" secondAttribute="trailing" constant="16" id="59f-Gb-UmY"/>
+                            <constraint firstItem="MlF-Y2-bq1" firstAttribute="top" secondItem="pfC-Qm-XLd" secondAttribute="bottom" id="6ca-hE-5N6"/>
                             <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="pfC-Qm-XLd" secondAttribute="trailing" constant="16" id="RR0-V8-iWB"/>
                             <constraint firstItem="z6Y-cm-MbD" firstAttribute="top" secondItem="I7R-I1-SBS" secondAttribute="topMargin" constant="10" id="aea-q0-x06"/>
                             <constraint firstItem="pfC-Qm-XLd" firstAttribute="leading" secondItem="aru-aC-76Q" secondAttribute="leading" constant="16" id="bkZ-gx-DH8"/>
                             <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="xro-3x-4cI" secondAttribute="trailing" id="ehf-dv-Cdi"/>
                             <constraint firstItem="pfC-Qm-XLd" firstAttribute="top" secondItem="xro-3x-4cI" secondAttribute="bottom" constant="7" id="fz7-4c-vvX"/>
                             <constraint firstItem="xro-3x-4cI" firstAttribute="top" secondItem="I7R-I1-SBS" secondAttribute="top" constant="-20" id="rRw-Mj-hYO"/>
+                            <constraint firstItem="MlF-Y2-bq1" firstAttribute="leading" secondItem="aru-aC-76Q" secondAttribute="leading" constant="16" id="tmg-qs-z90"/>
                             <constraint firstItem="xro-3x-4cI" firstAttribute="leading" secondItem="aru-aC-76Q" secondAttribute="leading" id="wZQ-YB-wmo"/>
                             <constraint firstItem="aru-aC-76Q" firstAttribute="trailing" secondItem="z6Y-cm-MbD" secondAttribute="trailing" constant="5" id="zmV-lE-1Y7"/>
                         </constraints>
@@ -345,6 +378,9 @@
                     <tabBarItem key="tabBarItem" title="Item" id="Lde-BW-8ua"/>
                     <navigationItem key="navigationItem" id="8xd-LQ-q6k"/>
                     <connections>
+                        <outlet property="logInSeparatorView" destination="HRD-Jg-Ut3" id="mhw-6m-nAb"/>
+                        <outlet property="logInSurroundingView" destination="MlF-Y2-bq1" id="q9t-Gc-DJl"/>
+                        <outlet property="logInTextView" destination="Byx-ck-NdG" id="rxO-uq-iYh"/>
                         <outlet property="profileTopView" destination="xro-3x-4cI" id="tAB-zZ-v9b"/>
                         <outlet property="savedSnippetsSeparator" destination="HJY-mh-qmi" id="tBD-K5-Es1"/>
                         <outlet property="savedSnippetsTextView" destination="g9s-8n-QAg" id="Cfa-MB-ZCV"/>

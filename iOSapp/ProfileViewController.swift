@@ -19,9 +19,16 @@ class ProfileViewController : GenericProgramViewController
     @IBOutlet weak var savedSnippetsTextView: UITextView!
     @IBOutlet weak var savedSnippetsSeparator: UIView!
     
+    @IBOutlet weak var logInSurroundingView: UIView!
+    @IBOutlet weak var logInTextView: UITextView!
+    @IBOutlet weak var logInSeparatorView: UIView!
+    
     @IBOutlet weak var settingsView: UIView!
     
     let SAVED_SNIPS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().SAVED_SNIPS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SAVED_SNIPS_COLOR]
+    
+    var timeOfLastWelcomScreen : TimeInterval = 0
+    var shouldShowWelcomeScreen : Bool = true
     
     override func viewDidLoad()
     {
@@ -30,25 +37,50 @@ class ProfileViewController : GenericProgramViewController
         navigationController?.navigationBar.isHidden = true
         
         removePaddingFromTextView(textView: savedSnippetsTextView)
+        removePaddingFromTextView(textView: logInTextView)
+        
         savedSnippetsTextView.attributedText = NSAttributedString(string: "Saved Snips", attributes: SAVED_SNIPS_ATTRIBUTES)
+        logInTextView.attributedText = NSAttributedString(string: "Log In", attributes: SAVED_SNIPS_ATTRIBUTES)
         
         savedSnippetsSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
+        logInSeparatorView.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
         
         setButtons()
+        setUsername()
         
-        let userFullName = UserInformation().getUserInfo(key: UserInformation().firstNameKey) + " " + UserInformation().getUserInfo(key: UserInformation().lastNameKey)
-        profileTopView.setUI(receivedUserFullName: userFullName)
         profileTopView.backButtonView.isHidden = true
         
-        if (!UserInformation().isUserLoggedIn())
+        if (UserInformation().isUserLoggedIn())
         {
-            performSegue(withIdentifier: "showWelcomeScreen", sender: self)
+            logInSurroundingView.isHidden = true
+            shouldShowWelcomeScreen = false
+        }
+        else
+        {
+            moveToWelcomeScreen()
         }
     }
     
     override func viewDidAppear(_ animated: Bool)
     {
-        print("appeared")
+        setUsername()
+        
+        let currentTime : TimeInterval = Date().timeIntervalSince1970
+        let ONE_HOUR_IN_SECONDS : TimeInterval = 60 * 60
+        
+        if (UserInformation().isUserLoggedIn())
+        {
+            logInSurroundingView.isHidden = true
+        }
+        else
+        {
+            logInSurroundingView.isHidden = false
+            
+            if (shouldShowWelcomeScreen && currentTime - timeOfLastWelcomScreen > ONE_HOUR_IN_SECONDS)
+            {
+                moveToWelcomeScreen()
+            }
+        }
     }
     
     func setButtons()
@@ -60,6 +92,23 @@ class ProfileViewController : GenericProgramViewController
         let savedSnipsClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.savedSnipsClicked(sender:)))
         savedSnipsSurroundingView.isUserInteractionEnabled = true
         savedSnipsSurroundingView.addGestureRecognizer(savedSnipsClickRecognizer)
+        
+        let loginClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.logInClicked(sender:)))
+        logInSurroundingView.isUserInteractionEnabled = true
+        logInSurroundingView.addGestureRecognizer(loginClickRecognizer)
+    }
+    
+    func setUsername()
+    {
+        let userFullName = UserInformation().getUserInfo(key: UserInformation().firstNameKey) + " " + UserInformation().getUserInfo(key: UserInformation().lastNameKey)
+        profileTopView.setUI(receivedUserFullName: userFullName)
+    }
+    
+    func moveToWelcomeScreen()
+    {
+        timeOfLastWelcomScreen = Date().timeIntervalSince1970
+        
+        performSegue(withIdentifier: "showWelcomeScreen", sender: self)
     }
     
     @objc func settingsClicked(sender: UITapGestureRecognizer)
@@ -90,6 +139,14 @@ class ProfileViewController : GenericProgramViewController
         self.navigationController?.pushViewController(snippetsViewController, animated: true)
     }
     
+    @objc func logInClicked(sender: UITapGestureRecognizer)
+    {
+        print("clicked on log in")
+        Logger().logClickProfileLoginButton()
+        
+        moveToWelcomeScreen()
+    }
+    
     func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
@@ -105,6 +162,14 @@ class ProfileViewController : GenericProgramViewController
         alertController.addAction(alertActionOk)
         alertController.addAction(alertActionCancel)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        print("profile preparing")
+        let nextViewController = segue.destination as! GenericProgramViewController
+        nextViewController.viewControllerToReturnTo = self
+        print("profile done preparing")
     }
     
     // TODO: show user likes here
