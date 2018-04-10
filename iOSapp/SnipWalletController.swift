@@ -21,6 +21,6 @@ class SnipWalletController : UIViewController
         backHeaderView.titleLabel.attributedText = NSAttributedString(string: "SNIP Wallet", attributes: HEADLINE_ATTRIBUTES)
         backHeaderView.backButtonView.isHidden = true
         
-        backHeaderView.titleTopConstraint.constant = 32
+        //backHeaderView.titleTopConstraint.constant = 32
     }
 }

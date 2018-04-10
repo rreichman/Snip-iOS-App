@@ -15,8 +15,7 @@ class BackHeaderView: UIView
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelTrailingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var backArrowTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
+    
     
     @IBOutlet weak var backButton: UIImageView!
     @IBOutlet weak var backButtonView: UIView!
@@ -60,8 +59,8 @@ class BackHeaderView: UIView
         backButtonView.addGestureRecognizer(backButtonClickRecognizer)
         
         setConstraintToMiddleOfScreen(constraint: titleLabelTrailingConstraint, view: titleLabel)
-        setConstraintToMiddleOfView(constraint: titleTopConstraint, surroundingViewHeight: 60, view: titleLabel)
-        setConstraintToMiddleOfView(constraint: backArrowTopConstraint, surroundingViewHeight: 60, view: backButton)
+        //setConstraintToMiddleOfView(constraint: titleTopConstraint, surroundingViewHeight: 60, view: titleLabel)
+        //setConstraintToMiddleOfView(constraint: backArrowTopConstraint, surroundingViewHeight: 60, view: backButton)
         
         return view
     }
