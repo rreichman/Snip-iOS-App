@@ -85,7 +85,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.setNeedsLayout()
         snippetView.layoutIfNeeded()
-        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
+        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 70
     }
     
     // This allows the text view to receive input normally even with a recognizer.
@@ -301,7 +301,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
-            var postedComment : Comment = Comment(commentData: jsonObj)
+            let postedComment : Comment = Comment(commentData: jsonObj)
             insertCommentIntoCommentArray(comment: postedComment)
             DispatchQueue.main.async
             {
