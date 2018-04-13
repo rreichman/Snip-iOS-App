@@ -81,6 +81,7 @@ class ProfileView: UIView
         if (currentViewController.viewControllerToReturnTo is SnippetsTableViewController)
         {
             currentViewController.navigationController?.navigationBar.isHidden = !(currentViewController.viewControllerToReturnTo as! SnippetsTableViewController).shouldShowNavigationBar
+            (currentViewController.viewControllerToReturnTo as! SnippetsTableViewController).backHeaderView.isHidden = false
         }
         else
         {
@@ -95,10 +96,10 @@ class ProfileView: UIView
         userName.attributedText = NSAttributedString(string: userFullName, attributes: USERNAME_ATTRIBUTES)
         
         let usernameSize = (userFullName as NSString).size(withAttributes: USERNAME_ATTRIBUTES).width
-        userImage.initials.backgroundColor = UIColor.black
-        userImage.backgroundColor = UIColor.black
+        userImage.initials.backgroundColor = UIColor.white
+        userImage.backgroundColor = UIColor.white
         
-        userImage.loadInitialsIntoUserImage(writerName: userName.attributedText!, sizeOfView: 60, sizeOfFont: 20)
+        userImage.loadInitialsIntoUserImage(writerName: userName.attributedText!, sizeOfView: 60, sizeOfFont: 20, textColor: SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR)
         
         userImageLeadingConstraint.constant = (CachedData().getScreenWidth() - userImage.frame.width) / 2
         userNameLeadingConstraint.constant = (CachedData().getScreenWidth() - usernameSize) / 2

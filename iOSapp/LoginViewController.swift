@@ -221,7 +221,6 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
             {
                 if jsonObj.keys.contains("detail")
                 {
-                    // TODO:: getting bad response string!
                     promptToUser(promptMessageTitle: "Password reset e-mail has been sent.", promptMessageBody: "Check your inbox to get the new password", viewController: self, completionHandler: nil)
                 }
                 else
@@ -268,7 +267,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
                         {
                             (self.viewControllerToReturnTo as! ProfileViewController).setUsername()
                         }
-                        promptToUser(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
+                        promptToUserWithAutoDismiss(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.segueBackToContent)
                     }
                     else if jsonObj.keys.count == 1 && jsonObj.keys.contains("non_field_errors")
                     {

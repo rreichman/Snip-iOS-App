@@ -36,6 +36,8 @@ class LoginDesignUtils
     
     let SAVED_SNIPS_HEADLINE_STRING = NSAttributedString(string: "Saved Snips", attributes: HEADLINE_ATTRIBUTES)
     let SETTINGS_HEADLINE_STRING = NSAttributedString(string: "Settings", attributes: HEADLINE_ATTRIBUTES)
+    let COMMENTS_HEADLINE_STRING = NSAttributedString(string: "Comments", attributes: HEADLINE_ATTRIBUTES)
+    let HOME_HEADLINE_STRING = NSAttributedString(string: "Home", attributes: HEADLINE_ATTRIBUTES)
     
     let PRIVACY_POLICY_STRING = NSAttributedString(string: "Privacy Policy", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
     let TERMS_OF_SERVICE_STRING = NSAttributedString(string: "Terms Of Service", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)

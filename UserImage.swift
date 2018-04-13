@@ -59,13 +59,18 @@ class UserImage: UIView {
     
     func loadInitialsIntoUserImage(writerName : NSAttributedString, sizeOfView : CGFloat, sizeOfFont: CGFloat)
     {
+        loadInitialsIntoUserImage(writerName: writerName, sizeOfView: sizeOfView, sizeOfFont: sizeOfFont, textColor: UIColor.white)
+    }
+    
+    func loadInitialsIntoUserImage(writerName : NSAttributedString, sizeOfView : CGFloat, sizeOfFont: CGFloat, textColor: UIColor)
+    {
         var writerInitials = getWriterInitials(writerString: writerName)
         
         var str : String = ""
         str.append(writerInitials[0])
         str.append(writerInitials[1])
         
-        let INITIALS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : UIFont.latoBold(size: sizeOfFont), NSAttributedStringKey.foregroundColor : UIColor.white]
+        let INITIALS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : UIFont.latoBold(size: sizeOfFont), NSAttributedStringKey.foregroundColor : textColor]
         
         initials.attributedText = NSAttributedString(string: str, attributes: INITIALS_ATTRIBUTES)
         

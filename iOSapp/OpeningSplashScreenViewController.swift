@@ -33,6 +33,10 @@ class OpeningSplashScreenViewController: UIViewController
         print("done loading splash screen: \(Date())")
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     func loadSplashScreenImages()
     {
         splashScreenLogoImage.image = #imageLiteral(resourceName: "snipLogo")

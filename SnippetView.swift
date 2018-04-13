@@ -59,7 +59,7 @@ class SnippetView: UIView {
     var fullURL : String = ""
     var writerUsername : String = ""
     
-    var currentViewController = UIViewController()
+    var currentViewController = GenericProgramViewController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -390,21 +390,24 @@ class SnippetView: UIView {
     @objc func handleClickOnAuthorView(sender : UITapGestureRecognizer)
     {
         print("clicked on author view")
-        Logger().logClickAuthorView()
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
-        snippetsViewController.shouldHaveBackButton = true
-        snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
-        snippetsViewController.shouldShowBackView = false
-        snippetsViewController.shouldShowNavigationBar = false
-        snippetsViewController.viewControllerToReturnTo = currentViewController
-        snippetsViewController.fillSnippetViewController()
-        snippetsViewController.pageWriterIfExists = writerName.text!
-        
-        currentViewController.navigationController?.navigationBar.isHidden = true
-        
-        currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
+        if !(currentViewController.viewControllerToReturnTo is GenericProgramViewController)
+        {
+            Logger().logClickAuthorView()
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
+            snippetsViewController.shouldHaveBackButton = true
+            snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
+            snippetsViewController.shouldShowBackView = false
+            snippetsViewController.shouldShowNavigationBar = false
+            snippetsViewController.viewControllerToReturnTo = currentViewController
+            snippetsViewController.fillSnippetViewController()
+            snippetsViewController.pageWriterIfExists = writerName.text!
+            
+            currentViewController.navigationController?.navigationBar.isHidden = true
+            
+            currentViewController.navigationController?.pushViewController(snippetsViewController, animated: true)
+        }
     }
     
     @objc func handleClickOnSnippetMenu(sender: UITapGestureRecognizer)

@@ -30,6 +30,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
+    @IBOutlet weak var topBackgroundView: UIView!
+    @IBOutlet weak var backHeaderView: BackHeaderView!
+    
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
     var currentSnippetID : Int = 0
     var currentCommentID : Int = 0
@@ -65,11 +68,12 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.userImage.loadInitialsIntoUserImage(writerName: snippetView.writerName.attributedText!, sizeOfView: 30, sizeOfFont: 13)
         
-        /*if (viewControllerToReturnTo is SnippetsTableViewController)
-        {
-            self.navigationController?.navigationBar.isHidden = !(viewControllerToReturnTo as! SnippetsTableViewController).shouldShowNavigationBar
-        }*/
-        self.navigationController?.navigationBar.isHidden = false
+        topBackgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
+        backHeaderView.currentViewController = self
+        backHeaderView.titleLabel.attributedText = LoginDesignUtils.shared.COMMENTS_HEADLINE_STRING
+        
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.tintColor = UIColor.white
         // This is for the cases where there are no comments
         setTableViewBackground()
@@ -208,8 +212,16 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @objc func keyboardWasShown(notification: NSNotification)
     {
         var info = notification.userInfo!
-        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        bottomConstraint.constant = keyboardHeight!
+        var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+        
+        if #available(iOS 11.0, *)
+        {
+            let bottomInset = view.safeAreaInsets.bottom
+            keyboardHeight -= bottomInset
+        }
+        
+        bottomConstraint.constant = keyboardHeight
+        
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {

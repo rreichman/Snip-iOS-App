@@ -26,4 +26,8 @@ class SnipWalletController : UIViewController
         
         //backHeaderView.titleTopConstraint.constant = 32
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }

@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("started app \(Date())")
         HTTPCookieStorage.shared.removeCookies(since: Date(timeIntervalSince1970: 0))
         
+        application.statusBarStyle = .lightContent
+        
         Fabric.with([Crashlytics.self])
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
