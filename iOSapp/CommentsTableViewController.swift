@@ -31,10 +31,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var closeReplyButton: UIButton!
     
     @IBOutlet weak var topBackgroundView: UIView!
-    //@IBOutlet weak var backHeaderView: BackHeaderView!
     
     @IBOutlet weak var backHeaderView: BackHeaderView!
-    
     
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
     var currentSnippetID : Int = 0
@@ -49,6 +47,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        print("loading commentsViewController: \(Date().timeIntervalSince1970)")
+        
         snippetsViewController = viewControllerToReturnTo as! SnippetsTableViewController
         
         setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
@@ -80,6 +80,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         self.navigationController?.navigationBar.tintColor = UIColor.white
         // This is for the cases where there are no comments
         setTableViewBackground()
+ 
+        print("done loading commentsViewController: \(Date().timeIntervalSince1970)")
     }
     
     override func viewDidLayoutSubviews()
@@ -105,6 +107,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func getCommentArray() -> [Comment]
     {
         return snippetsViewController.getSnippetComments(snippetID: currentSnippetID)
+        return []
     }
     
     func setCommentArray(newCommentArray: [Comment])

@@ -48,7 +48,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     
     override func viewDidLoad()
     {
-        print("loading snippetViewController: \(Date())")
+        print("loading snippetViewController: \(Date().timeIntervalSince1970)")
         super.viewDidLoad()
      
         runLoadingIndicator()
@@ -102,7 +102,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.refreshControl?.backgroundColor = UIColor.lightGray
         tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
         
-        print("done loading snippetViewController: \(Date())")
+        print("done loading snippetViewController: \(Date().timeIntervalSince1970)")
     }
     
     override func viewDidAppear(_ animated: Bool)
