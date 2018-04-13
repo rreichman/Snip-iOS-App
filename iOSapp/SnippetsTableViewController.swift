@@ -9,8 +9,6 @@
 import UIKit
 import Cache
 
-// TODO:: fix async loading bug in SnippetsViewController.
-
 class SnippetsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource
 {
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)

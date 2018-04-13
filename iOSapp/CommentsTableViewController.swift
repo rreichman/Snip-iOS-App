@@ -90,7 +90,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.setNeedsLayout()
         snippetView.layoutIfNeeded()
-        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 70
+        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
     }
     
     // This allows the text view to receive input normally even with a recognizer.
@@ -107,7 +107,6 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     func getCommentArray() -> [Comment]
     {
         return snippetsViewController.getSnippetComments(snippetID: currentSnippetID)
-        return []
     }
     
     func setCommentArray(newCommentArray: [Comment])
