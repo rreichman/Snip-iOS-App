@@ -31,7 +31,10 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var closeReplyButton: UIButton!
     
     @IBOutlet weak var topBackgroundView: UIView!
+    //@IBOutlet weak var backHeaderView: BackHeaderView!
+    
     @IBOutlet weak var backHeaderView: BackHeaderView!
+    
     
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
     var currentSnippetID : Int = 0

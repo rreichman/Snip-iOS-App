@@ -122,8 +122,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVE-Tm-8eo" userLabel="View Outside of ScrollView">
                                 <rect key="frame" x="0.0" y="64" width="375" height="475"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOQ-M5-1e5">
-                                        <rect key="frame" x="20" y="10" width="311" height="436"/>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOQ-M5-1e5">
+                                        <rect key="frame" x="0.0" y="44" width="375" height="475"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfM-kv-LUr" userLabel="View Inside of ScrollView">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
@@ -180,26 +180,16 @@
                                                             <constraint firstAttribute="width" constant="20" id="xJ3-Ph-cU1"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRi-oH-yot" customClass="BackHeaderView" customModule="iOSapp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                                        <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="44" id="YEZ-Mu-VyL"/>
-                                                        </constraints>
-                                                    </view>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="gRi-oH-yot" firstAttribute="leading" secondItem="pt1-mO-kHi" secondAttribute="trailing" constant="-20" id="1zz-20-8bP"/>
                                                     <constraint firstItem="pt1-mO-kHi" firstAttribute="leading" secondItem="HfM-kv-LUr" secondAttribute="leading" id="9Fg-MX-t38"/>
-                                                    <constraint firstItem="gRi-oH-yot" firstAttribute="top" secondItem="HfM-kv-LUr" secondAttribute="top" id="GMW-bb-EfL"/>
-                                                    <constraint firstItem="wdX-e9-yik" firstAttribute="top" secondItem="gRi-oH-yot" secondAttribute="bottom" id="Ica-OD-vpC"/>
                                                     <constraint firstAttribute="bottom" secondItem="AzB-Sa-qtq" secondAttribute="bottom" id="KNX-6b-4ey"/>
                                                     <constraint firstAttribute="trailing" secondItem="AzB-Sa-qtq" secondAttribute="trailing" id="KWe-0W-CvC"/>
+                                                    <constraint firstItem="wdX-e9-yik" firstAttribute="top" secondItem="HfM-kv-LUr" secondAttribute="top" id="MpR-xA-ZJm"/>
                                                     <constraint firstItem="AzB-Sa-qtq" firstAttribute="leading" secondItem="wdX-e9-yik" secondAttribute="trailing" id="RhB-3J-6xY"/>
                                                     <constraint firstAttribute="bottom" secondItem="pt1-mO-kHi" secondAttribute="bottom" id="U1R-Tv-6AF"/>
                                                     <constraint firstItem="wdX-e9-yik" firstAttribute="leading" secondItem="pt1-mO-kHi" secondAttribute="trailing" id="Yia-kv-aGj"/>
                                                     <constraint firstItem="AzB-Sa-qtq" firstAttribute="leading" secondItem="p7q-t1-5rA" secondAttribute="trailing" id="eHs-SF-FNa"/>
-                                                    <constraint firstItem="AzB-Sa-qtq" firstAttribute="leading" secondItem="gRi-oH-yot" secondAttribute="trailing" constant="-20" id="eW1-YS-gtf"/>
                                                     <constraint firstItem="p7q-t1-5rA" firstAttribute="leading" secondItem="pt1-mO-kHi" secondAttribute="trailing" id="fFD-xT-jaa"/>
                                                     <constraint firstItem="pt1-mO-kHi" firstAttribute="top" secondItem="HfM-kv-LUr" secondAttribute="top" id="gxs-sl-n98"/>
                                                     <constraint firstItem="AzB-Sa-qtq" firstAttribute="top" secondItem="HfM-kv-LUr" secondAttribute="top" id="vVb-WS-lid"/>
@@ -216,11 +206,21 @@
                                             <constraint firstItem="HfM-kv-LUr" firstAttribute="leading" secondItem="GOQ-M5-1e5" secondAttribute="leading" id="hSF-ho-JFA"/>
                                         </constraints>
                                     </scrollView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L1Y-7R-aaE" customClass="BackHeaderView" customModule="iOSapp">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <color key="backgroundColor" red="0.0" green="0.98106676339999999" blue="0.57369142770000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="sxZ-Gw-w4S"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="GOQ-M5-1e5" firstAttribute="top" secondItem="WVE-Tm-8eo" secondAttribute="top" id="2t3-zI-fTF"/>
                                     <constraint firstItem="GOQ-M5-1e5" firstAttribute="leading" secondItem="WVE-Tm-8eo" secondAttribute="leading" id="4zR-z9-Iow"/>
+                                    <constraint firstAttribute="trailing" secondItem="L1Y-7R-aaE" secondAttribute="trailing" id="Qhm-B2-7p6"/>
                                     <constraint firstItem="GOQ-M5-1e5" firstAttribute="width" secondItem="WVE-Tm-8eo" secondAttribute="width" id="WNH-qy-BHs"/>
+                                    <constraint firstItem="L1Y-7R-aaE" firstAttribute="top" secondItem="WVE-Tm-8eo" secondAttribute="top" id="eZr-6f-U9D"/>
+                                    <constraint firstItem="L1Y-7R-aaE" firstAttribute="leading" secondItem="WVE-Tm-8eo" secondAttribute="leading" id="uJe-R1-HAF"/>
+                                    <constraint firstItem="GOQ-M5-1e5" firstAttribute="top" secondItem="L1Y-7R-aaE" secondAttribute="bottom" id="yES-VE-NWy"/>
                                     <constraint firstItem="GOQ-M5-1e5" firstAttribute="height" secondItem="WVE-Tm-8eo" secondAttribute="height" id="yhe-jx-mmt"/>
                                 </constraints>
                             </view>
@@ -249,7 +249,7 @@
                         <viewLayoutGuide key="safeArea" id="EYz-gX-cKJ"/>
                     </view>
                     <connections>
-                        <outlet property="backHeaderView" destination="gRi-oH-yot" id="dgo-bD-kJq"/>
+                        <outlet property="backHeaderView" destination="L1Y-7R-aaE" id="Bdf-5D-bah"/>
                         <outlet property="bottomConstraint" destination="k4K-fq-6zt" id="9ar-Y7-8Tx"/>
                         <outlet property="closeReplyButton" destination="9ta-gS-0uS" id="UWL-zw-WK1"/>
                         <outlet property="commentView" destination="xbi-ud-jYc" id="3Io-XX-zkA"/>
@@ -1273,7 +1273,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Gl9-hj-S9O">
-                                <rect key="frame" x="0.0" y="323" width="375" height="295"/>
+                                <rect key="frame" x="0.0" y="263" width="375" height="355"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="177" id="DM6-k7-gnA" customClass="SnippetTableViewCell" customModule="iOSapp">
@@ -1302,7 +1302,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaO-WM-vme" userLabel="Back View" customClass="BackHeaderView" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="124" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="YXS-2s-xXe"/>
