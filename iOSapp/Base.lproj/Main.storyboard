@@ -40,19 +40,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" verticalCompressionResistancePriority="998" translatesAutoresizingMaskIntoConstraints="NO" id="xbi-ud-jYc" userLabel="Comment View">
-                                <rect key="frame" x="0.0" y="539" width="375" height="79"/>
+                                <rect key="frame" x="0.0" y="529" width="375" height="89"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zXH-bd-82B">
-                                        <rect key="frame" x="0.0" y="35" width="325" height="40"/>
+                                        <rect key="frame" x="0.0" y="35" width="325" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="y8y-NY-PQy"/>
+                                            <constraint firstAttribute="height" constant="50" id="y8y-NY-PQy"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXj-OJ-fmJ">
-                                        <rect key="frame" x="325" y="31" width="50" height="48"/>
+                                        <rect key="frame" x="325" y="31" width="50" height="58"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="MUB-4N-OsD"/>
                                         </constraints>
@@ -102,7 +102,6 @@
                                     <constraint firstAttribute="trailing" secondItem="qGh-et-U3Q" secondAttribute="trailing" id="1WN-T3-Jiq"/>
                                     <constraint firstItem="OXj-OJ-fmJ" firstAttribute="leading" secondItem="zXH-bd-82B" secondAttribute="trailing" id="8I4-F7-pgV"/>
                                     <constraint firstAttribute="bottom" secondItem="OXj-OJ-fmJ" secondAttribute="bottom" id="A7T-hb-Mck"/>
-                                    <constraint firstItem="qGh-et-U3Q" firstAttribute="top" secondItem="xbi-ud-jYc" secondAttribute="top" id="CtS-mW-RjG"/>
                                     <constraint firstAttribute="trailing" secondItem="OXj-OJ-fmJ" secondAttribute="trailing" id="D3h-20-kxU"/>
                                     <constraint firstItem="fFv-RN-KKb" firstAttribute="leading" secondItem="xbi-ud-jYc" secondAttribute="leading" id="EmB-qy-yGu"/>
                                     <constraint firstItem="zXH-bd-82B" firstAttribute="top" secondItem="fFv-RN-KKb" secondAttribute="bottom" constant="4" id="Ldh-OG-hEY"/>
@@ -115,15 +114,16 @@
                                     <constraint firstItem="zXH-bd-82B" firstAttribute="leading" secondItem="xbi-ud-jYc" secondAttribute="leading" id="mXR-ld-gIW"/>
                                     <constraint firstItem="OXj-OJ-fmJ" firstAttribute="top" secondItem="fFv-RN-KKb" secondAttribute="bottom" id="mug-ve-kL3"/>
                                     <constraint firstItem="eqU-c1-UGC" firstAttribute="top" secondItem="fFv-RN-KKb" secondAttribute="bottom" constant="11" id="nez-RU-6VF"/>
+                                    <constraint firstItem="qGh-et-U3Q" firstAttribute="top" secondItem="xbi-ud-jYc" secondAttribute="top" id="pQE-yn-1ld"/>
                                     <constraint firstItem="9ta-gS-0uS" firstAttribute="top" secondItem="xbi-ud-jYc" secondAttribute="top" id="xPx-L4-dxQ"/>
                                     <constraint firstAttribute="bottom" secondItem="eqU-c1-UGC" secondAttribute="bottom" constant="11" id="zFf-17-Ham"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVE-Tm-8eo" userLabel="View Outside of ScrollView">
-                                <rect key="frame" x="0.0" y="64" width="375" height="425"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="415"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOQ-M5-1e5">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="425"/>
+                                        <rect key="frame" x="0.0" y="44" width="375" height="415"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfM-kv-LUr" userLabel="View Inside of ScrollView">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
@@ -146,8 +146,8 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="335" height="199.5"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
-                                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Vp-DW-n5f" customClass="CommentView" customModule="iOSapp">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="104" height="200"/>
+                                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Vp-DW-n5f" customClass="CommentView" customModule="iOSapp">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="335" height="199.5"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </view>
                                                                     </subviews>
@@ -251,6 +251,7 @@
                     <connections>
                         <outlet property="backHeaderView" destination="L1Y-7R-aaE" id="Bdf-5D-bah"/>
                         <outlet property="bottomConstraint" destination="k4K-fq-6zt" id="9ar-Y7-8Tx"/>
+                        <outlet property="bottomOfEntireScrollViewConstraint" destination="DtK-iK-HZy" id="Frh-dV-51e"/>
                         <outlet property="closeReplyButton" destination="9ta-gS-0uS" id="UWL-zw-WK1"/>
                         <outlet property="commentView" destination="xbi-ud-jYc" id="3Io-XX-zkA"/>
                         <outlet property="postButton" destination="OXj-OJ-fmJ" id="qVQ-dh-jOJ"/>

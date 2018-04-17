@@ -27,6 +27,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var replyingToView: UITextView!
     
+    @IBOutlet weak var bottomOfEntireScrollViewConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
     
@@ -64,6 +66,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         registerForKeyboardNotifications()
         hideReplyingToBox()
         
+        commentView.layer.borderWidth = 0
+        
         let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
         writeCommentRecognizer.delegate = self
         writeCommentBox.isUserInteractionEnabled = true
@@ -84,13 +88,20 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         print("done loading commentsViewController: \(Date().timeIntervalSince1970)")
     }
     
+    @objc func bufferClick(sender: UITapGestureRecognizer)
+    {
+        print("buffer click")
+    }
+    
     override func viewDidLayoutSubviews()
     {
-        tableHeightConstraint.constant = tableView.contentSize.height
+        //tableHeightConstraint.constant = tableView.contentSize.height
+        updateHeightsInCommentsController()
         
         snippetView.setNeedsLayout()
         snippetView.layoutIfNeeded()
-        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
+        
+        //scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
     }
     
     // This allows the text view to receive input normally even with a recognizer.
@@ -197,7 +208,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height / 2))
             noDataLabel.text          = "Be the first to comment."
             noDataLabel.textColor     = UIColor.black
             noDataLabel.textAlignment = .center
@@ -345,8 +356,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func updateHeightsInCommentsController()
     {
-        self.tableHeightConstraint.constant = self.tableView.contentSize.height
+        self.tableHeightConstraint.constant = self.tableView.contentSize.height + 20
         self.scrollviewHeightConstraint.constant = self.snippetView.bounds.height + self.tableView.contentSize.height + 20
+        //self.scrollviewHeightConstraint.constant = 10
     }
     
     func scrollToPublishedComment(commentID: Int)
