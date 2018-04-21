@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23026B27208535FC00D959E1 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23026B26208535FC00D959E1 /* WalletCoordinator.swift */; };
+		231290C22087FA700055FDD2 /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231290C12087FA700055FDD2 /* TransactionViewController.swift */; };
+		232000A12085604C00B702D0 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232000A02085604C00B702D0 /* WalletViewController.swift */; };
+		237561E6208A76B500D8018F /* TransactionSummaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237561E5208A76B500D8018F /* TransactionSummaryController.swift */; };
+		237561E8208AA0BB00D8018F /* SetWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237561E7208AA0BB00D8018F /* SetWalletViewController.swift */; };
+		237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237561E9208AA4E800D8018F /* ImportWalletViewController.swift */; };
+		237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237561EB208AA50500D8018F /* NewWalletViewController.swift */; };
+		23BDF12D20818487005DED76 /* PasswordGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BDF12C20818487005DED76 /* PasswordGen.swift */; };
 		23C324C9EE157B06DBFFBBE0 /* Pods_iOSappTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FCB9B9C064086142FD118B /* Pods_iOSappTests.framework */; };
 		3A8512CC84CD7622905095B1 /* Pods_iOSappUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29258515623EE96CE343A996 /* Pods_iOSappUITests.framework */; };
 		5C15116368D27EFFD88AD18C /* Pods_iOSapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A19260EED11E20A5BE48F1 /* Pods_iOSapp.framework */; };
@@ -92,6 +100,14 @@
 
 /* Begin PBXFileReference section */
 		17FCB9B9C064086142FD118B /* Pods_iOSappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		23026B26208535FC00D959E1 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
+		231290C12087FA700055FDD2 /* TransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
+		232000A02085604C00B702D0 /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
+		237561E5208A76B500D8018F /* TransactionSummaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummaryController.swift; sourceTree = "<group>"; };
+		237561E7208AA0BB00D8018F /* SetWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWalletViewController.swift; sourceTree = "<group>"; };
+		237561E9208AA4E800D8018F /* ImportWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportWalletViewController.swift; sourceTree = "<group>"; };
+		237561EB208AA50500D8018F /* NewWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWalletViewController.swift; sourceTree = "<group>"; };
+		23BDF12C20818487005DED76 /* PasswordGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGen.swift; sourceTree = "<group>"; };
 		29258515623EE96CE343A996 /* Pods_iOSappUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSappUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E2C46BA9B87356844EA8BDA /* Pods-iOSappUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSappUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSappUITests/Pods-iOSappUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		56A19260EED11E20A5BE48F1 /* Pods_iOSapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +214,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23026B232085308C00D959E1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		23026B242085309800D959E1 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		23026B252085310700D959E1 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				23026B26208535FC00D959E1 /* WalletCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		2320009F2085601B00B702D0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				232000A02085604C00B702D0 /* WalletViewController.swift */,
+				231290C12087FA700055FDD2 /* TransactionViewController.swift */,
+				237561E5208A76B500D8018F /* TransactionSummaryController.swift */,
+				237561E7208AA0BB00D8018F /* SetWalletViewController.swift */,
+				237561E9208AA4E800D8018F /* ImportWalletViewController.swift */,
+				237561EB208AA50500D8018F /* NewWalletViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		23BDF12B20818461005DED76 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				2320009F2085601B00B702D0 /* Controllers */,
+				23026B252085310700D959E1 /* Coordinators */,
+				23026B242085309800D959E1 /* ViewModels */,
+				23026B232085308C00D959E1 /* Views */,
+				23BDF12C20818487005DED76 /* PasswordGen.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		2C604CBE59E665C044EE0051 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +311,7 @@
 		7D0047F61F997E3E00B02D1A /* iOSapp */ = {
 			isa = PBXGroup;
 			children = (
+				23BDF12B20818461005DED76 /* Wallet */,
 				7DD073B520757C24001D24BD /* MainTabBarViewController.swift */,
 				7DC58873206B021300BFA5AD /* LoginViewController.swift */,
 				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
@@ -341,8 +405,8 @@
 				7D0047F11F997E3E00B02D1A /* Frameworks */,
 				7D0047F21F997E3E00B02D1A /* Resources */,
 				29C32672D94A7746FBBDFCE4 /* [CP] Embed Pods Frameworks */,
-				4DD94CD9FE6FED2DC3329E1A /* [CP] Copy Pods Resources */,
 				7D4641961FBC089900E29578 /* ShellScript */,
+				BE1C575B0A52096E73F23E0F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -361,8 +425,6 @@
 				7D0048041F997E3E00B02D1A /* Sources */,
 				7D0048051F997E3E00B02D1A /* Frameworks */,
 				7D0048061F997E3E00B02D1A /* Resources */,
-				22D3EDD2E138C4AFBD1B1979 /* [CP] Embed Pods Frameworks */,
-				E8A779EF566AB89A0CEFA03A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -382,8 +444,6 @@
 				7D00480F1F997E3E00B02D1A /* Sources */,
 				7D0048101F997E3E00B02D1A /* Frameworks */,
 				7D0048111F997E3E00B02D1A /* Resources */,
-				6726AFE84AE0DF521555DBC6 /* [CP] Embed Pods Frameworks */,
-				77C81A3D41A2959C6A56CD8D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -500,21 +560,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		22D3EDD2E138C4AFBD1B1979 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSappTests/Pods-iOSappTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		29C32672D94A7746FBBDFCE4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,8 +567,10 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
@@ -532,11 +579,18 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/LatoFont/LatoFont.framework",
 				"${BUILT_PRODUCTS_DIR}/Mixpanel-swift/Mixpanel.framework",
+				"${BUILT_PRODUCTS_DIR}/NextResponderTextField/NextResponderTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework",
+				"${BUILT_PRODUCTS_DIR}/TrustCore/TrustCore.framework",
+				"${BUILT_PRODUCTS_DIR}/TrustKeystore/TrustKeystore.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
@@ -545,40 +599,15 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LatoFont.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mixpanel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextResponderTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrezorCrypto.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustKeystore.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4DD94CD9FE6FED2DC3329E1A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6726AFE84AE0DF521555DBC6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSappUITests/Pods-iOSappUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		750246B33D3DC0E8AC7880CB /* [CP] Check Pods Manifest.lock */ = {
@@ -599,21 +628,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		77C81A3D41A2959C6A56CD8D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSappUITests/Pods-iOSappUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7D4641961FBC089900E29578 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -627,19 +641,22 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 87a4baaa9ab22614a389ca46db56234144791982 3fdca75eadb42cfe918a5c30b93531c0a8f336e33b31fc82dbb20a1a800c4e73";
 		};
-		E8A779EF566AB89A0CEFA03A /* [CP] Copy Pods Resources */ = {
+		BE1C575B0A52096E73F23E0F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TrustWeb3Provider/TrustWeb3Provider.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TrustWeb3Provider.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSappTests/Pods-iOSappTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EBA97F788E7E75D059F59D08 /* [CP] Check Pods Manifest.lock */ = {
@@ -690,12 +707,15 @@
 				7DD073C220785AB0001D24BD /* SnipWalletController.swift in Sources */,
 				7D44B5711FA6ECCA005482C9 /* PostData.swift in Sources */,
 				7DED9F92206C82EF00218C4C /* LoginDesignUtils.swift in Sources */,
+				23026B27208535FC00D959E1 /* WalletCoordinator.swift in Sources */,
 				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
+				237561E6208A76B500D8018F /* TransactionSummaryController.swift in Sources */,
 				7DE89D8F1FD60D9E004AD45E /* CommentUtils.swift in Sources */,
 				7D6E9EA31FD495B00068D614 /* UserInformation.swift in Sources */,
 				7DAD9295203E304500337922 /* CommentView.swift in Sources */,
 				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
 				7D839E2F1FC6843E007501F2 /* CommentTableViewCell.swift in Sources */,
+				231290C22087FA700055FDD2 /* TransactionViewController.swift in Sources */,
 				7D812FC6202423F700968B9E /* CellTextUtils.swift in Sources */,
 				7DD073C020784D8D001D24BD /* SettingsMember.swift in Sources */,
 				7DD073BC20771BB7001D24BD /* BackHeaderView.swift in Sources */,
@@ -704,8 +724,10 @@
 				7D820EAF1FCD19DB00404FA2 /* UITextView+Placeholder.swift in Sources */,
 				7D44B56D1FA47264005482C9 /* NoError.swift in Sources */,
 				7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */,
+				23BDF12D20818487005DED76 /* PasswordGen.swift in Sources */,
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				7DCB69DE20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift in Sources */,
+				232000A12085604C00B702D0 /* WalletViewController.swift in Sources */,
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
 				7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
@@ -714,9 +736,12 @@
 				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,
 				7DDA3D9D206C5DAE00960252 /* SignupViewController.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
+				237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */,
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,
+				237561E8208AA0BB00D8018F /* SetWalletViewController.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
+				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,
 				7DC588722069C51600BFA5AD /* SignupWelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,7 +12,12 @@ target 'iOSapp' do
   pod 'FacebookLogin'
   pod 'FacebookShare'
   pod 'LatoFont'
-
+  pod 'TrustCore', '~> 0.0.6'
+  pod 'TrustKeystore', '~> 0.4.0'
+  pod 'TrustWeb3Provider', :git=>'https://github.com/TrustWallet/trust-web3-provider', :branch=>'master'
+  pod 'BigInt'
+  pod 'NextResponderTextField'
+  
   # Pods for iOSapp
 
   target 'iOSappTests' do
