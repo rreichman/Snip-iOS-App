@@ -9,10 +9,16 @@
 import Foundation
 import UIKit
 
+protocol SendTransactionViewDelegate: class {
+    func onSend(address: String, amount: String)
+    func onCancel()
+    func onChangeGasSetting()
+}
 
-class TransactionViewController : UIViewController, UITextFieldDelegate {
-    
+class SendTransactionViewController : UIViewController, UITextFieldDelegate {
+    var delegate: SendTransactionViewDelegate!
     @IBOutlet weak var amountText: UITextField!
+    @IBOutlet var changeGasSetting: UILabel!
     
     @IBOutlet weak var sendButtonBottomConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
@@ -23,7 +29,19 @@ class TransactionViewController : UIViewController, UITextFieldDelegate {
         amountText.delegate = self
         addDoneButtonOnKeyboard()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SendTransactionViewController.tapFunction))
+        changeGasSetting.isUserInteractionEnabled = true
+        changeGasSetting.addGestureRecognizer(tap)
     }
+    
+    func setDelegate(del: SendTransactionViewDelegate) {
+        self.delegate = del
+    }
+    
+    @objc func tapFunction(sender:UITapGestureRecognizer) {
+        delegate.onChangeGasSetting()
+    }
+
     
     func setupNavBar() {
         self.navigationItem.title = "SEND SNIP"
@@ -32,12 +50,12 @@ class TransactionViewController : UIViewController, UITextFieldDelegate {
         let imageView = UIImageView(image: backImage!)
         imageView.frame = CGRect(x: (44/2) - 7, y: (44/2) - 7, width: 14, height: 14)
         fakeBackButton.addSubview(imageView)
-        fakeBackButton.addTarget(self, action: #selector(TransactionViewController.dismissModal(sender:)),  for: UIControlEvents.touchUpInside)
+        fakeBackButton.addTarget(self, action: #selector(SendTransactionViewController.dismissModal(sender:)),  for: UIControlEvents.touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: fakeBackButton)
     }
     
     @IBAction func dismissModal(sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.delegate.onCancel()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -70,7 +88,7 @@ class TransactionViewController : UIViewController, UITextFieldDelegate {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
         doneToolbar.barStyle = UIBarStyle.default
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(TransactionViewController.doneButtonAction))
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SendTransactionViewController.doneButtonAction))
         
         var items = [UIBarButtonItem]()
         items.append(flexSpace)
@@ -81,13 +99,12 @@ class TransactionViewController : UIViewController, UITextFieldDelegate {
         
         self.amountText.inputAccessoryView = doneToolbar
     }
+    @IBAction func onSendPressed() {
+        delegate.onSend(address: "", amount: "")
+    }
     
     @objc func doneButtonAction() {
         self.amountText.resignFirstResponder()
     }
     
-    @IBAction func fromSummary(segue: UIStoryboardSegue) {
-        
-        
-    }
 }

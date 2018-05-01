@@ -9,39 +9,42 @@
 import Foundation
 import UIKit
 
+protocol NewWalletViewDelegate: class {
+    func onDonePressed()
+}
+
 class NewWalletViewController : UIViewController {
     
     @IBOutlet var doneButtonConstraint: NSLayoutConstraint!
+    @IBOutlet var phraseLabel: UILabel!
+    
+    var delegate: NewWalletViewDelegate!
+    var phrase: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         
-        NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let info = notification.userInfo {
-            let rect:CGRect = info ["UIKeyboardFrameEndUserInfoKey"] as! CGRect
-            self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.25, animations: {
-                self.view.layoutIfNeeded()
-                self.doneButtonConstraint.constant = rect.height - 20
-            })
+        if let s = phrase {
+            phraseLabel.text = s
         }
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let info = notification.userInfo {
-            self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.25, animations: {
-                self.view.layoutIfNeeded()
-                self.doneButtonConstraint.constant = 10
-            })
+    func setPhrase(phrase: String) {
+        if viewIfLoaded != nil {
+            phraseLabel.text = phrase
         }
+        self.phrase = phrase
     }
     
-    @objc func backButtonTapped() {
-        _ = navigationController?.popToRootViewController(animated: true)
+    func showError(phrase:String) {
+        
+    }
+    
+    func setDelegate(delegate: NewWalletViewDelegate) {
+        self.delegate = delegate
+    }
+
+    @IBAction func onDonePressed() {
+        delegate.onDonePressed()
     }
 }

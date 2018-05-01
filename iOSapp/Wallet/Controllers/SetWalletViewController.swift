@@ -9,7 +9,15 @@
 import Foundation
 import UIKit
 
+protocol SetWalletViewDelegate: class {
+    func selectionMade(mode: SetWalletType)
+}
 class SetWalletViewController : UIViewController {
+    var delegate: SetWalletViewDelegate?
+    
+    func setDelegate(delegate: SetWalletViewDelegate) {
+        self.delegate = delegate
+    }
     
     override func viewDidLoad() {
         setupNavBar()
@@ -21,20 +29,21 @@ class SetWalletViewController : UIViewController {
         let imageView = UIImageView(image: backImage!)
         imageView.frame = CGRect(x: (44/2) - 7, y: (44/2) - 7, width: 14, height: 14)
         fakeBackButton.addSubview(imageView)
-        fakeBackButton.addTarget(self, action: #selector(TransactionViewController.dismissModal(sender:)),  for: UIControlEvents.touchUpInside)
+        fakeBackButton.addTarget(self, action: #selector(SendTransactionViewController.dismissModal(sender:)),  for: UIControlEvents.touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: fakeBackButton)
     }
+    
     
     @IBAction func dismissModal(sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func walletCreated(segue: UIStoryboardSegue) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    @IBAction func walletImported(segue: UIStoryboardSegue) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func newWallet() {
+        self.delegate?.selectionMade(mode: .new_wallet)
     }
     
+    @IBAction func importWallet() {
+        self.delegate?.selectionMade(mode: .import_wallet)
+    }
     
 }

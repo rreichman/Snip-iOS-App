@@ -9,25 +9,30 @@
 import Foundation
 import UIKit
 
+protocol ImportWalletViewDelegate: class {
+    func phraseEntered(phrase: String)
+    func backPressed()
+}
 class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var phraseInput: UITextField!
     @IBOutlet var importButtonConstraint: NSLayoutConstraint!
-    
+    var delegate: ImportWalletViewDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
-        let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 24, height: 24)
-        menuBtn.setImage(UIImage(named:"iconClose"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
+        whiteBackArrow()
+        dynamicButtonPosition()
+    }
+    
+    func setDelegate(delegate: ImportWalletViewDelegate) {
+        self.delegate = delegate
+    }
+    
+    func showError(err: String) {
         
-        let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-        currHeight?.isActive = true
-        self.navigationItem.leftBarButtonItem = menuBarItem
-        
+    }
+    
+    private func dynamicButtonPosition() {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -53,7 +58,26 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
         }
     }
     
+    @IBAction func importPressed() {
+        if let p = phraseInput.text {
+            delegate?.phraseEntered(phrase: p)
+        }
+    }
     @objc func backButtonTapped() {
-        _ = navigationController?.popToRootViewController(animated: true)
+        delegate?.backPressed()
+    }
+    
+    private func whiteBackArrow() {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
+        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 18)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
+        currHeight?.isActive = true
+        self.navigationItem.leftBarButtonItem = menuBarItem
     }
 }

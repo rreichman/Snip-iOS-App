@@ -9,11 +9,19 @@
 import Foundation
 import UIKit
 
+protocol TransactionSummaryViewDelegate: class {
+    func finishedViewing()
+}
+
 class TransactionSummaryController: UIViewController {
     
-    
+    var delegate: TransactionSummaryViewDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func setDelegate(del: TransactionSummaryViewDelegate) {
+        self.delegate = del
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -23,6 +31,9 @@ class TransactionSummaryController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
+    }
+    @IBAction func onDonePressed() {
+        delegate.finishedViewing()
     }
     
     

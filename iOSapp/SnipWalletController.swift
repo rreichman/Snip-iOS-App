@@ -9,6 +9,11 @@
 import UIKit
 import TrustKeystore
 
+protocol SnipWalletViewDelegate: class {
+    func tabSelected(coin: CoinType)
+    func onSettingsPressed()
+}
+
 class SnipWalletController : UIViewController {
     
     @IBOutlet var settingsButton: UIButton!
@@ -16,20 +21,25 @@ class SnipWalletController : UIViewController {
     @IBOutlet var snipTab : UIButton!
     var buttons: [UIButton]!
     
-    var ethTabViewController: WalletViewController!
-    var snipTabViewController: WalletViewController!
     
     @IBOutlet var contentView: UIView!
     var selectedIndex: Int = 0
+    var delegate: SnipWalletViewDelegate!
+    
+    @IBAction func onSettingsPress() {
+        delegate.onSettingsPressed()
+    }
+    
+    func setDelegate(del: SnipWalletViewDelegate) {
+        self.delegate = del
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let coord = WalletCoordinator(container: self)
+        coord.start()
         buttons = [ethTab, snipTab]
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        ethTabViewController = storyboard.instantiateViewController(withIdentifier: "WalletController") as! WalletViewController
-        ethTabViewController.setCoinType(type: WalletViewController.CoinType.eth)
-        snipTabViewController = storyboard.instantiateViewController(withIdentifier: "WalletController") as! WalletViewController
-        snipTabViewController.setCoinType(type: WalletViewController.CoinType.snip)
+       
         
         
         //backHeaderView.titleTopConstraint.constant = 32
@@ -51,33 +61,32 @@ class SnipWalletController : UIViewController {
             print("Unexpected error: \(error).")
         }
         
-        ethTab.isSelected = true
-        didPress(ethTab)
         buildSettingsButton()
     }
     
-    @IBAction func didPress(_ sender: UIButton) {
-        selectedIndex = sender.tag
-        var prevVc, selectedVc: UIViewController!
-        if (selectedIndex == 1) {
-            prevVc = ethTabViewController
-            selectedVc = snipTabViewController
+    func setTab(type: CoinType, subView: UIView, controller: UIViewController) {
+        if (type == .snip) {
             ethTab.isSelected = false
+            snipTab.isSelected = true
         } else {
-            prevVc = snipTabViewController
-            selectedVc = ethTabViewController
+            ethTab.isSelected = true
             snipTab.isSelected = false
         }
-        
-        prevVc.willMove(toParentViewController: nil)
-        prevVc.view.removeFromSuperview()
-        prevVc.removeFromParentViewController()
-        
-        sender.isSelected = true
-        addChildViewController(selectedVc)
-        selectedVc.view.frame = contentView.bounds
-        contentView.addSubview(selectedVc.view)
-        selectedVc.didMove(toParentViewController: self)
+        addChildViewController(controller)
+        subView.frame = contentView.bounds
+        contentView.addSubview(subView)
+    }
+    
+    
+    @IBAction func didPress(_ sender: UIButton) {
+        selectedIndex = sender.tag
+        if (selectedIndex == 1) {
+            //snip
+            delegate.tabSelected(coin: .snip)
+        } else {
+            //eth
+            delegate.tabSelected(coin: .eth)
+        }
     }
     
     func buildSettingsButton() {

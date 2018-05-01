@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+protocol WalletViewDelegate: class {
+    func onShowAddress(type: CoinType)
+    func onSendButton(type: CoinType)
+    
+}
 
 class WalletViewController : UIViewController {
     
@@ -17,10 +22,7 @@ class WalletViewController : UIViewController {
     
     var token: Bool!
     var coinType: CoinType!
-    enum CoinType {
-        case snip
-        case eth
-    }
+    var delegate: WalletViewDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,16 +35,17 @@ class WalletViewController : UIViewController {
             balance_text.text = "0 SNIP"
         }
     }
-    
-    
-    
+    func setDelegate(del: WalletViewDelegate) {
+        self.delegate = del
+    }
     func setCoinType(type: CoinType) {
         coinType = type
     }
-    
-    @IBAction func saveName2(segue: UIStoryboardSegue) {
-        
-        
+    @IBAction func onSendPressed(_ sender: UIButton) {
+        delegate.onSendButton(type: coinType)
+    }
+    @IBAction func onSharePressed() {
+        delegate.onShowAddress(type: coinType)
     }
     
 }
