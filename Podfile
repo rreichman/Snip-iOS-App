@@ -17,6 +17,9 @@ target 'iOSapp' do
   pod 'TrustWeb3Provider', :git=>'https://github.com/TrustWallet/trust-web3-provider', :branch=>'master'
   pod 'BigInt'
   pod 'NextResponderTextField'
+  pod 'RxSwift',    '~> 4.0'
+  pod 'RxCocoa',    '~> 4.0'
+  pod 'KeychainSwift', '~> 11.0'
   
   # Pods for iOSapp
 

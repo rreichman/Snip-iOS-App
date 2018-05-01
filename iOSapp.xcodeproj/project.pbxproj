@@ -20,6 +20,7 @@
 		237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237561EB208AA50500D8018F /* NewWalletViewController.swift */; };
 		238CF2FF2097CFAA00B80DEB /* ShareAddressPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238CF2FE2097CFAA00B80DEB /* ShareAddressPresentationController.swift */; };
 		238CF3012097F10E00B80DEB /* GasPriceSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238CF3002097F10E00B80DEB /* GasPriceSelectorViewController.swift */; };
+		2391D2A02098F894001DDC9B /* Keystore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2391D29F2098F894001DDC9B /* Keystore.swift */; };
 		239F4FB52093A94500093B58 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4FB42093A94500093B58 /* Coordinator.swift */; };
 		239F4FB72093A9BF00093B58 /* PinCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4FB62093A9BF00093B58 /* PinCoordinator.swift */; };
 		239F4FB92093EC8900093B58 /* CoinType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4FB82093EC8900093B58 /* CoinType.swift */; };
@@ -127,6 +128,7 @@
 		237561EB208AA50500D8018F /* NewWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWalletViewController.swift; sourceTree = "<group>"; };
 		238CF2FE2097CFAA00B80DEB /* ShareAddressPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAddressPresentationController.swift; sourceTree = "<group>"; };
 		238CF3002097F10E00B80DEB /* GasPriceSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasPriceSelectorViewController.swift; sourceTree = "<group>"; };
+		2391D29F2098F894001DDC9B /* Keystore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keystore.swift; sourceTree = "<group>"; };
 		239F4FB42093A94500093B58 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		239F4FB62093A9BF00093B58 /* PinCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCoordinator.swift; sourceTree = "<group>"; };
 		239F4FB82093EC8900093B58 /* CoinType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinType.swift; sourceTree = "<group>"; };
@@ -286,9 +288,18 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		2391D29E2098F71F001DDC9B /* EtherModel */ = {
+			isa = PBXGroup;
+			children = (
+				2391D29F2098F894001DDC9B /* Keystore.swift */,
+			);
+			path = EtherModel;
+			sourceTree = "<group>";
+		};
 		23BDF12B20818461005DED76 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				2391D29E2098F71F001DDC9B /* EtherModel */,
 				23DCC8DE208EAD4D003A2B3C /* Types */,
 				2320009F2085601B00B702D0 /* Controllers */,
 				23026B252085310700D959E1 /* Coordinators */,
@@ -628,9 +639,12 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LatoFont/LatoFont.framework",
 				"${BUILT_PRODUCTS_DIR}/Mixpanel-swift/Mixpanel.framework",
 				"${BUILT_PRODUCTS_DIR}/NextResponderTextField/NextResponderTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 				"${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework",
 				"${BUILT_PRODUCTS_DIR}/TrustCore/TrustCore.framework",
@@ -648,9 +662,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LatoFont.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mixpanel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextResponderTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrezorCrypto.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustCore.framework",
@@ -735,6 +752,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2391D2A02098F894001DDC9B /* Keystore.swift in Sources */,
 				238CF2FF2097CFAA00B80DEB /* ShareAddressPresentationController.swift in Sources */,
 				7DD405E520449A0F00FF3ACB /* SnippetMenu.swift in Sources */,
 				7D91DC5A1FBF79E400771820 /* Logger.swift in Sources */,

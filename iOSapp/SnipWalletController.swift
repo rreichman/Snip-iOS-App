@@ -15,16 +15,18 @@ protocol SnipWalletViewDelegate: class {
 }
 
 class SnipWalletController : UIViewController {
-    
+    @IBOutlet var indicatorView: UIView!
     @IBOutlet var settingsButton: UIButton!
     @IBOutlet var ethTab : UIButton!
     @IBOutlet var snipTab : UIButton!
+    @IBOutlet var tabContainer: UIView!
     var buttons: [UIButton]!
     
     
     @IBOutlet var contentView: UIView!
     var selectedIndex: Int = 0
     var delegate: SnipWalletViewDelegate!
+    var indicatorConstraint: NSLayoutConstraint!
     
     @IBAction func onSettingsPress() {
         delegate.onSettingsPressed()
@@ -39,9 +41,12 @@ class SnipWalletController : UIViewController {
         let coord = WalletCoordinator(container: self)
         coord.start()
         buttons = [ethTab, snipTab]
-       
         
         
+        //setup the first constraint, move_ind will handle the rest
+        indicatorConstraint = indicatorView.centerXAnchor.constraint(equalTo: snipTab.centerXAnchor, constant: 0.0)
+        indicatorConstraint.isActive = true
+        /*
         //backHeaderView.titleTopConstraint.constant = 32
         let bundlePath = Bundle.main.path(forResource: "TrustWeb3Provider", ofType: "bundle")
         let bundle = Bundle(path: bundlePath!)!
@@ -60,7 +65,8 @@ class SnipWalletController : UIViewController {
         } catch {
             print("Unexpected error: \(error).")
         }
-        
+        */
+        didPress(snipTab)
         buildSettingsButton()
     }
     
@@ -68,9 +74,11 @@ class SnipWalletController : UIViewController {
         if (type == .snip) {
             ethTab.isSelected = false
             snipTab.isSelected = true
+            move_indicator(pos: 0)
         } else {
             ethTab.isSelected = true
             snipTab.isSelected = false
+            move_indicator(pos: 1)
         }
         addChildViewController(controller)
         subView.frame = contentView.bounds
@@ -82,9 +90,11 @@ class SnipWalletController : UIViewController {
         selectedIndex = sender.tag
         if (selectedIndex == 1) {
             //snip
+            
             delegate.tabSelected(coin: .snip)
         } else {
             //eth
+            
             delegate.tabSelected(coin: .eth)
         }
     }
@@ -95,5 +105,23 @@ class SnipWalletController : UIViewController {
         let w = settingsButton.frame.width
         imageView.frame = CGRect(x: (w/2) - 10, y: (w/2)-10, width: 20, height: 20)
         settingsButton.addSubview(imageView)
+    }
+    func move_indicator(pos: Int) {
+        let tabView: UIView = (pos == 0 ? snipTab : ethTab)
+       
+        indicatorConstraint.isActive = false
+        indicatorConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: tabView.centerXAnchor, constant: 0.0)
+        indicatorConstraint.isActive = true
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
+                        self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+}
+extension UIView {
+    func callRecursively(level: Int = 0, _ body: (_ subview: UIView, _ level: Int) -> Void) {
+        body(self, level)
+        subviews.forEach { $0.callRecursively(level: level + 1, body) }
     }
 }
