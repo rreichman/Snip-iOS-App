@@ -11,7 +11,8 @@ import UIKit
 extension SnippetView {
     func sendReportToServer(snippetID: Int, reasons: String)
     {
-        sendReportToServer(snippetID: snippetID, reasons: reasons)
+        let reportInfo : ReportInfo = ReportInfo(snippetID: snippetID, reasons: reasons)
+        testSendReportToServer(reportParams: reportInfo)
     }
 
     func getServerStringForReport() -> String
@@ -22,12 +23,11 @@ extension SnippetView {
         return urlString
     }
 
-    func sendReportToServer(reportParams : Any)
+    func testSendReportToServer(reportParams : Any)
     {
         let convertedReportParams : ReportInfo = reportParams as! ReportInfo
         
         let serverString = getServerStringForReport()
-        let url : URL = URL(string: serverString)!
         var urlRequest = getDefaultURLRequest(serverString: serverString, method: "POST")
         
         let jsonString = convertDictionaryToJsonString(dictionary: convertedReportParams.getDataAsDictionary())

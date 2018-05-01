@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool
     {
         print("in application from URL " + url.absoluteString)
-        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String!, annotation: options[.annotation])
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String?, annotation: options[.annotation])
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
@@ -41,6 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
+        
+        if (launchOptions != nil)
+        {
+            let userActivityDictionary : [String : Any] = launchOptions![UIApplicationLaunchOptionsKey.userActivityDictionary] as! [String : Any]
+            let userActivityKey = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"]
+            let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
+            
+            let openingViewController : OpeningSplashScreenViewController = (window?.rootViewController) as! OpeningSplashScreenViewController
+            openingViewController._snipRetrieverFromWeb.setCurrentUrlString(urlString: (userActivity.webpageURL?.absoluteString)!)
+        }
+        
         print("app init done \(Date())")
         
         // Override point for customization after application launch.
@@ -55,10 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("User Activity: ")
         print(Date().timeIntervalSince1970 - enteredBackgroundTime.timeIntervalSince1970)
         
-        let snippetsTableViewController = (window?.rootViewController as! OpeningSplashScreenViewController).snippetsTableViewController
-        
-        snippetsTableViewController.operateRefresh(newUrlString: (userActivity.webpageURL?.absoluteString)!, useActivityIndicator: true)
-        snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
+        window?.rootViewController?.restoreUserActivityState(userActivity)
         
         return true
     }
