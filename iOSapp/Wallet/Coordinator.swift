@@ -1,3 +1,5 @@
+import UIKit
+
 /// The Coordinator protocol
 protocol Coordinator: class {
     
@@ -21,4 +23,10 @@ extension Coordinator {
         self.childCoordinators = self.childCoordinators.filter { $0 !== childCoordinator }
     }
     
+}
+
+extension Coordinator {
+    func getStoryboard() -> UIStoryboard {
+        return UIStoryboard(name: "Main", bundle: nil)
+    }
 }

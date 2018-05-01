@@ -8,6 +8,7 @@
 
 import Foundation
 import TrustCore
+import RxSwift
 
 protocol SetWalletCoordinatorDelegate: class {
     func finished(walletChanged: Bool)
@@ -16,6 +17,7 @@ protocol SetWalletCoordinatorDelegate: class {
 
 class SetWalletCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
+    let disposeBag: DisposeBag = DisposeBag()
     
     var navigationController: UINavigationController!
     weak var delegate: SetWalletCoordinatorDelegate?
@@ -62,7 +64,17 @@ class SetWalletCoordinator: Coordinator {
             let controller = storyboard.instantiateViewController(withIdentifier: "NewWalletViewController")
             newWalletVC = controller as! NewWalletViewController
             navigationController.pushViewController(controller, animated: true)
-            newWalletVC?.setPhrase(phrase: "test1 test1 test1 test1 test1 test1 test1 test1 test1 ")
+            SnipKeystore.instance.createWallet()
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { p in
+							self.newWalletVC?.setDoneButtonInteraction(can_interact: true)
+                            self.newWalletVC?.setPhrase(phrase: p)
+						},
+				   		onError: { error in
+				   			self.newWalletVC?.setPhrase(phrase: error.localizedDescription)
+                            print("Error: ", error)
+                		})
+                .disposed(by: disposeBag)
             newWalletVC?.setDelegate(delegate: self)
         }
     }
@@ -103,9 +115,11 @@ extension SetWalletCoordinator: SetWalletViewDelegate {
 extension SetWalletCoordinator: PinCoordinatorDelegate {
     func entryCancled() {
         // pass
+        childCoordinators.removeAll()
     }
     
     func entrySuccessful() {
+        childCoordinators.removeAll()
         showResult()
     }
 }

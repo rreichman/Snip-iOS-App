@@ -28,10 +28,10 @@
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQu-VG-eqa" userLabel="Top Left View">
-                            <rect key="frame" x="0.0" y="567" width="80" height="80"/>
+                            <rect key="frame" x="0.0" y="0.0" width="85" height="647"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backArrow" translatesAutoresizingMaskIntoConstraints="NO" id="Y3o-CU-oot">
-                                    <rect key="frame" x="26" y="48" width="15" height="13"/>
+                                    <rect key="frame" x="25" y="617" width="15" height="13"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="13" id="KHN-PO-hi7"/>
                                         <constraint firstAttribute="width" constant="15" id="zUq-RM-HKs"/>
@@ -39,14 +39,13 @@
                                 </imageView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="Y3o-CU-oot" firstAttribute="top" secondItem="bQu-VG-eqa" secondAttribute="top" constant="48" id="0KS-qU-aGL"/>
-                                <constraint firstItem="Y3o-CU-oot" firstAttribute="leading" secondItem="bQu-VG-eqa" secondAttribute="leading" constant="26" id="7VH-51-tuL"/>
-                                <constraint firstAttribute="width" constant="80" id="IbA-S6-lRV"/>
-                                <constraint firstAttribute="height" constant="80" id="a41-8j-MGq"/>
+                                <constraint firstItem="Y3o-CU-oot" firstAttribute="leading" secondItem="bQu-VG-eqa" secondAttribute="leading" constant="25" id="7VH-51-tuL"/>
+                                <constraint firstAttribute="width" constant="85" id="IbA-S6-lRV"/>
+                                <constraint firstAttribute="bottom" secondItem="Y3o-CU-oot" secondAttribute="bottom" constant="17" id="yLm-20-aZ3"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00h-fV-aFV" userLabel="Title">
-                            <rect key="frame" x="142" y="617" width="110" height="20"/>
+                            <rect key="frame" x="142" y="615" width="110" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="CUd-fU-lYI"/>
                                 <constraint firstAttribute="width" constant="110" id="gzv-Gc-dm0"/>
@@ -58,7 +57,8 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="00h-fV-aFV" secondAttribute="bottom" constant="10" id="GVA-bM-dOt"/>
+                        <constraint firstItem="bQu-VG-eqa" firstAttribute="top" secondItem="Cyg-NS-QdA" secondAttribute="top" id="9Z8-QU-Gck"/>
+                        <constraint firstAttribute="bottom" secondItem="00h-fV-aFV" secondAttribute="bottom" constant="12" id="GVA-bM-dOt"/>
                         <constraint firstItem="bQu-VG-eqa" firstAttribute="leading" secondItem="Cyg-NS-QdA" secondAttribute="leading" id="Ida-hB-saO"/>
                         <constraint firstAttribute="trailing" secondItem="00h-fV-aFV" secondAttribute="trailing" constant="123" id="XPw-DE-SCz"/>
                         <constraint firstAttribute="bottom" secondItem="bQu-VG-eqa" secondAttribute="bottom" id="ynk-jJ-uVC"/>

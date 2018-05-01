@@ -33,6 +33,10 @@ class OpeningSplashScreenViewController: UIViewController
         print("done loading splash screen: \(Date())")
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     func loadSplashScreenImages()
     {
         splashScreenLogoImage.image = #imageLiteral(resourceName: "snipLogo")
@@ -53,10 +57,17 @@ class OpeningSplashScreenViewController: UIViewController
         print("after super didAppear \(Date())")
         
         _snipRetrieverFromWeb.isCoreSnipViewController = true
-        _snipRetrieverFromWeb.clean()
         _snipRetrieverFromWeb.lock.lock()
         print("about to get snips from server \(Date())")
         _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
+    }
+    
+    override func restoreUserActivityState(_ userActivity: NSUserActivity)
+    {
+        snippetsTableViewController.operateRefresh(newUrlString: (userActivity.webpageURL?.absoluteString)!, useActivityIndicator: true)
+        snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
+        
+        super.restoreUserActivityState(userActivity)
     }
     
     func collectionCompletionHandler(postsToAdd: [PostData], appendDataAndNotReplace : Bool)
@@ -75,10 +86,15 @@ class OpeningSplashScreenViewController: UIViewController
         {
             print("preparing to segue to tab bar view")
             
+            //promptToUser(promptMessageTitle: "hello", promptMessageBody: _snipRetrieverFromWeb.currentUrlString, viewController: self)
+            //let url : String = UserDefaults.standard.string(forKey: "pizzaz")!
+            //promptToUser(promptMessageTitle: "pizzaz", promptMessageBody: url, viewController: self)
+            
             let barViewController : MainTabBarViewController = segue.destination as! MainTabBarViewController
-            let snippetsTableViewController = (barViewController.viewControllers?.first as! UINavigationController).viewControllers.first as! SnippetsTableViewController
-            snippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
-            snippetsTableViewController._postDataArray = _postDataArray
+            let mainSnippetsTableViewController = (barViewController.viewControllers?.first as! UINavigationController).viewControllers.first as! SnippetsTableViewController
+            mainSnippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
+            mainSnippetsTableViewController._postDataArray = _postDataArray
+            snippetsTableViewController = mainSnippetsTableViewController
             
             print("done seguing to tab bar view")
         }

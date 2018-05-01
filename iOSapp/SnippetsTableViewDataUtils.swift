@@ -112,7 +112,7 @@ extension SnippetsTableViewController
         scrollToTopOfTable()
     }
     
-    @objc func refresh(_ sender: UIRefreshControl)
+    @objc func refresh(_ sender: Any)
     {
         operateRefresh(newUrlString: "", useActivityIndicator: false)
     }

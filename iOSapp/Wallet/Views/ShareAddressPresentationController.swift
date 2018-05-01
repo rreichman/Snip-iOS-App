@@ -55,7 +55,7 @@ class ShareAddressPresentationController: UIPresentationController {
 extension ShareAddressPresentationController: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
-        return 0.3
+        return 0.4
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -72,7 +72,7 @@ extension ShareAddressPresentationController: UIViewControllerAnimatedTransition
         
         containerView.addSubview((toViewController.view)!)
         
-        UIView.animate(withDuration: animationDuration, animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0.0, options: .curveEaseOut, animations: {
             toViewController.view.transform = .identity
         }, completion: { finished in transitionContext.completeTransition(finished)})
     }

@@ -27,8 +27,14 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var replyingToView: UITextView!
     
+    @IBOutlet weak var bottomOfEntireScrollViewConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeReplyButton: UIButton!
+    
+    @IBOutlet weak var topBackgroundView: UIView!
+    
+    @IBOutlet weak var backHeaderView: BackHeaderView!
     
     var snippetsViewController : SnippetsTableViewController = SnippetsTableViewController()
     var currentSnippetID : Int = 0
@@ -43,6 +49,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        print("loading commentsViewController: \(Date().timeIntervalSince1970)")
+        
         snippetsViewController = viewControllerToReturnTo as! SnippetsTableViewController
         
         setCommentArray(newCommentArray: getCommentArraySortedAndReadyForPresentation(commentArray: getCommentArray()))
@@ -58,6 +66,8 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         registerForKeyboardNotifications()
         hideReplyingToBox()
         
+        commentView.layer.borderWidth = 0
+        
         let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleCommentClick(sender:)))
         writeCommentRecognizer.delegate = self
         writeCommentBox.isUserInteractionEnabled = true
@@ -65,23 +75,33 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         
         snippetView.userImage.loadInitialsIntoUserImage(writerName: snippetView.writerName.attributedText!, sizeOfView: 30, sizeOfFont: 13)
         
-        /*if (viewControllerToReturnTo is SnippetsTableViewController)
-        {
-            self.navigationController?.navigationBar.isHidden = !(viewControllerToReturnTo as! SnippetsTableViewController).shouldShowNavigationBar
-        }*/
-        self.navigationController?.navigationBar.isHidden = false
+        topBackgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
+        backHeaderView.currentViewController = self
+        backHeaderView.titleLabel.attributedText = LoginDesignUtils.shared.COMMENTS_HEADLINE_STRING
+        
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.tintColor = UIColor.white
         // This is for the cases where there are no comments
         setTableViewBackground()
+ 
+        print("done loading commentsViewController: \(Date().timeIntervalSince1970)")
+    }
+    
+    @objc func bufferClick(sender: UITapGestureRecognizer)
+    {
+        print("buffer click")
     }
     
     override func viewDidLayoutSubviews()
     {
-        tableHeightConstraint.constant = tableView.contentSize.height
+        //tableHeightConstraint.constant = tableView.contentSize.height
+        updateHeightsInCommentsController()
         
         snippetView.setNeedsLayout()
         snippetView.layoutIfNeeded()
-        scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
+        
+        //scrollviewHeightConstraint.constant = snippetView.bounds.height + tableView.contentSize.height + 20
     }
     
     // This allows the text view to receive input normally even with a recognizer.
@@ -188,7 +208,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
         }
         else
         {
-            noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height / 2))
             noDataLabel.text          = "Be the first to comment."
             noDataLabel.textColor     = UIColor.black
             noDataLabel.textAlignment = .center
@@ -208,8 +228,16 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     @objc func keyboardWasShown(notification: NSNotification)
     {
         var info = notification.userInfo!
-        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        bottomConstraint.constant = keyboardHeight!
+        var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+        
+        if #available(iOS 11.0, *)
+        {
+            let bottomInset = view.safeAreaInsets.bottom
+            keyboardHeight -= bottomInset
+        }
+        
+        bottomConstraint.constant = keyboardHeight
+        
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
@@ -289,7 +317,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
         {
-            var postedComment : Comment = Comment(commentData: jsonObj)
+            let postedComment : Comment = Comment(commentData: jsonObj)
             insertCommentIntoCommentArray(comment: postedComment)
             DispatchQueue.main.async
             {
@@ -328,8 +356,9 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func updateHeightsInCommentsController()
     {
-        self.tableHeightConstraint.constant = self.tableView.contentSize.height
+        self.tableHeightConstraint.constant = self.tableView.contentSize.height + 20
         self.scrollviewHeightConstraint.constant = self.snippetView.bounds.height + self.tableView.contentSize.height + 20
+        //self.scrollviewHeightConstraint.constant = 10
     }
     
     func scrollToPublishedComment(commentID: Int)

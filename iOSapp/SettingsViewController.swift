@@ -18,6 +18,8 @@ class SettingsViewController : GenericProgramViewController
     @IBOutlet weak var secondSetting: SettingsMember!
     @IBOutlet weak var thirdSetting: SettingsMember!
     
+    @IBOutlet weak var backgroundView: UIView!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -28,6 +30,8 @@ class SettingsViewController : GenericProgramViewController
         backHeaderView.currentViewController = self
         
         setConstraintToMiddleOfScreen(constraint: backHeaderView.titleLabelTrailingConstraint, view: backHeaderView.titleLabel)
+        
+        backgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         designSettings()
         setButtons()
@@ -91,7 +95,7 @@ class SettingsViewController : GenericProgramViewController
     func operateLogout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.moveToProfileTab)
+        promptToUserWithAutoDismiss(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.moveToProfileTab)
     }
     
     func moveToProfileTab(action: UIAlertAction)

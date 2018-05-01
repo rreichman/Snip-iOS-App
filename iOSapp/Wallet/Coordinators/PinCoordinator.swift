@@ -16,16 +16,19 @@ protocol PinCoordinatorDelegate: class {
 
 class PinCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
+    var inSecondEntry: Bool = false
     var firstEntry: String = ""
     var viewController: PinViewController!
     
     var navController: UINavigationController!
     var delegate: PinCoordinatorDelegate!
     var mode: PinPadAction
+    var lock: PinLock
     init(navController: UINavigationController, mode: PinPadAction, delegate: PinCoordinatorDelegate) {
         self.navController = navController
         self.mode = mode
         self.delegate = delegate
+        self.lock = PinLock.instance
     }
     
     func start() {
@@ -33,9 +36,70 @@ class PinCoordinator: Coordinator {
         viewController = storyboard.instantiateViewController(withIdentifier: "PinViewController") as? PinViewController
         viewController?.setDelegate(delegate: self)
         navController.pushViewController(viewController!, animated: true)
+        self.firstEntry = ""
+        setLableForMode()
+        
+    }
+    func getLabelForMode() -> String {
+		switch mode {
+        case .change:
+			return "Enter current pincode"
+        case .create:
+        	if !self.inSecondEntry {
+            	return "Create a 6-digit pincode to quicky access your wallet"
+            } else {
+                return "Repeat pincode"
+            }
+        case .verify:
+            return "Enter pincode"
+        }
+	}
+    func setLableForMode() {
+		let l = getLabelForMode()
+		viewController.setLabel(label: l)
+    }
+    func matchPin(_ pin: String) -> Bool {
+        return lock.pinCode == pin
     }
     
-    func onSuccess(pin: String) {
+    func onPinEntry(with pin: String) {
+        switch mode {
+        case .change:
+            if matchPin(pin) {
+                self.mode = .create
+                self.firstEntry = ""
+                self.inSecondEntry = false
+                setLableForMode()
+            } else {
+                // Show incorrect animation
+            }
+        case .verify:
+            if matchPin(pin) {
+                onSuccess()
+            } else {
+                // Show incorrect animation
+            }
+        case .create:
+            if !inSecondEntry {
+                self.firstEntry = pin
+                self.inSecondEntry = true
+                viewController.clearDisplay()
+                setLableForMode()
+            } else {
+                if pin == firstEntry {
+                    lock.pinCode = pin
+                    onSuccess()
+                } else {
+                    // Show error animation
+                    self.firstEntry = ""
+                    self.inSecondEntry = false
+                    setLableForMode()
+                }
+            }
+        }
+    }
+    
+    func onSuccess() {
         navController.popViewController(animated: true)
         self.delegate.entrySuccessful()
         self.delegate = nil
@@ -57,7 +121,7 @@ class PinCoordinator: Coordinator {
 
 extension PinCoordinator: PinViewDelegate {
     func pinEntered(pin: String) {
-        onSuccess(pin: pin)
+        onPinEntry(with: pin)
     }
     
     func backPressed() {

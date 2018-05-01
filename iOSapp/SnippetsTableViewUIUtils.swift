@@ -44,11 +44,16 @@ extension SnippetsTableViewController
     func scrollToTopOfTable()
     {
         let top = NSIndexPath(row: NSNotFound , section: 0)
-        tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: false)
+        tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: true)
     }
     
     // Perhaps this can be non-objc with some modifications
     @objc func homeButtonAction(sender: Any)
+    {
+        operateHomeButtonAction()
+    }
+    
+    func operateHomeButtonAction()
     {
         let top = NSIndexPath(row: NSNotFound , section: 0)
         tableView.scrollToRow(at: top as IndexPath, at: .bottom, animated: true)

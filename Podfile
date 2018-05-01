@@ -20,6 +20,8 @@ target 'iOSapp' do
   pod 'RxSwift',    '~> 4.0'
   pod 'RxCocoa',    '~> 4.0'
   pod 'KeychainSwift', '~> 11.0'
+  pod 'XLPagerTabStrip', '~> 8.0'
+  pod 'Moya/RxSwift', '~> 11.0'
   
   # Pods for iOSapp
 

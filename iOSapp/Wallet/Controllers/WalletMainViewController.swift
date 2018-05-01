@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import XLPagerTabStrip
 
 protocol WalletViewDelegate: class {
     func onShowAddress(type: CoinType)
@@ -15,7 +16,7 @@ protocol WalletViewDelegate: class {
     
 }
 
-class WalletViewController : UIViewController {
+class WalletMainViewController : UIViewController {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet var balance_text: UILabel!
@@ -47,5 +48,15 @@ class WalletViewController : UIViewController {
     @IBAction func onSharePressed() {
         delegate.onShowAddress(type: coinType)
     }
+    
+    
+    
+}
+
+extension WalletMainViewController: IndicatorInfoProvider {
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: (coinType == .snip ? "SNIP" : "ETH" ))
+    }
+    
     
 }

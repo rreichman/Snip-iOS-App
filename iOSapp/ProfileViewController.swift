@@ -137,6 +137,7 @@ class ProfileViewController : GenericProgramViewController
         snippetsViewController.viewControllerToReturnTo = self
         snippetsViewController.shouldShowNavigationBar = false
         snippetsViewController.shouldShowBackView = true
+        snippetsViewController.shouldHaveBackButton = true
         snippetsViewController.fillSnippetViewController()
         
         snippetsViewController.titleHeadlineString = LoginDesignUtils.shared.SAVED_SNIPS_HEADLINE_STRING
@@ -157,7 +158,7 @@ class ProfileViewController : GenericProgramViewController
     func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
-        promptToUser(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, completionHandler: self.segueBackToContent)
+        promptToUserWithAutoDismiss(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.segueBackToContent)
     }
     
     @IBAction func logoutButton(_ sender: Any)

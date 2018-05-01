@@ -107,4 +107,8 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
         self.amountText.resignFirstResponder()
     }
     
+    @IBAction func swipeDown(_ sender: Any) {
+        delegate.onCancel()
+    }
+    
 }

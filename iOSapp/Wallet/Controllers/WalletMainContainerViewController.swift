@@ -8,44 +8,35 @@
 
 import UIKit
 import TrustKeystore
+import XLPagerTabStrip
+import LatoFont
 
-protocol SnipWalletViewDelegate: class {
-    func tabSelected(coin: CoinType)
+protocol WalletMainContainerDelegate: class {
     func onSettingsPressed()
 }
 
-class SnipWalletController : UIViewController {
-    @IBOutlet var indicatorView: UIView!
+class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
     @IBOutlet var settingsButton: UIButton!
-    @IBOutlet var ethTab : UIButton!
-    @IBOutlet var snipTab : UIButton!
-    @IBOutlet var tabContainer: UIView!
-    var buttons: [UIButton]!
     
+    public var ethVC: WalletMainViewController!
+    public var snipVC: WalletMainViewController!
     
     @IBOutlet var contentView: UIView!
-    var selectedIndex: Int = 0
-    var delegate: SnipWalletViewDelegate!
-    var indicatorConstraint: NSLayoutConstraint!
+    var _delegate: WalletMainContainerDelegate!
     
     @IBAction func onSettingsPress() {
-        delegate.onSettingsPressed()
+        _delegate.onSettingsPressed()
     }
     
-    func setDelegate(del: SnipWalletViewDelegate) {
-        self.delegate = del
+    func setDelegate(del: WalletMainContainerDelegate) {
+        self._delegate = del
     }
     
     override func viewDidLoad() {
+        buildBar()
         super.viewDidLoad()
         let coord = WalletCoordinator(container: self)
         coord.start()
-        buttons = [ethTab, snipTab]
-        
-        
-        //setup the first constraint, move_ind will handle the rest
-        indicatorConstraint = indicatorView.centerXAnchor.constraint(equalTo: snipTab.centerXAnchor, constant: 0.0)
-        indicatorConstraint.isActive = true
         /*
         //backHeaderView.titleTopConstraint.constant = 32
         let bundlePath = Bundle.main.path(forResource: "TrustWeb3Provider", ofType: "bundle")
@@ -66,37 +57,18 @@ class SnipWalletController : UIViewController {
             print("Unexpected error: \(error).")
         }
         */
-        didPress(snipTab)
         buildSettingsButton()
     }
     
-    func setTab(type: CoinType, subView: UIView, controller: UIViewController) {
-        if (type == .snip) {
-            ethTab.isSelected = false
-            snipTab.isSelected = true
-            move_indicator(pos: 0)
-        } else {
-            ethTab.isSelected = true
-            snipTab.isSelected = false
-            move_indicator(pos: 1)
-        }
-        addChildViewController(controller)
-        subView.frame = contentView.bounds
-        contentView.addSubview(subView)
-    }
-    
-    
-    @IBAction func didPress(_ sender: UIButton) {
-        selectedIndex = sender.tag
-        if (selectedIndex == 1) {
-            //snip
-            
-            delegate.tabSelected(coin: .snip)
-        } else {
-            //eth
-            
-            delegate.tabSelected(coin: .eth)
-        }
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        ethVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as? WalletMainViewController
+        ethVC.setCoinType(type: .eth)
+        
+        snipVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as?
+        WalletMainViewController
+        snipVC.setCoinType(type: .snip)
+        return [snipVC, ethVC]
     }
     
     func buildSettingsButton() {
@@ -106,6 +78,7 @@ class SnipWalletController : UIViewController {
         imageView.frame = CGRect(x: (w/2) - 10, y: (w/2)-10, width: 20, height: 20)
         settingsButton.addSubview(imageView)
     }
+    /*
     func move_indicator(pos: Int) {
         let tabView: UIView = (pos == 0 ? snipTab : ethTab)
        
@@ -118,10 +91,28 @@ class SnipWalletController : UIViewController {
                         self.view.layoutIfNeeded()
         }, completion: nil)
     }
-}
-extension UIView {
-    func callRecursively(level: Int = 0, _ body: (_ subview: UIView, _ level: Int) -> Void) {
-        body(self, level)
-        subviews.forEach { $0.callRecursively(level: level + 1, body) }
+ */
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
+    
+    func buildBar() {
+        let snipBlue = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+        
+        settings.style.buttonBarBackgroundColor = snipBlue
+        settings.style.buttonBarItemBackgroundColor = snipBlue
+        settings.style.selectedBarBackgroundColor = .white
+        settings.style.buttonBarItemFont = UIFont.latoBold(size: 16)
+        settings.style.buttonBarItemTitleColor = .white
+        settings.style.buttonBarItemsShouldFillAvailableWidth = false
+        settings.style.buttonBarItemLeftRightMargin = 20
+        
+        settings.style.selectedBarBackgroundColor = .white
+        settings.style.selectedBarHeight = 2.0
+        
+
+        
+    }
+    
 }

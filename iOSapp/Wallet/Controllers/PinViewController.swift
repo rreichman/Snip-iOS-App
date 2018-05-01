@@ -20,11 +20,10 @@ class PinViewController : UIViewController {
     weak var delegate: PinViewDelegate!
     var input: String = ""
     @IBOutlet var pinButtons : [UIButton]!
-    @IBOutlet var pinOneForTesting: UIButton!
-    @IBOutlet var message: UILabel!
+    @IBOutlet var messageView: UILabel!
     
     @IBOutlet var displayViews: [UIView]!
-    
+    var message: String?
     func setDelegate(delegate: PinViewDelegate) {
         self.delegate = delegate
     }
@@ -35,6 +34,12 @@ class PinViewController : UIViewController {
             let tag2 = $1.tag
             return tag1 < tag2
         })
+		
+		if let m = message {
+			if let mv = messageView {
+				mv.text = m
+			}
+		}
     }
 
     @objc func backButtonTapped() {
@@ -53,6 +58,18 @@ class PinViewController : UIViewController {
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+	
+    func clearDisplay() {
+    	input = ""
+    	update_display()
+	}
+    
+    func setLabel(label: String) {
+    	self.message = label
+        if let m = messageView {
+        	m.text = label
+		}
     }
     
     private func update_display() {

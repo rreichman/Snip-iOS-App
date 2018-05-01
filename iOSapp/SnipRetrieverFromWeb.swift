@@ -53,6 +53,7 @@ class SnipRetrieverFromWeb
     func getSnipsJsonFromWebServer(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool, errorHandler : (() -> Void)? = nil)
     {
         print("POSTS: getting posts. Current URL string: \(currentUrlString)")
+        
         let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
         
         if (!areTherePostsRemainingOnServer)

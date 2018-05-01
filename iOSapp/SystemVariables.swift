@@ -68,11 +68,11 @@ public class SystemVariables
     let MEMORY_COUNT_LIMIT = 20
     
     //let URL_STRING = "http://localhost:8000/"
-    let URL_STRING = "https://www.snip.today/"
+    let URL_STRING = "https://www.snip.today/old/"
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     
-    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60 * 5
+    let SECONDS_APP_IS_IN_BACKGROUND_BEFORE_REFRESH = 60 * 60
     
     let READ_MORE_TEXT : String = "... Read More"
     let READ_MORE_TEXT_COLOR : UIColor = UIColor.gray

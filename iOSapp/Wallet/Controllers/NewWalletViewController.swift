@@ -18,7 +18,8 @@ class NewWalletViewController : UIViewController {
     @IBOutlet var doneButtonConstraint: NSLayoutConstraint!
     @IBOutlet var phraseLabel: UILabel!
     
-    var delegate: NewWalletViewDelegate!
+	@IBOutlet var doneButton: UIButton!
+	var delegate: NewWalletViewDelegate!
     var phrase: String?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,9 @@ class NewWalletViewController : UIViewController {
         if let s = phrase {
             phraseLabel.text = s
         }
+		
+        doneButton.isUserInteractionEnabled = false
+		
     }
     
     func setPhrase(phrase: String) {
@@ -35,6 +39,10 @@ class NewWalletViewController : UIViewController {
         }
         self.phrase = phrase
     }
+	
+    func setDoneButtonInteraction(can_interact: Bool) {
+		doneButton.isUserInteractionEnabled = can_interact
+	}
     
     func showError(phrase:String) {
         

@@ -19,9 +19,9 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     // TODO: perhaps there's a better way
     var shouldEnterCommentOfFirstSnippet = false
     var shouldHaveBackButton = false
-    var shouldShowNavigationBar = true
+    var shouldShowNavigationBar = false
     var shouldShowProfileView = true
-    var shouldShowBackView = false
+    var shouldShowBackView = true
     
     var pageTitle = "Home"
     var pageWriterIfExists = "Page Writer"
@@ -30,9 +30,11 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     var cellsNotToTruncate : Set<Int> = Set<Int>()
     
     var snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
-    var titleHeadlineString : NSAttributedString = NSAttributedString()
+    var titleHeadlineString : NSAttributedString = LoginDesignUtils.shared.HOME_HEADLINE_STRING
     
     let loadingIndicator : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    @IBOutlet weak var statusBarBackgroundView: UIView!
     
     @IBOutlet weak var backHeaderView: BackHeaderView!
     @IBOutlet weak var backHeaderViewHeightConstraint: NSLayoutConstraint!
@@ -44,7 +46,7 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     
     override func viewDidLoad()
     {
-        print("loading snippetViewController: \(Date())")
+        print("loading snippetViewController: \(Date().timeIntervalSince1970)")
         super.viewDidLoad()
      
         runLoadingIndicator()
@@ -56,6 +58,12 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         {
             profileViewHeightConstraint.constant = 0
         }
+        else
+        {
+            profileView.setUI(receivedUserFullName: pageWriterIfExists)
+            profileView.currentViewController = self
+        }
+        
         if (!shouldShowBackView)
         {
             backHeaderView.isHidden = true
@@ -64,7 +72,16 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         else
         {
             backHeaderView.titleLabel.attributedText = titleHeadlineString
+            
+            if (!shouldHaveBackButton)
+            {
+                backHeaderView.backButtonView.isHidden = true
+            }
         }
+        
+        statusBarBackgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
+        
+        navigationController?.navigationBar.isHidden = !shouldShowNavigationBar
         
         getRestOfImagesAsync()
         
@@ -72,30 +89,28 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorColor = UIColor.clear
         
-        handleNavigationBar()
+        let clickHomeClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.homeButtonPressed(sender:)))
+        backHeaderView.titleLabel.isUserInteractionEnabled = true
+        backHeaderView.titleLabel.addGestureRecognizer(clickHomeClickRecognizer)
         
-        profileView.setUI(receivedUserFullName: pageWriterIfExists)
-        profileView.currentViewController = self
         backHeaderView.currentViewController = self
         backHeaderView.showNavigationBarOnBack = shouldShowNavigationBar
         
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.backgroundColor = UIColor.lightGray
-        tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+        tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         
-        scrollToTopOfTable()
-        
-        print("done loading snippetViewController: \(Date())")
+        print("done loading snippetViewController: \(Date().timeIntervalSince1970)")
     }
     
     override func viewDidAppear(_ animated: Bool)
     {
-        navigationController?.navigationBar.isHidden = !shouldShowNavigationBar
+        backHeaderView.isHidden = !shouldShowBackView
     }
     
-    @IBAction func menuButtonPressed(_ sender: Any)
+    @objc func homeButtonPressed(sender: UITapGestureRecognizer)
     {
-        performSegue(withIdentifier: "showMenuSegue", sender: self)
+        scrollToTopOfTable()
     }
     
     func commentsButtonPressed(_ sender: Any)

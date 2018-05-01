@@ -140,7 +140,7 @@ class WebUtils
                         storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
                         UserInformation().getUserInformationFromWeb()
                         
-                        promptToUser(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: viewController, completionHandler: viewController.segueBackToContent)
+                        promptToUserWithAutoDismiss(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: viewController, lengthInSeconds: 1, completionHandler: viewController.segueBackToContent)
                     }
                     else
                     {

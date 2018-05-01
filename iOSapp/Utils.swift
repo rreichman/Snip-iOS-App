@@ -163,11 +163,22 @@ func getUniqueDeviceID() -> String
 
 func promptToUser(promptMessageTitle: String, promptMessageBody: String, viewController: UIViewController, completionHandler : ((UIAlertAction) -> Void)? = nil)
 {
+    promptToUserWithAutoDismiss(promptMessageTitle: promptMessageTitle, promptMessageBody: promptMessageBody, viewController: viewController, lengthInSeconds: 99999, completionHandler: completionHandler)
+}
+
+func promptToUserWithAutoDismiss(promptMessageTitle: String, promptMessageBody: String, viewController: UIViewController, lengthInSeconds: Double, completionHandler : ((UIAlertAction) -> Void)? = nil)
+{
     let alert = UIAlertController(title: promptMessageTitle, message: promptMessageBody, preferredStyle: UIAlertControllerStyle.alert)
+    let alertAction = UIAlertAction(title: "Ok", style: .default, handler: completionHandler)
     
-    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: completionHandler))
+    alert.addAction(alertAction)
     
     viewController.present(alert, animated: true, completion: nil)
+    
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + lengthInSeconds) {
+        alert.dismiss(animated: true)
+        completionHandler!(alertAction)
+    }
 }
 
 func setConstraintConstantForView(constraintName : String, view : UIView, constant : CGFloat)
@@ -285,7 +296,14 @@ func getTimeFromDateString(dateString : String) -> String
     }
     else
     {
-        displayedTime = String(dateString.prefix(10))
+        let calendar = Calendar.current
+        
+        displayedTime = ""
+        displayedTime.append(String(calendar.component(.month, from: dateAsDataStructure!)))
+        displayedTime.append("/")
+        displayedTime.append(String(calendar.component(.day, from: dateAsDataStructure!)))
+        displayedTime.append("/")
+        displayedTime.append(String(calendar.component(.year, from: dateAsDataStructure!)))
     }
     return displayedTime
 }
