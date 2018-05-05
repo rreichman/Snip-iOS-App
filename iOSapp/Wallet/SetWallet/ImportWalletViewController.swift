@@ -15,13 +15,20 @@ protocol ImportWalletViewDelegate: class {
 }
 class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate {
     
+    @IBOutlet var importButton: UIButton!
+    @IBOutlet var wordCountLabel: UILabel!
     @IBOutlet var phraseInput: UITextField!
     @IBOutlet var importButtonConstraint: NSLayoutConstraint!
     var delegate: ImportWalletViewDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         whiteBackArrow()
+        //importButton.setTitleColor(UIColor.red, for: .disabled)
+        
         dynamicButtonPosition()
+        phraseInput.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        updateWordCount()
+        
     }
     
     func setDelegate(delegate: ImportWalletViewDelegate) {
@@ -30,6 +37,16 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
     
     func showError(err: String) {
         
+    }
+    
+    func setInteraction(canInteract: Bool) {
+        importButton.isUserInteractionEnabled = canInteract
+        if !canInteract {
+            importButton.backgroundColor = UIColor(red: 0.8, green: 0.94, blue: 0.96, alpha: 1.0)
+        } else {
+            importButton.backgroundColor = UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0)
+        }
+        phraseInput.isUserInteractionEnabled = canInteract
     }
     
     private func dynamicButtonPosition() {
@@ -58,6 +75,12 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
         }
     }
     
+    func showError(msg: String) {
+        print(msg)
+        
+        
+    }
+    
     @IBAction func importPressed() {
         if let p = phraseInput.text {
             delegate?.phraseEntered(phrase: p)
@@ -79,5 +102,18 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+    
+    func updateWordCount() {
+        if let s = phraseInput.text {
+            let word_count = s.split(separator: " ").count
+            if let l = self.wordCountLabel {
+                l.text = "\(word_count) \((word_count == 1 ? "word" : "words"))"
+            }
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        
     }
 }

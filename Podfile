@@ -22,6 +22,7 @@ target 'iOSapp' do
   pod 'KeychainSwift', '~> 11.0'
   pod 'XLPagerTabStrip', '~> 8.0'
   pod 'Moya/RxSwift', '~> 11.0'
+  pod 'RealmSwift'
   
   # Pods for iOSapp
 

@@ -71,13 +71,13 @@ class PinCoordinator: Coordinator {
                 self.inSecondEntry = false
                 setLableForMode()
             } else {
-                // Show incorrect animation
+                viewController.onWrongInput()
             }
         case .verify:
             if matchPin(pin) {
                 onSuccess()
             } else {
-                // Show incorrect animation
+                viewController.onWrongInput()
             }
         case .create:
             if !inSecondEntry {
@@ -90,7 +90,7 @@ class PinCoordinator: Coordinator {
                     lock.pinCode = pin
                     onSuccess()
                 } else {
-                    // Show error animation
+                    viewController.onWrongInput()
                     self.firstEntry = ""
                     self.inSecondEntry = false
                     setLableForMode()

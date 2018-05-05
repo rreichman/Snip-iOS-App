@@ -10,7 +10,7 @@ import Foundation
 
 struct NetworkSettings {
     static let main_net: NetworkSettings = NetworkSettings("https://api.etherscan.io", "https://mainnet.infura.io/Ha2ZDaCPOOY6q0OPbYlD", "0x44F588aEeB8C44471439D1270B3603c66a9262F1", 1)
-    static let rinkeby: NetworkSettings = NetworkSettings("http://api-rinkeby.etherscan.io", "https://rinkeby.infura.io/Ha2ZDaCPOOY6q0OPbYlD", "0x2b8808a54fd3c55e01d3b95b6f1a0eaab3f952cc", 4)
+    static let rinkeby: NetworkSettings = NetworkSettings("https://api-rinkeby.etherscan.io", "https://rinkeby.infura.io/Ha2ZDaCPOOY6q0OPbYlD", "0x2b8808a54fd3c55e01d3b95b6f1a0eaab3f952cc", 4)
     
     let etherscan_url: String
     let infura_url: String

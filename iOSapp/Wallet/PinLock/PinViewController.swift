@@ -22,6 +22,7 @@ class PinViewController : UIViewController {
     @IBOutlet var pinButtons : [UIButton]!
     @IBOutlet var messageView: UILabel!
     
+    @IBOutlet var inputContainer: UIView!
     @IBOutlet var displayViews: [UIView]!
     var message: String?
     func setDelegate(delegate: PinViewDelegate) {
@@ -60,10 +61,7 @@ class PinViewController : UIViewController {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
 	
-    func clearDisplay() {
-    	input = ""
-    	update_display()
-	}
+    
     
     func setLabel(label: String) {
     	self.message = label
@@ -82,6 +80,28 @@ class PinViewController : UIViewController {
             }
         }
     }
+    
+    func onWrongInput() {
+        clearDisplay()
+        shake_display()
+    }
+    
+    func clearDisplay() {
+        input = ""
+        update_display()
+    }
+    
+    func shake_display() {
+        let keypath = "position"
+        let animation = CABasicAnimation(keyPath: keypath)
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: inputContainer.center.x - 10, y: inputContainer.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: inputContainer.center.x + 10, y: inputContainer.center.y))
+        inputContainer.layer.add(animation, forKey: keypath)
+    }
+    
     @IBAction func onButtonPress(_ sender: UIButton) {
         if (input.count < 6) {
             if let p = sender.title(for: .normal) {

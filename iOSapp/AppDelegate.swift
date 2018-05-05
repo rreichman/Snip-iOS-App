@@ -18,6 +18,7 @@ import Mixpanel
 import FacebookCore
 import FBSDKCoreKit
 import FacebookLogin
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -51,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let openingViewController : OpeningSplashScreenViewController = (window?.rootViewController) as! OpeningSplashScreenViewController
             openingViewController._snipRetrieverFromWeb.setCurrentUrlString(urlString: (userActivity.webpageURL?.absoluteString)!)
         }
+        
+        RealmManager.instance = RealmManager()
         
         print("app init done \(Date())")
         

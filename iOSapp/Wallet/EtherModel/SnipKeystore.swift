@@ -34,11 +34,40 @@ class SnipKeystore {
         keyFolder: String = "/keystore",
         userDefaults: UserDefaults = UserDefaults.standard
     ) {
+        
         self.keychain = keychain
         self.keyFolder = keyFolder
         self.keyDirectory = URL(fileURLWithPath: dataDir + keyFolder)
+        
         self.userDefaults = userDefaults
         self.keyStore = try! KeyStore(keyDirectory: keyDirectory)
+        
+        //self.deleteWalletFile()
+        //self.keyStore = try! KeyStore(keyDirectory: keyDirectory)
+    }
+    // MARK: Debug
+    func debugDeleteAll() {
+        for account in keyStore.accounts {
+            if let p = keychain.get(account.address.description) {
+                do {
+                    try keyStore.delete(account: account, password: p)
+                    print("\(account.address.description) deleted")
+                } catch {
+                    print(error)
+                }
+                
+            }
+        }
+    }
+    
+    func deleteWalletFile() {
+        let fm = FileManager.default
+        do {
+            try fm.removeItem(at: URL(fileURLWithPath: dataDir + keyFolder))
+        } catch {
+            print("Error deleting keystore file \(error)")
+        }
+        
     }
     
     var address: Address? {
@@ -70,7 +99,7 @@ class SnipKeystore {
         return Single<String>.create { single in
             do {
                 let phrase = Mnemonic.generate(strength: 128)
-                let account = try self.keyStore.import(mnemonic: phrase, passphrase: "", derivationPath: "m/1'", encryptPassword: internalPassword)
+                let account = try self.keyStore.import(mnemonic: phrase, passphrase: "", derivationPath: "m/0'", encryptPassword: internalPassword)
                 self.setPassword(internalPassword, for: account)
                 self.setPhrase(phrase, for: account)
                 self.address = account.address
@@ -91,7 +120,7 @@ class SnipKeystore {
         }
         return Single<Address>.create { single in
             do {
-                let account = try self.keyStore.import(mnemonic: phrase, passphrase: "", derivationPath: "m/1'", encryptPassword: internalPassword)
+                let account = try self.keyStore.import(mnemonic: phrase, passphrase: "", derivationPath: "m/0'", encryptPassword: internalPassword)
                 self.setPassword(internalPassword, for: account)
                 self.setPhrase(phrase, for: account)
                 self.address = account.address

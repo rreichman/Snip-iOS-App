@@ -13,8 +13,8 @@ import Moya
 
 enum EtherscanService {
     //case sendRawTransaction(raw: String)
-    case getTransactionList(address: Address)
-    case getInternalTransactions(address: Address)
+    case getTransactionList(address: String)
+    case getInternalTransactions(address: String)
 }
 
 

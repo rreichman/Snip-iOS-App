@@ -67,7 +67,7 @@ class SetWalletCoordinator: Coordinator {
             SnipKeystore.instance.createWallet()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { p in
-							self.newWalletVC?.setDoneButtonInteraction(can_interact: true)
+							self.newWalletVC?.setInteraction(canInteract: true)
                             self.newWalletVC?.setPhrase(phrase: p)
 						},
 				   		onError: { error in
@@ -88,8 +88,20 @@ class SetWalletCoordinator: Coordinator {
     
     //Step 3b - Get import phrase
     func checkPhrase(phrase: String) {
-        //if its good
-        navigationController.dismiss(animated: true, completion: nil)
+        importWalletVC?.setInteraction(canInteract: false)
+        SnipKeystore.instance.debugDeleteAll()
+        SnipKeystore.instance
+            .importWallet(phrase: phrase)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { (address) in
+                //next
+                //assert(address.description == "0x1b4f8ac6b16524360a09a5bd182cd03fb08fa38f")
+                self.navigationController.dismiss(animated: true, completion: nil)
+            }, onError: { (err) in
+                self.importWalletVC?.showError(err: err.localizedDescription)
+                self.importWalletVC?.setInteraction(canInteract: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func import_canceled() {

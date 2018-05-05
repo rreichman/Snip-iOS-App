@@ -29,8 +29,14 @@ class NewWalletViewController : UIViewController {
             phraseLabel.text = s
         }
 		
-        doneButton.isUserInteractionEnabled = false
+        setInteraction(canInteract: false)
 		
+    }
+    
+    func setInteraction(canInteract: Bool) {
+        doneButton.isUserInteractionEnabled = canInteract
+        let color = (canInteract ? UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0) : UIColor(red: 0.8, green: 0.94, blue: 0.96, alpha: 1.0))
+        doneButton.backgroundColor = color
     }
     
     func setPhrase(phrase: String) {
@@ -39,10 +45,6 @@ class NewWalletViewController : UIViewController {
         }
         self.phrase = phrase
     }
-	
-    func setDoneButtonInteraction(can_interact: Bool) {
-		doneButton.isUserInteractionEnabled = can_interact
-	}
     
     func showError(phrase:String) {
         
