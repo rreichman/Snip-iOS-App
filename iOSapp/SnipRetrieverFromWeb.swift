@@ -12,8 +12,8 @@ class SnipRetrieverFromWeb
 {    
     var areTherePostsRemainingOnServer : Bool = true
     // This is not ideal but is a useful trick to avoid losing the feed's order in case of a bad external snippet
-    var previousUrlString : String = SystemVariables().URL_STRING
-    var currentUrlString : String = SystemVariables().URL_STRING
+    var previousUrlString : String = SystemVariables().URL_STRING + "old/"
+    var currentUrlString : String = SystemVariables().URL_STRING + "old/"
     
     // This is a not to pretty way to know if we're currently at the core view controller. TODO: change this
     var isCoreSnipViewController : Bool = false
