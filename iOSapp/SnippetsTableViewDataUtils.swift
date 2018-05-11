@@ -90,6 +90,8 @@ extension SnippetsTableViewController
                     print("entered first comment")
                     self.shouldEnterCommentOfFirstSnippet = false
                 }
+                
+                self.snipRetrieverFromWeb.lock.unlock()
         }
     }
     
