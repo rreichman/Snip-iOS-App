@@ -12,49 +12,72 @@ class SnipRetrieverFromWeb
 {    
     var areTherePostsRemainingOnServer : Bool = true
     // This is not ideal but is a useful trick to avoid losing the feed's order in case of a bad external snippet
-    var previousUrlString : String = SystemVariables().URL_STRING + "old/"
-    var currentUrlString : String = SystemVariables().URL_STRING + "old/"
+    //var previousUrlString : String = SystemVariables().URL_STRING + "old/"
+    var baseURLString : String = SystemVariables().URL_STRING + "old/"
+    var urlQuery : String = ""
+    var urlNextPage : Int = 0
     
     // This is a not to pretty way to know if we're currently at the core view controller. TODO: change this
     var isCoreSnipViewController : Bool = false
     
     var lock : NSLock = NSLock()
     
-    func setCurrentUrlString(urlString: String)
+    func getFullURLString() -> String
     {
-        previousUrlString = currentUrlString
-        currentUrlString = urlString
+        var fullURLString = baseURLString
+        fullURLString += urlQuery
+        
+        if urlNextPage > 0
+        {
+            if urlQuery.count > 0
+            {
+                fullURLString += "&page=" + String(urlNextPage)
+            }
+            else
+            {
+                fullURLString += "?page=" + String(urlNextPage)
+            }
+        }
+        
+        return fullURLString
+    }
+    
+    func setFullUrlString(urlString: String, query: String)
+    {
+        baseURLString = urlString
+        urlQuery = query
         
         if (isCoreSnipViewController)
         {
-            WebUtils.shared.currentURLString = currentUrlString
+            WebUtils.shared.currentURLString = getFullURLString()
         }
     }
     
     func clean()
     {
-        clean(newUrlString: "")
+        clean(newUrlString: "", newQuery: "")
     }
     
-    func clean(newUrlString : String)
+    func clean(newUrlString : String, newQuery: String)
     {
+        urlNextPage = 0
         areTherePostsRemainingOnServer = true
         if (newUrlString == "")
         {
-            setCurrentUrlString(urlString: SystemVariables().URL_STRING)
+            setFullUrlString(urlString: SystemVariables().URL_STRING, query: "")
         }
         else
         {
-            setCurrentUrlString(urlString: newUrlString)
+            setFullUrlString(urlString: newUrlString, query: newQuery)
         }
         lock.unlock()
     }
     
     func getSnipsJsonFromWebServer(completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool, errorHandler : (() -> Void)? = nil)
     {
-        print("POSTS: getting posts. Current URL string: \(currentUrlString)")
+        print("POSTS: getting posts. Current URL string: \(getFullURLString())")
         
-        let urlRequest: URLRequest = getDefaultURLRequest(serverString: currentUrlString, method: "GET")
+        let urlRequest: URLRequest = getDefaultURLRequest(serverString: getFullURLString(), method: "GET")
         
         if (!areTherePostsRemainingOnServer)
         {
@@ -79,7 +102,7 @@ class SnipRetrieverFromWeb
                     {
                         Logger().logErrorInSnippetCollecting()
                         print("REVERTED to previous string!")
-                        self.setCurrentUrlString(urlString: self.previousUrlString)
+                        self.clean()
                         
                         errorHandler!()
                     }
@@ -91,18 +114,13 @@ class SnipRetrieverFromWeb
                 {
                     print("got error in data request")
                     Logger().logErrorInSnippetCollecting()
-                    self.setCurrentUrlString(urlString: SystemVariables().URL_STRING)
+                    self.setFullUrlString(urlString: SystemVariables().URL_STRING, query: "")
                     
                     errorHandler!()
                 }
             }
             print("at end of data request \(Date())")
         }).resume()
-    }
-
-    func getNextPage(next_page : Int) -> String
-    {
-        return SystemVariables().URL_STRING + "?page=" + String(next_page)
     }
 
     func loadDataFromWebIntoFeed(resultArray: [String : Any], completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool)
@@ -120,7 +138,7 @@ class SnipRetrieverFromWeb
         }
         else
         {
-            self.setCurrentUrlString(urlString: self.getNextPage(next_page: resultArray["next_page"] as! Int))
+            urlNextPage = resultArray["next_page"] as! Int
         }
         
         for postAsJson in postsAsJson

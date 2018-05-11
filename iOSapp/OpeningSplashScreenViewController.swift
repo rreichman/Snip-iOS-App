@@ -64,7 +64,7 @@ class OpeningSplashScreenViewController: UIViewController
     
     override func restoreUserActivityState(_ userActivity: NSUserActivity)
     {
-        snippetsTableViewController.operateRefresh(newUrlString: (userActivity.webpageURL?.absoluteString)!, useActivityIndicator: true)
+        snippetsTableViewController.operateRefresh(newBaseUrlString: (userActivity.webpageURL?.absoluteString)!, newQuery: "", useActivityIndicator: true)
         snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
         
         super.restoreUserActivityState(userActivity)
