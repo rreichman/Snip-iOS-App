@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 import UIKit
 
 protocol GasPriceSelectorDelegate: class {
@@ -19,6 +20,16 @@ class GasPriceSelectorViewController: UIViewController {
     @IBOutlet var lowView: UIView!
     @IBOutlet var mediumView: UIView!
     @IBOutlet var highView: UIView!
+    
+    @IBOutlet var lowPriceLabel: UILabel!
+    @IBOutlet var lowTimeLabel: UILabel!
+    @IBOutlet var mediumPriceLabel: UILabel!
+    @IBOutlet var mediumTimeLabel: UILabel!
+    @IBOutlet var highPriceLabel: UILabel!
+    @IBOutlet var highTimeLabel: UILabel!
+    
+    var gasData: GasData!
+    var gasPriceUpdateNotificationToken: NotificationToken?
     
     var delegate: GasPriceSelectorDelegate!
     override func viewDidLoad() {
@@ -34,6 +45,37 @@ class GasPriceSelectorViewController: UIViewController {
         let tapHigh = UITapGestureRecognizer(target: self, action: #selector(GasPriceSelectorViewController.tapHigh))
         highView.isUserInteractionEnabled = true
         highView.addGestureRecognizer(tapHigh)
+        if gasData != nil {
+            setDataLabels(data: gasData)
+        }
+    }
+    
+    func setModel(gas: GasData) {
+        self.gasData = gas
+        setDataLabels(data: gas)
+        gasPriceUpdateNotificationToken = gasData.observe({ [weak self] (change) in
+            switch change {
+            case .change(let properites):
+                if let v = self {
+                    v.setDataLabels(data: gas)
+                }
+            case .error(let error):
+                print(error)
+            case .deleted:
+                print("gas data was deleted, this will never happen")
+            }
+        })
+    }
+    
+    func setDataLabels(data: GasData) {
+        //If one view is loaded, they all will be ...
+        guard let _ = lowPriceLabel else { return }
+        lowPriceLabel.text = data.humanReadablePrice(for: .low)
+        lowTimeLabel.text = "Average time \(data.humanReadableTime(for: .low))"
+        mediumPriceLabel.text = data.humanReadablePrice(for: .medium)
+        mediumTimeLabel.text = "Average time \(data.humanReadableTime(for: .medium))"
+        highPriceLabel.text = data.humanReadablePrice(for: .high)
+        highTimeLabel.text = "Average time \(data.humanReadableTime(for: .high))"
     }
     
     @objc func tapLow(sender:UITapGestureRecognizer) {
@@ -66,5 +108,8 @@ class GasPriceSelectorViewController: UIViewController {
     }
     @objc func backButtonTapped() {
         delegate?.onCancelGasSelection()
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

@@ -22,14 +22,24 @@ class EtherscanRequest {
     func getTransactions(for address:String) -> Single<[Transaction]> {
         return provider.rx.request(EtherscanService.getTransactionList(address: address))
             .subscribeOn(SingleBackgroundThread.scheduler)
-            .observeOn(MainScheduler.instance)
             .mapServerErrors()
             .mapJSON()
             .map { json -> [Transaction] in
                 guard let obj = json as? [String: Any] else { throw SerializationError.invalid("invalid response json", json)}
-                let transaction_list = try Transaction.parseEtherscanTransactionList(json: obj)
+                let transaction_list = try Transaction.parseEtherscanTransactionList(json: obj, isLog: false)
                 return transaction_list
         }
-            
+    }
+    
+    func getInternalTransactions(for address: String) -> Single<[Transaction]> {
+        return provider.rx.request(EtherscanService.getInternalTransactions(address: address))
+            .subscribeOn(SingleBackgroundThread.scheduler)
+            .mapServerErrors()
+            .mapJSON()
+            .map { json -> [Transaction] in
+                guard let obj = json as? [String: Any] else { throw SerializationError.invalid("invalid response json", json)}
+                let transaction_list = try Transaction.parseEtherscanTransactionList(json: obj, isLog: true)
+                return transaction_list
+        }
     }
 }

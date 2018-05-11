@@ -11,6 +11,7 @@ import UIKit
 
 protocol SetWalletViewDelegate: class {
     func selectionMade(mode: SetWalletType)
+    func onBackPressed()
 }
 class SetWalletViewController : UIViewController {
     var delegate: SetWalletViewDelegate?
@@ -23,7 +24,7 @@ class SetWalletViewController : UIViewController {
         setupNavBar()
     }
     func setupNavBar() {
-        self.navigationItem.title = "SEND SNIP"
+        self.navigationItem.title = "SNIP WALLET"
         let backImage = UIImage(named: "iconClose")
         let fakeBackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         let imageView = UIImageView(image: backImage!)
@@ -35,7 +36,9 @@ class SetWalletViewController : UIViewController {
     
     
     @IBAction func dismissModal(sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        if let d = delegate {
+            d.onBackPressed()
+        }
     }
     
     @IBAction func newWallet() {

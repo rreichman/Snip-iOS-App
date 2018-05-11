@@ -20,44 +20,46 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
     
     public var ethVC: WalletMainViewController!
     public var snipVC: WalletMainViewController!
-    
     @IBOutlet var contentView: UIView!
     var _delegate: WalletMainContainerDelegate!
-    
+    weak var coordinator: WalletCoordinator?
     @IBAction func onSettingsPress() {
         _delegate.onSettingsPressed()
     }
-    
+    /*
+    func showOnViewLoad(nav: UINavigationController) {
+        if self.isViewLoaded {
+            self.show(nav, sender: nil)
+        } else {
+            self.onLoadView = {() in
+                self.show(nav, sender: nil)
+            }
+        }
+    }*/
     func setDelegate(del: WalletMainContainerDelegate) {
         self._delegate = del
     }
-    
+    func backToHomeTab() {
+        if let ct = self.tabBarController {
+            ct.selectedIndex = 0
+        }
+    }
     override func viewDidLoad() {
         buildBar()
         super.viewDidLoad()
+        
+        buildSettingsButton()
         let coord = WalletCoordinator(container: self)
         coord.start()
-        /*
-        //backHeaderView.titleTopConstraint.constant = 32
-        let bundlePath = Bundle.main.path(forResource: "TrustWeb3Provider", ofType: "bundle")
-        let bundle = Bundle(path: bundlePath!)!
-        let jsPath = bundle.path(forResource: "trust-min", ofType: "js")
-        let data = NSData(contentsOfFile: jsPath!)
-        print(data?.length)
-        let datadir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let keysDirectory = URL(fileURLWithPath: datadir + "/keystore")
-        let keyStore = try! KeyStore(keyDirectory: keysDirectory)
-        let string = "miracle lady exhibit potato kangaroo segment swamp tooth neglect ritual vibrant daring"
-        do {
-            let accounts = try keyStore.accounts
-            for a in accounts {
-                print("adr \(a.address) url \(a.url.absoluteString) ")
-            }
-        } catch {
-            print("Unexpected error: \(error).")
+        self.coordinator = coord
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let coord = self.coordinator {
+            coord.onContainerTabSelected()
         }
-        */
-        buildSettingsButton()
+        
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {

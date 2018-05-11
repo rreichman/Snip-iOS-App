@@ -11,12 +11,24 @@ import KeychainSwift
 import TrustCore
 import TrustKeystore
 import RxSwift
+import BigInt
 
 enum WalletError: Error {
     case invalidRecoveryPhrase
 }
+public enum GasLimit {
+    case eth
+    case snip
+}
 
+extension KeyStore {
+    func fuckYourShit() {
+        
+    }
+}
 class SnipKeystore {
+    static let ETH_GAS_LIMIT: BigInt = BigInt(21000)
+    static let TOKEN_GAS_LIMIT: BigInt = BigInt(144000)
     
     static let walletAddressKey = "walletAddressKey"
     static let walletPhraseKey = "walletPhraseKey"
@@ -47,13 +59,16 @@ class SnipKeystore {
     }
     // MARK: Debug
     func debugDeleteAll() {
+        //keychain.clear()
+        //deleteWalletFile()
         for account in keyStore.accounts {
             if let p = keychain.get(account.address.description) {
                 do {
                     try keyStore.delete(account: account, password: p)
                     print("\(account.address.description) deleted")
                 } catch {
-                    print(error)
+                    //deleteWalletFile()
+                    print("Deleting wallet file, we lost a password somehow")
                 }
                 
             }
@@ -63,6 +78,8 @@ class SnipKeystore {
     func deleteWalletFile() {
         let fm = FileManager.default
         do {
+            try FileManager.default.removeItem(at: account!.url)
+            
             try fm.removeItem(at: URL(fileURLWithPath: dataDir + keyFolder))
         } catch {
             print("Error deleting keystore file \(error)")
@@ -91,6 +108,14 @@ class SnipKeystore {
             }
         }
         return nil
+    }
+    
+    var hasWallet: Bool {
+        if let a = self.address {
+            return WalletUtils.validEthAddress(address: a.description)
+        } else {
+            return false
+        }
     }
     
     func createWallet() -> Single<String> {
@@ -134,13 +159,62 @@ class SnipKeystore {
         
     }
     
-    @discardableResult
-    func setPhrase(_ phrase: String, for account: Account) {
+    func makeTransaction (to address: String, gasData: GasData, gasLimit: GasLimit, amount: BigInt, nonce: Int, data: Data) throws -> SignTransaction {
+        guard let account = self.account else {
+            throw TransactionError.insufficentBalance(message: "no account")
+        }
+        var t: SignTransaction = SignTransaction(value: amount, account: account, to: Address.init(string: address), nonce: BigInt(nonce), data: data, gasPrice: gasData.priceInWei(for: gasData.userSelection), gasLimit: (gasLimit == .eth ? SnipKeystore.ETH_GAS_LIMIT : SnipKeystore.TOKEN_GAS_LIMIT), chainID: NetworkSettings.rinkeby.chain_id )
+        return t
+    }
+    
+    func generateRawTokenTransaction() {}
+    
+    func signTransaction(_ transaction: SignTransaction) throws -> (Data, String) {
+        guard let account = self.account else {
+            throw TransactionError.generalErrorMessage(message: "No account in keystore")
+        }
+        guard let password = getPassword(for: account) else {
+            throw TransactionError.generalErrorMessage(message: "Can't get password for private key of wallet")
+        }
+        let signer: Signer
+        if transaction.chainID == 0 {
+            signer = HomesteadSigner()
+        } else {
+            signer = EIP155Signer(chainId: BigInt(transaction.chainID))
+        }
         
+        do {
+            let hash = signer.hash(transaction: transaction)
+            let signature = try keyStore.signHash(hash, account: account, password: password)
+            let (r, s, v) = signer.values(transaction: transaction, signature: signature)
+            let data = RLP.encode([
+                transaction.nonce,
+                transaction.gasPrice,
+                transaction.gasLimit,
+                transaction.to?.data ?? Data(),
+                transaction.value,
+                transaction.data,
+                v, r, s,
+                ])!
+            let transactionID = WalletUtils.dataToHexString(data: rawHash(data))
+            return (data, transactionID)
+        } catch {
+            throw TransactionError.generalErrorMessage(message: "error signing transaction \(error)")
+        }
+    }
+
+    
+    @discardableResult
+    func setPhrase(_ phrase: String, for account: Account) -> Bool {
+        return keychain.set(phrase, forKey: account.address.description+"-phrase", withAccess: .accessibleWhenUnlockedThisDeviceOnly)
     }
     
     @discardableResult
     func setPassword(_ password: String, for account: Account) -> Bool{
         return keychain.set(password, forKey: account.address.description, withAccess: .accessibleWhenUnlockedThisDeviceOnly)
+    }
+    
+    func getPassword(for account: Account) -> String? {
+        return keychain.get(account.address.description)
     }
 }

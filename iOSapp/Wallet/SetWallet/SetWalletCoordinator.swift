@@ -12,7 +12,6 @@ import RxSwift
 
 protocol SetWalletCoordinatorDelegate: class {
     func finished(walletChanged: Bool)
-    func verifyPin(for type:SetWalletType)
 }
 
 class SetWalletCoordinator: Coordinator {
@@ -24,6 +23,7 @@ class SetWalletCoordinator: Coordinator {
     var creationType: SetWalletType!
     weak var presentingVC: UIViewController?
     
+    var containerVC: SetWalletViewController?
     var newWalletVC: NewWalletViewController?
     var importWalletVC: ImportWalletViewController?
     
@@ -35,9 +35,11 @@ class SetWalletCoordinator: Coordinator {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "SetWalletNavController") as! UINavigationController
         let controller = storyboard.instantiateViewController(withIdentifier: "SetWalletViewController") as! SetWalletViewController
+        self.containerVC = controller
         controller.setDelegate(delegate: self)
         navigationController.viewControllers = [controller] as [UIViewController]
-        self.presentingVC?.show(navigationController, sender: nil)
+        
+        self.presentingVC!.present(navigationController, animated: true, completion: nil)
     }
     
     //Step 1 - Get mode
@@ -67,7 +69,6 @@ class SetWalletCoordinator: Coordinator {
             SnipKeystore.instance.createWallet()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { p in
-							self.newWalletVC?.setInteraction(canInteract: true)
                             self.newWalletVC?.setPhrase(phrase: p)
 						},
 				   		onError: { error in
@@ -81,9 +82,9 @@ class SetWalletCoordinator: Coordinator {
     
     //Step 3a - Generate new wallet and phrase
     func newWalletCreated() {
-        //do some service shit
         
         navigationController.dismiss(animated: true, completion: nil)
+        delegate?.finished(walletChanged: true)
     }
     
     //Step 3b - Get import phrase
@@ -94,9 +95,8 @@ class SetWalletCoordinator: Coordinator {
             .importWallet(phrase: phrase)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { (address) in
-                //next
-                //assert(address.description == "0x1b4f8ac6b16524360a09a5bd182cd03fb08fa38f")
                 self.navigationController.dismiss(animated: true, completion: nil)
+                self.delegate?.finished(walletChanged: true)
             }, onError: { (err) in
                 self.importWalletVC?.showError(err: err.localizedDescription)
                 self.importWalletVC?.setInteraction(canInteract: true)
@@ -117,6 +117,14 @@ class SetWalletCoordinator: Coordinator {
 }
 
 extension SetWalletCoordinator: SetWalletViewDelegate {
+    func onBackPressed() {
+        guard let nav = self.navigationController else { return }
+        if let d = self.delegate {
+            d.finished(walletChanged: false)
+        }
+        nav.dismiss(animated: true, completion: nil)
+    }
+    
     func selectionMade(mode: SetWalletType) {
         self.creationType = mode
         showPin()

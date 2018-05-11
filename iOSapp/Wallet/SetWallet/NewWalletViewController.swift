@@ -21,6 +21,8 @@ class NewWalletViewController : UIViewController {
 	@IBOutlet var doneButton: UIButton!
 	var delegate: NewWalletViewDelegate!
     var phrase: String?
+    
+    var phraseGenerated: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
@@ -29,22 +31,28 @@ class NewWalletViewController : UIViewController {
             phraseLabel.text = s
         }
 		
-        setInteraction(canInteract: false)
+        setInteraction(canInteract: phraseGenerated)
 		
     }
     
     func setInteraction(canInteract: Bool) {
-        doneButton.isUserInteractionEnabled = canInteract
-        let color = (canInteract ? UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0) : UIColor(red: 0.8, green: 0.94, blue: 0.96, alpha: 1.0))
-        doneButton.backgroundColor = color
+        if let db = doneButton {
+            db.isUserInteractionEnabled = canInteract
+            let color = (canInteract ? UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0) : UIColor(red: 0.8, green: 0.94, blue: 0.96, alpha: 1.0))
+            db.backgroundColor = color
+        }
+        
     }
     
     func setPhrase(phrase: String) {
         if viewIfLoaded != nil {
             phraseLabel.text = phrase
         }
+        setInteraction(canInteract: true)
         self.phrase = phrase
+        self.phraseGenerated  = true
     }
+    
     
     func showError(phrase:String) {
         

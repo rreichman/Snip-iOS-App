@@ -62,8 +62,13 @@ class ShareAddressViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     @IBAction func onCopyButton() {
+        guard let address = self.public_address else { return }
+        UIPasteboard.general.string = address
     }
     @IBAction func onOtherShare() {
+        guard let address = self.public_address else { return }
+        let ac = UIActivityViewController(activityItems: [address], applicationActivities: [])
+        present(ac, animated: true, completion: nil)
     }
     @IBAction func onClose() {
         dismiss(animated: true, completion: nil)

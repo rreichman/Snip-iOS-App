@@ -45,14 +45,16 @@ extension EtherscanService: TargetType {
     var task: Task {
         switch self {
         case .getInternalTransactions(let address):
+            let strip_short_prefix = String(address[address.index(address.startIndex, offsetBy:2)...])
+            let address_data = "0x000000000000000000000000\(strip_short_prefix)"
             return .requestParameters(parameters:
                 ["module" : "logs",
                  "action" : "getLogs",
                  "fromBlock" : "0",
                  "toBlock" : "latest",
                  "apikey" : api_key,
-                 "address" : address,
-                 "topic2" : address],
+                 "address" : contract_address,
+                 "topic2" : address_data],
           encoding: URLEncoding.queryString)
         case .getTransactionList(let address):
             return .requestParameters(parameters:
