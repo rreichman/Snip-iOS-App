@@ -22,7 +22,7 @@ class WalletMainViewController : UIViewController {
     @IBOutlet var headerContainer: UIView!
     @IBOutlet var balance_text: UILabel!
     @IBOutlet var usdText: UILabel!
-    @IBOutlet var tabelViewOutlet: UITableView!
+    @IBOutlet var tableViewOutlet: UITableView!
     var notificationToken: NotificationToken? = nil
     var balanceNotificationToken: NotificationToken? = nil
     var exchangeNotificationToken: NotificationToken? = nil
@@ -39,13 +39,20 @@ class WalletMainViewController : UIViewController {
         super.viewDidLoad()
         //headerContainer.sizeToFit()
         //tabelViewOutlet.tableHeaderView = headerContainer
-        tabelViewOutlet.allowsSelection = false
+        tableViewOutlet.allowsSelection = false
         if (coinType == nil) {
             //Backup to prevent crash, should never be nil
             coinType = CoinType.eth
         }
         token = (coinType == CoinType.snip)
         setBalance()
+        
+        var frame = self.view.bounds
+        frame.origin.y = -frame.size.height
+        let blueView = UIView(frame: frame)
+        blueView.backgroundColor = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+        self.tableViewOutlet.addSubview(blueView)
+        
     
     }
     
@@ -77,7 +84,7 @@ class WalletMainViewController : UIViewController {
         
         // Observe Results Notifications
         notificationToken = transactions!.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let tableView = self?.tabelViewOutlet else { return }
+            guard let tableView = self?.tableViewOutlet else { return }
             switch changes {
             case .initial:
                 // Results are now populated and can be accessed without blocking the UI

@@ -12,6 +12,7 @@
 		230AE450209405E3001A05DC /* ShareAddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 230AE44F209405E3001A05DC /* ShareAddressView.xib */; };
 		230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D45542097FDE70004FBC4 /* GasSetting.swift */; };
 		231290C22087FA700055FDD2 /* SendTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231290C12087FA700055FDD2 /* SendTransactionViewController.swift */; };
+		2312B9D820A66C4F00A41B36 /* SettingPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2312B9D720A66C4F00A41B36 /* SettingPopoverViewController.swift */; };
 		2319A87220A3729200BF588E /* WalletUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2319A87120A3729200BF588E /* WalletUtils.swift */; };
 		232000A12085604C00B702D0 /* WalletMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232000A02085604C00B702D0 /* WalletMainViewController.swift */; };
 		232275F020A3B260006CAD77 /* TransactionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232275EF20A3B260006CAD77 /* TransactionError.swift */; };
@@ -149,6 +150,7 @@
 		230AE44F209405E3001A05DC /* ShareAddressView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareAddressView.xib; sourceTree = "<group>"; };
 		230D45542097FDE70004FBC4 /* GasSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasSetting.swift; sourceTree = "<group>"; };
 		231290C12087FA700055FDD2 /* SendTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTransactionViewController.swift; sourceTree = "<group>"; };
+		2312B9D720A66C4F00A41B36 /* SettingPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPopoverViewController.swift; sourceTree = "<group>"; };
 		2319A87120A3729200BF588E /* WalletUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUtils.swift; sourceTree = "<group>"; };
 		232000A02085604C00B702D0 /* WalletMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMainViewController.swift; sourceTree = "<group>"; };
 		232275EF20A3B260006CAD77 /* TransactionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionError.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				23026B26208535FC00D959E1 /* WalletCoordinator.swift */,
 				232000A02085604C00B702D0 /* WalletMainViewController.swift */,
 				7DD073C120785AB0001D24BD /* WalletMainContainerViewController.swift */,
+				2312B9D720A66C4F00A41B36 /* SettingPopoverViewController.swift */,
 			);
 			path = WalletMain;
 			sourceTree = "<group>";
@@ -987,6 +990,7 @@
 				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
 				236C11CA209D26180026E476 /* DateFmt.swift in Sources */,
 				230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */,
+				2312B9D820A66C4F00A41B36 /* SettingPopoverViewController.swift in Sources */,
 				7D839E2F1FC6843E007501F2 /* CommentTableViewCell.swift in Sources */,
 				236C11DE209D40030026E476 /* SingleBackgroundThread.swift in Sources */,
 				231290C22087FA700055FDD2 /* SendTransactionViewController.swift in Sources */,
