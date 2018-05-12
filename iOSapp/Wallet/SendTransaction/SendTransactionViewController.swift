@@ -44,7 +44,7 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         amountText.delegate = self
-        addDoneButtonOnKeyboard()
+        //addDoneButtonOnKeyboard()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(SendTransactionViewController.tapFunction))
         changeGasSetting.isUserInteractionEnabled = true
@@ -166,7 +166,7 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if let info = notification.userInfo {
+        if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
                 self.view.layoutIfNeeded()

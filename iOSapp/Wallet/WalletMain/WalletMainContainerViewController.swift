@@ -15,7 +15,7 @@ protocol WalletMainContainerDelegate: class {
     func onSettingsPressed()
 }
 
-class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
+class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, UIPopoverPresentationControllerDelegate {
     @IBOutlet var settingsButton: UIButton!
     
     public var ethVC: WalletMainViewController!
@@ -24,7 +24,11 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
     var _delegate: WalletMainContainerDelegate!
     weak var coordinator: WalletCoordinator?
     @IBAction func onSettingsPress() {
-        _delegate.onSettingsPressed()
+        let story = UIStoryboard(name: "Main", bundle: nil)
+        var popover = story.instantiateViewController(withIdentifier: "SettingPopover") as! SettingPopoverViewController
+        popover.updatePopOverViewController(settingsButton, with: self)
+        present(popover, animated: true, completion: nil)
+        //_delegate.onSettingsPressed()
     }
     /*
     func showOnViewLoad(nav: UINavigationController) {
@@ -98,7 +102,10 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        // return UIModalPresentationStyle.FullScreen
+        return UIModalPresentationStyle.none
+    }
     func buildBar() {
         let snipBlue = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
         
@@ -116,5 +123,17 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController {
 
         
     }
+    
+}
+
+extension WalletMainViewController: SettingPopoverViewDelegate {
+    func onRemoveRequested() {
+        //pass
+    }
+    
+    func onChangeRequested() {
+        //pass
+    }
+    
     
 }
