@@ -211,6 +211,7 @@ class SendTransactionCoordinator: Coordinator {
     }
     
     func transactionRequested(to address: String, with amount: String) {
+        guard let vc = self.sendTransactionVC else { return }
         if !WalletUtils.validEthAddress(address: address) {
             //error
             return

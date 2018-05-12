@@ -161,7 +161,7 @@ class SnipKeystore {
     
     func makeTransaction (to address: String, gasData: GasData, gasLimit: GasLimit, amount: BigInt, nonce: Int, data: Data) throws -> SignTransaction {
         guard let account = self.account else {
-            throw TransactionError.insufficentBalance(message: "no account")
+            throw TransactionError.keystoreError(message: "Account not found")
         }
         var t: SignTransaction = SignTransaction(value: amount, account: account, to: Address.init(string: address), nonce: BigInt(nonce), data: data, gasPrice: gasData.priceInWei(for: gasData.userSelection), gasLimit: (gasLimit == .eth ? SnipKeystore.ETH_GAS_LIMIT : SnipKeystore.TOKEN_GAS_LIMIT), chainID: NetworkSettings.rinkeby.chain_id )
         return t
@@ -171,10 +171,10 @@ class SnipKeystore {
     
     func signTransaction(_ transaction: SignTransaction) throws -> (Data, String) {
         guard let account = self.account else {
-            throw TransactionError.generalErrorMessage(message: "No account in keystore")
+            throw TransactionError.keystoreError(message: "Wallet was not found, try reimporting your wallet")
         }
         guard let password = getPassword(for: account) else {
-            throw TransactionError.generalErrorMessage(message: "Can't get password for private key of wallet")
+            throw TransactionError.keystoreError(message: "Invalid wallet, try reimporting your wallet")
         }
         let signer: Signer
         if transaction.chainID == 0 {
@@ -199,7 +199,7 @@ class SnipKeystore {
             let transactionID = WalletUtils.dataToHexString(data: rawHash(data))
             return (data, transactionID)
         } catch {
-            throw TransactionError.generalErrorMessage(message: "error signing transaction \(error)")
+            throw TransactionError.generalErrorMessage(message: "Unable to sign transaction")
         }
     }
 

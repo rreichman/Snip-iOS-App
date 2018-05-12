@@ -11,6 +11,9 @@ import Foundation
 enum TransactionError: Error {
     case insufficentBalance(message: String)
     case nonceTooLow
+    case invalidAmount
+    case keystoreError(message: String)
+    case transmitError
     case generalError
     case generalErrorMessage(message: String)
 }
