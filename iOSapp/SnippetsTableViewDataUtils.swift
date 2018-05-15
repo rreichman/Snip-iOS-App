@@ -90,10 +90,12 @@ extension SnippetsTableViewController
                     print("entered first comment")
                     self.shouldEnterCommentOfFirstSnippet = false
                 }
+                
+                self.snipRetrieverFromWeb.lock.unlock()
         }
     }
     
-    func operateRefresh(newUrlString: String, useActivityIndicator: Bool)
+    func operateRefresh(newBaseUrlString: String, newQuery: String, useActivityIndicator: Bool)
     {
         print("refresh")
         
@@ -107,14 +109,14 @@ extension SnippetsTableViewController
             activityIndicator.startAnimating()
         }
         Logger().logRefreshOfTableView()
-        snipRetrieverFromWeb.clean(newUrlString: newUrlString)
+        snipRetrieverFromWeb.clean(newUrlString: newBaseUrlString, newQuery: newQuery)
         fillSnippetViewController()
         scrollToTopOfTable()
     }
     
     @objc func refresh(_ sender: Any)
     {
-        operateRefresh(newUrlString: "", useActivityIndicator: false)
+        operateRefresh(newBaseUrlString: snipRetrieverFromWeb.baseURLString, newQuery: snipRetrieverFromWeb.urlQuery, useActivityIndicator: false)
     }
     
     func updatePostDataAfterClick(snippetID : Int, upvoteButton: UIImageViewWithMetadata, downvoteButton: UIImageViewWithMetadata)

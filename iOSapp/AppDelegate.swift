@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
             
             let openingViewController : OpeningSplashScreenViewController = (window?.rootViewController) as! OpeningSplashScreenViewController
-            openingViewController._snipRetrieverFromWeb.setCurrentUrlString(urlString: (userActivity.webpageURL?.absoluteString)!)
+            openingViewController._snipRetrieverFromWeb.setFullUrlString(urlString: (userActivity.webpageURL?.absoluteString)!, query: "")
         }
         
         RealmManager.instance = RealmManager()

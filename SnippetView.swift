@@ -397,7 +397,7 @@ class SnippetView: UIView {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
             snippetsViewController.shouldHaveBackButton = true
-            snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "?writer=" + writerUsername)
+            snippetsViewController.snipRetrieverFromWeb.setFullUrlString(urlString: SystemVariables().URL_STRING, query: "?writer=" + writerUsername)
             snippetsViewController.shouldShowBackView = false
             snippetsViewController.shouldShowNavigationBar = false
             snippetsViewController.viewControllerToReturnTo = currentViewController

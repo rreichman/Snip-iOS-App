@@ -75,7 +75,7 @@ class SendTransactionCoordinator: Coordinator {
                 }
                 .disposed(by: disposeBag)
         } else {
-            InfuraRequests.instance.getTokenBalance(contract: NetworkSettings.rinkeby.contract_address, wallet: userWallet.address)
+            InfuraRequests.instance.getTokenBalance(contract: NetworkSettings.getNetwork().contract_address, wallet: userWallet.address)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [userWallet] (bal) in
                     try! realm.write {
@@ -101,7 +101,7 @@ class SendTransactionCoordinator: Coordinator {
         }
         let amountField = (type == .eth ? amountInt : BigInt(0))
         let data = (type == .eth ? Data() : ERC20Encoder.encodeTransfer(to: Address(string: address)!, tokens: amountInt.magnitude))
-        let to = (type == .eth ? address : NetworkSettings.rinkeby.contract_address)
+        let to = (type == .eth ? address : NetworkSettings.getNetwork().contract_address)
         let gasLimit = (type == .eth ? GasLimit.eth : GasLimit.snip)
         
         var pendingTransaction: Transaction!

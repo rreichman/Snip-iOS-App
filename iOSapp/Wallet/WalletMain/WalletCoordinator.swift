@@ -60,6 +60,12 @@ class WalletCoordinator: Coordinator {
         compositeDisposable.dispose()
         self.compositeDisposable = CompositeDisposable()
         compositeDisposable.disposed(by: disposeBag)
+        
+        if !SnipKeystore.instance.hasWallet || wallet.isInvalidated {
+            print("got into start_polling with invalid wallet somehow")
+            return
+        }
+        
         let address = wallet.address
         let exchangeData = RealmManager.instance.getExchangeData()
         
@@ -120,7 +126,7 @@ class WalletCoordinator: Coordinator {
         
         let d3 = visiblePollingObservable()
             .flatMap { int -> Single<BigInt> in
-                return InfuraRequests.instance.getTokenBalance(contract: NetworkSettings.rinkeby.contract_address, wallet: address)
+                return InfuraRequests.instance.getTokenBalance(contract: NetworkSettings.getNetwork().contract_address, wallet: address)
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (balance) in
@@ -205,7 +211,7 @@ class WalletCoordinator: Coordinator {
     }
     
     func visiblePollingObservable() -> Observable<Int> {
-        return Observable<Int>.interval(3, scheduler: MainScheduler.instance)
+        return Observable<Int>.interval(10, scheduler: MainScheduler.instance)
             .filter({ [containerVC] int -> Bool in
                 if let v = containerVC?.ethVC {
                     if v.viewIfLoaded?.window != nil {

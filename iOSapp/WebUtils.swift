@@ -124,8 +124,6 @@ class WebUtils
             i += 1
         }
         
-        snipRetriever.lock.unlock()
-        
         return newPostDataArray
     }
     

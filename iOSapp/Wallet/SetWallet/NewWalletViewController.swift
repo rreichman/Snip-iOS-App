@@ -41,8 +41,7 @@ class NewWalletViewController : UIViewController {
             let color = (canInteract ? UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0) : UIColor(red: 0.8, green: 0.94, blue: 0.96, alpha: 1.0))
             db.backgroundColor = color
         }
-        
-        checkImage.image = UIImage(named: "iconCheck")!.resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10))
+    
         
     }
     

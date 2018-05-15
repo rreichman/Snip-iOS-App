@@ -89,7 +89,7 @@ extension Transaction {
         var amount_string: String!
         var amountBigInt: BigInt!
         var shouldIgnore: Bool = false
-        if to_address == NetworkSettings.main_net.contract_address || to_address == NetworkSettings.rinkeby.contract_address {
+        if to_address == NetworkSettings.getNetwork().contract_address {
             coin_type_string = "snip"
         } else {
             coin_type_string = "eth"

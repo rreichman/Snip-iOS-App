@@ -174,6 +174,11 @@ public class Logger
         logEvent(actionName: "infiniteScroll")
     }
     
+    func logAboutToRetrieveSplashScreenSnippets()
+    {
+        logEvent(actionName: "splashSnippets")
+    }
+    
     func logClickCommentButton()
     {
         logEvent(actionName: "clickCommentButton")

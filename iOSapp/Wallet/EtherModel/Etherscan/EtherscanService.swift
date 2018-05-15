@@ -20,14 +20,14 @@ enum EtherscanService {
 
 extension EtherscanService: TargetType {
     var api_key: String {
-        return NetworkSettings.rinkeby.etherscan_api
+        return NetworkSettings.getNetwork().etherscan_api
     }
     
     var contract_address: String {
-        return NetworkSettings.rinkeby.contract_address
+        return NetworkSettings.getNetwork().contract_address
     }
     var baseURL: URL {
-        return URL(string: NetworkSettings.rinkeby.etherscan_url)!
+        return URL(string: NetworkSettings.getNetwork().etherscan_url)!
     }
     
     var path: String {

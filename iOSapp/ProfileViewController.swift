@@ -133,7 +133,7 @@ class ProfileViewController : GenericProgramViewController
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
         snippetsViewController.shouldShowProfileView = false
-        snippetsViewController.snipRetrieverFromWeb.setCurrentUrlString(urlString: SystemVariables().URL_STRING + "my-upvotes/")
+        snippetsViewController.snipRetrieverFromWeb.setFullUrlString(urlString: SystemVariables().URL_STRING + "my-upvotes/", query: "")
         snippetsViewController.viewControllerToReturnTo = self
         snippetsViewController.shouldShowNavigationBar = false
         snippetsViewController.shouldShowBackView = true

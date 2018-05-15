@@ -22,7 +22,7 @@ enum InfuraService {
 
 extension InfuraService: TargetType {
     var api_key: String {
-        return NetworkSettings.rinkeby.infura_api_key
+        return NetworkSettings.getNetwork().infura_api_key
     }
     
     var ethersacn_api_key: String {
@@ -30,7 +30,7 @@ extension InfuraService: TargetType {
     }
     
     var contract_address: String {
-        return NetworkSettings.rinkeby.contract_address
+        return NetworkSettings.getNetwork().contract_address
     }
     
     var baseURL: URL {
@@ -38,16 +38,16 @@ extension InfuraService: TargetType {
         case .ethSendRawTransaction:
             return etherscanBaseURL
         default:
-            return URL(string: NetworkSettings.rinkeby.infura_url)!
+            return URL(string: NetworkSettings.getNetwork().infura_url)!
         }
     }
     
     var etherscanBaseURL: URL {
-        return URL(string: NetworkSettings.rinkeby.etherscan_url)!
+        return URL(string: NetworkSettings.getNetwork().etherscan_url)!
     }
     
     var path: String {
-        var base = "/v1/jsonrpc/rinkeby/"
+        var base = "/v1/jsonrpc/\(NetworkSettings.getNetwork().network_name)/"
         switch self {
         case .ethCall:
             base += "eth_call"

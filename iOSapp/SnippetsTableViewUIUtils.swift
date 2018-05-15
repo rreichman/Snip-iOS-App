@@ -80,7 +80,7 @@ extension SnippetsTableViewController
         let SPARE_ROWS_UNTIL_MORE_SCROLL = 5
         if _postDataArray.count - currentRow < SPARE_ROWS_UNTIL_MORE_SCROLL
         {
-            print("getting more posts. Current URL string: \(snipRetrieverFromWeb.currentUrlString)")
+            print("getting more posts. Current URL string: \(snipRetrieverFromWeb.getFullURLString())")
             Logger().logScrolledToInfiniteScroll()
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
             snipRetrieverFromWeb.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)

@@ -191,7 +191,7 @@ class SnipKeystore {
         guard let account = self.account else {
             throw TransactionError.keystoreError(message: "Account not found")
         }
-        var t: SignTransaction = SignTransaction(value: amount, account: account, to: Address.init(string: address), nonce: BigInt(nonce), data: data, gasPrice: gasData.priceInWei(for: gasData.userSelection), gasLimit: (gasLimit == .eth ? SnipKeystore.ETH_GAS_LIMIT : SnipKeystore.TOKEN_GAS_LIMIT), chainID: NetworkSettings.rinkeby.chain_id )
+        var t: SignTransaction = SignTransaction(value: amount, account: account, to: Address.init(string: address), nonce: BigInt(nonce), data: data, gasPrice: gasData.priceInWei(for: gasData.userSelection), gasLimit: (gasLimit == .eth ? SnipKeystore.ETH_GAS_LIMIT : SnipKeystore.TOKEN_GAS_LIMIT), chainID: NetworkSettings.getNetwork().chain_id )
         return t
     }
     

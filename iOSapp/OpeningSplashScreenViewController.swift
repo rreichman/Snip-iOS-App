@@ -59,12 +59,13 @@ class OpeningSplashScreenViewController: UIViewController
         _snipRetrieverFromWeb.isCoreSnipViewController = true
         _snipRetrieverFromWeb.lock.lock()
         print("about to get snips from server \(Date())")
+        Logger().logAboutToRetrieveSplashScreenSnippets()
         _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
     }
     
     override func restoreUserActivityState(_ userActivity: NSUserActivity)
     {
-        snippetsTableViewController.operateRefresh(newUrlString: (userActivity.webpageURL?.absoluteString)!, useActivityIndicator: true)
+        snippetsTableViewController.operateRefresh(newBaseUrlString: (userActivity.webpageURL?.absoluteString)!, newQuery: "", useActivityIndicator: true)
         snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
         
         super.restoreUserActivityState(userActivity)
@@ -85,10 +86,6 @@ class OpeningSplashScreenViewController: UIViewController
         if (segue.identifier == "segueToTabBarView")
         {
             print("preparing to segue to tab bar view")
-            
-            //promptToUser(promptMessageTitle: "hello", promptMessageBody: _snipRetrieverFromWeb.currentUrlString, viewController: self)
-            //let url : String = UserDefaults.standard.string(forKey: "pizzaz")!
-            //promptToUser(promptMessageTitle: "pizzaz", promptMessageBody: url, viewController: self)
             
             let barViewController : MainTabBarViewController = segue.destination as! MainTabBarViewController
             let mainSnippetsTableViewController = (barViewController.viewControllers?.first as! UINavigationController).viewControllers.first as! SnippetsTableViewController
