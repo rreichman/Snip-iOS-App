@@ -17,6 +17,7 @@ class ShareAddressViewController: UIViewController {
     let presenterDelegate = TransitionDelegate()
     var public_address: String?
     
+    @IBOutlet var copyLabel: UILabel!
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var containerView: UIView!
     @IBOutlet var copyButton: UIButton!
@@ -64,6 +65,7 @@ class ShareAddressViewController: UIViewController {
     @IBAction func onCopyButton() {
         guard let address = self.public_address else { return }
         UIPasteboard.general.string = address
+        copyLabel.isHidden = false
     }
     @IBAction func onOtherShare() {
         guard let address = self.public_address else { return }

@@ -159,25 +159,15 @@ class WalletCoordinator: Coordinator {
     
     func onWalletChanged() {
         let realm = RealmManager.instance.getRealm()
-        let userwallet = realm.objects(UserWallet.self)
         guard var newAddress = SnipKeystore.instance.address?.description else {
             print("onWalletChanged called without an address set in the keystore")
             return
         }
-        
+        deleteUserWallet()
         newAddress = newAddress.lowercased()
         let newWallet = UserWallet()
         newWallet.address = newAddress
         try! realm.write {
-            if userwallet.count == 0 {
-                print("No old wallet in realm, no deletion needed")
-            } else if userwallet.count == 1 {
-                print("Deleting old wallet from realm")
-                realm.delete(userwallet[0])
-            } else {
-                print("!!!!!!!!!!!!!!!!!! Why is there more than one wallet in the realm")
-                realm.delete(userwallet)
-            }
             realm.add(newWallet, update: true)
         }
         containerVC.ethVC.setTransactionData(wallet: newWallet, exchangeData: RealmManager.instance.getExchangeData())
@@ -201,11 +191,11 @@ class WalletCoordinator: Coordinator {
         vc?.present(modalVc, animated: true, completion: nil)
     }
     
-    func showSetWallet() {
+    func showSetWallet(animated: Bool = true) {
         let setWalletCoordinator = SetWalletCoordinator(presentingViewController: containerVC)
         setWalletCoordinator.delegate = self
         childCoordinators.append(setWalletCoordinator)
-        setWalletCoordinator.start()
+        setWalletCoordinator.start(animated: animated)
     }
     
     func showSendTransactionView(type: CoinType, address: String) {
@@ -232,9 +222,33 @@ class WalletCoordinator: Coordinator {
             .observeOn(SingleBackgroundThread.scheduler)
     }
     
+    func deleteUserWallet() {
+        compositeDisposable.dispose()
+        let realm = RealmManager.instance.getRealm()
+        let userwallets = realm.objects(UserWallet.self)
+        try! realm.write {
+            for wallet in userwallets {
+                realm.delete(wallet)
+            }
+        }
+    }
+    
+    func removeWallet() {
+        deleteUserWallet()
+        SnipKeystore.instance.deleteWallet()
+        showSetWallet()
+    }
+    
+    func changePin() {
+        let navController = UINavigationController()
+        containerVC.present(navController, animated: true, completion: nil)
+        let pinCoord = PinCoordinator(navController: navController, mode: .change, delegate: self)
+        pinCoord.start()
+    }
+    
     func onContainerTabSelected() {
         if !SnipKeystore.instance.hasWallet {
-            showSetWallet()
+            showSetWallet(animated: false)
         }
     }
     
@@ -242,6 +256,16 @@ class WalletCoordinator: Coordinator {
         ethVC = nil
         snipVC = nil
         containerVC = nil
+    }
+}
+
+extension WalletCoordinator: PinCoordinatorDelegate {
+    func entryCancled() {
+        //pass
+    }
+    
+    func entrySuccessful() {
+        //pass
     }
 }
 
@@ -255,9 +279,6 @@ extension WalletCoordinator: SetWalletCoordinatorDelegate {
             }
         }
     }
-    
-    
-    
 }
 
 extension WalletCoordinator: WalletViewDelegate {
@@ -272,10 +293,12 @@ extension WalletCoordinator: WalletViewDelegate {
 }
 
 extension WalletCoordinator: WalletMainContainerDelegate {
-    
-    func onSettingsPressed() {
-        showSetWallet()
+    func onRemoveWalletRequested() {
+        removeWallet()
     }
     
+    func onChangePinRequested() {
+        changePin()
+    }
     
 }

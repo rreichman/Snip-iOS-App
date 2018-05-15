@@ -36,10 +36,12 @@ class SettingPopoverViewController : UIViewController {
     
     @IBAction func onRemove(_ sender: UIButton) {
         guard let d = delegate else {return}
+        dismiss(animated: true, completion: nil)
         d.onRemoveRequested()
     }
     @IBAction func onChange(_ sender: UIButton) {
         guard let d = delegate else {return}
+        dismiss(animated: true, completion: nil)
         d.onChangeRequested()
     }
     
@@ -47,7 +49,7 @@ class SettingPopoverViewController : UIViewController {
     func updatePopOverViewController(_ button: UIButton?, with delegate: AnyObject?) {
         guard let button = button else { return }
         modalPresentationStyle = .popover
-        popoverPresentationController?.permittedArrowDirections = [.any]
+        popoverPresentationController?.permittedArrowDirections = .up
         popoverPresentationController?.backgroundColor = UIColor.white
         popoverPresentationController?.sourceView = button
         popoverPresentationController?.sourceRect = button.bounds

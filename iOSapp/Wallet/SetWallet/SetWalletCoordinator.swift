@@ -17,6 +17,7 @@ protocol SetWalletCoordinatorDelegate: class {
 class SetWalletCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let disposeBag: DisposeBag = DisposeBag()
+    var errored: Bool = false
     
     var navigationController: UINavigationController!
     weak var delegate: SetWalletCoordinatorDelegate?
@@ -31,7 +32,7 @@ class SetWalletCoordinator: Coordinator {
         self.presentingVC = presentingViewController
     }
     
-    func start() {
+    func start(animated: Bool) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "SetWalletNavController") as! UINavigationController
         let controller = storyboard.instantiateViewController(withIdentifier: "SetWalletViewController") as! SetWalletViewController
@@ -39,7 +40,7 @@ class SetWalletCoordinator: Coordinator {
         controller.setDelegate(delegate: self)
         navigationController.viewControllers = [controller] as [UIViewController]
         
-        self.presentingVC!.present(navigationController, animated: true, completion: nil)
+        self.presentingVC!.present(navigationController, animated: animated, completion: nil)
     }
     
     //Step 1 - Get mode
@@ -72,8 +73,9 @@ class SetWalletCoordinator: Coordinator {
                             self.newWalletVC?.setPhrase(phrase: p)
 						},
 				   		onError: { error in
-				   			self.newWalletVC?.setPhrase(phrase: error.localizedDescription)
+				   			self.newWalletVC?.setPhrase(phrase: "Error creating wallet, try again")
                             print("Error: ", error)
+                            self.errored = true
                 		})
                 .disposed(by: disposeBag)
             newWalletVC?.setDelegate(delegate: self)
@@ -81,10 +83,14 @@ class SetWalletCoordinator: Coordinator {
     }
     
     //Step 3a - Generate new wallet and phrase
-    func newWalletCreated() {
+    func donePressed() {
         
         navigationController.dismiss(animated: true, completion: nil)
-        delegate?.finished(walletChanged: true)
+        if errored {
+            delegate!.finished(walletChanged: false)
+        } else {
+            delegate!.finished(walletChanged: true)
+        }
     }
     
     //Step 3b - Get import phrase
@@ -98,8 +104,9 @@ class SetWalletCoordinator: Coordinator {
                 self.navigationController.dismiss(animated: true, completion: nil)
                 self.delegate?.finished(walletChanged: true)
             }, onError: { (err) in
-                self.importWalletVC?.showError(err: err.localizedDescription)
-                self.importWalletVC?.setInteraction(canInteract: true)
+                self.importWalletVC!.showError(msg: "Unable to import wallet with that phrase")
+                self.importWalletVC!.setInteraction(canInteract: true)
+                
             })
             .disposed(by: disposeBag)
     }
@@ -146,7 +153,7 @@ extension SetWalletCoordinator: PinCoordinatorDelegate {
 
 extension SetWalletCoordinator: NewWalletViewDelegate {
     func onDonePressed() {
-        newWalletCreated()
+        donePressed()
     }
 }
 

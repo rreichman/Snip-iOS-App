@@ -17,7 +17,7 @@ protocol PinViewDelegate: class {
 }
 
 class PinViewController : UIViewController {
-    weak var delegate: PinViewDelegate!
+    var delegate: PinViewDelegate!
     var input: String = ""
     @IBOutlet var pinButtons : [UIButton]!
     @IBOutlet var messageView: UILabel!
@@ -41,11 +41,20 @@ class PinViewController : UIViewController {
 				mv.text = m
 			}
 		}
+        self.navigationController?.navigationBar.barTintColor = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.white, NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.lato(size: 16)]
+    }
+    
+    func setInteraction(canInteract: Bool) {
+        for button in pinButtons {
+            button.isUserInteractionEnabled = canInteract
+        }
     }
 
     @objc func backButtonTapped() {
-        delegate?.backPressed()
-        //_ = navigationController?.popToRootViewController(animated: true)
+        if let d = self.delegate {
+            d.backPressed()
+        }
     }
     private func whiteBackArrow() {
         let menuBtn = UIButton(type: .custom)

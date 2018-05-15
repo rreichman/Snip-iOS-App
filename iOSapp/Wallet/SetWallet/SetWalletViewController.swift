@@ -34,6 +34,13 @@ class SetWalletViewController : UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: fakeBackButton)
     }
     
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true)
+    }
     
     @IBAction func dismissModal(sender: UIButton) {
         if let d = delegate {

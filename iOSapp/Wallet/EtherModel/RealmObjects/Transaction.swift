@@ -76,7 +76,7 @@ extension Transaction {
         guard let error_string = json["isError"] as? String else { throw SerializationError.missing("isError") }
         guard let con = json["confirmations"] as? String else { throw SerializationError.missing("confirmations")}
         guard let conInt = Int(con) else { throw SerializationError.invalid("Int(\"confirmations\")", con)}
-        guard let to_address = json["to"] as? String else { throw SerializationError.missing("to") }
+        guard var to_address = json["to"] as? String else { throw SerializationError.missing("to") }
         guard let from_address = json["from"] as? String else { throw SerializationError.missing("from") }
         var coin_type_string: String!
         
@@ -105,6 +105,7 @@ extension Transaction {
                 guard let bg = BigInt(amt_sub, radix: 16) else { throw SerializationError.invalid("BigInt(amt)", amt) }
                 amount_string = amt_sub
                 amountBigInt = bg
+                to_address = "0x" + String(amt[amt.index(amt.startIndex, offsetBy:34)..<amt.index(amt.startIndex, offsetBy:74)])
             }
         } else {
             guard let amt = json["value"] as? String else { throw SerializationError.missing("input") }

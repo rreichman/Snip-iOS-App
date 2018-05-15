@@ -44,7 +44,7 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         amountText.delegate = self
-        //addDoneButtonOnKeyboard()
+        addDoneButtonOnKeyboard()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(SendTransactionViewController.tapFunction))
         changeGasSetting.isUserInteractionEnabled = true
@@ -151,17 +151,24 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func dismissModal(sender: UIButton) {
+        self.view.endEditing(true)
         self.delegate.onCancel()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let info = notification.userInfo {
             let rect:CGRect = info ["UIKeyboardFrameEndUserInfoKey"] as! CGRect
-            self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.25, animations: {
+            if changeGasSetting.frame.maxY > self.view.frame.height - rect.height - sendButton.frame.height {
+                sendButton.isHidden = true
                 self.view.layoutIfNeeded()
-                self.sendButtonBottomConstraint.constant = rect.height - 20
-            })
+            } else {
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.view.layoutIfNeeded()
+                    self.sendButtonBottomConstraint.constant = rect.height - 20
+                })
+            }
+            
+            
         }
     }
     
@@ -169,6 +176,7 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
         if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
+                self.sendButton.isHidden = false
                 self.view.layoutIfNeeded()
                 self.sendButtonBottomConstraint.constant = 10
             })
@@ -195,6 +203,15 @@ class SendTransactionViewController : UIViewController, UITextFieldDelegate {
         
         self.amountText.inputAccessoryView = doneToolbar
     }
+    
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error sending transaction", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true)
+    }
+    
     @IBAction func onSendPressed() {
         if let _ = addressInput {
             delegate.onSend(address: addressInput.text!, amount: amountText.text!)

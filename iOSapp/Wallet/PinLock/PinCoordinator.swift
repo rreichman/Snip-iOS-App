@@ -20,11 +20,11 @@ class PinCoordinator: Coordinator {
     var firstEntry: String = ""
     var viewController: PinViewController!
     
-    var navController: UINavigationController!
+    var navController: UINavigationController?
     var delegate: PinCoordinatorDelegate!
     var mode: PinPadAction
     var lock: PinLock
-    init(navController: UINavigationController, mode: PinPadAction, delegate: PinCoordinatorDelegate) {
+    init(navController: UINavigationController?, mode: PinPadAction, delegate: PinCoordinatorDelegate) {
         self.navController = navController
         self.mode = mode
         self.delegate = delegate
@@ -34,8 +34,10 @@ class PinCoordinator: Coordinator {
     func start() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         viewController = storyboard.instantiateViewController(withIdentifier: "PinViewController") as? PinViewController
-        viewController?.setDelegate(delegate: self)
-        navController.pushViewController(viewController!, animated: true)
+        viewController!.setDelegate(delegate: self)
+        if let nc = self.navController {
+            nc.pushViewController(viewController!, animated: true)
+        }
         self.firstEntry = ""
         setLableForMode()
         
@@ -63,12 +65,26 @@ class PinCoordinator: Coordinator {
     }
     
     func onPinEntry(with pin: String) {
+        unowned let unownedSelf = self
+        viewController.setInteraction(canInteract: false)
+        let deadlineTime = DispatchTime.now() + .milliseconds(100)
+        DispatchQueue.main.asyncAfter(deadline: deadlineTime, execute: {
+            unownedSelf.onPinEntryDelayed(with: pin)
+            if let v = unownedSelf.viewController {
+                v.setInteraction(canInteract: true)
+            }
+        })
+        
+    }
+    
+    func onPinEntryDelayed(with pin: String) {
         switch mode {
         case .change:
             if matchPin(pin) {
                 self.mode = .create
                 self.firstEntry = ""
                 self.inSecondEntry = false
+                viewController.clearDisplay()
                 setLableForMode()
             } else {
                 viewController.onWrongInput()
@@ -100,7 +116,14 @@ class PinCoordinator: Coordinator {
     }
     
     func onSuccess() {
-        navController.popViewController(animated: true)
+        
+        if let nc = self.navController {
+            if nc.viewControllers.count == 1 {
+                nc.dismiss(animated: true, completion: nil)
+            } else {
+                nc.popViewController(animated: true)
+            }
+        }
         self.delegate.entrySuccessful()
         self.delegate = nil
         self.viewController = nil
@@ -108,12 +131,19 @@ class PinCoordinator: Coordinator {
     }
     
     func onBackPressed() {
-        navController.popViewController(animated: true)
+        if let nc = navController {
+            if nc.viewControllers.count == 1 {
+                nc.dismiss(animated: true, completion: nil)
+            } else {
+                nc.popViewController(animated: true)
+            }
+        } else {
+            viewController.dismiss(animated: true, completion: nil)
+        }
         self.delegate.entryCancled()
         self.delegate = nil
         self.viewController = nil
         self.navController = nil
-        
     }
     
     

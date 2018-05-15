@@ -12,7 +12,8 @@ import XLPagerTabStrip
 import LatoFont
 
 protocol WalletMainContainerDelegate: class {
-    func onSettingsPressed()
+    func onRemoveWalletRequested()
+    func onChangePinRequested()
 }
 
 class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, UIPopoverPresentationControllerDelegate {
@@ -26,6 +27,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     @IBAction func onSettingsPress() {
         let story = UIStoryboard(name: "Main", bundle: nil)
         var popover = story.instantiateViewController(withIdentifier: "SettingPopover") as! SettingPopoverViewController
+        popover.delegate = self
         popover.updatePopOverViewController(settingsButton, with: self)
         present(popover, animated: true, completion: nil)
         //_delegate.onSettingsPressed()
@@ -126,13 +128,13 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     
 }
 
-extension WalletMainViewController: SettingPopoverViewDelegate {
+extension WalletMainContainerViewController: SettingPopoverViewDelegate {
     func onRemoveRequested() {
-        //pass
+        self._delegate.onRemoveWalletRequested()
     }
     
     func onChangeRequested() {
-        //pass
+        self._delegate.onChangePinRequested()
     }
     
     

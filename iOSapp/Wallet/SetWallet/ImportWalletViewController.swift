@@ -35,8 +35,12 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
         self.delegate = delegate
     }
     
-    func showError(err: String) {
-        
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true)
     }
     
     func setInteraction(canInteract: Bool) {
@@ -73,12 +77,6 @@ class ImportWalletViewController : UIViewController, UIGestureRecognizerDelegate
                 self.importButtonConstraint.constant = 10
             })
         }
-    }
-    
-    func showError(msg: String) {
-        print(msg)
-        
-        
     }
     
     @IBAction func importPressed() {

@@ -42,6 +42,8 @@ class NewWalletViewController : UIViewController {
             db.backgroundColor = color
         }
         
+        checkImage.image = UIImage(named: "iconCheck")!.resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10))
+        
     }
     
     func setPhrase(phrase: String) {
@@ -54,8 +56,12 @@ class NewWalletViewController : UIViewController {
     }
     
     
-    func showError(phrase:String) {
-        
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true)
     }
     
     func setDelegate(delegate: NewWalletViewDelegate) {

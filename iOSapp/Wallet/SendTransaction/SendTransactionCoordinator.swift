@@ -20,6 +20,7 @@ class SendTransactionCoordinator: Coordinator {
     var sendTransactionVC: SendTransactionViewController!
     var gasSettingVC: GasPriceSelectorViewController?
     var transactionSummaryVC: TransactionSummaryController?
+    var confirmationVC: ConfirmationViewController?
     var pinCoordinator: PinCoordinator?
     var type: CoinType
     var prefillAddress: String
@@ -133,6 +134,7 @@ class SendTransactionCoordinator: Coordinator {
                 
                 guard let v = self else { return }
                 if let vc = v.sendTransactionVC {
+                    vc.showError(msg: "There was a problem sending the transaction")
                     vc.setInteraction(canInteract: true)
                 }
             }.disposed(by: disposeBag)
@@ -145,6 +147,16 @@ class SendTransactionCoordinator: Coordinator {
         gasSettingVC!.setDelegate(del: self)
         gasSettingVC!.setModel(gas: RealmManager.instance.getGasData())
         navController.pushViewController(gasSettingVC!, animated: true)
+    }
+    
+    func showConfirmationSheet(type: CoinType, amount: BigInt, gas: BigInt, exchangeData: ExchangeData) {
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        confirmationVC = (main.instantiateViewController(withIdentifier: "Confirmation") as! ConfirmationViewController)
+        confirmationVC!.modalPresentationStyle = .custom
+        confirmationVC!.transitioningDelegate = confirmationVC!.presenterDelegate
+        sendTransactionVC.present(confirmationVC!, animated: true)
+        confirmationVC!.setData(amount: amount, gas: gas, exchangeData: exchangeData, type: type)
+        confirmationVC!.delegate = self
     }
     
     func showPinForVerification() {
@@ -213,26 +225,50 @@ class SendTransactionCoordinator: Coordinator {
     func transactionRequested(to address: String, with amount: String) {
         guard let vc = self.sendTransactionVC else { return }
         if !WalletUtils.validEthAddress(address: address) {
-            //error
+            sendTransactionVC.showError(msg: "Invalid address")
             return
         }
         guard let amount_int = Double(amount) else {
-            //error invalid number entered
+            sendTransactionVC.showError(msg: "Invalid amount")
             return
         }
         
         guard let amount_in_wei = EtherNumberFormatter.init().number(from: amount) else {
-            //error bad parse
+            sendTransactionVC.showError(msg: "Invalid amount")
             return
         }
-        if amount_in_wei <= 0 || amount_in_wei > (self.type == .eth ? userWallet.ethBalance : userWallet.snipBalance) {
-            //bad amount value
+        if amount_in_wei <= 0{
+            sendTransactionVC.showError(msg: "Amount must be greater than 0")
+            return
+        }
+        if amount_in_wei > (self.type == .eth ? userWallet.ethBalance : userWallet.snipBalance) {
+            sendTransactionVC.showError(msg: "Amount is greater than wallet balance")
             return
         }
         self.transactionPendingPin = (address, String(amount_in_wei))
-        // Really show the confirmation dialog
+        
+        let gas_data = RealmManager.instance.getGasData()
+        let exchange_data = RealmManager.instance.getExchangeData()
+        showConfirmationSheet(type: type, amount: amount_in_wei, gas: gas_data.priceInWei(for: gas_data.userSelection), exchangeData: exchange_data)
+    }
+}
+
+extension SendTransactionCoordinator: ConfirmationViewDelegate {
+    func onConfirmed() {
+        if let c = self.confirmationVC {
+            c.dismiss(animated: true, completion: nil)
+        }
+        sendTransactionVC.view.endEditing(true)
         showPinForVerification()
     }
+    
+    func onBack() {
+        if let c = self.confirmationVC {
+            c.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    
 }
 
 extension SendTransactionCoordinator: SendTransactionViewDelegate {

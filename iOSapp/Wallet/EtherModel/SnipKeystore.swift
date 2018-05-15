@@ -86,18 +86,46 @@ class SnipKeystore {
         }
         
     }
+    func deleteWallet() {
+        //catch for if there is somehow more than one account
+        for account in keyStore.accounts {
+            if let p = keychain.get(account.address.description) {
+                do {
+                    try keyStore.delete(account: account, password: p)
+                    print("\(account.address.description) deleted")
+                } catch {
+                    print("Deleting wallet file, we lost a password somehow")
+                }
+                
+            }
+        }
+        self.address = nil
+    }
     
+    var address_string: String {
+        set {
+            userDefaults.set(newValue, forKey: SnipKeystore.walletAddressKey)
+            userDefaults.synchronize()
+        }
+        get {
+            guard let adr = userDefaults.string(forKey: SnipKeystore.walletAddressKey) else { return "" }
+            return adr
+        }
+    }
     var address: Address? {
         set {
             if let a = newValue {
-                let data = a.data
-                userDefaults.set(data, forKey: SnipKeystore.walletAddressKey)
-                userDefaults.synchronize()
+                self.address_string = a.description
+            } else {
+                self.address_string = ""
             }
         }
         get {
-            guard let data = userDefaults.data(forKey: SnipKeystore.walletAddressKey) else { return nil }
-            return Address(data: data)
+            if WalletUtils.validEthAddress(address: self.address_string) {
+                return Address(string: self.address_string)
+            } else {
+                return nil
+            }
         }
     }
     
