@@ -693,8 +693,13 @@
                                         <constraint firstItem="c4l-lm-gJk" firstAttribute="bottom" secondItem="hLK-Mi-BIL" secondAttribute="top" id="lHi-tJ-jE3"/>
                                     </constraints>
                                 </view>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="tFX-OO-meh" userLabel="Footer">
+                                    <rect key="frame" x="0.0" y="435" width="340" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="transactionCell" rowHeight="112" id="wFp-Zl-3l8" userLabel="transactionCell" customClass="TransactionCell" customModule="iOSapp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="transactionCell" rowHeight="112" id="wFp-Zl-3l8" userLabel="transactionCell" customClass="TransactionCell" customModule="iOSapp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="323" width="340" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wFp-Zl-3l8" id="O9y-qZ-mYt">
@@ -702,7 +707,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8Z-Vp-8l5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="111.66666666666667"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="340" height="111.66666666666667"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0x1b4f8ac6 ... fb08fa38f" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VkM-zN-Zxi" userLabel="Address">
                                                             <rect key="frame" x="20" y="20" width="171.33333333333334" height="18.666666666666671"/>
@@ -717,13 +722,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150,000 SNIP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWk-ZE-CvS" userLabel="Amount Label">
-                                                            <rect key="frame" x="186" y="20" width="99" height="18.666666666666671"/>
+                                                            <rect key="frame" x="221" y="20" width="99" height="18.666666666666671"/>
                                                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                                             <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjS-Fk-FEe" userLabel="Status Label">
-                                                            <rect key="frame" x="224" y="42.666666666666664" width="61" height="15.666666666666664"/>
+                                                            <rect key="frame" x="259" y="42.666666666666664" width="61" height="15.666666666666664"/>
                                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                                                             <color key="textColor" white="0.60999999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -3019,8 +3024,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="New wallet created successfully" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bx0-0c-ZiU">
-                                <rect key="frame" x="59.333333333333343" y="147" width="256.33333333333326" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New wallet created successfully" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bx0-0c-ZiU">
+                                <rect key="frame" x="59.333333333333343" y="148" width="256.33333333333326" height="21"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                 <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -3049,21 +3054,21 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t9F-YZ-pzz">
-                                <rect key="frame" x="20" y="193" width="335" height="1"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9F-YZ-pzz">
+                                <rect key="frame" x="20" y="194" width="335" height="1"/>
                                 <color key="backgroundColor" white="0.87" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="JvF-Il-dim"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Copy these 12 words. This will serve as a backup for your wallet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ln1-fD-KUT">
-                                <rect key="frame" x="20" y="214" width="335" height="38.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copy these 12 words. This will serve as a backup for your wallet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ln1-fD-KUT">
+                                <rect key="frame" x="20" y="215" width="335" height="38.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                 <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Generating recovery phrase ..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et9-ee-ACu">
-                                <rect key="frame" x="20" y="266.66666666666674" width="335" height="20.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generating recovery phrase ..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et9-ee-ACu">
+                                <rect key="frame" x="20" y="267.66666666666669" width="335" height="20.666666666666686"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3092,6 +3097,7 @@
                             <constraint firstAttribute="trailing" secondItem="Ln1-fD-KUT" secondAttribute="trailing" constant="20" id="1fQ-27-nNJ"/>
                             <constraint firstItem="sjF-Du-qTC" firstAttribute="centerX" secondItem="iQp-me-b7k" secondAttribute="centerX" id="8Sz-fL-2xl"/>
                             <constraint firstItem="Ln1-fD-KUT" firstAttribute="leading" secondItem="iQp-me-b7k" secondAttribute="leading" constant="20" id="Ako-4R-PCE"/>
+                            <constraint firstItem="bx0-0c-ZiU" firstAttribute="top" secondItem="sjF-Du-qTC" secondAttribute="bottom" constant="20" id="BvX-6l-Xsy"/>
                             <constraint firstItem="et9-ee-ACu" firstAttribute="centerX" secondItem="iQp-me-b7k" secondAttribute="centerX" id="DQM-gx-1kV"/>
                             <constraint firstItem="6Ua-rW-tp2" firstAttribute="bottom" secondItem="RlO-9A-Nfc" secondAttribute="bottom" constant="20" id="EiD-G6-TkX"/>
                             <constraint firstItem="et9-ee-ACu" firstAttribute="top" secondItem="Ln1-fD-KUT" secondAttribute="bottom" constant="14" id="Fkq-oO-j3o"/>

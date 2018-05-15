@@ -79,7 +79,7 @@ DEPENDENCIES:
   - FacebookLogin
   - FacebookShare
   - KeychainSwift (~> 11.0)
-  - LatoFont
+  - LatoFont (from `https://github.com/cj-zeiger/LatoFont`, branch `master`)
   - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
   - Moya/RxSwift (~> 11.0)
   - NextResponderTextField
@@ -109,7 +109,6 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - KeychainSwift
-    - LatoFont
     - Moya
     - NextResponderTextField
     - Realm
@@ -126,6 +125,9 @@ SPEC REPOS:
     - XLPagerTabStrip
 
 EXTERNAL SOURCES:
+  LatoFont:
+    :branch: master
+    :git: https://github.com/cj-zeiger/LatoFont
   Mixpanel-swift:
     :branch: swift4
     :git: https://github.com/mixpanel/mixpanel-swift.git
@@ -134,6 +136,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/TrustWallet/trust-web3-provider
 
 CHECKOUT OPTIONS:
+  LatoFont:
+    :commit: dcdbab89dcd21416f41292954e4b092372944c8b
+    :git: https://github.com/cj-zeiger/LatoFont
   Mixpanel-swift:
     :commit: a057763547eeac578e1effe05a4e26319c8197bd
     :git: https://github.com/mixpanel/mixpanel-swift.git
@@ -156,7 +161,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
   FBSDKShareKit: b7b5002833a4104fbecad75e8e4e082e91c7a08a
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
-  LatoFont: 6ee909ba4326bfa3687d1b80ed743ddb91dabf50
+  LatoFont: 2bb2a5ab140299a3ccdb8bde61a8720d7bef75c7
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   NextResponderTextField: 07ee7b2737981bfd402f63f390bf3de55e245ccd
@@ -174,6 +179,6 @@ SPEC CHECKSUMS:
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 116028342f3cd7fc661b536d0620c5f52150d481
+PODFILE CHECKSUM: 31ec124b87c4c92f65eeabb82c04e549d78e7465
 
 COCOAPODS: 1.5.2

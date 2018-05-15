@@ -24,6 +24,7 @@ class Transaction: Object {
     dynamic var transaction_hash: String = ""
     dynamic var amount_string: String = "0"
     
+    
     var coinType: CoinType {
         switch coin_type_string {
         case "eth":

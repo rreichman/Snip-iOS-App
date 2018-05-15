@@ -74,7 +74,7 @@ class WalletCoordinator: Coordinator {
                 return EtherscanRequest.instance.getTransactions(for: address).asObservable().catchErrorJustReturn([])
             }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (tx_list) in
+            .subscribe(onNext: { [weak self](tx_list) in
                 let realm = RealmManager.instance.getRealm()
                 try! realm.write {
                     for tx in tx_list {
@@ -84,6 +84,7 @@ class WalletCoordinator: Coordinator {
                         }
                     }
                 }
+                if let v = self { v.clean_transactions() }
             }, onError: { err in
                 print("\(err)")
             })
@@ -161,6 +162,19 @@ class WalletCoordinator: Coordinator {
                 print(err)
         }
         compositeDisposable.insert(d4)
+    }
+    
+    func clean_transactions() {
+        //Remove old pending transactions
+        let results = RealmManager.instance.realm.objects(Transaction.self).filter("inNetwork == false")
+        try! RealmManager.instance.realm.write {
+            results.forEach { tx in
+                // 30 Minutes
+                if tx.date.timeIntervalSinceNow < -30 * 60 {
+                    tx.realm?.delete(tx)
+                }
+            }
+        }
     }
     
     func onWalletChanged() {

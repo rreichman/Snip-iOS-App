@@ -40,6 +40,7 @@ class WalletMainViewController : UIViewController {
         //headerContainer.sizeToFit()
         //tabelViewOutlet.tableHeaderView = headerContainer
         tableViewOutlet.allowsSelection = false
+        tableViewOutlet.tableFooterView = UIView()
         if (coinType == nil) {
             //Backup to prevent crash, should never be nil
             coinType = CoinType.eth
