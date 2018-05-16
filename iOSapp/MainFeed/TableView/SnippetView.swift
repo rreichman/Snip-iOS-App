@@ -90,10 +90,10 @@ class SnippetView: UIView {
         let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
-        upvoteButton.unclickedImage = #imageLiteral(resourceName: "upvote")
-        upvoteButton.clickedImage = #imageLiteral(resourceName: "upvoteGreen")
-        downvoteButton.unclickedImage = #imageLiteral(resourceName: "downvote")
-        downvoteButton.clickedImage = #imageLiteral(resourceName: "downvoteRed")
+        upvoteButton.unclickedImage =  UIImage(named: "upvote", in: bundle, compatibleWith: nil)! // #imageLiteral(resourceName: "upvote")
+        upvoteButton.clickedImage = UIImage(named: "upvoteGreen", in: bundle, compatibleWith: nil)! // #imageLiteral(resourceName: "upvoteGreen")
+        downvoteButton.unclickedImage =  UIImage(named: "downvote", in: bundle, compatibleWith: nil)! // #imageLiteral(resourceName: "downvote")
+        downvoteButton.clickedImage =  UIImage(named: "downvoteRed", in: bundle, compatibleWith: nil)! //#imageLiteral(resourceName: "downvoteRed")
         
         //postImage.layer.shouldRasterize = true
         postImage.layer.cornerRadius = CGFloat(10.0)

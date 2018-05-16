@@ -451,7 +451,6 @@
 				236C11D6209D39520026E476 /* SetWallet */,
 				2391D29E2098F71F001DDC9B /* EtherModel */,
 				23BDF12C20818487005DED76 /* PasswordGen.swift */,
-				239F4FB42093A94500093B58 /* Coordinator.swift */,
 				23D1A71F209A50C50071D3E6 /* SnipScheduler.swift */,
 				236C11C9209D26180026E476 /* DateFmt.swift */,
 				2319A87120A3729200BF588E /* WalletUtils.swift */,
@@ -493,21 +492,149 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		7D0047EB1F997E3E00B02D1A = {
+		4018401820ACBC10001DFE6E /* MainFeed */ = {
 			isa = PBXGroup;
 			children = (
-				7DD073BF20784D8D001D24BD /* SettingsMember.swift */,
-				7DD073BD20784D7D001D24BD /* SettingsMember.xib */,
-				7DD073BB20771BB7001D24BD /* BackHeaderView.swift */,
-				7DD073B920771B9D001D24BD /* BackHeaderView.xib */,
+				7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */,
+				7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */,
+				4018401A20ACBC9A001DFE6E /* Comments */,
+				4018401920ACBC3F001DFE6E /* TableView */,
+			);
+			path = MainFeed;
+			sourceTree = "<group>";
+		};
+		4018401920ACBC3F001DFE6E /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */,
+				7D812FC5202423F700968B9E /* CellTextUtils.swift */,
+				7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */,
+				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
+				7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */,
+				7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */,
+				7D85D30E202BEC9600867F8B /* SnippetView.xib */,
+				7D85D30C202BEC7500867F8B /* SnippetView.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		4018401A20ACBC9A001DFE6E /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				7D839E2E1FC6843E007501F2 /* CommentTableViewCell.swift */,
+				7DAD9294203E304500337922 /* CommentView.swift */,
+				7DAD9292203E303600337922 /* CommentView.xib */,
+				7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */,
+				7D7F25C41FD0D6EA000D9860 /* CommentActionData.swift */,
+				7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */,
+				7D820EB01FCE22F800404FA2 /* CommentsTableViewController.swift */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		4018401B20ACBCBF001DFE6E /* User */ = {
+			isa = PBXGroup;
+			children = (
 				7D160E862064A14D00D41279 /* ProfileView.swift */,
 				7D160E8220649DB500D41279 /* ProfileView.xib */,
 				7D1EC477203F92A6004B7B44 /* UserImage.swift */,
 				7D1EC475203F928D004B7B44 /* UserImage.xib */,
-				7D85D30E202BEC9600867F8B /* SnippetView.xib */,
-				7D85D30C202BEC7500867F8B /* SnippetView.swift */,
-				7DAD9292203E303600337922 /* CommentView.xib */,
-				7DAD9294203E304500337922 /* CommentView.swift */,
+				7D6E9EA21FD495B00068D614 /* UserInformation.swift */,
+				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
+				4018401F20ACBD3E001DFE6E /* Settings */,
+				7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */,
+				4018401C20ACBCC6001DFE6E /* SignUpLogin */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		4018401C20ACBCC6001DFE6E /* SignUpLogin */ = {
+			isa = PBXGroup;
+			children = (
+				7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */,
+				7DED9F91206C82EF00218C4C /* LoginDesignUtils.swift */,
+				7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */,
+				7DA998011FE4EC7A0091749F /* LoginOrSignupData.swift */,
+				7DDA3D9C206C5DAE00960252 /* SignupViewController.swift */,
+				7DC58873206B021300BFA5AD /* LoginViewController.swift */,
+			);
+			path = SignUpLogin;
+			sourceTree = "<group>";
+		};
+		4018401D20ACBD06001DFE6E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
+				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
+				7DD073B520757C24001D24BD /* MainTabBarViewController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		4018401E20ACBD1B001DFE6E /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */,
+				7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */,
+				4018402120ACBE3A001DFE6E /* BackHeader */,
+				7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */,
+				7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */,
+				7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */,
+				7D820EAE1FCD19DB00404FA2 /* UITextView+Placeholder.swift */,
+				239F4FB42093A94500093B58 /* Coordinator.swift */,
+				7D0CC8A8207DA9770047A501 /* GenericNavigationController.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		4018401F20ACBD3E001DFE6E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7DD073B72076DA30001D24BD /* SettingsViewController.swift */,
+				7DD073BF20784D8D001D24BD /* SettingsMember.swift */,
+				7DD073BD20784D7D001D24BD /* SettingsMember.xib */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		4018402020ACBDAA001DFE6E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7D93CAE61FD8F6B60044C246 /* CachedData.swift */,
+				7D5C43461FBA6FF900551E49 /* Utils.swift */,
+				7D91DC591FBF79E400771820 /* Logger.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		4018402120ACBE3A001DFE6E /* BackHeader */ = {
+			isa = PBXGroup;
+			children = (
+				7DD073BB20771BB7001D24BD /* BackHeaderView.swift */,
+				7DD073B920771B9D001D24BD /* BackHeaderView.xib */,
+			);
+			path = BackHeader;
+			sourceTree = "<group>";
+		};
+		4018402220ACBE60001DFE6E /* SnipClient */ = {
+			isa = PBXGroup;
+			children = (
+				7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */,
+				7D6E27841FD0D12400E7C2FF /* LogInfo.swift */,
+				7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */,
+				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
+				7D93CAE41FD747710044C246 /* WebUtils.swift */,
+				7D44B56A1FA418B7005482C9 /* ProgramError.swift */,
+				7D44B56C1FA47264005482C9 /* NoError.swift */,
+				7D44B5701FA6ECCA005482C9 /* PostData.swift */,
+				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
+			);
+			path = SnipClient;
+			sourceTree = "<group>";
+		};
+		7D0047EB1F997E3E00B02D1A = {
+			isa = PBXGroup;
+			children = (
 				7D0047F61F997E3E00B02D1A /* iOSapp */,
 				7D00480B1F997E3E00B02D1A /* iOSappTests */,
 				7D0048161F997E3E00B02D1A /* iOSappUITests */,
@@ -530,56 +657,17 @@
 		7D0047F61F997E3E00B02D1A /* iOSapp */ = {
 			isa = PBXGroup;
 			children = (
+				4018402220ACBE60001DFE6E /* SnipClient */,
+				4018402020ACBDAA001DFE6E /* Utils */,
+				4018401E20ACBD1B001DFE6E /* Foundation */,
+				4018401D20ACBD06001DFE6E /* App */,
+				4018401B20ACBCBF001DFE6E /* User */,
+				4018401820ACBC10001DFE6E /* MainFeed */,
 				23BDF12B20818461005DED76 /* Wallet */,
-				7DD073B520757C24001D24BD /* MainTabBarViewController.swift */,
-				7D0CC8A8207DA9770047A501 /* GenericNavigationController.swift */,
-				7DC58873206B021300BFA5AD /* LoginViewController.swift */,
 				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
-				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
-				7D820EB01FCE22F800404FA2 /* CommentsTableViewController.swift */,
-				7DD073B72076DA30001D24BD /* SettingsViewController.swift */,
-				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
-				7D5DAA301F9EB549000FFC15 /* SnippetsTableViewController.swift */,
-				7DCB69DB20699E57005BAD86 /* SnippetsTableViewUIUtils.swift */,
-				7DCB69DD20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift */,
-				7DDA3D9C206C5DAE00960252 /* SignupViewController.swift */,
-				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,
-				7D7F25CC1FD0EE19000D9860 /* ProfileViewController.swift */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
-				7D93CAE21FD73E650044C246 /* ForgotPasswordController.swift */,
-				7D8939AF1F9FEE6F00CFFFDA /* SnippetTableViewCell.swift */,
-				7D839E2E1FC6843E007501F2 /* CommentTableViewCell.swift */,
-				7DF3927E1FB39F2600CECC45 /* NSMutableAttributedString+Extensions.swift */,
 				7D92A1AB1FA033380014D31D /* Images.xcassets */,
 				7D0048031F997E3E00B02D1A /* Info.plist */,
-				7D44B56A1FA418B7005482C9 /* ProgramError.swift */,
-				7D44B56C1FA47264005482C9 /* NoError.swift */,
-				7D44B5701FA6ECCA005482C9 /* PostData.swift */,
-				7D7F25C41FD0D6EA000D9860 /* CommentActionData.swift */,
-				7D820EAE1FCD19DB00404FA2 /* UITextView+Placeholder.swift */,
-				7DA1A94C1FCB7CC200ABB0C4 /* Comment.swift */,
-				7DE89D8E1FD60D9E004AD45E /* CommentUtils.swift */,
-				7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */,
-				7DA1A9501FCB7CFF00ABB0C4 /* SnipImage.swift */,
-				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
-				7DF3F93E1FB63B7100B0E8A3 /* SystemVariables.swift */,
-				7DBD047C1FB8043B009CF09B /* Date+TimeDifferences.swift */,
-				7D5C43461FBA6FF900551E49 /* Utils.swift */,
-				7DA998011FE4EC7A0091749F /* LoginOrSignupData.swift */,
-				7D93CAE41FD747710044C246 /* WebUtils.swift */,
-				7D91DC591FBF79E400771820 /* Logger.swift */,
-				7D5C43481FBA778A00551E49 /* UIImageViewWithMetadata.swift */,
-				7D5C434E1FBBB42F00551E49 /* TableCellDataUtils.swift */,
-				7D4641941FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift */,
-				7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */,
-				7D6E27841FD0D12400E7C2FF /* LogInfo.swift */,
-				7D6E9EA21FD495B00068D614 /* UserInformation.swift */,
-				7D93CAE61FD8F6B60044C246 /* CachedData.swift */,
-				7DD29BBA1FD5F31C0048FC15 /* GenericProgramViewController.swift */,
-				7D812FC5202423F700968B9E /* CellTextUtils.swift */,
-				7DD405E420449A0F00FF3ACB /* SnippetMenu.swift */,
-				7DC588712069C51600BFA5AD /* SignupWelcomeViewController.swift */,
-				7DED9F91206C82EF00218C4C /* LoginDesignUtils.swift */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";

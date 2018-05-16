@@ -12,10 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BackHeaderView" customModule="iOSapp">
             <connections>
-                <outlet property="backButton" destination="Y3o-CU-oot" id="MLe-w8-HQu"/>
-                <outlet property="backButtonView" destination="bQu-VG-eqa" id="egq-w6-kfY"/>
-                <outlet property="headerView" destination="Cyg-NS-QdA" id="i3J-FB-k68"/>
-                <outlet property="titleLabel" destination="00h-fV-aFV" id="HTH-pr-eLf"/>
+                <outlet property="backButtonView" destination="Y3o-CU-oot" id="p5e-fk-4jB"/>
+                <outlet property="headerView" destination="Cyg-NS-QdA" id="U1m-HK-GLY"/>
+                <outlet property="titleLabel" destination="00h-fV-aFV" id="K08-bw-wYj"/>
                 <outlet property="titleLabelTrailingConstraint" destination="XPw-DE-SCz" id="eus-Gb-hXl"/>
             </connections>
         </placeholder>

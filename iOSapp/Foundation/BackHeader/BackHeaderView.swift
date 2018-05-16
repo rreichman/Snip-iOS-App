@@ -7,8 +7,8 @@
 //
 
 import UIKit
-
-class BackHeaderView: UIView
+@IBDesignable
+open class BackHeaderView: UIView
 {
     var contentView : UIView?
     
@@ -23,13 +23,8 @@ class BackHeaderView: UIView
     
     var currentViewController : UIViewController = GenericProgramViewController()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        xibSetup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override open func awakeFromNib() {
+        super.awakeFromNib()
         xibSetup()
     }
     
@@ -67,5 +62,11 @@ class BackHeaderView: UIView
     {
         print("back button clicked")
         goBackToPreviousViewController(navigationController: currentViewController.navigationController!, showNavigationBar: showNavigationBarOnBack)
+    }
+    
+    override open func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        xibSetup()
+        contentView?.prepareForInterfaceBuilder()
     }
 }
