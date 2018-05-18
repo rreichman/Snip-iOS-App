@@ -55,19 +55,21 @@ class OpeningSplashScreenViewController: UIViewController
         print("before super didAppear \(Date())")
         super.viewDidAppear(animated)
         print("after super didAppear \(Date())")
-        
+        /**
         _snipRetrieverFromWeb.isCoreSnipViewController = true
         _snipRetrieverFromWeb.lock.lock()
         print("about to get snips from server \(Date())")
         Logger().logAboutToRetrieveSplashScreenSnippets()
         _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
+         **/
     }
     
     override func restoreUserActivityState(_ userActivity: NSUserActivity)
     {
+        /**
         snippetsTableViewController.operateRefresh(newBaseUrlString: (userActivity.webpageURL?.absoluteString)!, newQuery: "", useActivityIndicator: true)
         snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
-        
+        **/
         super.restoreUserActivityState(userActivity)
     }
     
@@ -83,6 +85,8 @@ class OpeningSplashScreenViewController: UIViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         print("preparing")
+        //TODO: Replace this segue /w coordinator logic
+        /**
         if (segue.identifier == "segueToTabBarView")
         {
             print("preparing to segue to tab bar view")
@@ -95,5 +99,6 @@ class OpeningSplashScreenViewController: UIViewController
             
             print("done seguing to tab bar view")
         }
+        **/
     }
 }

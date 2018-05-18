@@ -7,18 +7,25 @@ class RealmManager {
     static var instance: RealmManager!
     
     var realm: Realm!
+    var memRealm: Realm!
     init() {
+        buildDiskRealm()
+        buildMemoryRealm()
+    }
+    
+    func buildDiskRealm() {
+        let version: UInt64 = 14
         // Inside your application(application:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 9,
+            schemaVersion: version,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above
             migrationBlock: { migration, oldSchemaVersion in
                 // We haven’t migrated anything yet, so oldSchemaVersion == 0
-                if (oldSchemaVersion < 9) {
+                if (oldSchemaVersion < version) {
                     // Nothing to do!
                     // Realm will automatically detect new properties and removed properties
                     // And will update the schema on disk automatically
@@ -34,8 +41,18 @@ class RealmManager {
         print("realm path: \(Realm.Configuration.defaultConfiguration.fileURL!)")
     }
     
+    func buildMemoryRealm() {
+        let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "MyInMemoryRealm"))
+        self.memRealm = realm
+        print("memory realm path: \(Realm.Configuration.defaultConfiguration.fileURL!)")
+    }
+    
     func getRealm() -> Realm {
         return self.realm
+    }
+    
+    func getMemRealm() -> Realm {
+        return self.memRealm
     }
     
     func getGasData() -> GasData {

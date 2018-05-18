@@ -190,7 +190,39 @@ extension SnippetsTableViewController
         snippetView.fullURL = postData.fullURL
         snippetView.currentSnippetId = postData.id
     }
-    
+    /**
+    func loadDataIntoNewSnippet(snippetView: NewSnippetView, shouldTruncate: Bool, postData: PostData)
+    {
+        snippetView.setUpvoteDownvoteImagesAccordingtoVote(snippetView: snippetView, postData : postData)
+        
+        snippetView.writerPostTime.attributedText = postData.timeString
+        snippetView.writerName.attributedText = postData.writerString
+        snippetView.writerUsername = postData.author._username
+        
+        // TODO: this needs to update when user deletes a comment, make it a generic function.
+        snippetView.numberOfCommentsLabel.attributedText = postData.attributedStringOfCommentCount
+        
+        loadImageData(snippetView: snippetView, postData: postData)
+        
+        fillImageDescription(snippetView: snippetView, imageDescription: postData.imageDescriptionAfterHtmlRendering)
+        
+        snippetView.makeSnippetClickable(snippetView: snippetView)
+        snippetView.isTextLongEnoughToBeTruncated = postData.m_isTextLongEnoughToBeTruncated
+        
+        snippetView.truncatedBody = postData.textAsAttributedStringWithTruncation
+        snippetView.nonTruncatedBody = postData.textAsAttributedStringWithoutTruncation
+        
+        setSnippetText(snippetView: snippetView, postData : postData, shouldTruncate: shouldTruncate)
+        
+        setSnippetReferences(snippetView : snippetView, postData: postData, shouldTruncate: shouldTruncate, isTextLongEnoughToBeTruncated:
+            postData.m_isTextLongEnoughToBeTruncated)
+        
+        setSnippetHeadline(snippetView: snippetView, postData : postData)
+        
+        snippetView.fullURL = postData.fullURL
+        snippetView.currentSnippetId = postData.id
+    }
+    **/
     func loadImageData(snippetView: SnippetView, postData: PostData)
     {
         snippetView.postImage.image = nil

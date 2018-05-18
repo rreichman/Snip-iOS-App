@@ -8,8 +8,12 @@
 
 import UIKit
 
-class MainTabBarViewController : UITabBarController
-{
+protocol MainTabBarViewDelegate: class {
+    func onTabSelected(tag: Int)
+}
+
+class MainTabBarViewController : UITabBarController {
+    var _delegate: MainTabBarViewDelegate!
     var currentTabTag = 0
     
     override func viewDidLoad()
@@ -18,6 +22,7 @@ class MainTabBarViewController : UITabBarController
         
         tabBar.tintColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
+        /**
         let tabBarItems : [UITabBarItem] = tabBar.items!
         tabBarItems[0].image = #imageLiteral(resourceName: "home")
         tabBarItems[0].title = "Home"
@@ -30,6 +35,7 @@ class MainTabBarViewController : UITabBarController
         tabBarItems[2].image = #imageLiteral(resourceName: "myAccount")
         tabBarItems[2].title = "Me"
         tabBarItems[2].tag = 2
+ 
         
         let snippetsNavigationController : UINavigationController = viewControllers?[0] as! UINavigationController
         let currentViewController : GenericProgramViewController = snippetsNavigationController.viewControllers[snippetsNavigationController.viewControllers.count - 1] as! GenericProgramViewController
@@ -38,6 +44,7 @@ class MainTabBarViewController : UITabBarController
         {
             (currentViewController as! SnippetsTableViewController).snipRetrieverFromWeb.lock.unlock()
         }
+        **/
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -46,8 +53,9 @@ class MainTabBarViewController : UITabBarController
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
     {
-        print("Tab bar selected. Current tab tag: \(currentTabTag)")
-        
+        print("Tab bar selected. Current tab tag: \(item.tag)")
+        _delegate.onTabSelected(tag: item.tag)
+        /**
         if (item.tag == 0)
         {
             let snippetsNavigationController : UINavigationController = viewControllers?[0] as! UINavigationController
@@ -64,6 +72,7 @@ class MainTabBarViewController : UITabBarController
         }
         
         currentTabTag = item.tag
+        **/
     }
 }
 

@@ -126,11 +126,16 @@ class SnipRetrieverFromWeb
     func loadDataFromWebIntoFeed(resultArray: [String : Any], completionHandler: @escaping (_ postDataArray : [PostData], _ appendDataAndNotReplace : Bool) -> (), appendDataAndNotReplace : Bool)
     {
         print("about to load web data into feed. \(Date())")
+        
+        
         let postsAsJson : [[String : Any]] = resultArray["posts"] as! [[String : Any]]
         var postDataArray : [PostData] = []
         var count = 0
         
+        
         let taskGroup = DispatchGroup()
+        
+        self.areTherePostsRemainingOnServer = false
         
         if !resultArray.keys.contains("next_page")
         {

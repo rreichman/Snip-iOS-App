@@ -21,17 +21,23 @@ class WalletCoordinator: Coordinator {
     var containerVC: WalletMainContainerViewController!
     var userWallet: UserWallet!
     
-    let test_address = "0x7a8f2734d08927b7a569e4887b81f714ba1a82aa"
-    
-    init(container: WalletMainContainerViewController) {
-        self.containerVC = container
-        container.setDelegate(del: self)
+    init() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.containerVC = storyboard.instantiateViewController(withIdentifier: "WalletMainContainerViewController") as! WalletMainContainerViewController
+        let ethVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as! WalletMainViewController
+        ethVC.setCoinType(type: .eth)
         
+        let snipVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as!
+        WalletMainViewController
+        snipVC.setCoinType(type: .snip)
+        ethVC.setDelegate(del: self)
+        snipVC.setDelegate(del: self)
+        containerVC.snipVC = snipVC
+        containerVC.ethVC = ethVC
+        containerVC.setDelegate(del: self)
     }
     
     func start() {
-        containerVC.ethVC.setDelegate(del: self)
-        containerVC.snipVC.setDelegate(del: self)
         
         if SnipKeystore.instance.hasWallet {
             start_with_wallet()

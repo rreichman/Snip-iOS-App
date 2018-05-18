@@ -12,7 +12,7 @@ import RxSwift
 import RxBlocking
 @testable import iOSapp
 
-class iOSappTests: XCTestCase {
+class WalletTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

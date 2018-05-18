@@ -53,11 +53,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     override func viewDidLoad() {
         buildBar()
         super.viewDidLoad()
-        
         buildSettingsButton()
-        let coord = WalletCoordinator(container: self)
-        coord.start()
-        self.coordinator = coord
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,13 +65,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        ethVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as? WalletMainViewController
-        ethVC.setCoinType(type: .eth)
         
-        snipVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as?
-        WalletMainViewController
-        snipVC.setCoinType(type: .snip)
         return [snipVC, ethVC]
     }
     
@@ -121,9 +111,6 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
         
         settings.style.selectedBarBackgroundColor = .white
         settings.style.selectedBarHeight = 2.0
-        
-
-        
     }
     
 }

@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var enteredBackgroundTime : Date = Date(timeIntervalSince1970: 0)
-    
+    var coordinator: AppCoordinator!
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool
     {
         print("in application from URL " + url.absoluteString)
@@ -42,18 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
-        
-        if (launchOptions != nil)
-        {
-            let userActivityDictionary : [String : Any] = launchOptions![UIApplicationLaunchOptionsKey.userActivityDictionary] as! [String : Any]
-            let userActivityKey = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"]
-            let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
-            
-            let openingViewController : OpeningSplashScreenViewController = (window?.rootViewController) as! OpeningSplashScreenViewController
-            openingViewController._snipRetrieverFromWeb.setFullUrlString(urlString: (userActivity.webpageURL?.absoluteString)!, query: "")
-        }
-        
         RealmManager.instance = RealmManager()
+        coordinator = AppCoordinator(window!, rootController: window!.rootViewController as! OpeningSplashScreenViewController)
+        coordinator.start()
+        coordinator.didFinishLaunchingWithOptions(options: launchOptions)
+        
+        
         
         print("app init done \(Date())")
         
@@ -117,13 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Current URL in become active is \(WebUtils.shared.currentURLString)")
         
         let isComingFromSpecificPost : Bool = (WebUtils.shared.currentURLString.range(of: "/post/") != nil)
-        
-        if wasAppLongInBackground && didWeEverEnterBackground && !isComingFromSpecificPost
-        {
-            print("back to opening screen")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            self.window?.rootViewController = storyboard.instantiateInitialViewController()
-        }
+        coordinator.applicationDidBecomeActive(didWeEverEnterBackground, wasAppLongInBackground, isComingFromSpecificPost)
         print("done did become active \(Date())")
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
