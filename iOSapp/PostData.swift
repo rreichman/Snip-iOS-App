@@ -109,8 +109,18 @@ class PostData// : Encodable, Decodable
         date = postJson["date"] as! String
         setImageIfExists(postJson: postJson)
         relatedLinks = postJson["related_links"] as! [[String : Any]]
-        isLiked = (postJson["votes"] as! [String : Bool])["like"]!
-        isDisliked = (postJson["votes"] as! [String : Bool])["dislike"]!
+        
+        if let voteJson = postJson["votes"] as? [String: Any] {
+            if let l = voteJson["like"] as? Bool {
+                isLiked = l
+            } else { isLiked = false }
+            if let d = voteJson["dislike"] as? Bool {
+                isDisliked = d
+            } else { isDisliked = false }
+        } else {
+            isLiked = false
+            isDisliked = false
+        }
         fullURL = postJson["url"] as! String
         comments = convertJsonArrayIntoCommentArray(commentArrayData: postJson["comments"] as! [[String : Any]])
     }
