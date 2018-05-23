@@ -8,8 +8,12 @@
 
 import UIKit
 
-protocol SnipTableViewDelegate: class {
+protocol SnipCellViewDelegate: class {
     func setExpanded(large: Bool, path: IndexPath)
+}
+protocol SnipCellDataDelegate: class {
+    func writeVoteState(to: VoteState, for post: Post)
+    func writeSaveState(saved: Bool, for post: Post)
 }
 
 class NewSnippetTableViewCell: UITableViewCell {
@@ -22,23 +26,28 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var commentInput: UIButton!
     @IBOutlet var sourceLabel: UILabel!
     
-    @IBOutlet var saveButton: UIButton!
+    @IBOutlet var saveButton: ToggleButton!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIButton!
-    @IBOutlet var dislikeButton: UIButton!
-    @IBOutlet var likeButton: UIButton!
+    @IBOutlet var dislikeButton: ToggleButton!
+    @IBOutlet var likeButton: ToggleButton!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     
     @IBOutlet var views: [UIView]!
-    var delegate: SnipTableViewDelegate!
+    var delegate: SnipCellViewDelegate!
+    var dataDelegate: SnipCellDataDelegate!
     var path: IndexPath!
     var expanded = false
     var bottomConstraint: NSLayoutConstraint!
+    var dateFormatter: DateFormatter = DateFormatter()
+    var postData: Post?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
         viewInit()
     }
 
@@ -51,7 +60,11 @@ class NewSnippetTableViewCell: UITableViewCell {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         postImage.layer.cornerRadius = 10
-        contentView.backgroundColor = UIColor.white
+        contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
+        commentInput.layer.cornerRadius = 16
+        commentInput.layer.borderWidth = 1
+        commentInput.layer.borderColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0).cgColor
+        commentInput.titleLabel?.textAlignment = .left
         bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 20)
         //bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
@@ -65,13 +78,26 @@ class NewSnippetTableViewCell: UITableViewCell {
         //Binding of elements that will never be hindden
         titleLabel.text = data.headline
         if let auth = data.author {
-            authorLabel.text = auth.name
+            authorLabel.text = "\(auth.first_name) \(auth.last_name)"
         }
-        dateLabel.text = "2h"
+        dateLabel.text = dateFormatter.string(from: data.date)
         bindImage(imageOpt: data.image)
+        saveButton.bind(on_state: data.saved) { [data] (on) in
+            self.onToggleSave(on: on, for: data)
+        }
+        likeButton.bind(on_state: data.isLiked) { [data] (on) in
+            self.onToggleLike(on: on, for: data)
+        }
+        dislikeButton.bind(on_state: data.isDisliked) {[data] (on) in
+            self.onToggleDislike(on: on, for: data)
+        }
         //Binding of elements that might be hidden
         if expanded {
-            bodyLabel.text = data.text
+            if let richText = data.getAttributedBody() {
+                bodyLabel.attributedText = richText
+            } else {
+                bodyLabel.text = data.text
+            }
             sourceLabel.text = "Source 1"
             //Bind butttons
         } else {
@@ -84,15 +110,13 @@ class NewSnippetTableViewCell: UITableViewCell {
     }
     
     func bindImage(imageOpt: Image?) {
-        guard let image = imageOpt else {
+        guard let image = imageOpt,
+        let data = imageOpt?.data else {
+            postImage.image = nil
             setActivityIndicatorState(loading: true)
             return
         }
         
-        guard let data = image.data else {
-            setActivityIndicatorState(loading: true)
-            return
-        }
         if data.count < 2 {
             setActivityIndicatorState(loading: true)
         } else {
@@ -138,14 +162,34 @@ class NewSnippetTableViewCell: UITableViewCell {
         commentInput.isHidden = hidden
     }
     
+    func onToggleSave(on: Bool, for post: Post) {
+        print("onToggleSave on:\(on)")
+        dataDelegate.writeSaveState(saved: on, for: post)
+    }
+    func onToggleLike(on: Bool, for post: Post) {
+        dataDelegate.writeVoteState(to: .like, for: post)
+    }
+    func onToggleDislike(on: Bool, for post: Post) {
+        dataDelegate.writeVoteState(to: .dislike, for: post)
+    }
     func addTap() {
         titleLabel.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(titleTap))
-        titleLabel.addGestureRecognizer(tap)
+        bodyLabel.isUserInteractionEnabled = true
+        titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
+        bodyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
     }
+
     @objc func titleTap() {
         print("\(self.path) tapped")
         delegate.setExpanded(large: !self.expanded, path: self.path)
     }
-    
+}
+
+extension Post {
+    func getAttributedBody() -> NSMutableAttributedString? {
+        //Possibly strip paragraphs
+        guard let render = NSMutableAttributedString(htmlString: text) else { return nil }
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: 14), NSAttributedStringKey.foregroundColor: UIColorFromRGB(rgbValue: 0x4c4c4c)], range: NSRange(location: 0, length: render.length))
+        return render
+    }
 }

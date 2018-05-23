@@ -11,14 +11,24 @@ import RealmSwift
 
 @objcMembers
 class Category: Object {
+    let topThreePosts = List<Post>()
     let posts = List<Post>()
     let params = List<CategoryParam>()
     
     dynamic var categoryName: String = ""
     dynamic var url: String = ""
+    dynamic var nextPage: Int? = nil
     
     override static func primaryKey() -> String? {
         return "categoryName"
+    }
+    
+    var paramDictionary: [String: Any] {
+        var dict: [String: Any] = [:]
+        for param in self.params {
+            dict[param.param] = param.value
+        }
+        return dict
     }
 }
 
@@ -30,7 +40,7 @@ extension Category {
         guard let topThree = json["posts"] as? [ [String: Any] ] else { throw SerializationError.missing("posts") }
         for postJson in topThree {
             let p = try Post.parseJson(json: postJson)
-            c.posts.append(p)
+            c.topThreePosts.append(p)
         }
         
         guard let paramDict = json["params"] as? [String: Any] else { throw SerializationError.missing("params") }

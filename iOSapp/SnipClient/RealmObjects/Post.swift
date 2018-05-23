@@ -22,8 +22,9 @@ class Post: Object {
     dynamic var image: Image? = nil
     dynamic var isLiked : Bool = false
     dynamic var isDisliked : Bool = false
-    dynamic var voteValue: Float = 0
+    dynamic var voteValue: Double = 0
     dynamic var fullURL : String = ""
+    dynamic var saved: Bool = false
     
     let comments = List<RealmComment>()
     let relatedLinks = List<Link>()
@@ -32,8 +33,6 @@ class Post: Object {
     override static func primaryKey() -> String? {
         return "id"
     }
-    
-    
     
 }
 
@@ -58,12 +57,17 @@ extension Post {
         }
         
         guard let imageJson = json["image"] as? [String: Any] else { throw SerializationError.missing("image") }
-        post.image = try Image.parseJson(json: imageJson)
+        let image = try Image.parseJson(json: imageJson)
+        if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
+            post.image = cached_image
+        } else {
+            post.image = image
+        }
         
         guard let vote = json["votes"] as? [String: Any] else { throw SerializationError.missing("votes")}
         guard let like = vote["like"] as? Bool else { throw SerializationError.missing("like")}
         guard let dislike = vote["dislike"] as? Bool else { throw SerializationError.missing("dislike")}
-        guard let vote_value = vote["value"] as? Float else { throw SerializationError.missing("value")}
+        guard let vote_value = vote["value"] as? Double else { throw SerializationError.missing("value")}
         post.isLiked = like
         post.isDisliked = dislike
         post.voteValue = vote_value
@@ -74,8 +78,22 @@ extension Post {
             let c = try RealmComment.parseJson(json: comment)
             post.comments.append(c)
         }
-        
+        guard let saved = json["saved"] as? Bool else { throw SerializationError.missing("saved") }
+        post.saved = saved
+        guard let timestamp = json["timestamp"] as? Double else { throw SerializationError.missing("timestamp") }
+        let date = Date(timeIntervalSince1970: timestamp.rounded())
+        post.date = date
         
         return post
+    }
+    static func parsePostPage(json: [String: Any]) throws -> [ Post ] {
+        guard let list = json["posts"] as? [ [String: Any] ] else { throw SerializationError.missing("posts") }
+        
+        var parsedList: [ Post ] = []
+        for postJson in list {
+            let post = try parseJson(json: postJson)
+            parsedList.append(post)
+        }
+        return parsedList
     }
 }

@@ -31,20 +31,24 @@ class TabCoordinator: Coordinator {
     }
     
     func buildTabBarControllers() -> [UIViewController] {
+        let snipBlue = UIColor(red: 0, green: 0.7, blue: 0.8, alpha: 1.0)
         
-        let feedCoordinator = FeedNavigationCoordinator()
+        let feedCoordinator = MainFeedCoordinator()
         childCoordinators.append(feedCoordinator)
-        feedCoordinator.navigationController.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 0)
+        
+        
+        let homeImage = #imageLiteral(resourceName: "tabBarHome")
+        feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: homeImage, tag: 0)
         feedCoordinator.start()
         
         let walletCoordinator = WalletCoordinator()
         childCoordinators.append(walletCoordinator)
-        walletCoordinator.containerVC.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
+        walletCoordinator.containerVC.tabBarItem = UITabBarItem(title: "Wallet", image: #imageLiteral(resourceName: "tabBarWallet"), tag: 1)
         walletCoordinator.start()
         
         let userCoordinator = UserCoordinator()
         childCoordinators.append(userCoordinator)
-        userCoordinator.navigationController.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
+        userCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 1)
         userCoordinator.start()
         
         return [ feedCoordinator.navigationController, walletCoordinator.containerVC, userCoordinator.navigationController ]
@@ -55,5 +59,16 @@ class TabCoordinator: Coordinator {
 extension TabCoordinator: MainTabBarViewDelegate {
     func onTabSelected(tag: Int) {
         //pass
+    }
+}
+
+extension UIImage {
+    func tinted(with color: UIColor) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        color.set()
+        withRenderingMode(.alwaysTemplate)
+            .draw(in: CGRect(origin: .zero, size: size))
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

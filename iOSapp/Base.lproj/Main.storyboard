@@ -24,10 +24,11 @@
         <scene sceneID="C1q-ZD-rDU">
             <objects>
                 <tabBarController storyboardIdentifier="MainTabBarViewController" id="HSs-n3-adp" customClass="MainTabBarViewController" customModule="iOSapp" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6Ai-fw-OSH">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="6Ai-fw-OSH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZi-oz-Vq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -131,11 +132,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfM-kv-LUr" userLabel="View Inside of ScrollView">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-e9-yik" customClass="SnippetView" customModule="iOSapp">
+                                                    <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-e9-yik" customClass="SnippetView" customModule="iOSapp">
                                                         <rect key="frame" x="20" y="0.0" width="335" height="459"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
-                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p7q-t1-5rA">
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p7q-t1-5rA">
                                                         <rect key="frame" x="20" y="488" width="335" height="300"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
@@ -691,7 +692,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="transactionCell" rowHeight="112" id="wFp-Zl-3l8" userLabel="transactionCell" customClass="TransactionCell" customModule="iOSapp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="transactionCell" rowHeight="112" id="wFp-Zl-3l8" userLabel="transactionCell" customClass="TransactionCell" customModule="iOSapp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="323" width="340" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wFp-Zl-3l8" id="O9y-qZ-mYt">
@@ -699,7 +700,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8Z-Vp-8l5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="340" height="111.66666666666667"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="111.66666666666667"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0x1b4f8ac6 ... fb08fa38f" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VkM-zN-Zxi" userLabel="Address">
                                                             <rect key="frame" x="20" y="20" width="171.33333333333334" height="18.666666666666671"/>
@@ -714,13 +715,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150,000 SNIP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWk-ZE-CvS" userLabel="Amount Label">
-                                                            <rect key="frame" x="221" y="20" width="99" height="18.666666666666671"/>
+                                                            <rect key="frame" x="186" y="20" width="99" height="18.666666666666671"/>
                                                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                                             <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjS-Fk-FEe" userLabel="Status Label">
-                                                            <rect key="frame" x="259" y="42.666666666666664" width="61" height="15.666666666666664"/>
+                                                            <rect key="frame" x="224" y="42.666666666666664" width="61" height="15.666666666666664"/>
                                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                                                             <color key="textColor" white="0.60999999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -2339,31 +2340,21 @@
             </objects>
             <point key="canvasLocation" x="17" y="-682"/>
         </scene>
-        <!--Home Feed View Controller-->
+        <!--Main Feed View Controller-->
         <scene sceneID="9ve-e4-UvM">
             <objects>
-                <viewController storyboardIdentifier="HomeFeedViewController" id="h6C-cv-NjX" customClass="HomeFeedViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeFeedViewController" id="h6C-cv-NjX" customClass="MainFeedViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JkJ-qO-msz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="54" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="UvM-Kb-tkB">
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="Yo3-UA-IrC" userLabel="Header">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="rno-fw-naz" userLabel="Footer">
-                                    <rect key="frame" x="0.0" y="161.33333333333334" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewSnippetTableViewIdentifier" id="87y-rg-XHs" customClass="NewSnippetTableViewCell" customModule="iOSapp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="99.333333333333343" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="87y-rg-XHs" id="uND-Xq-wvA">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -3222,6 +3213,47 @@
             </objects>
             <point key="canvasLocation" x="5447" y="1003"/>
         </scene>
+        <!--Post List View Controller-->
+        <scene sceneID="9fY-OS-h4L">
+            <objects>
+                <viewController storyboardIdentifier="FeedNavigationViewController" id="7Vc-9q-rP7" customClass="PostListViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Aq9-vK-L7b">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="120" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="pLm-sq-xs2">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewSnippetTableViewIdentifier" id="pux-T4-y3K" customClass="NewSnippetTableViewCell" customModule="iOSapp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pux-T4-y3K" id="Lsm-6o-y3d">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vZ0-0Q-ub1" firstAttribute="bottom" secondItem="pLm-sq-xs2" secondAttribute="bottom" id="Eto-6f-Tvw"/>
+                            <constraint firstItem="pLm-sq-xs2" firstAttribute="top" secondItem="vZ0-0Q-ub1" secondAttribute="top" id="LzO-xG-wrN"/>
+                            <constraint firstItem="vZ0-0Q-ub1" firstAttribute="trailing" secondItem="pLm-sq-xs2" secondAttribute="trailing" id="ZH0-NI-cJE"/>
+                            <constraint firstItem="pLm-sq-xs2" firstAttribute="leading" secondItem="vZ0-0Q-ub1" secondAttribute="leading" id="wqj-fF-Hn3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="vZ0-0Q-ub1"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="pLm-sq-xs2" id="oHH-IK-miO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3US-5F-ivM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1566" y="-701"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bigCommentIcon" width="1800" height="1800"/>
@@ -3236,6 +3268,6 @@
         <image name="signupWithSnipButton" width="93" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5pU-51-Ljz"/>
+        <segue reference="6hN-VZ-Y7g"/>
     </inferredMetricsTieBreakers>
 </document>

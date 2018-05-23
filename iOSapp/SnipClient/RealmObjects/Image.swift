@@ -17,6 +17,14 @@ class Image: Object {
     dynamic var imageHeight: Int = 0
     dynamic var imageWidth: Int = 0
     dynamic var data: Data? = nil
+    
+    override static func primaryKey() -> String? {
+        return "imageUrl"
+    }
+    
+    var hasData: Bool {
+        return data != nil && data!.count > 0
+    }
 }
 
 extension Image {

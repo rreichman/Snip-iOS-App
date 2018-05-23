@@ -7,11 +7,11 @@
 //
 
 import Foundation
-
+import Moya
 
 enum APIError: Error {
     case badMessage(message: String)
     case badStatus(message: String)
-    case serverError(errorMessage: String, code: Int)
-    case requestError(errorMessage: String, code: Int)
+    case serverError(errorMessage: String, code: Int, response: Response)
+    case requestError(errorMessage: String, code: Int, response: Response)
 }

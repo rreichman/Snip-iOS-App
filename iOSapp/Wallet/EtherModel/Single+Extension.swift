@@ -14,11 +14,42 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
     public func mapServerErrors() -> Single<Response> {
         return map { response -> Response in
             if response.statusCode >= 500 {
-                throw APIError.serverError(errorMessage: response.description, code: response.statusCode)
+                throw APIError.serverError(errorMessage: response.description, code: response.statusCode, response: response)
             } else if response.statusCode >= 400 {
-                throw APIError.requestError(errorMessage: response.description, code: response.statusCode)
+                throw APIError.requestError(errorMessage: response.description, code: response.statusCode, response: response)
             }
             return response
         }
+    }
+}
+
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    public func cookieIntercept() -> Single<Response> {
+        return map { response -> Response in
+            guard
+                let headers = response.response?.allHeaderFields as? [String: String],
+                let url = response.response?.url else { return response }
+            let cookies = HTTPCookie.cookies(withResponseHeaderFields: headers, for: url)
+            let snipCookies = cookies.filter({ (cookie) -> Bool in
+                cookie.name == "sniptoday"
+            })
+            //print("cookie: debug request headers \(String(describing: response.request?.allHTTPHeaderFields))")
+            print("cookie: response headers\(headers)")
+            if snipCookies.count > 0 {
+                let snip_cookie = snipCookies[0]
+                //print("old cookie: \(String(describing: SessionManager.instance.sessionCookie)) new cookie: \(snip_cookie.value)")
+                SessionManager.instance.sessionCookie = snip_cookie.value
+            }
+            
+            //print(cookies)
+            return response
+        }
+    }
+}
+
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    public func mapSnipRequest() -> Single<Response> {
+        return mapServerErrors()
+                .cookieIntercept()
     }
 }

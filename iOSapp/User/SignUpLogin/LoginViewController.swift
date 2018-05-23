@@ -261,6 +261,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
                     if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
                     {
                         storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
+                        SnipRequests.instance.buildProfile(authToken: jsonObj["key"] as? String)
                         UserInformation().getUserInformationFromWeb()
                         
                         if (self.viewControllerToReturnTo is ProfileViewController)
