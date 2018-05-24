@@ -13,6 +13,8 @@ import RealmSwift
 protocol MainFeedViewDelegate: class {
     func onCategorySelected(category: Category)
     func refreshFeed()
+    func showDetail(for post: Post)
+    func showWriterPosts(writer: User)
 }
 
 class MainFeedViewController: UIViewController {
@@ -53,11 +55,19 @@ class MainFeedViewController: UIViewController {
                 switch changes {
                 case.update(_, let deletions, let insertions, let modifications):
                     guard let index = categories.index(of: cat) else { return }
-                    print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications) ")
-                    s.tableView.beginUpdates()
-                    s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
-                                         with: .none)
-                    s.tableView.endUpdates()
+                    //print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications) ")
+                    if insertions.count > 0 {
+                        s.expandedSet.removeAll()
+                    }
+                        UIView.performWithoutAnimation {
+                        s.tableView.beginUpdates()
+                        s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
+                                             with: .none)
+                        s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
+                                               with: .none)
+                        
+                        s.tableView.endUpdates()
+                    }
                 default:
                     break
                 }
@@ -152,7 +162,7 @@ extension MainFeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: SnipHeaderView.reuseIdent) as? SnipHeaderView else { return nil }
         guard let list = self.categories else { return nil }
-        header.catLabel.text = list[section].categoryName.uppercased()
+        header.setCatLabel(title: list[section].categoryName.uppercased())
         header.delegate = self
         header.category = list[section]
         return header
@@ -182,6 +192,25 @@ extension MainFeedViewController: UITableViewDelegate {
 }
 
 extension MainFeedViewController: SnipCellViewDelegate {
+    func viewWriterPost(writer: User) {
+        delegate.showWriterPosts(writer: writer)
+    }
+    
+    func postOptions(for post: Post) {
+        PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
+    }
+    
+    func showDetail(for post: Post) {
+        delegate.showDetail(for: post)
+    }
+    
+    func share(msg: String, url: NSURL, sourceView: UIView) {
+        let objects = [msg, url] as [ Any ]
+        let activityVC = UIActivityViewController(activityItems: objects, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = sourceView
+        present(activityVC, animated: true, completion: nil)
+    }
+    
     func setExpanded(large: Bool, path: IndexPath) {
         if large {
             expandedSet.insert(path)

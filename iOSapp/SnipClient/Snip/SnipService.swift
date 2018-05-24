@@ -16,6 +16,9 @@ enum SnipService {
     case buildUserProfile(authToken: String)
     case getUserProfile
     case postVote(post_id: Int, vote_value: Double)
+    case postSave(post_id: Int)
+    case postComment(post_id: Int, parent_id: Int?, body: String)
+    case getSavedSnips(page: Int?)
 }
 
 extension SnipService: TargetType {
@@ -32,13 +35,19 @@ extension SnipService: TargetType {
     var path: String {
         switch self {
         case .main:
-            return "/main"
+            return "/main/"
         case .getUserProfile:
             return "/user/my_profile/"
         case .buildUserProfile:
             return "/user/my_profile/"
         case .postVote(let post_id, _):
             return "/action/\(post_id)/"
+        case .postSave(let post_id):
+            return "/action/\(post_id)/"
+        case .postComment:
+            return "/comments/publish/"
+        case .getSavedSnips:
+            return "/saved-posts/"
         default:
             return ""
         }
@@ -47,6 +56,10 @@ extension SnipService: TargetType {
     var method: Moya.Method {
         switch self {
         case .postVote:
+            return .post
+        case .postSave:
+            return .post
+        case .postComment:
             return .post
         default:
             return .get
@@ -67,6 +80,13 @@ extension SnipService: TargetType {
             }
             params["page_size"] = 20 //TODO:
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case .getSavedSnips(let page):
+            var params: [String: Any] = [:]
+            if let p = page {
+                params["page"] = p
+            }
+            params["page_size"] = 20 //TODO:
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         case .getPostImage:
             return .requestPlain
         case .getUserProfile:
@@ -74,33 +94,53 @@ extension SnipService: TargetType {
         case .buildUserProfile:
             return .requestPlain
         case .postVote(_, let vote_value):
-            let body: [String: Any] = ["action": "vote", "param1": "\(vote_value)"]
-            let action_string = String("action")
+            let action_string = String("vote")
             let vote_val_string = String("\(vote_value)")
             let action = MultipartFormData(provider: .data(action_string.data(using: .utf8)!), name: "action")
             let param1 = MultipartFormData(provider: .data(vote_val_string.data(using: .utf8)!), name: "param1")
             return .uploadMultipart([action, param1])
+        case .postSave:
+            let action_string = String("save")
+            let action = MultipartFormData(provider: .data(action_string.data(using: .utf8)!), name: "action")
+            return .uploadMultipart([action])
+        case .postComment(let post_id, let parent_id, let body):
+            let post_id_name = String("post_id")
+            let post_id_string = String(post_id)
+            let body_name = String("body")
+            let post_id = MultipartFormData(provider: .data(post_id_string.data(using: .utf8)!), name: post_id_name)
+            let body = MultipartFormData(provider: .data(body.data(using: .utf8)!), name: body_name)
+            var params = [post_id, body]
+            if let p_id = parent_id {
+                let parent_id_name = String("parent")
+                let parent_id_string = String(p_id)
+                let parent = MultipartFormData(provider: .data(parent_id_string.data(using: .utf8)!), name: parent_id_name)
+                params.insert(parent, at: 1)
+            }
+            return .uploadMultipart(params)
         }
     }
     
     var headers: [String : String]? {
-        var headers = ["Accept" : "application/json"]
+        var headers = ["Accept" : "application/json", "Referer": "https://www.snip.today/"]
         switch self {
         case .buildUserProfile(let authToken):
             headers["Authorization"] = "Token \(authToken)"
+            break
+        case .getPostImage:
+            return [:]
         default:
             if SessionManager.instance.loggedIn {
                 if let authToken = SessionManager.instance.authToken {
                     
                     headers["Authorization"] = "Token \(authToken)"
-                    
+                    print("Auth Token: \(authToken)")
                 }
             }
             if let session = SessionManager.instance.sessionCookie {
-                headers["cookie"] = "sniptoday=\(session);"
+                headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly; Expires=Wed, 22 Aug 2018 00:05:10 GMT;"
             }
         }
-        print("cookie: request cookies \(headers)")
+        //print("cookie: request cookies \(headers)")
         return headers
     }
     

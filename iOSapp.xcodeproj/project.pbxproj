@@ -79,10 +79,14 @@
 		401F43AA20B37D2A003BECFE /* GeneralFeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */; };
 		403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D120AE03E700E4BF8B /* CategoryParam.swift */; };
 		403505D420AE07DD00E4BF8B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D320AE07DD00E4BF8B /* Image.swift */; };
+		405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F1D3520B75F380066CD94 /* PostContainer.swift */; };
 		406EBA1520B4972100682B58 /* NoHeightHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */; };
 		406EBA1720B4ACD800682B58 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1620B4ACD800682B58 /* ToggleButton.swift */; };
 		406EBA1920B4CC0D00682B58 /* VoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1820B4CC0D00682B58 /* VoteState.swift */; };
 		406EBA1B20B4CE6300682B58 /* PostStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1A20B4CE6300682B58 /* PostStateManager.swift */; };
+		406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1C20B6204500682B58 /* VoteAction.swift */; };
+		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
+		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
 		40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */; };
 		40B7AF0A20AA499D00A4F608 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */; };
 		40DE49A320AF4F3D001701B6 /* SnipFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */; };
@@ -90,6 +94,7 @@
 		40E4B39220AE3C84000EA9F6 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E4B39120AE3C84000EA9F6 /* TabCoordinator.swift */; };
 		40E4B39420AE4267000EA9F6 /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E4B39320AE4267000EA9F6 /* UserCoordinator.swift */; };
 		40E4B39F20AE59B6000EA9F6 /* SnipHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E4B39E20AE59B6000EA9F6 /* SnipHeaderView.swift */; };
+		40F44DCE20B6B79700321479 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F44DCD20B6B79700321479 /* CommentCell.swift */; };
 		40F81F4720AFA63C003157A0 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F81F4620AFA63C003157A0 /* SessionManager.swift */; };
 		5C15116368D27EFFD88AD18C /* Pods_iOSapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A19260EED11E20A5BE48F1 /* Pods_iOSapp.framework */; };
 		7D0047F81F997E3E00B02D1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0047F71F997E3E00B02D1A /* AppDelegate.swift */; };
@@ -247,10 +252,14 @@
 		401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralFeedCoordinator.swift; sourceTree = "<group>"; };
 		403505D120AE03E700E4BF8B /* CategoryParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryParam.swift; sourceTree = "<group>"; };
 		403505D320AE07DD00E4BF8B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		405F1D3520B75F380066CD94 /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoHeightHeaderFooter.swift; sourceTree = "<group>"; };
 		406EBA1620B4ACD800682B58 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		406EBA1820B4CC0D00682B58 /* VoteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteState.swift; sourceTree = "<group>"; };
 		406EBA1A20B4CE6300682B58 /* PostStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateManager.swift; sourceTree = "<group>"; };
+		406EBA1C20B6204500682B58 /* VoteAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAction.swift; sourceTree = "<group>"; };
+		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
 		40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPresentationController.swift; sourceTree = "<group>"; };
 		40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipFooterView.swift; sourceTree = "<group>"; };
@@ -258,6 +267,7 @@
 		40E4B39120AE3C84000EA9F6 /* TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		40E4B39320AE4267000EA9F6 /* UserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		40E4B39E20AE59B6000EA9F6 /* SnipHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipHeaderView.swift; sourceTree = "<group>"; };
+		40F44DCD20B6B79700321479 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		40F81F4620AFA63C003157A0 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		56A19260EED11E20A5BE48F1 /* Pods_iOSapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		745EB04FB0F6A5662BCED726 /* Pods-iOSapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSapp/Pods-iOSapp.release.xcconfig"; sourceTree = "<group>"; };
@@ -692,6 +702,7 @@
 				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
 				4018402B20ACDFC6001DFE6E /* CategoryData.swift */,
 				406EBA1820B4CC0D00682B58 /* VoteState.swift */,
+				406EBA1C20B6204500682B58 /* VoteAction.swift */,
 			);
 			path = SnipClient;
 			sourceTree = "<group>";
@@ -716,6 +727,8 @@
 				401F43A720B35601003BECFE /* PostListViewController.swift */,
 				401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */,
 				406EBA1620B4ACD800682B58 /* ToggleButton.swift */,
+				408E364120B697650072921D /* PostDetailViewController.swift */,
+				408E364320B69B2C0072921D /* PostDetailCoordinator.swift */,
 			);
 			path = NewFeed;
 			sourceTree = "<group>";
@@ -730,6 +743,7 @@
 				4018404020AD029C001DFE6E /* Link.swift */,
 				403505D120AE03E700E4BF8B /* CategoryParam.swift */,
 				403505D320AE07DD00E4BF8B /* Image.swift */,
+				405F1D3520B75F380066CD94 /* PostContainer.swift */,
 			);
 			path = RealmObjects;
 			sourceTree = "<group>";
@@ -742,6 +756,7 @@
 				40E4B39E20AE59B6000EA9F6 /* SnipHeaderView.swift */,
 				40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */,
 				406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */,
+				40F44DCD20B6B79700321479 /* CommentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1245,6 +1260,7 @@
 				7DBD047D1FB8043B009CF09B /* Date+TimeDifferences.swift in Sources */,
 				23F3586B20A2545B00FC6C60 /* GasService.swift in Sources */,
 				23F8ABCB20A10F69007A6BBE /* InfuraRequests.swift in Sources */,
+				40F44DCE20B6B79700321479 /* CommentCell.swift in Sources */,
 				7DCB69DE20699EE7005BAD86 /* SnippetsTableViewDataUtils.swift in Sources */,
 				232000A12085604C00B702D0 /* WalletMainViewController.swift in Sources */,
 				236C11CC209D2D730026E476 /* SerializationError.swift in Sources */,
@@ -1255,6 +1271,7 @@
 				239F4FB52093A94500093B58 /* Coordinator.swift in Sources */,
 				239F4FB92093EC8900093B58 /* CoinType.swift in Sources */,
 				7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */,
+				408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */,
 				7D8939B01F9FEE6F00CFFFDA /* SnippetTableViewCell.swift in Sources */,
 				40E4B39F20AE59B6000EA9F6 /* SnipHeaderView.swift in Sources */,
 				4018404120AD029C001DFE6E /* Link.swift in Sources */,
@@ -1270,9 +1287,12 @@
 				237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */,
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,
 				237561E8208AA0BB00D8018F /* SetWalletViewController.swift in Sources */,
+				408E364220B697650072921D /* PostDetailViewController.swift in Sources */,
 				40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
+				406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */,
+				405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */,
 				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,
 				4018403120ACE287001DFE6E /* SnipRequests.swift in Sources */,
 				40DE49A320AF4F3D001701B6 /* SnipFooterView.swift in Sources */,

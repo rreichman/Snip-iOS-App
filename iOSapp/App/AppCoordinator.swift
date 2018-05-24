@@ -73,7 +73,10 @@ class AppCoordinator: Coordinator {
     
     func applicationDidBecomeActive(_ fromBackground: Bool, _ longBackground: Bool, _ fromPost: Bool) {
         if fromBackground && longBackground && !fromPost {
-            self.window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            let rc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as! OpeningSplashScreenViewController
+            self.window.rootViewController = rc
+            self.rootController = rc
+            loadMainFeed()
         }
     }
     

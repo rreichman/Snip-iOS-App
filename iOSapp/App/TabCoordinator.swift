@@ -31,14 +31,11 @@ class TabCoordinator: Coordinator {
     }
     
     func buildTabBarControllers() -> [UIViewController] {
-        let snipBlue = UIColor(red: 0, green: 0.7, blue: 0.8, alpha: 1.0)
+        let _ = UIColor(red: 0, green: 0.7, blue: 0.8, alpha: 1.0)
         
         let feedCoordinator = MainFeedCoordinator()
         childCoordinators.append(feedCoordinator)
-        
-        
-        let homeImage = #imageLiteral(resourceName: "tabBarHome")
-        feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: homeImage, tag: 0)
+        feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "tabBarHomeTwo"), tag: 0)
         feedCoordinator.start()
         
         let walletCoordinator = WalletCoordinator()

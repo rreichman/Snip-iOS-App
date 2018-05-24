@@ -14,17 +14,27 @@ protocol FeedNavigationViewDelegate: class {
     func onBackPressed()
     func fetchNextPage()
     func refreshFeed()
+    func showDetail(for post: Post)
+    func viewWriterPosts(for writer: User)
 }
 
 class PostListViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var authorLabel: UILabel!
+    @IBOutlet var initialsLabel: UILabel!
+    @IBOutlet var headerContainer: UIView!
     var delegate: FeedNavigationViewDelegate!
     var posts: List<Post>?
     var navDescription: String?
     var notificationToken: NotificationToken?
     var expandedSet = Set<Int>()
     var refreshControl: UIRefreshControl!
+    
+    var displayUserHeader: Bool = false
+    var userName: String = ""
+    var userInitials: String = ""
+    
     override func viewDidLoad() {
         
         if let d = self.navDescription {
@@ -40,10 +50,23 @@ class PostListViewController: UIViewController {
         //tableView.tableFooterView?.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         whiteBackArrow()
         addRefresh()
+        if !self.displayUserHeader {
+            tableView.tableHeaderView = UIView(frame: CGRect.zero)
+            addRefresh()
+        } else {
+            tableView .tableHeaderView = headerContainer
+            authorLabel.text = self.userName
+            initialsLabel.text = self.userInitials
+            
+        }
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
     }
-    
+    func setUserHeader(name: String, initials: String) {
+        self.displayUserHeader = true
+        self.userName = name
+        self.userInitials = initials
+    }
     func setPostQuery(posts: List<Post>, description: String) {
         self.posts = posts
         navDescription = description
@@ -191,6 +214,26 @@ extension PostListViewController: UITableViewDelegate {
 }
 
 extension PostListViewController: SnipCellViewDelegate {
+    func viewWriterPost(writer: User) {
+        delegate.viewWriterPosts(for: writer)
+    }
+    
+    func postOptions(for post: Post) {
+        PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
+    }
+    
+    func showDetail(for post: Post) {
+        delegate.showDetail(for: post)
+    }
+    
+    
+    func share(msg: String, url: NSURL, sourceView: UIView) {
+        let objects = [msg, url] as [ Any ]
+        let activityVC = UIActivityViewController(activityItems: objects, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = sourceView
+        present(activityVC, animated: true, completion: nil)
+    }
+    
     func setExpanded(large: Bool, path: IndexPath) {
         if large {
             expandedSet.insert(path.row)

@@ -10,10 +10,15 @@ import UIKit
 
 protocol SnipCellViewDelegate: class {
     func setExpanded(large: Bool, path: IndexPath)
+    func share(msg: String, url: NSURL, sourceView: UIView)
+    func postOptions(for post: Post)
+    func showDetail(for post: Post)
+    func viewWriterPost(writer: User)
 }
 protocol SnipCellDataDelegate: class {
-    func writeVoteState(to: VoteState, for post: Post)
-    func writeSaveState(saved: Bool, for post: Post)
+    func onVoteAciton(action: VoteAction, for post: Post)
+    func onSaveAciton(saved: Bool, for post: Post)
+    
 }
 
 class NewSnippetTableViewCell: UITableViewCell {
@@ -34,6 +39,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet var numberOfCommentsLabel: UILabel!
     
     @IBOutlet var views: [UIView]!
     var delegate: SnipCellViewDelegate!
@@ -42,7 +48,9 @@ class NewSnippetTableViewCell: UITableViewCell {
     var expanded = false
     var bottomConstraint: NSLayoutConstraint!
     var dateFormatter: DateFormatter = DateFormatter()
-    var postData: Post?
+    var shareMessage: String?
+    var shareUrl: NSURL?
+    var post: Post?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -64,7 +72,9 @@ class NewSnippetTableViewCell: UITableViewCell {
         commentInput.layer.cornerRadius = 16
         commentInput.layer.borderWidth = 1
         commentInput.layer.borderColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0).cgColor
-        commentInput.titleLabel?.textAlignment = .left
+        //commentInput.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        //commentInput.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+
         bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 20)
         //bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
@@ -80,7 +90,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         if let auth = data.author {
             authorLabel.text = "\(auth.first_name) \(auth.last_name)"
         }
-        dateLabel.text = dateFormatter.string(from: data.date)
+        dateLabel.text = data.formattedTimeString()
         bindImage(imageOpt: data.image)
         saveButton.bind(on_state: data.saved) { [data] (on) in
             self.onToggleSave(on: on, for: data)
@@ -98,19 +108,41 @@ class NewSnippetTableViewCell: UITableViewCell {
             } else {
                 bodyLabel.text = data.text
             }
-            sourceLabel.text = "Source 1"
+            var sourceString = ""
+            for source in data.relatedLinks {
+                sourceString += "\(source.title), "
+            }
+            if sourceString.count > 0 {
+                sourceString = String(sourceString[..<sourceString.index(sourceString.endIndex, offsetBy: -2)])
+            }
+            sourceLabel.text = sourceString
+            
+            if data.comments.count > 0 {
+                numberOfCommentsLabel.isHidden = false
+                numberOfCommentsLabel.text = "\(data.comments.count) comment" + (data.comments.count != 1 ? "s" : "")
+                commentInput.titleLabel!.text = "Write a comment ..."
+            } else {
+                numberOfCommentsLabel.isHidden = true
+                commentInput.titleLabel!.text = "Be the first to comment ..."
+            }
             //Bind butttons
         } else {
             bodyLabel.text = ""
             sourceLabel.text = ""
+            numberOfCommentsLabel.isHidden = true
         }
+        self.shareMessage = "Check out this snippet:\n" + data.headline + " "
+        self.shareUrl = NSURL(string: data.fullURL)
         
         setBottomConstraint(large: expanded)
         setHiddenState(large: expanded)
+        
+        commentInput.addTarget(self, action: #selector(commentTap), for: .touchUpInside)
+        self.post = data
     }
     
     func bindImage(imageOpt: Image?) {
-        guard let image = imageOpt,
+        guard let _ = imageOpt,
         let data = imageOpt?.data else {
             postImage.image = nil
             setActivityIndicatorState(loading: true)
@@ -164,24 +196,57 @@ class NewSnippetTableViewCell: UITableViewCell {
     
     func onToggleSave(on: Bool, for post: Post) {
         print("onToggleSave on:\(on)")
-        dataDelegate.writeSaveState(saved: on, for: post)
+        dataDelegate.onSaveAciton(saved: on, for: post)
     }
     func onToggleLike(on: Bool, for post: Post) {
-        dataDelegate.writeVoteState(to: .like, for: post)
+        let action: VoteAction = on ? .likeOn : .likeOff
+        dataDelegate.onVoteAciton(action: action, for: post)
     }
     func onToggleDislike(on: Bool, for post: Post) {
-        dataDelegate.writeVoteState(to: .dislike, for: post)
+        let action: VoteAction = on ? .dislikeOn : .dislikeOff
+        dataDelegate.onVoteAciton(action: action, for: post)
     }
     func addTap() {
         titleLabel.isUserInteractionEnabled = true
         bodyLabel.isUserInteractionEnabled = true
+        authorLabel.isUserInteractionEnabled = true
+        numberOfCommentsLabel.isUserInteractionEnabled = true
+        numberOfCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(commentTap)))
         titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         bodyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
+        shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
+        optionsButton.addTarget(self, action: #selector(postOptionsTab), for: .touchUpInside)
+        authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(authorTap)))
+    }
+    
+    @objc func authorTap() {
+        
+        if let a = post?.author {
+            delegate.viewWriterPost(writer: a)
+        }
+        
     }
 
     @objc func titleTap() {
         print("\(self.path) tapped")
         delegate.setExpanded(large: !self.expanded, path: self.path)
+    }
+    
+    @objc func shareTap() {
+        guard
+            let msg = self.shareMessage,
+            let url = self.shareUrl else { return }
+        delegate.share(msg: msg, url: url, sourceView: shareButton)
+    }
+    
+    @objc func commentTap() {
+        guard let p = self.post else { return }
+        delegate.showDetail(for: p)
+    }
+    
+    @objc func postOptionsTab() {
+        guard let p = self.post else { return }
+        delegate.postOptions(for: p)
     }
 }
 

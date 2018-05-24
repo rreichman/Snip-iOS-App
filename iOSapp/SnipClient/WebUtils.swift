@@ -136,6 +136,7 @@ class WebUtils
                     if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
                     {
                         storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
+                        SessionManager.instance.oldAuthProxy(token: jsonObj["key"] as! String)
                         UserInformation().getUserInformationFromWeb()
                         
                         promptToUserWithAutoDismiss(promptMessageTitle: "Signup successful!", promptMessageBody: "", viewController: viewController, lengthInSeconds: 1, completionHandler: viewController.segueBackToContent)

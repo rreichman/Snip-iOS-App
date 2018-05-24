@@ -96,7 +96,7 @@ class CommentView: UIView
     
     @objc func replyButtonPressed(sender: UITapGestureRecognizer)
     {
-        if (UserInformation().isUserLoggedIn())
+        if (SessionManager.instance.loggedIn)
         {
             externalCommentBox.becomeFirstResponder()
             let comment : CommentView = sender.view?.superview?.superview?.superview as! CommentView

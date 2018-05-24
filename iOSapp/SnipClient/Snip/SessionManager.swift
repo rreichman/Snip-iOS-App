@@ -14,6 +14,8 @@ class SessionManager {
     public static let instance: SessionManager = SessionManager()
     
     static let currentLoginKey: String = "snipCurrentLogin"
+    static let currentLoginName: String = "snipCurrentName"
+    static let currentLoginInitials: String = "snipCurrentInitials"
     static let sessionCookieKey: String = "snipSessionCookie"
     let keychain: KeychainSwift
     let userdefaults: UserDefaults
@@ -37,6 +39,34 @@ class SessionManager {
                 userdefaults.synchronize()
             } else {
                 userdefaults.removeObject(forKey: SessionManager.currentLoginKey)
+                userdefaults.synchronize()
+            }
+        }
+    }
+    var currentLoginName: String? {
+        get {
+            return userdefaults.string(forKey: SessionManager.currentLoginName)
+        }
+        set {
+            if let login = newValue {
+                userdefaults.set(login, forKey: SessionManager.currentLoginName)
+                userdefaults.synchronize()
+            } else {
+                userdefaults.removeObject(forKey: SessionManager.currentLoginName)
+                userdefaults.synchronize()
+            }
+        }
+    }
+    var currentLoginIntitals: String? {
+        get {
+            return userdefaults.string(forKey: SessionManager.currentLoginInitials)
+        }
+        set {
+            if let login = newValue {
+                userdefaults.set(login, forKey: SessionManager.currentLoginInitials)
+                userdefaults.synchronize()
+            } else {
+                userdefaults.removeObject(forKey: SessionManager.currentLoginInitials)
                 userdefaults.synchronize()
             }
         }
@@ -75,6 +105,18 @@ class SessionManager {
             }
             userdefaults.synchronize()
         }
+    }
+    
+    func oldAuthProxy(token: String) {
+        self.authToken = token
+        SnipRequests.instance.buildProfile(authToken: token)
+        
+    }
+    func oldAuthProxyLogout() {
+        self.authToken = nil
+        self.currentLoginUsername = nil
+        self.currentLoginName = nil
+        self.currentLoginIntitals = nil
     }
     
 }

@@ -18,7 +18,7 @@ class Link: Object {
 extension Link {
     static func parseJson(json: [String: Any]) throws -> Link {
         guard let title = json["title"] as? String else { throw SerializationError.missing("title") }
-        guard let url = json["url"] as? String else { throw SerializationError.missing("link") }
+        guard let url = json["link"] as? String else { throw SerializationError.missing("link") }
         let l = Link()
         l.title = title
         l.url = url

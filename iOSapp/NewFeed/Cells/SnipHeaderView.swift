@@ -42,6 +42,10 @@ class SnipHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setCatLabel(title: String) {
+        catLabel.text = "\(title)  ›"
+    }
+    
     func addTap() {
         catLabel.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(titleTap))

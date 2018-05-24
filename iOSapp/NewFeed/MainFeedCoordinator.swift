@@ -48,6 +48,13 @@ class MainFeedCoordinator: Coordinator {
                         realm.add(category, update: true)
                     }
                 }
+                catList.forEach({ (cat) in
+                    cat.topThreePosts.forEach({ (post) in
+                        let headline = post.headline
+                        let short = String(headline[..<headline.index(headline.startIndex, offsetBy: 20)])
+                        print("\(post.id):\(short) isSaved \(post.saved)")
+                    })
+                })
                 guard let s = self else { return }
                 s.loadingState = .notLoading
                 guard let vc = s.mainFeedController else { return }
@@ -64,14 +71,28 @@ class MainFeedCoordinator: Coordinator {
             .disposed(by: disposeBag)
     }
     
+    func pushDetailViewController(for post: Post) {
+        let c = PostDetailCoordinator(navigationController: self.navigationController, post: post)
+        childCoordinators.append(c)
+        c.start()
+    }
     func openPostList(for category: Category) {
-        let post_coordinator = GeneralFeedCoordinator(nav: self.navigationController, category: category)
+        let post_coordinator = GeneralFeedCoordinator(nav: self.navigationController, mode: .category(category: category))
         self.childCoordinators.append(post_coordinator)
         post_coordinator.start()
     }
 }
 
 extension MainFeedCoordinator: MainFeedViewDelegate {
+    func showWriterPosts(writer: User) {
+        let coord = GeneralFeedCoordinator(nav: self.navigationController, mode: .writer(writer: writer))
+        self.childCoordinators.append(coord)
+        coord.start()
+    }
+    func showDetail(for post: Post) {
+        pushDetailViewController(for: post)
+    }
+    
     func onCategorySelected(category: Category) {
         print("\(category.categoryName) selected")
         openPostList(for: category)

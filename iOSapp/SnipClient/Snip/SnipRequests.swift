@@ -10,6 +10,7 @@ import Foundation
 import Moya
 import RxSwift
 import Crashlytics
+import RealmSwift
 
 class SnipRequests {
     
@@ -72,6 +73,33 @@ class SnipRequests {
             }
     }
     
+    func getPostPageForQuery(list: List<Post>, params: [String: String], nextPage: Int?) -> Single<Int>{
+        return provider.rx.request(SnipService.postQuery(params: params, page: nextPage))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .observeOn(MainScheduler.instance)
+            .map { [weak self] obj in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
+                guard let next_page = json["next_page"] as? Int else { throw SerializationError.missing("next_page") }
+                guard let s = self else { throw SerializationError.missing("self") }
+                let page = try Post.parsePostPage(json: json)
+                let realm = RealmManager.instance.getMemRealm()
+                for post in page {
+                    let _ = s.getPostImage(for: post)
+                        .subscribe()
+                    try! realm.write {
+                        realm.add(post, update: true)
+                        if list.index(of: post) == nil {
+                            list.append(post)
+                            print("Post appended to a category under a write")
+                        }
+                    }
+                }
+                return next_page
+        }
+    }
+    
     func getPostImage(for post: Post) -> Single<Bool> {
         guard let image = post.image else { return Single.just(false) }
         if image.hasData {
@@ -95,6 +123,14 @@ class SnipRequests {
             .catchError({ (err) -> Single<Bool> in
                 Crashlytics.sharedInstance().recordError(err, withAdditionalUserInfo: ["imageURL": image.imageUrl ])
                 print("Error loading \(image.imageUrl) \(err)")
+                if let detailError = err as? APIError {
+                    switch detailError {
+                    case .requestError(_, _,let response):
+                        print(response)
+                    default:
+                        break
+                    }
+                }
                 return Single.just(false)
             })
     }
@@ -125,7 +161,7 @@ class SnipRequests {
             }
             .observeOn(MainScheduler.instance)
             .map { user in
-                let realm = RealmManager.instance.getMemRealm()
+                let realm = RealmManager.instance.getRealm()
                 try! realm.write {
                     realm.add(user, update: true)
                 }
@@ -141,7 +177,7 @@ class SnipRequests {
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .subscribe(onSuccess: { (resp) in
-                print("vote successful")
+                print("\(post_id) vote val set to \(vote_val)")
             }) { (err) in
                 print("error voting\(err)")
                 if let requestError = err as? APIError {
@@ -153,6 +189,82 @@ class SnipRequests {
                         break
                     }
                 }
+                Crashlytics.sharedInstance().recordError(err)
+            }
+    }
+    func postSaveState(post_id: Int) {
+        let _ = provider.rx.request(SnipService.postSave(post_id: post_id))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .subscribe(onSuccess: { (resp) in
+                print("\(post_id) saved/unsaved")
+            }) { (err) in
+                print("error voting\(err)")
+                Crashlytics.sharedInstance().recordError(err)
+            }
+    }
+    
+    func postCommentToPost(for post: Post, body: String, parent: RealmComment?) {
+        let realm = RealmManager.instance.getMemRealm()
+        var cached: RealmComment?
+        if let un = SessionManager.instance.currentLoginUsername,
+            let writerDisk = RealmManager.instance.getRealm().object(ofType: User.self, forPrimaryKey: un) {
+            var writer: User = User()
+            writer.username = writerDisk.username
+            writer.avatarUrl = writerDisk.avatarUrl
+            writer.first_name = writerDisk.first_name
+            writer.last_name = writerDisk.last_name
+            writer.wallet_address = writerDisk.wallet_address
+            try! realm.write {
+                realm.add(writer, update: true)
+                writer = realm.object(ofType: User.self, forPrimaryKey: writer.username)!
+            }
+            let c = RealmComment()
+            c.body = body
+            c.writer = writer
+            c.date = Date()
+            if let p = parent {
+                c.parent = p
+                c.parent_id.value = p.id
+                c.level = p.level + 1
+                
+            }
+            c.id = c.body.hashValue
+            try! realm.write {
+                realm.add(c, update: true)
+                post.comments.append(c)
+            }
+            cached = c
+        }
+        
+        let _ = provider.rx.request(SnipService.postComment(post_id: post.id, parent_id: parent?.id, body: body))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .map { obj -> RealmComment in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj)}
+                let published_comment = try RealmComment.parseJson(json: json)
+                return published_comment
+            }
+            .observeOn(MainScheduler.instance)
+            
+            .subscribe(onSuccess: { published_comment in
+                try! realm.write{
+                    if let c = cached, let index = post.comments.index(of: c) {
+                        post.comments.remove(at: index)
+                    }
+                    if post.comments.index(of: published_comment) == nil {
+                        realm.add(published_comment, update: true)
+                        post.comments.append(published_comment)
+                    }
+                }
+            }) { err in
+                try! realm.write{
+                    if let c = cached, let index = post.comments.index(of: c) {
+                        post.comments.remove(at: index)
+                    }
+                }
+                print(err)
             }
     }
 }

@@ -129,7 +129,9 @@ class ProfileViewController : GenericProgramViewController
     {
         print("clicked on saved snips")
         Logger().logClickMyUpvotes()
+        //let coord = GeneralFeedCoordinator(nav: self.navigationController!, mode: .saveSnips)
         
+        /*
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let snippetsViewController : SnippetsTableViewController = storyboard.instantiateViewController(withIdentifier: "Snippets") as! SnippetsTableViewController
         snippetsViewController.shouldShowProfileView = false
@@ -145,6 +147,7 @@ class ProfileViewController : GenericProgramViewController
         
         //self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(snippetsViewController, animated: true)
+        */
     }
     
     @objc func logInClicked(sender: UITapGestureRecognizer)
@@ -158,6 +161,7 @@ class ProfileViewController : GenericProgramViewController
     func logout(action: UIAlertAction)
     {
         UserInformation().logOutUser()
+        SessionManager.instance.oldAuthProxyLogout()
         promptToUserWithAutoDismiss(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.segueBackToContent)
     }
     

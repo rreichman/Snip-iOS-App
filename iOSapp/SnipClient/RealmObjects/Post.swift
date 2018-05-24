@@ -11,7 +11,7 @@ import RealmSwift
 
 @objcMembers
 class Post: Object {
-    
+    static let dateFormatter: DateFormatter = DateFormatter()
     dynamic var id : Int = 0
     dynamic var author : User?
     dynamic var headline : String = ""
@@ -34,6 +34,34 @@ class Post: Object {
         return "id"
     }
     
+    override static func ignoredProperties() -> [String] {
+        return ["dateFormatter"]
+    }
+    
+    func formattedTimeString() -> String {
+        Post.dateFormatter.timeStyle = .none
+        Post.dateFormatter.dateStyle = .short
+        
+        if postOlderThanOneDay() {
+            return Post.dateFormatter.string(from: date)
+        } else {
+            let components = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+            guard let min = components.minute, let hr = components.hour else { return Post.dateFormatter.string(from: date) }
+            if hr == 0 {
+                return "\(min)m"
+            } else {
+                return "\(hr)h"
+            }
+        }
+    }
+    
+    private func postOlderThanOneDay() -> Bool {
+        let oneDayTimeInterval: TimeInterval = 24*60*60
+        let onDayAgo = Date().addingTimeInterval(-oneDayTimeInterval)
+        let comparison = date.compare(onDayAgo)
+        return comparison == .orderedAscending
+    }
+    
 }
 
 
@@ -49,7 +77,7 @@ extension Post {
         post.text = json["body"] as! String
         //post.setImageIfExists(json: json)
         
-        if let rl = json["related_Links"] as? [ [String: Any] ] {
+        if let rl = json["related_links"] as? [ [String: Any] ] {
             for obj in rl {
                 let l = try Link.parseJson(json: obj)
                 post.relatedLinks.append(l)
@@ -57,12 +85,15 @@ extension Post {
         }
         
         guard let imageJson = json["image"] as? [String: Any] else { throw SerializationError.missing("image") }
-        let image = try Image.parseJson(json: imageJson)
-        if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
-            post.image = cached_image
-        } else {
-            post.image = image
+        var image: Image? = nil
+        if let image = try? Image.parseJson(json: imageJson) {
+            if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
+                post.image = cached_image
+            } else {
+                post.image = image
+            }
         }
+        
         
         guard let vote = json["votes"] as? [String: Any] else { throw SerializationError.missing("votes")}
         guard let like = vote["like"] as? Bool else { throw SerializationError.missing("like")}
@@ -79,6 +110,7 @@ extension Post {
             post.comments.append(c)
         }
         guard let saved = json["saved"] as? Bool else { throw SerializationError.missing("saved") }
+        print("saved json: \(String(describing: json["saved"]))")
         post.saved = saved
         guard let timestamp = json["timestamp"] as? Double else { throw SerializationError.missing("timestamp") }
         let date = Date(timeIntervalSince1970: timestamp.rounded())

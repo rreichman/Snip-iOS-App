@@ -13,11 +13,22 @@ import RealmSwift
 class RealmComment: Object {
     
     dynamic var body : String = ""
-    dynamic var date_string : String = ""
     dynamic var id : Int = 0
     dynamic var level : Int = 0
-        dynamic var writer : User?
+    dynamic var writer : User?
     dynamic var parent : RealmComment?
+    dynamic var date: Date = Date()
+    
+    
+    var childComments: [ RealmComment] = []
+    
+    override static func ignoredProperties() -> [String] {
+        return ["childComments"]
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
     
     let subComments = List<RealmComment>()
     let parent_id = RealmOptional<Int>()
@@ -29,7 +40,6 @@ extension RealmComment {
     static func parseJson(json: [String: Any]) throws -> RealmComment {
         let comment = RealmComment()
         guard let id = json["id"] as? Int else { throw SerializationError.missing("id") }
-        guard let date_string = json["date"] as? String else { throw SerializationError.missing("date") }
         guard let body = json["body"] as? String else { throw SerializationError.missing("body") }
         guard let level = json["level"] as? Int else { throw SerializationError.missing("level") }
         if let parent_id = json["parent"] as? Int {
@@ -40,8 +50,12 @@ extension RealmComment {
             comment.writer = u
         }
         
+        guard let timestamp = json["timestamp"] as? Double else { throw SerializationError.missing("timestamp") }
+        let date = Date(timeIntervalSince1970: timestamp.rounded())
+        comment.date = date
+        
+        
         comment.id = id
-        comment.date_string = date_string
         comment.body = body
         comment.level = level
         

@@ -16,6 +16,11 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
             if response.statusCode >= 500 {
                 throw APIError.serverError(errorMessage: response.description, code: response.statusCode, response: response)
             } else if response.statusCode >= 400 {
+                if response.statusCode == 401 {
+                    SessionManager.instance.authToken = nil
+                    SessionManager.instance.currentLoginUsername = nil
+                    throw APIError.badLogin
+                }
                 throw APIError.requestError(errorMessage: response.description, code: response.statusCode, response: response)
             }
             return response
@@ -38,6 +43,8 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
             if snipCookies.count > 0 {
                 let snip_cookie = snipCookies[0]
                 //print("old cookie: \(String(describing: SessionManager.instance.sessionCookie)) new cookie: \(snip_cookie.value)")
+                //                  sniptoday=6dd072xzt0trdm9qzhmxk5ye79v1gy0f; Domain=.snip.today; expires=Wed, 22-Aug-2018 00:09:06 GMT; HttpOnly; Max-Age=7776000; Path=/
+                //let cookieString = "sniptoday=6dd072xzt0trdm9qzhmxk5ye79v1gy0f; Domain=.snip.today; Path=/"
                 SessionManager.instance.sessionCookie = snip_cookie.value
             }
             
