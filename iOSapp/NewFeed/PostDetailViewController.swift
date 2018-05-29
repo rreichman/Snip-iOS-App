@@ -14,6 +14,7 @@ protocol PostDetailViewDelegate: class {
     func share(msg: String, url: NSURL, sourceView: UIView)
     func postComment(for post: Post, with body: String, parent: RealmComment?)
     func onBackPressed()
+    func showLoginSignUp()
 }
 
 class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -241,10 +242,17 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     func onToggleLike(on: Bool, for post: Post) {
         let action: VoteAction = on ? .likeOn : .likeOff
         dataDelegate.onVoteAciton(action: action, for: post)
+        
+        if on {
+            dislikeButton.setState(on: false)
+        }
     }
     func onToggleDislike(on: Bool, for post: Post) {
         let action: VoteAction = on ? .dislikeOn : .dislikeOff
         dataDelegate.onVoteAciton(action: action, for: post)
+        if on {
+            likeButton.setState(on: false)
+        }
     }
     func addTap() {
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
@@ -279,7 +287,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     func popAlertController()
     {
         let alertController : UIAlertController = UIAlertController(title: "To Comment You Need to Sign Up", message: "It only takes a few seconds...", preferredStyle: UIAlertControllerStyle.alert)
-        let alertActionSignup : UIAlertAction = UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.default, handler: nil)
+        let alertActionSignup : UIAlertAction = UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.default, handler: { _ in
+            self.delegate.showLoginSignUp()
+        })
         let alertActionStayHere : UIAlertAction = UIAlertAction(title: "Stay Here", style: UIAlertActionStyle.default, handler: { _ in
             self.commentText.resignFirstResponder()
         })
@@ -351,6 +361,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         delegate.postComment(for: self.post, with: body, parent: self.replyComment)
         commentText.resignFirstResponder()
+        commentText.text = ""
     }
     
     deinit {

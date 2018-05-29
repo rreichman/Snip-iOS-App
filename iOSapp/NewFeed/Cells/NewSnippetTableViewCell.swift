@@ -155,7 +155,7 @@ class NewSnippetTableViewCell: UITableViewCell {
             setActivityIndicatorState(loading: false)
             let ui_image = UIImage(data: data)
             postImage.image = ui_image
-            postImage.layer.cornerRadius = 10
+            postImage.layer.cornerRadius = 5
             postImage.layer.masksToBounds = true
         }
         //set image to data

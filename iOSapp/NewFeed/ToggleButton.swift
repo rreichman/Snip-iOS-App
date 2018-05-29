@@ -39,6 +39,12 @@ class ToggleButton: UIButton {
         setImageForState(on_state: on_state)
     }
     
+    func setState(on: Bool) {
+        let img = on ? onImage : offImage
+        self.setImage(img, for: .normal)
+        self.on = on
+    }
+    
     func setImageForState(on_state: Bool) {
         let img = on_state ? onImage : offImage
         self.setImage(img, for: .normal)

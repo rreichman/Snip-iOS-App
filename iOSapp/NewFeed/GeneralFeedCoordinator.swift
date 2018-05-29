@@ -36,6 +36,8 @@ class GeneralFeedCoordinator: Coordinator {
     var writer: User!
     let mode: FeedMode
     
+    var tempHack: Bool = false
+    
     init(nav: UINavigationController, mode: FeedMode) {
         self.navController = nav
         
@@ -46,15 +48,17 @@ class GeneralFeedCoordinator: Coordinator {
             self.writer = writer
             let realm = RealmManager.instance.getMemRealm()
             let postCotainer = PostContainer()
+            postCotainer.key = writer.username
             try! realm.write {
-                realm.add(postCotainer)
+                realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
         case .savedSnips:
             let realm = RealmManager.instance.getMemRealm()
             let postCotainer = PostContainer()
+            postCotainer.key = SessionManager.instance.currentLoginUsername! + "-saved-snips"
             try! realm.write {
-                realm.add(postCotainer)
+                realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
         }
@@ -106,6 +110,9 @@ class GeneralFeedCoordinator: Coordinator {
         
         switch self.mode {
         case .category:
+            if self.category.nextPage == -1 {
+                return
+            }
             SnipRequests.instance.getNextPage(for: category)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (categorty) in
@@ -120,15 +127,52 @@ class GeneralFeedCoordinator: Coordinator {
                     
                     guard let s = self else { return }
                     guard let _ = s.postListVC else { return }
+                    s.postListVC.endRefreshing()
                     s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
         case .writer:
-            SnipRequests.instance.getPostPageForQuery(list: getPostListForMode(), params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
+            if self.postCotainer.nextPage == -1 { return }
+            SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: {[weak self] (nextPage) in
+                .subscribe(onSuccess: {[weak self] (nextPage, result) in
+                    guard let s = self else {return}
+
+                    try! realm.write {
+                        s.postCotainer.nextPage = nextPage
+                        for newPost in result {
+                            if s.postCotainer.posts.index(of: newPost) == nil {
+                                realm.add(newPost, update: true)
+                                s.postCotainer.posts.append(newPost)
+                            }
+                        }
+                    }
+                    
+                    s.loadingState = .notLoading
+                }) { [weak self](err) in
+                    print(err)
+                    Crashlytics.sharedInstance().recordError(err)
+                    
+                    guard let s = self else { return }
+                    guard let _ = s.postListVC else { return }
+                    s.loadingState = .notLoading
+                    s.postListVC.endRefreshing()
+            }.disposed(by: disposeBag)
+        case .savedSnips:
+            if self.postCotainer.nextPage == -1 {
+                return
+            }
+            SnipRequests.instance.getSavedSnips(nextPage: postCotainer.nextPage)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: {[weak self] (nextPage, results) in
                     guard let s = self else {return}
                     try! realm.write {
                         s.postCotainer.nextPage = nextPage
+                        for newPost in results {
+                            if s.postCotainer.posts.index(of: newPost) == nil {
+                                realm.add(newPost, update: true)
+                                s.postCotainer.posts.append(newPost)
+                            }
+                        }
                     }
                     s.loadingState = .notLoading
                 }) { [weak self](err) in
@@ -138,9 +182,8 @@ class GeneralFeedCoordinator: Coordinator {
                     guard let s = self else { return }
                     guard let _ = s.postListVC else { return }
                     s.loadingState = .notLoading
-            }.disposed(by: disposeBag)
-        case .savedSnips:
-            break
+                    s.postListVC.endRefreshing()
+                }.disposed(by: disposeBag)
         }
         
     }
@@ -176,12 +219,45 @@ class GeneralFeedCoordinator: Coordinator {
                 self.postCotainer.posts.removeAll()
                 self.postCotainer.nextPage = nil
             }
-            SnipRequests.instance.getPostPageForQuery(list: getPostListForMode(), params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
+            SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: {[weak self] (nextPage) in
+                .subscribe(onSuccess: {[weak self] (nextPage, results) in
                     guard let s = self else {return}
                     try! realm.write {
                         s.postCotainer.nextPage = nextPage
+                        for newPost in results {
+                            if s.postCotainer.posts.index(of: newPost) == nil {
+                                realm.add(newPost, update: true)
+                                s.postCotainer.posts.append(newPost)
+                            }
+                        }
+                    }
+                    s.loadingState = .notLoading
+                }) { [weak self](err) in
+                    print(err)
+                    Crashlytics.sharedInstance().recordError(err)
+                    
+                    guard let s = self else { return }
+                    s.postListVC.endRefreshing()
+                    s.loadingState = .notLoading
+                }.disposed(by: disposeBag)
+        case .savedSnips:
+            try! realm.write {
+                self.postCotainer.posts.removeAll()
+                self.postCotainer.nextPage = nil
+            }
+            SnipRequests.instance.getSavedSnips( nextPage: postCotainer.nextPage)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: {[weak self] (nextPage, results) in
+                    guard let s = self else {return}
+                    try! realm.write {
+                        s.postCotainer.nextPage = nextPage
+                        for newPost in results {
+                            if s.postCotainer.posts.index(of: newPost) == nil {
+                                realm.add(newPost, update: true)
+                                s.postCotainer.posts.append(newPost)
+                            }
+                        }
                     }
                     s.loadingState = .notLoading
                 }) { [weak self](err) in
@@ -190,9 +266,8 @@ class GeneralFeedCoordinator: Coordinator {
                     
                     guard let s = self else { return }
                     s.loadingState = .notLoading
+                    s.postListVC.endRefreshing()
                 }.disposed(by: disposeBag)
-        case .savedSnips:
-            break
             
         }
     }
@@ -236,6 +311,10 @@ extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
     }
     
     func onBackPressed() {
+        if tempHack {
+            navController.navigationBar.isHidden = true
+        }
         popViewController()
+        
     }
 }

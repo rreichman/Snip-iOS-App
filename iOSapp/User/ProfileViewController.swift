@@ -52,8 +52,6 @@ class ProfileViewController : GenericProgramViewController
         
         statusBarView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
-        navigationController?.navigationBar.isHidden = true
-        
         profileTopView.backButtonView.isHidden = true
         
         if (UserInformation().isUserLoggedIn())
@@ -129,7 +127,15 @@ class ProfileViewController : GenericProgramViewController
     {
         print("clicked on saved snips")
         Logger().logClickMyUpvotes()
-        //let coord = GeneralFeedCoordinator(nav: self.navigationController!, mode: .saveSnips)
+        let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FeedNavigationController") as! UINavigationController
+        navigationController.view.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
+        navigationController.navigationBar.tintColor = UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0)
+        //self.present(navigationController, animated: true)
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0)
+        let coord = GeneralFeedCoordinator(nav: self.navigationController!, mode: .savedSnips)
+        coord.tempHack = true
+        coord.start()
         
         /*
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

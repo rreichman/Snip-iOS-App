@@ -45,6 +45,9 @@ class SnipRequests {
     }
     
     func getNextPage(for category: Category) -> Single<Category> {
+        if category.nextPage == -1 {
+            return Single.just(category)
+        }
         return provider.rx.request(SnipService.postQuery(params: category.paramDictionary, page: category.nextPage))
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
@@ -52,7 +55,12 @@ class SnipRequests {
             .observeOn(MainScheduler.instance)
             .map { [weak self] obj in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
-                guard let next_page = json["next_page"] as? Int else { throw SerializationError.missing("next_page") }
+                var next_page: Int!
+                if let next_page_maybe = json["next_page"] as? Int  {
+                    next_page = next_page_maybe
+                } else {
+                    next_page = -1
+                }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
                 let realm = RealmManager.instance.getMemRealm()
@@ -73,7 +81,11 @@ class SnipRequests {
             }
     }
     
-    func getPostPageForQuery(list: List<Post>, params: [String: String], nextPage: Int?) -> Single<Int>{
+    func getPostPageForQuery(params: [String: String], nextPage: Int?) -> Single< (Int, [ Post ]) > {
+        if nextPage == -1 {
+            return Single.just( (-1, []) )
+        }
+        
         return provider.rx.request(SnipService.postQuery(params: params, page: nextPage))
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
@@ -81,22 +93,50 @@ class SnipRequests {
             .observeOn(MainScheduler.instance)
             .map { [weak self] obj in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
-                guard let next_page = json["next_page"] as? Int else { throw SerializationError.missing("next_page") }
+                var next_page: Int!
+                if let next_page_maybe = json["next_page"] as? Int  {
+                    next_page = next_page_maybe
+                } else {
+                    next_page = -1
+                }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
-                let realm = RealmManager.instance.getMemRealm()
+                var result: [ Post ] = []
                 for post in page {
                     let _ = s.getPostImage(for: post)
                         .subscribe()
-                    try! realm.write {
-                        realm.add(post, update: true)
-                        if list.index(of: post) == nil {
-                            list.append(post)
-                            print("Post appended to a category under a write")
-                        }
-                    }
+                    result.append(post)
                 }
-                return next_page
+                return (next_page, result)
+        }
+    }
+    
+    func getSavedSnips(nextPage: Int?) -> Single<(Int, [ Post ])> {
+        if nextPage == -1 {
+            return Single.just( (-1, []) )
+        }
+        return provider.rx.request(SnipService.getSavedSnips(page: nextPage))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .observeOn(MainScheduler.instance)
+            .map { [weak self] obj in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
+                var next_page: Int!
+                if let next_page_maybe = json["next_page"] as? Int  {
+                    next_page = next_page_maybe
+                } else {
+                    next_page = -1
+                }
+                guard let s = self else { throw SerializationError.missing("self") }
+                let page = try Post.parsePostPage(json: json)
+                var results: [ Post ] = []
+                for post in page {
+                    let _ = s.getPostImage(for: post)
+                        .subscribe()
+                    results.append(post)
+                }
+                return (next_page, results)
         }
     }
     
@@ -113,7 +153,7 @@ class SnipRequests {
             }
             .observeOn(MainScheduler.instance)
             .map { data -> Bool in
-                print("got image data for img \(image.imageUrl)")
+                //print("got image data for img \(image.imageUrl)")
                 let realm = RealmManager.instance.getMemRealm()
                 try! realm.write {
                     image.data = data
@@ -169,6 +209,7 @@ class SnipRequests {
                 SessionManager.instance.currentLoginUsername = user.username
                 print("Logged in as \(user.username) using token \(token)")
             }
+            .retry(4)
             .subscribe()
     }
     

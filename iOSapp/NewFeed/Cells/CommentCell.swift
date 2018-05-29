@@ -34,7 +34,13 @@ class CommentCell: UITableViewCell {
         commentLabel.text = comment.body
         //Set indentation
         leadingConstraint.constant =  CGFloat(integerLiteral: 20 + (comment.level * 15))
-        replayButton.addTarget(self, action: #selector(onReply), for: .touchUpInside)
+        if comment.level < 2 {
+            replayButton.addTarget(self, action: #selector(onReply), for: .touchUpInside)
+            replayButton.isHidden = false
+        } else {
+            replayButton.isHidden = true
+        }
+        
     }
     
     @objc func onReply() {

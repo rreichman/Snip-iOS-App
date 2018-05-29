@@ -17,16 +17,12 @@ class SessionManager {
     static let currentLoginName: String = "snipCurrentName"
     static let currentLoginInitials: String = "snipCurrentInitials"
     static let sessionCookieKey: String = "snipSessionCookie"
+    static let authTokenKey: String = "snip-auth-token-"
     let keychain: KeychainSwift
     let userdefaults: UserDefaults
     init() {
         keychain = KeychainSwift(keyPrefix: "snip")
         userdefaults = UserDefaults.standard
-    }
-    
-    
-    private func getTokenKeyForUser(username: String) -> String {
-            return "snip-auth-token-\(username)"
     }
     
     var currentLoginUsername: String? {
@@ -75,13 +71,13 @@ class SessionManager {
     var authToken: String? {
         get {
             guard let username = self.currentLoginUsername else { return nil }
-            return keychain.get(getTokenKeyForUser(username: username))
+            return keychain.get(SessionManager.authTokenKey)
         } set {
             guard let username = self.currentLoginUsername else { return }
             if let token = newValue {
-                keychain.set(token, forKey: self.getTokenKeyForUser(username: username))
+                keychain.set(token, forKey: SessionManager.authTokenKey)
             } else {
-                keychain.delete(getTokenKeyForUser(username: username))
+                keychain.delete(SessionManager.authTokenKey)
             }
         }
     }

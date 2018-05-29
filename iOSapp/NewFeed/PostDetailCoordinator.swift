@@ -29,9 +29,17 @@ class PostDetailCoordinator: Coordinator {
         viewController.bind(data: post)
         navigationController.pushViewController(viewController, animated: true)
     }
+    func pushLoginSignUp() {
+        let loginSignUp = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginSignUpViewController")
+        self.navigationController.pushViewController(loginSignUp, animated: true)
+    }
 }
 
 extension PostDetailCoordinator: PostDetailViewDelegate {
+    func showLoginSignUp() {
+        pushLoginSignUp()
+    }
+    
     func postComment(for post: Post, with body: String, parent: RealmComment?) {
         SnipRequests.instance.postCommentToPost(for: post, body: body, parent: parent)
     }

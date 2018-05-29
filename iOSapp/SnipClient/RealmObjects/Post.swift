@@ -42,8 +42,12 @@ class Post: Object {
         Post.dateFormatter.timeStyle = .none
         Post.dateFormatter.dateStyle = .short
         
-        if postOlderThanOneDay() {
+        if postOlderThanFourteenDays() {
             return Post.dateFormatter.string(from: date)
+        } else if postOlderThanOneDay() {
+            let components = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+            guard let day = components.day else { return Post.dateFormatter.string(from: date) }
+            return "\(day)d"
         } else {
             let components = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
             guard let min = components.minute, let hr = components.hour else { return Post.dateFormatter.string(from: date) }
@@ -53,6 +57,13 @@ class Post: Object {
                 return "\(hr)h"
             }
         }
+    }
+    
+    private func postOlderThanFourteenDays() -> Bool {
+        let fourteenDayTimeInterval: TimeInterval = 24*60*60 * 14
+        let fourteenDaysAgo = Date().addingTimeInterval(-fourteenDayTimeInterval)
+        let comparison = date.compare(fourteenDaysAgo)
+        return comparison == .orderedAscending
     }
     
     private func postOlderThanOneDay() -> Bool {
@@ -85,7 +96,6 @@ extension Post {
         }
         
         guard let imageJson = json["image"] as? [String: Any] else { throw SerializationError.missing("image") }
-        var image: Image? = nil
         if let image = try? Image.parseJson(json: imageJson) {
             if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
                 post.image = cached_image

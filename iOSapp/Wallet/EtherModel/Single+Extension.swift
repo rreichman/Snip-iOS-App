@@ -39,7 +39,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
                 cookie.name == "sniptoday"
             })
             //print("cookie: debug request headers \(String(describing: response.request?.allHTTPHeaderFields))")
-            print("cookie: response headers\(headers)")
+            //print("cookie: response headers\(headers)")
             if snipCookies.count > 0 {
                 let snip_cookie = snipCookies[0]
                 //print("old cookie: \(String(describing: SessionManager.instance.sessionCookie)) new cookie: \(snip_cookie.value)")

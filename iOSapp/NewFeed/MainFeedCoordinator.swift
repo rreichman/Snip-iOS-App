@@ -26,6 +26,10 @@ class MainFeedCoordinator: Coordinator {
     init() {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         navigationController = storyBoard.instantiateViewController(withIdentifier: "FeedNavigationController") as! UINavigationController
+        
+        navigationController.navigationBar.isTranslucent = false
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController.navigationBar.shadowImage = UIImage()
         mainFeedController = storyBoard.instantiateViewController(withIdentifier: "HomeFeedViewController") as! MainFeedViewController
         navigationController.viewControllers = [ mainFeedController ]
     }
