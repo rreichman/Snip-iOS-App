@@ -56,7 +56,6 @@ class MainFeedCoordinator: Coordinator {
                     cat.topThreePosts.forEach({ (post) in
                         let headline = post.headline
                         let short = String(headline[..<headline.index(headline.startIndex, offsetBy: 20)])
-                        print("\(post.id):\(short) isSaved \(post.saved)")
                     })
                 })
                 guard let s = self else { return }

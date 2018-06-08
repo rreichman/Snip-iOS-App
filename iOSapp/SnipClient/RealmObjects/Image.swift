@@ -17,6 +17,7 @@ class Image: Object {
     dynamic var imageHeight: Int = 0
     dynamic var imageWidth: Int = 0
     dynamic var data: Data? = nil
+    dynamic var failed_loading: Bool = false
     
     override static func primaryKey() -> String? {
         return "imageUrl"

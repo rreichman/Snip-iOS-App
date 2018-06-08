@@ -13,8 +13,8 @@ import UIKit
 @IBDesignable
 class ToggleButton: UIButton {
     
-    @IBInspectable var onImage: UIImage = UIImage(named: "downArrow")!
-    @IBInspectable var offImage: UIImage = UIImage(named: "downArrow")!
+    @IBInspectable @objc dynamic var onImage: UIImage? = nil
+    @IBInspectable @objc dynamic var offImage: UIImage? = nil
     var on: Bool = false
     var toggle_func: ((Bool) -> ())?
     
@@ -46,7 +46,8 @@ class ToggleButton: UIButton {
     }
     
     func setImageForState(on_state: Bool) {
-        let img = on_state ? onImage : offImage
+        let img_opt = on_state ? onImage : offImage
+        guard let img = img_opt else { return }
         self.setImage(img, for: .normal)
     }
     @objc func buttonPressed() {

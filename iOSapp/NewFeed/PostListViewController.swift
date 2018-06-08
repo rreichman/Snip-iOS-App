@@ -49,16 +49,14 @@ class PostListViewController: UIViewController {
         //tableView.tableHeaderView?.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         //tableView.tableFooterView?.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         whiteBackArrow()
-        addRefresh()
         if !self.displayUserHeader {
             tableView.tableHeaderView = UIView(frame: CGRect.zero)
-            addRefresh()
         } else {
             tableView .tableHeaderView = headerContainer
             authorLabel.text = self.userName
             initialsLabel.text = self.userInitials
-            
         }
+        addRefresh()
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
     }

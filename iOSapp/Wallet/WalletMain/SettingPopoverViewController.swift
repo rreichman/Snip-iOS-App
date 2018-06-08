@@ -20,7 +20,7 @@ class SettingPopoverViewController : UIViewController {
     var delegate: SettingPopoverViewDelegate!
     override func viewDidLoad() {
         //pass
-        self.view.layer.cornerRadius = 24
+        self.view.layer.cornerRadius = 5
     }
     
     //Updating the popover size

@@ -40,6 +40,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var numberOfCommentsLabel: UILabel!
+    @IBOutlet var touchAreaView: UIView!
     
     @IBOutlet var views: [UIView]!
     var delegate: SnipCellViewDelegate!
@@ -79,6 +80,8 @@ class NewSnippetTableViewCell: UITableViewCell {
         //bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
         addTap()
+        dislikeButton.contentMode = .center
+        dislikeButton.imageView?.contentMode = .scaleAspectFit
     }
     
     func bind(data:Post, path: IndexPath, expanded: Bool) {
@@ -120,10 +123,10 @@ class NewSnippetTableViewCell: UITableViewCell {
             if data.comments.count > 0 {
                 numberOfCommentsLabel.isHidden = false
                 numberOfCommentsLabel.text = "\(data.comments.count) comment" + (data.comments.count != 1 ? "s" : "")
-                commentInput.titleLabel!.text = "Write a comment ..."
+                commentInput.setTitle("Write a comment ...", for: .normal)
             } else {
                 numberOfCommentsLabel.isHidden = true
-                commentInput.titleLabel!.text = "Be the first to comment ..."
+                commentInput.setTitle("Be the first to comment ...", for: .normal)
             }
             //Bind butttons
         } else {
@@ -142,10 +145,15 @@ class NewSnippetTableViewCell: UITableViewCell {
     }
     
     func bindImage(imageOpt: Image?) {
-        guard let _ = imageOpt,
-        let data = imageOpt?.data else {
+        guard let image = imageOpt else {
             postImage.image = nil
-            setActivityIndicatorState(loading: true)
+            setActivityIndicatorState(loading: false)
+            return
+        }
+        
+        guard let data = image.data else {
+            postImage.image = nil
+            setActivityIndicatorState(loading: !image.failed_loading)
             return
         }
         
@@ -217,10 +225,13 @@ class NewSnippetTableViewCell: UITableViewCell {
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
         optionsButton.addTarget(self, action: #selector(postOptionsTab), for: .touchUpInside)
         authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(authorTap)))
+        
+        touchAreaView.isUserInteractionEnabled = true
+        touchAreaView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
     }
     
     @objc func authorTap() {
-        
+
         if let a = post?.author {
             delegate.viewWriterPost(writer: a)
         }

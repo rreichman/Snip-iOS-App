@@ -70,10 +70,8 @@ class SessionManager {
     
     var authToken: String? {
         get {
-            guard let username = self.currentLoginUsername else { return nil }
             return keychain.get(SessionManager.authTokenKey)
         } set {
-            guard let username = self.currentLoginUsername else { return }
             if let token = newValue {
                 keychain.set(token, forKey: SessionManager.authTokenKey)
             } else {

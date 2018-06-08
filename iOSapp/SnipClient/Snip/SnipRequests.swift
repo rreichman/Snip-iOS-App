@@ -63,6 +63,13 @@ class SnipRequests {
                 }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
+                
+                
+                //hijack first post for testing
+                if next_page == 1 {
+                    var test = page[0]
+                    test.headline += "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen"
+                }
                 let realm = RealmManager.instance.getMemRealm()
                 for post in page {
                     let _ = s.getPostImage(for: post)
@@ -157,9 +164,11 @@ class SnipRequests {
                 let realm = RealmManager.instance.getMemRealm()
                 try! realm.write {
                     image.data = data
+                    image.failed_loading = false
                 }
                 return true
             }
+            .retry(3)
             .catchError({ (err) -> Single<Bool> in
                 Crashlytics.sharedInstance().recordError(err, withAdditionalUserInfo: ["imageURL": image.imageUrl ])
                 print("Error loading \(image.imageUrl) \(err)")
@@ -170,6 +179,11 @@ class SnipRequests {
                     default:
                         break
                     }
+                }
+                let realm = RealmManager.instance.getMemRealm()
+                try! realm.write {
+                    image.data = nil
+                    image.failed_loading = true
                 }
                 return Single.just(false)
             })

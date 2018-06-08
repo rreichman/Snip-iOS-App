@@ -74,12 +74,13 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         self.post = data
         bindViews(data: data)
     }
-    func bindViews(data:Post) {
+    func bindViews(data: Post) {
         guard let _ = self.tableView else { return }
         //Binding of elements that will never be hindden
         titleLabel.text = data.headline
         if let auth = data.author {
             authorLabel.text = "\(auth.first_name) \(auth.last_name)"
+            shortAuthorLabel.text = auth.initials
         }
         dateLabel.text = dateFormatter.string(from: data.date)
         bindImage(imageOpt: data.image)

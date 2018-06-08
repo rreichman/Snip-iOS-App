@@ -274,7 +274,7 @@ class WalletCoordinator: Coordinator {
     
     func onContainerTabSelected() {
         if !SnipKeystore.instance.hasWallet {
-            showSetWallet(animated: false)
+            showSetWallet(animated: true)
         }
     }
     
@@ -319,6 +319,10 @@ extension WalletCoordinator: WalletViewDelegate {
 }
 
 extension WalletCoordinator: WalletMainContainerDelegate {
+    func onViewDisplay() {
+        onContainerTabSelected()
+    }
+    
     func onRemoveWalletRequested() {
         removeWallet()
     }

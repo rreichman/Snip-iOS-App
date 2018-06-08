@@ -45,7 +45,7 @@ class Post: Object {
         if postOlderThanFourteenDays() {
             return Post.dateFormatter.string(from: date)
         } else if postOlderThanOneDay() {
-            let components = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+            let components = Calendar.current.dateComponents([.day], from: date, to: Date())
             guard let day = components.day else { return Post.dateFormatter.string(from: date) }
             return "\(day)d"
         } else {
@@ -120,7 +120,6 @@ extension Post {
             post.comments.append(c)
         }
         guard let saved = json["saved"] as? Bool else { throw SerializationError.missing("saved") }
-        print("saved json: \(String(describing: json["saved"]))")
         post.saved = saved
         guard let timestamp = json["timestamp"] as? Double else { throw SerializationError.missing("timestamp") }
         let date = Date(timeIntervalSince1970: timestamp.rounded())

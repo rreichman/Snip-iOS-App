@@ -9,23 +9,23 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - Cache (4.2.0)
-  - Crashlytics (3.10.1):
-    - Fabric (~> 1.7.5)
-  - CryptoSwift (0.9.0)
-  - Fabric (1.7.6)
-  - FacebookCore (0.3.0):
+  - Crashlytics (3.10.2):
+    - Fabric (~> 1.7.7)
+  - CryptoSwift (0.8.3)
+  - Fabric (1.7.7)
+  - FacebookCore (0.3.1):
     - Bolts (~> 1.8)
-    - FBSDKCoreKit (~> 4.27)
-  - FacebookLogin (0.3.0):
+    - FBSDKCoreKit (~> 4.33)
+  - FacebookLogin (0.3.1):
     - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3)
-    - FBSDKCoreKit (~> 4.27)
-    - FBSDKLoginKit (~> 4.27)
-  - FacebookShare (0.3.0):
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKLoginKit (~> 4.33)
+  - FacebookShare (0.3.1):
     - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3)
-    - FBSDKCoreKit (~> 4.27)
-    - FBSDKShareKit (~> 4.27)
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKShareKit (~> 4.33)
   - FBSDKCoreKit (4.33.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.33.0):
@@ -44,11 +44,11 @@ PODS:
     - Moya/Core
     - RxSwift (~> 4.0)
   - NextResponderTextField (3.0.0)
-  - Realm (3.5.0):
-    - Realm/Headers (= 3.5.0)
-  - Realm/Headers (3.5.0)
-  - RealmSwift (3.5.0):
-    - Realm (= 3.5.0)
+  - Realm (3.7.1):
+    - Realm/Headers (= 3.7.1)
+  - Realm/Headers (3.7.1)
+  - RealmSwift (3.7.1):
+    - Realm (= 3.7.1)
   - Result (3.2.4)
   - RxBlocking (4.1.2):
     - RxSwift (~> 4.0)
@@ -57,12 +57,12 @@ PODS:
   - RxSwift (4.1.2)
   - RxTest (4.1.2):
     - RxSwift (~> 4.0)
-  - SipHash (1.2.0)
+  - SipHash (1.2.1)
   - TrezorCrypto (0.0.5)
   - TrustCore (0.0.7):
     - BigInt
     - TrezorCrypto
-  - TrustKeystore (0.4.0):
+  - TrustKeystore (0.4.1):
     - BigInt
     - CryptoSwift
     - TrezorCrypto
@@ -74,6 +74,7 @@ DEPENDENCIES:
   - BigInt
   - Cache
   - Crashlytics
+  - CryptoSwift (~> 0.8.1)
   - Fabric
   - FacebookCore
   - FacebookLogin
@@ -143,7 +144,7 @@ CHECKOUT OPTIONS:
     :commit: a057763547eeac578e1effe05a4e26319c8197bd
     :git: https://github.com/mixpanel/mixpanel-swift.git
   TrustWeb3Provider:
-    :commit: f4e0ebb1b8fa4812637babe85ef975d116543dfd
+    :commit: db33eee2ab92f45f484d77f62cbefc78450348ce
     :git: https://github.com/TrustWallet/trust-web3-provider
 
 SPEC CHECKSUMS:
@@ -151,34 +152,34 @@ SPEC CHECKSUMS:
   BigInt: 8e8a52161c745cd3ab78e3dc346a9fbee51e6cf6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cache: f28f8dd64b632155aabf9b3906b036a659048251
-  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
-  CryptoSwift: bca8c5b653dcc2d9734409242a070ff53bafac86
-  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
-  FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
-  FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
-  FacebookShare: 0469964297ebd75f052be2c5083389a4208e82b7
+  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
+  CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
+  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+  FacebookCore: 33078ef1d7d76b73f7e8c990dca7d3ea6db8d22f
+  FacebookLogin: 6f15bf4fefd7a8865abbfa8fcd7f3dfd87aa275f
+  FacebookShare: c9ee8e5399d961fda00ded9befccacfe04fccf93
   FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
-  FBSDKShareKit: b7b5002833a4104fbecad75e8e4e082e91c7a08a
+  FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   LatoFont: 2bb2a5ab140299a3ccdb8bde61a8720d7bef75c7
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   NextResponderTextField: 07ee7b2737981bfd402f63f390bf3de55e245ccd
-  Realm: 0378021c424e4e2bd6a0e63b27881e929d9b9ad1
-  RealmSwift: 3322562622fda2ad596985ead4d8d8be30cf838c
+  Realm: 906be37d52f17f25484ac01643a7f26a9d3bfbd5
+  RealmSwift: 1c2b6bae3dc55bb87e080ffa96537d71442f6dce
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxBlocking: f6054985901412fc8c02daa84e92d4ba68c61389
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxTest: e634f15fd2c2cd0e0120132ef7a4f7be69ad0393
-  SipHash: c6e9e43e9c531b5bc6602545130c26194a6d31ce
+  SipHash: b26918dbe6925368d4322374371437c62c9038e2
   TrezorCrypto: ecef681446bf02af6248d3b5e394026d7e766e56
   TrustCore: 688df9a241008cf9cfa3842ec8ef28777a8b7534
-  TrustKeystore: 1bd016c67de7314e84b79dba2c22ef64b86bb63e
+  TrustKeystore: fdd5936098af80b9478122bbd3a89477a5389298
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 31ec124b87c4c92f65eeabb82c04e549d78e7465
+PODFILE CHECKSUM: 3fc9ba4330d83bde2528017ac0b5098bbae94212
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

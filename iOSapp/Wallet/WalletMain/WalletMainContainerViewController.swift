@@ -14,6 +14,7 @@ import LatoFont
 protocol WalletMainContainerDelegate: class {
     func onRemoveWalletRequested()
     func onChangePinRequested()
+    func onViewDisplay()
 }
 
 class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, UIPopoverPresentationControllerDelegate {
@@ -26,7 +27,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     weak var coordinator: WalletCoordinator?
     @IBAction func onSettingsPress() {
         let story = UIStoryboard(name: "Main", bundle: nil)
-        var popover = story.instantiateViewController(withIdentifier: "SettingPopover") as! SettingPopoverViewController
+        let popover = story.instantiateViewController(withIdentifier: "SettingPopover") as! SettingPopoverViewController
         popover.delegate = self
         popover.updatePopOverViewController(settingsButton, with: self)
         present(popover, animated: true, completion: nil)
@@ -58,8 +59,8 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let coord = self.coordinator {
-            coord.onContainerTabSelected()
+        if let d = self._delegate {
+            d.onViewDisplay()
         }
         
     }
@@ -100,7 +101,6 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     }
     func buildBar() {
         let snipBlue = UIColor(red:0, green:0.7, blue:0.8, alpha:1)
-        
         settings.style.buttonBarBackgroundColor = snipBlue
         settings.style.buttonBarItemBackgroundColor = snipBlue
         settings.style.selectedBarBackgroundColor = .white
@@ -108,7 +108,6 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
         settings.style.buttonBarItemTitleColor = .white
         settings.style.buttonBarItemsShouldFillAvailableWidth = false
         settings.style.buttonBarItemLeftRightMargin = 20
-        
         settings.style.selectedBarBackgroundColor = .white
         settings.style.selectedBarHeight = 2.0
     }
