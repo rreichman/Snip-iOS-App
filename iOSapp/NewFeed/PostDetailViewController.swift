@@ -21,41 +21,45 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var bodyLabel: UILabel!
-    @IBOutlet var sourceLabel: UILabel!
-    
-    @IBOutlet var saveButton: ToggleButton!
+    //@IBOutlet var bodyLabel: UILabel!
+    @IBOutlet var bodyTextView: UITextViewFixed!
+    @IBOutlet var sourceTextView: UITextViewFixed!
+    //@IBOutlet var sourceLabel: UILabel!
     @IBOutlet var postImage: UIImageView!
-    @IBOutlet var optionsButton: UIButton!
+    @IBOutlet var optionsButton: UIImageView!
     @IBOutlet var dislikeButton: ToggleButton!
     @IBOutlet var likeButton: ToggleButton!
     @IBOutlet var shareButton: UIButton!
-    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var shortAuthorLabel: UILabel!
-    
     @IBOutlet var writeBoxContainer: UIView!
     @IBOutlet var postContainer: UIView!
-    @IBOutlet var views: [UIView]!
+    @IBOutlet var postCommentButton: UIButton!
+    @IBOutlet var numberOfCommentsLabel: UILabel!
+    @IBOutlet var commentText: UITextField!
+    @IBOutlet var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet var statusContainer: UIView!
+    @IBOutlet var cancelReplyButton: UIButton!
+    @IBOutlet var replyToLabel: UILabel!
+    
+    @IBOutlet var writeBoxDivider: UIView!
     var delegate: PostDetailViewDelegate!
     var dataDelegate: SnipCellDataDelegate!
     var dateFormatter: DateFormatter = DateFormatter()
     var shareMessage: String?
     var shareUrl: NSURL?
-    @IBOutlet var postCommentButton: UIButton!
     
-    @IBOutlet var numberOfCommentsLabel: UILabel!
-    @IBOutlet var commentText: UITextField!
-    @IBOutlet var bottomConstraint: NSLayoutConstraint!
     var post: Post!
     var commentArray: [ RealmComment ]?
     var replyComment: RealmComment?
     var token: NotificationToken?
+    var topConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         tableView.dataSource = self
         //tableView.tableHeaderView = postContainer
-        tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
+        bodyTextView.delegate = self
         dataDelegate = PostStateManager.instance
         whiteBackArrow()
         viewInit()
@@ -63,13 +67,44 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         setUpWriteBox()
         self.bindViews(data: self.post)
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
+        cancelReplyButton.addTarget(self, action: #selector(onCancelReply), for: .touchUpInside)
+        topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
+        topConstraint.isActive = true
+        //postContainer.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let headerView = tableView.tableHeaderView else {
+            return
+        }
+        let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        if headerView.frame.size.height != size.height {
+            headerView.frame.size.height = size.height
+            tableView.tableHeaderView = headerView
+            tableView.layoutIfNeeded()
+        }
+    }
+    
     func viewInit() {
         
         postImage.layer.cornerRadius = 10
         //contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         addTap()
     }
+    
+    func toggleReplyStatus(show: Bool) {
+        topConstraint.isActive = false
+        if show {
+            topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: statusContainer.topAnchor)
+            statusContainer.isHidden = false
+        } else {
+            topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
+            statusContainer.isHidden = true
+        }
+        topConstraint.isActive = true
+    }
+    
     func bind(data: Post) {
         self.post = data
         bindViews(data: data)
@@ -80,7 +115,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         titleLabel.text = data.headline
         if let auth = data.author {
             authorLabel.text = "\(auth.first_name) \(auth.last_name)"
-            shortAuthorLabel.text = auth.initials
+            shortAuthorLabel.text = auth.initials.uppercased()
         }
         dateLabel.text = dateFormatter.string(from: data.date)
         bindImage(imageOpt: data.image)
@@ -94,18 +129,38 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             self.onToggleDislike(on: on, for: data)
         }
         if let richText = data.getAttributedBody() {
-            bodyLabel.attributedText = richText
+            for source in data.relatedLinks {
+                let text = source.title + ", "
+                let range = text.range(of: source.title)
+                
+                
+                let attributes: [NSAttributedStringKey : Any] =
+                    [//.paragraphStyle: paragraphStyle,
+                     //.foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
+                     .font: UIFont.lato(size: 14),
+                     .link: URL(string: source.url)!]
+                let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+                //attributedText.addAttribute(.link, value: source.url, range: NSRange(range!, in: text))
+                //attributedText.addAttribute(.font, value: UIFont.lato(size: 14), range: NSMakeRange(0, text.count))
+                //attributedText.addAttribute(.foregroundColor, value: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0), range: NSMakeRange(0, text.count))
+                //attributedText.addAttribute(.font, value: UIFont.lato(size: 14), range: Range(0, length: text.characters.count))
+                richText.append(attributedText)
+            }
+            bodyTextView.attributedText = richText
         } else {
-            bodyLabel.text = data.text
+            //bodyLabel.text = data.text
+            bodyTextView.text = data.text
         }
         var sourceString = ""
+        var testSourceString = NSMutableAttributedString()
         for source in data.relatedLinks {
             sourceString += "\(source.title), "
         }
         if sourceString.count > 0 {
             sourceString = String(sourceString[..<sourceString.index(sourceString.endIndex, offsetBy: -2)])
         }
-        sourceLabel.text = sourceString
+        //sourceLabel.text = sourceString
+        //sourceTextView.text = sourceString
         self.shareMessage = "Check out this snippet:\n" + data.headline
         self.shareUrl = NSURL(string: data.fullURL)
         
@@ -150,7 +205,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func bindImage(imageOpt: Image?) {
-        guard let image = imageOpt,
+        guard let _ = imageOpt,
             let data = imageOpt?.data else {
                 postImage.image = nil
                 setActivityIndicatorState(loading: true)
@@ -175,7 +230,10 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         if post.comments.count == 0 {
             return []
         }
-        let post_comments = formList(from: post.comments)
+        var post_comments = formList(from: post.comments)
+        post_comments.sort { (c1, c2) -> Bool in
+           return c1.date.compare(c2.date).rawValue > 0
+        }
         nestTimeSortedCommentArray(of: post_comments)
         var unNestedComments: [ RealmComment ] = []
         for comment in post_comments {
@@ -247,6 +305,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         if on {
             dislikeButton.setState(on: false)
         }
+        self.postContainer.layoutSubviews()
     }
     func onToggleDislike(on: Bool, for post: Post) {
         let action: VoteAction = on ? .dislikeOn : .dislikeOff
@@ -273,14 +332,15 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private func whiteBackArrow() {
         let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 13, 14, 13)
         menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
         menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
         menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 18)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
@@ -302,11 +362,11 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     private func dynamicKeyboardViewPosition() {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let info = notification.userInfo {
-            let rect:CGRect = info ["UIKeyboardFrameEndUserInfoKey"] as! CGRect
+        if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
                 self.view.layoutIfNeeded()
@@ -320,6 +380,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
+            }, completion: { [weak self] completed in
+                guard let s = self else { return }
+                s.scrollToComment(scrollComment: s.replyComment, type: .bottom)
             })
         }
     }
@@ -331,9 +394,25 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             UIView.animate(withDuration: 0.25, animations: {
                 self.view.layoutIfNeeded()
                 self.bottomConstraint.constant = 0
+            }, completion: { [weak self] completed in
+                guard let s = self else { return }
+                s.scrollToComment(scrollComment: s.replyComment, type: .top)
             })
         }
     }
+    
+    @objc func keyboardDidChangeFrame(notification: NSNotification) {
+        if let info = notification.userInfo {
+            var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+            if #available(iOS 11.0, *)
+            {
+                let bottomInset = self.view.safeAreaInsets.bottom
+                keyboardHeight -= bottomInset
+            }
+            self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
+        }
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {
         return true
@@ -343,6 +422,35 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         writeCommentRecognizer.delegate = self
         commentText.isUserInteractionEnabled = true
         commentText.addGestureRecognizer(writeCommentRecognizer)
+    }
+    
+    func scrollToHeader() {
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: numberOfCommentsLabel.frame.maxY + 5, width: 1, height: 1), animated: true)
+    }
+    
+    func scrollToComment(scrollComment: RealmComment?, type: UITableViewScrollPosition) {
+        var scrollIndex: Int?
+        if let target = scrollComment {
+            if let comments = self.commentArray {
+                let index = comments.index { (cmt) -> Bool in
+                    return cmt.id == target.id
+                }
+                if index != nil {
+                    scrollIndex = index!
+                }
+            }
+        } else {
+            if let c = self.commentArray {
+                if c.count > 0 {
+                    scrollIndex = 0
+                }
+            }
+        }
+        if let i = scrollIndex {
+            tableView.scrollToRow(at: IndexPath(row: i, section: 0), at: type, animated: true)
+        } else {
+            scrollToHeader()
+        }
     }
     
     @objc func interceptWriteBoxTap() {
@@ -363,6 +471,19 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         delegate.postComment(for: self.post, with: body, parent: self.replyComment)
         commentText.resignFirstResponder()
         commentText.text = ""
+        replyToLabel.text = ""
+        replyComment = nil
+        self.toggleReplyStatus(show: false)
+    }
+    
+    @objc func onCancelReply() {
+        self.replyComment = nil
+        self.replyToLabel.text = ""
+        self.toggleReplyStatus(show: false)
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+    }
+    @IBAction func onKeyboardSend() {
+        onSend()
     }
     
     deinit {
@@ -398,14 +519,25 @@ extension PostDetailViewController: UITableViewDataSource {
 }
 
 extension PostDetailViewController: CommentCellDelegate {
-    
-    
     func onReplyRequested(for comment: RealmComment) {
         self.replyComment = comment
+        if let writer = comment.writer {
+            replyToLabel.text = "Replying to \(writer.first_name) \(writer.last_name)"
+        } else {
+            replyToLabel.text = "Replying"
+        }
+        self.toggleReplyStatus(show: true)
         if !commentText.isFirstResponder {
             commentText.becomeFirstResponder()
+        } else {
+            scrollToComment(scrollComment: comment, type: .bottom)
         }
     }
-    
-    
+}
+
+extension PostDetailViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        UIApplication.shared.open(URL, options: [:])
+        return false
+    }
 }

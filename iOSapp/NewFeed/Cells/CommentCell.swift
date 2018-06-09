@@ -18,15 +18,16 @@ class CommentCell: UITableViewCell {
     @IBOutlet var leadingConstraint: NSLayoutConstraint!
     @IBOutlet var shortName: UILabel!
     @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var replayButton: UIButton!
-    
+    @IBOutlet var commentTimeLabel: UILabel!
     var comment: RealmComment!
     var delegate: CommentCellDelegate!
+    
+    @IBOutlet var replyLabel: UILabel!
     func bind(with comment: RealmComment) {
         self.comment = comment
         if let writer = comment.writer {
             nameLabel.text = "\(writer.first_name) \(writer.last_name)"
-            shortName.text = writer.initials
+            shortName.text = writer.initials.uppercased()
         } else {
             nameLabel.text = ""
             shortName.text = ""
@@ -35,12 +36,11 @@ class CommentCell: UITableViewCell {
         //Set indentation
         leadingConstraint.constant =  CGFloat(integerLiteral: 20 + (comment.level * 15))
         if comment.level < 2 {
-            replayButton.addTarget(self, action: #selector(onReply), for: .touchUpInside)
-            replayButton.isHidden = false
+            replyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onReply)))
+            replyLabel.isHidden = false
         } else {
-            replayButton.isHidden = true
+            replyLabel.isHidden = true
         }
-        
     }
     
     @objc func onReply() {

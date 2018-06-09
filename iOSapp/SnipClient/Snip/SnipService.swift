@@ -27,7 +27,8 @@ extension SnipService: TargetType {
         case .getPostImage(let imageURL):
             return URL(string: imageURL)!
         default:
-            return URL(string: "https://www.snip.today")!
+            return URL(string: "https://readers-dev-test.snip.today")!
+            //return URL(string: "https://www.snip.today")!
         }
         
     }

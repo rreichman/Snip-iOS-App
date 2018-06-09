@@ -63,7 +63,7 @@ class PostListViewController: UIViewController {
     func setUserHeader(name: String, initials: String) {
         self.displayUserHeader = true
         self.userName = name
-        self.userInitials = initials
+        self.userInitials = initials.uppercased()
     }
     func setPostQuery(posts: List<Post>, description: String) {
         self.posts = posts

@@ -52,12 +52,12 @@ class MainFeedCoordinator: Coordinator {
                         realm.add(category, update: true)
                     }
                 }
-                catList.forEach({ (cat) in
+                /**catList.forEach({ (cat) in
                     cat.topThreePosts.forEach({ (post) in
                         let headline = post.headline
-                        let short = String(headline[..<headline.index(headline.startIndex, offsetBy: 20)])
+                        //let short = String(headline[..<headline.index(headline.startIndex, offsetBy: 20)])
                     })
-                })
+                })**/
                 guard let s = self else { return }
                 s.loadingState = .notLoading
                 guard let vc = s.mainFeedController else { return }

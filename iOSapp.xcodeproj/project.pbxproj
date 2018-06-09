@@ -87,6 +87,7 @@
 		406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1C20B6204500682B58 /* VoteAction.swift */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
 		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
+		40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */; };
 		40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */; };
 		40B7AF0A20AA499D00A4F608 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */; };
 		40DE49A320AF4F3D001701B6 /* SnipFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */; };
@@ -260,6 +261,7 @@
 		406EBA1C20B6204500682B58 /* VoteAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAction.swift; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
+		40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
 		40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPresentationController.swift; sourceTree = "<group>"; };
 		40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipFooterView.swift; sourceTree = "<group>"; };
@@ -497,7 +499,6 @@
 				236C11D1209D35AD0026E476 /* Errors */,
 				2391D29F2098F894001DDC9B /* SnipKeystore.swift */,
 				23CC1784209A82EC00B347C5 /* Network.swift */,
-				236C11DB209D3CD20026E476 /* Single+Extension.swift */,
 				236C11DD209D40030026E476 /* SingleBackgroundThread.swift */,
 				236C11DF209D47AA0026E476 /* EtherNumberFormatter.swift */,
 				236C11E1209D480E0026E476 /* EthereumUnit.swift */,
@@ -631,12 +632,14 @@
 		4018401D20ACBD06001DFE6E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				236C11DB209D3CD20026E476 /* Single+Extension.swift */,
 				236C11CD209D2FE50026E476 /* RealmManager.swift */,
 				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
 				7D0047F71F997E3E00B02D1A /* AppDelegate.swift */,
 				7DD073B520757C24001D24BD /* MainTabBarViewController.swift */,
 				40E4B38F20AE1797000EA9F6 /* AppCoordinator.swift */,
 				40E4B39120AE3C84000EA9F6 /* TabCoordinator.swift */,
+				40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1254,6 +1257,7 @@
 				237CD49120A2747D00A2327B /* TickerService.swift in Sources */,
 				406EBA1B20B4CE6300682B58 /* PostStateManager.swift in Sources */,
 				7D93CAE51FD747710044C246 /* WebUtils.swift in Sources */,
+				40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */,
 				401F43AA20B37D2A003BECFE /* GeneralFeedCoordinator.swift in Sources */,
 				23BDF12D20818487005DED76 /* PasswordGen.swift in Sources */,
 				230AE44E209405B5001A05DC /* ShareAddressView.swift in Sources */,
