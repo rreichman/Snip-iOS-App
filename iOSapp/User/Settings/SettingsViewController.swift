@@ -10,31 +10,28 @@ import UIKit
 
 let SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().SETTINGS_DESCRIPTION_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SETTINGS_DESCRIPTION_COLOR]
 
+protocol SettingsViewDelegate: class {
+    func onLogoutRequested()
+    func backRequested()
+}
+
 class SettingsViewController : GenericProgramViewController
 {
-    @IBOutlet weak var backHeaderView: BackHeaderView!
     
     @IBOutlet weak var firstSetting: SettingsMember!
     @IBOutlet weak var secondSetting: SettingsMember!
     @IBOutlet weak var thirdSetting: SettingsMember!
     
-    @IBOutlet weak var backgroundView: UIView!
-    
+    var delegate: SettingsViewDelegate!
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.navigationItem.title = "Settings"
         
-        navigationController?.navigationBar.isHidden = true
-        
-        backHeaderView.titleLabel.attributedText = LoginDesignUtils.shared.SETTINGS_HEADLINE_STRING
-        backHeaderView.currentViewController = self
-        
-        setConstraintToMiddleOfScreen(constraint: backHeaderView.titleLabelTrailingConstraint, view: backHeaderView.titleLabel)
-        
-        backgroundView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         designSettings()
         setButtons()
+        whiteBackArrow()
     }
     
     func designSettings()
@@ -77,8 +74,9 @@ class SettingsViewController : GenericProgramViewController
     @objc func logoutClicked(sender: UITapGestureRecognizer)
     {
         print("in logout")
-        if (UserInformation().isUserLoggedIn())
+        if (UserInformation().isUserLoggedIn() || SessionManager.instance.loggedIn)
         {
+            
             let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to log out?", message: "", preferredStyle: UIAlertControllerStyle.alert)
             let alertActionOk : UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: self.operateLogout)
             let alertActionCancel : UIAlertAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: nil)
@@ -94,6 +92,7 @@ class SettingsViewController : GenericProgramViewController
     
     func operateLogout(action: UIAlertAction)
     {
+        SessionManager.instance.oldAuthProxyLogout()
         UserInformation().logOutUser()
         promptToUserWithAutoDismiss(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.moveToProfileTab)
     }
@@ -101,5 +100,24 @@ class SettingsViewController : GenericProgramViewController
     func moveToProfileTab(action: UIAlertAction)
     {
         segueBackToContent(alertAction: action)
+    }
+    
+    @objc func backButtonTapped() {
+        delegate.backRequested()
+    }
+    
+    private func whiteBackArrow() {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
+        menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
+        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        currHeight?.isActive = true
+        self.navigationItem.leftBarButtonItem = menuBarItem
     }
 }

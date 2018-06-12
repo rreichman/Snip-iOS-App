@@ -258,7 +258,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         {
             DispatchQueue.main.async
                 {
-                    if jsonObj.keys.count == 1 && jsonObj.keys.contains("key")
+                    if jsonObj.keys.contains("key")
                     {
                         storeUserAuthenticationToken(authenticationToken: jsonObj["key"] as! String)
                         SessionManager.instance.oldAuthProxy(token: jsonObj["key"] as! String)
@@ -266,7 +266,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
                         
                         if (self.viewControllerToReturnTo is ProfileViewController)
                         {
-                            (self.viewControllerToReturnTo as! ProfileViewController).setUsername()
+                            //(self.viewControllerToReturnTo as! ProfileViewController).setUsername()
                         }
                         promptToUserWithAutoDismiss(promptMessageTitle: "Login successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.segueBackToContent)
                     }

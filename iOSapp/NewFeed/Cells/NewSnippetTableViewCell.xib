@@ -47,19 +47,17 @@
                             <constraint firstAttribute="width" constant="100" id="x2h-uQ-Zis"/>
                         </constraints>
                     </imageView>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aci-Ys-gFI">
-                        <rect key="frame" x="20" y="140" width="335" height="435.5"/>
-                        <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tJP-HP-LUx" userLabel="BodyTextView" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
+                        <rect key="frame" x="20" y="276.5" width="335" height="168.5"/>
+                        <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" link="YES"/>
+                        </accessibility>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                        <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IP-IC-ZFP">
-                        <rect key="frame" x="20" y="580.5" width="50" height="16"/>
-                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
-                        <color key="textColor" white="0.60999999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                    </textView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yA-X6-rnf" customClass="ToggleButton" customModule="iOSapp" customModuleProvider="target">
                         <rect key="frame" x="229" y="20" width="16" height="16"/>
                         <constraints>
@@ -149,21 +147,19 @@
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="02d-4T-c2y"/>
+                    <constraint firstItem="LNg-1p-C7W" firstAttribute="top" secondItem="tJP-HP-LUx" secondAttribute="bottom" constant="25" id="2pZ-qz-9iz"/>
                     <constraint firstItem="Wyx-bg-hAq" firstAttribute="leading" secondItem="gli-8d-p8T" secondAttribute="trailing" constant="20" id="3uN-Pf-YRx"/>
                     <constraint firstItem="9V7-nQ-Dx5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="4pe-WI-3cH"/>
-                    <constraint firstItem="Aci-Ys-gFI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="4zP-am-oTg"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="5Ep-8u-Aqj"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="69l-pt-MJN"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="A9O-Rj-AHd"/>
                     <constraint firstAttribute="bottom" secondItem="fIE-vP-4Ar" secondAttribute="bottom" priority="999" constant="20" placeholder="YES" id="BKs-VH-Mto"/>
                     <constraint firstAttribute="trailing" secondItem="fIE-vP-4Ar" secondAttribute="trailing" constant="20" id="Cle-Fo-fGJ"/>
                     <constraint firstItem="rcf-cN-PGf" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="Fd0-RI-Cf6"/>
-                    <constraint firstItem="Aci-Ys-gFI" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="H94-0e-BWz"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerY" secondItem="kD3-GU-mQq" secondAttribute="centerY" id="HDg-67-56U"/>
                     <constraint firstItem="LCE-mR-kKs" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="top" id="HoI-QI-quZ"/>
-                    <constraint firstItem="LNg-1p-C7W" firstAttribute="top" secondItem="3IP-IC-ZFP" secondAttribute="bottom" constant="10" id="Miq-zy-khS"/>
+                    <constraint firstItem="tJP-HP-LUx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="LVE-4p-wIV"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="rcf-cN-PGf" secondAttribute="trailing" constant="10" id="NAe-kR-03X"/>
-                    <constraint firstItem="3IP-IC-ZFP" firstAttribute="top" secondItem="Aci-Ys-gFI" secondAttribute="bottom" constant="5" id="NFn-LT-ZBM"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="top" id="OEp-fJ-Umw"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="PQn-EJ-6Ai"/>
                     <constraint firstItem="Wyx-bg-hAq" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="top" id="UEc-69-x10"/>
@@ -175,15 +171,15 @@
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="top" secondItem="9V7-nQ-Dx5" secondAttribute="bottom" constant="5" id="gTj-Fd-MUk"/>
                     <constraint firstAttribute="trailing" secondItem="Wyx-bg-hAq" secondAttribute="trailing" constant="20" id="il6-32-GBh"/>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="cHH-oH-6UX" secondAttribute="top" constant="-10" id="ini-dN-2vm"/>
+                    <constraint firstAttribute="trailing" secondItem="tJP-HP-LUx" secondAttribute="trailing" constant="20" id="kKC-13-hkw"/>
                     <constraint firstItem="9V7-nQ-Dx5" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="bottom" id="lD9-Y8-PoZ"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="bottom" constant="10" id="lop-ZV-Qrl"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="2yA-X6-rnf" secondAttribute="trailing" constant="10" id="oUi-ln-LXj"/>
                     <constraint firstItem="LCE-mR-kKs" firstAttribute="leading" secondItem="LNg-1p-C7W" secondAttribute="trailing" constant="20" id="poa-1C-PX3"/>
+                    <constraint firstItem="tJP-HP-LUx" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="qxi-Da-dP1"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="top" id="rPV-ok-DOz"/>
-                    <constraint firstAttribute="trailing" secondItem="Aci-Ys-gFI" secondAttribute="trailing" constant="20" id="rZ2-Xb-A5J"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="Wyx-bg-hAq" secondAttribute="centerY" id="tOx-AZ-hsU"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="leading" secondItem="AAz-pe-1HY" secondAttribute="trailing" constant="4" id="v6Z-KA-P3n"/>
-                    <constraint firstItem="3IP-IC-ZFP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="yQ2-US-rtS"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="9V7-nQ-Dx5" secondAttribute="trailing" constant="16" id="zdk-5o-ZEC"/>
                 </constraints>
             </tableViewCellContentView>
@@ -191,7 +187,7 @@
             <connections>
                 <outlet property="activityIndicator" destination="fTT-7G-sa2" id="XFd-UI-7Yh"/>
                 <outlet property="authorLabel" destination="cHH-oH-6UX" id="w50-Rh-Bas"/>
-                <outlet property="bodyLabel" destination="Aci-Ys-gFI" id="QxN-eX-FEC"/>
+                <outlet property="bodyTextView" destination="tJP-HP-LUx" id="FNP-Ln-UZY"/>
                 <outlet property="commentInput" destination="fIE-vP-4Ar" id="JQw-8k-nB6"/>
                 <outlet property="dateLabel" destination="bm5-ZK-pAa" id="uyZ-AN-9ol"/>
                 <outlet property="dislikeButton" destination="LNg-1p-C7W" id="kBK-Na-27L"/>
@@ -201,15 +197,12 @@
                 <outlet property="postImage" destination="kD3-GU-mQq" id="M13-eo-9FU"/>
                 <outlet property="saveButton" destination="2yA-X6-rnf" id="uZl-Vu-JTe"/>
                 <outlet property="shareButton" destination="Wyx-bg-hAq" id="afN-oG-MKd"/>
-                <outlet property="sourceLabel" destination="3IP-IC-ZFP" id="vDv-sH-vBe"/>
                 <outlet property="titleLabel" destination="AAz-pe-1HY" id="CQ3-ZB-0Xc"/>
                 <outlet property="touchAreaView" destination="9V7-nQ-Dx5" id="Ktl-zg-zoF"/>
                 <outletCollection property="views" destination="AAz-pe-1HY" collectionClass="NSMutableArray" id="Ub7-01-Kqj"/>
                 <outletCollection property="views" destination="cHH-oH-6UX" collectionClass="NSMutableArray" id="cX7-aw-rvw"/>
                 <outletCollection property="views" destination="bm5-ZK-pAa" collectionClass="NSMutableArray" id="Pmb-8Y-ifq"/>
                 <outletCollection property="views" destination="kD3-GU-mQq" collectionClass="NSMutableArray" id="EYl-Ss-CJZ"/>
-                <outletCollection property="views" destination="Aci-Ys-gFI" collectionClass="NSMutableArray" id="JZV-s5-2rL"/>
-                <outletCollection property="views" destination="3IP-IC-ZFP" collectionClass="NSMutableArray" id="tm8-ki-1qK"/>
                 <outletCollection property="views" destination="2yA-X6-rnf" collectionClass="NSMutableArray" id="m9L-Gg-FdS"/>
                 <outletCollection property="views" destination="LCE-mR-kKs" collectionClass="NSMutableArray" id="Xo8-VL-OoD"/>
                 <outletCollection property="views" destination="LNg-1p-C7W" collectionClass="NSMutableArray" id="sfP-gz-JrD"/>

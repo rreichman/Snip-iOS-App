@@ -59,7 +59,9 @@ class MainFeedViewController: UIViewController {
                     if insertions.count > 0 {
                         s.expandedSet.removeAll()
                     }
-                        UIView.performWithoutAnimation {
+                    UIView.performWithoutAnimation {
+                        // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
+                        /**
                         s.tableView.beginUpdates()
                         s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
                                              with: .none)
@@ -67,6 +69,9 @@ class MainFeedViewController: UIViewController {
                                                with: .none)
                         
                         s.tableView.endUpdates()
+                        **/
+                        
+                        s.tableView.reloadData()
                     }
                 default:
                     break

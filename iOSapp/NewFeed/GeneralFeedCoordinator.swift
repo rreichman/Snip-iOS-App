@@ -31,7 +31,17 @@ class GeneralFeedCoordinator: Coordinator {
     var navController: UINavigationController!
     var postListVC: PostListViewController!
     var category: Category!
-    fileprivate var loadingState: LoadingState = .loadingPage
+    fileprivate var loadingState: LoadingState {
+        get {
+            print("someone got loadingState, it is \(_loadingState)")
+            return _loadingState
+        }
+        set {
+            print("someone set loadingState to \(newValue)")
+            _loadingState = newValue
+        }
+    }
+    fileprivate var _loadingState: LoadingState = .loadingPage
     var postCotainer: PostContainer!
     var writer: User!
     let mode: FeedMode
@@ -111,6 +121,7 @@ class GeneralFeedCoordinator: Coordinator {
         switch self.mode {
         case .category:
             if self.category.nextPage == -1 {
+                self.loadingState = .notLoading
                 return
             }
             SnipRequests.instance.getNextPage(for: category)
@@ -131,7 +142,11 @@ class GeneralFeedCoordinator: Coordinator {
                     s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
         case .writer:
-            if self.postCotainer.nextPage == -1 { return }
+            if self.postCotainer.nextPage == -1 {
+                self.loadingState = .notLoading
+                return
+                
+            }
             SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, result) in
@@ -159,7 +174,9 @@ class GeneralFeedCoordinator: Coordinator {
             }.disposed(by: disposeBag)
         case .savedSnips:
             if self.postCotainer.nextPage == -1 {
+                self.loadingState = .notLoading
                 return
+                
             }
             SnipRequests.instance.getSavedSnips(nextPage: postCotainer.nextPage)
                 .observeOn(MainScheduler.instance)

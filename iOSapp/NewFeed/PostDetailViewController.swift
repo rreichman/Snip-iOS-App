@@ -59,18 +59,21 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.dataSource = self
         //tableView.tableHeaderView = postContainer
         tableView.allowsSelection = false
+        tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         bodyTextView.delegate = self
         dataDelegate = PostStateManager.instance
         whiteBackArrow()
         viewInit()
         dynamicKeyboardViewPosition()
         setUpWriteBox()
+        
         self.bindViews(data: self.post)
+        
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
         cancelReplyButton.addTarget(self, action: #selector(onCancelReply), for: .touchUpInside)
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
         topConstraint.isActive = true
-        //postContainer.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -85,6 +88,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             tableView.layoutIfNeeded()
         }
     }
+     
     
     func viewInit() {
         
@@ -129,30 +133,33 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             self.onToggleDislike(on: on, for: data)
         }
         if let richText = data.getAttributedBody() {
+            //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
+            let pStyle = NSMutableParagraphStyle()
+            pStyle.lineSpacing = 0.0
+            pStyle.paragraphSpacing = 12
+            pStyle.defaultTabInterval = 36
+            pStyle.baseWritingDirection = .leftToRight
+            pStyle.minimumLineHeight = 15.0
+            
             for source in data.relatedLinks {
                 let text = source.title + ", "
-                let range = text.range(of: source.title)
-                
                 
                 let attributes: [NSAttributedStringKey : Any] =
-                    [//.paragraphStyle: paragraphStyle,
-                     //.foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
+                    [.paragraphStyle: pStyle,
+                     .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
                      .font: UIFont.lato(size: 14),
                      .link: URL(string: source.url)!]
                 let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
-                //attributedText.addAttribute(.link, value: source.url, range: NSRange(range!, in: text))
-                //attributedText.addAttribute(.font, value: UIFont.lato(size: 14), range: NSMakeRange(0, text.count))
-                //attributedText.addAttribute(.foregroundColor, value: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0), range: NSMakeRange(0, text.count))
-                //attributedText.addAttribute(.font, value: UIFont.lato(size: 14), range: Range(0, length: text.characters.count))
                 richText.append(attributedText)
             }
-            bodyTextView.attributedText = richText
+            bodyTextView.attributedText = (data.relatedLinks.count > 0 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
+            bodyTextView.sizeToFit()
+            bodyTextView.layoutSubviews()
         } else {
-            //bodyLabel.text = data.text
             bodyTextView.text = data.text
         }
+        bodyTextView.tintColor = UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0)
         var sourceString = ""
-        var testSourceString = NSMutableAttributedString()
         for source in data.relatedLinks {
             sourceString += "\(source.title), "
         }
@@ -182,15 +189,18 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             case .update(_, let deletions, let insertions, let modifications):
                 
                 UIView.performWithoutAnimation {
-                    s.tableView.beginUpdates()
+                    // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
+                    /**
+                     s.tableView.beginUpdates()
+                     s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     
+                     s.tableView.endUpdates()
+                     **/
                     
-                    s.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                         with: .none)
-                    s.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                         with: .none)
-                    s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                         with: .none)
-                    s.tableView.endUpdates()
+                    s.tableView.reloadData()
                 }
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
@@ -333,7 +343,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     private func whiteBackArrow() {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
-        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 13, 14, 13)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
         menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
         menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
         menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit

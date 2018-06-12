@@ -27,10 +27,9 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var bodyLabel: UILabel!
     @IBOutlet var commentInput: UIButton!
-    @IBOutlet var sourceLabel: UILabel!
     
+    @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var saveButton: ToggleButton!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIButton!
@@ -107,10 +106,32 @@ class NewSnippetTableViewCell: UITableViewCell {
         //Binding of elements that might be hidden
         if expanded {
             if let richText = data.getAttributedBody() {
-                bodyLabel.attributedText = richText
+                //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
+                let pStyle = NSMutableParagraphStyle()
+                pStyle.lineSpacing = 0.0
+                pStyle.paragraphSpacing = 12
+                pStyle.defaultTabInterval = 36
+                pStyle.baseWritingDirection = .leftToRight
+                pStyle.minimumLineHeight = 15.0
+                
+                for source in data.relatedLinks {
+                    let text = source.title + ", "
+                    
+                    let attributes: [NSAttributedStringKey : Any] =
+                        [.paragraphStyle: pStyle,
+                         .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
+                         .font: UIFont.lato(size: 14),
+                         .link: URL(string: source.url)!]
+                    let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+                    richText.append(attributedText)
+                }
+                bodyTextView.attributedText = (data.relatedLinks.count > 0 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
+                bodyTextView.sizeToFit()
+                bodyTextView.layoutSubviews()
             } else {
-                bodyLabel.text = data.text
+                bodyTextView.text = data.text
             }
+            bodyTextView.tintColor = UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0)
             var sourceString = ""
             for source in data.relatedLinks {
                 sourceString += "\(source.title), "
@@ -118,7 +139,7 @@ class NewSnippetTableViewCell: UITableViewCell {
             if sourceString.count > 0 {
                 sourceString = String(sourceString[..<sourceString.index(sourceString.endIndex, offsetBy: -2)])
             }
-            sourceLabel.text = sourceString
+            //sourceLabel.text = sourceString
             
             if data.comments.count > 0 {
                 numberOfCommentsLabel.isHidden = false
@@ -130,8 +151,7 @@ class NewSnippetTableViewCell: UITableViewCell {
             }
             //Bind butttons
         } else {
-            bodyLabel.text = ""
-            sourceLabel.text = ""
+            bodyTextView.text = ""
             numberOfCommentsLabel.isHidden = true
         }
         self.shareMessage = "Check out this snippet:\n" + data.headline + " "
@@ -178,6 +198,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         } else {
             activityIndicator.stopAnimating()
             activityIndicator.isHidden = true
+            postImage.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         }
     }
     
@@ -194,8 +215,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     
     func setHiddenState(large: Bool) {
         let hidden = !large
-        bodyLabel.isHidden = hidden
-        sourceLabel.isHidden = hidden
+        bodyTextView.isHidden = hidden
         dislikeButton.isHidden = hidden
         likeButton.isHidden = hidden
         shareButton.isHidden = hidden
@@ -216,12 +236,12 @@ class NewSnippetTableViewCell: UITableViewCell {
     }
     func addTap() {
         titleLabel.isUserInteractionEnabled = true
-        bodyLabel.isUserInteractionEnabled = true
+        bodyTextView.isUserInteractionEnabled = true
         authorLabel.isUserInteractionEnabled = true
         numberOfCommentsLabel.isUserInteractionEnabled = true
         numberOfCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(commentTap)))
         titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
-        bodyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
+        bodyTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
         optionsButton.addTarget(self, action: #selector(postOptionsTab), for: .touchUpInside)
         authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(authorTap)))

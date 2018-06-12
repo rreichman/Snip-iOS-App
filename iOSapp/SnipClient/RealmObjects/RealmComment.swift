@@ -30,6 +30,10 @@ class RealmComment: Object {
         return "id"
     }
     
+    func formattedTimeString() -> String {
+        return TimeUtils.getFormattedDateString(date: self.date)
+    }
+    
     let subComments = List<RealmComment>()
     let parent_id = RealmOptional<Int>()
 

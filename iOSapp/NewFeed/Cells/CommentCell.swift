@@ -41,6 +41,7 @@ class CommentCell: UITableViewCell {
         } else {
             replyLabel.isHidden = true
         }
+        commentTimeLabel.text = comment.formattedTimeString()
     }
     
     @objc func onReply() {

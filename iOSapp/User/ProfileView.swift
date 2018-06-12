@@ -22,7 +22,6 @@ class ProfileView: UIView
 {
     var contentView : UIView?
     
-    @IBOutlet weak var backButtonView: UIView!
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var userImage: UserImage!
@@ -68,8 +67,8 @@ class ProfileView: UIView
         backgroundImage.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         let backButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.backButtonClicked(sender:)))
-        backButtonView.isUserInteractionEnabled = true
-        backButtonView.addGestureRecognizer(backButtonClickRecognizer)
+        //backButtonView.isUserInteractionEnabled = true
+        //backButtonView.addGestureRecognizer(backButtonClickRecognizer)
         
         setUI(receivedUserFullName: userFullName)
         

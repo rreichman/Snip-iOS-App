@@ -10,7 +10,7 @@ import UIKit
         textContainerInset = UIEdgeInsets.zero
         textContainer.lineFragmentPadding = 0
         //contentInset = UIEdgeInsets.zero
-        return
+        //return
         // this is not ideal, but you can sometimes use this
         // to fix the "space at bottom" insanity
         var b = bounds

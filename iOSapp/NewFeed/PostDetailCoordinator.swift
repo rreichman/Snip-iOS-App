@@ -30,8 +30,12 @@ class PostDetailCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     func pushLoginSignUp() {
-        let loginSignUp = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginSignUpViewController")
-        self.navigationController.pushViewController(loginSignUp, animated: true)
+        let loginSignUp = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupWelcomeViewController")
+        //self.navigationController.pushViewController(loginSignUp, animated: true)
+        self.viewController.present(loginSignUp, animated: true) {
+            //maybe we need to do something
+            return
+        }
     }
 }
 

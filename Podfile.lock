@@ -8,6 +8,7 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - BonMot (5.2)
   - Cache (4.2.0)
   - Crashlytics (3.10.2):
     - Fabric (~> 1.7.7)
@@ -72,6 +73,7 @@ PODS:
 
 DEPENDENCIES:
   - BigInt
+  - BonMot
   - Cache
   - Crashlytics
   - CryptoSwift (~> 0.8.1)
@@ -99,6 +101,7 @@ SPEC REPOS:
     - Alamofire
     - BigInt
     - Bolts
+    - BonMot
     - Cache
     - Crashlytics
     - CryptoSwift
@@ -151,6 +154,7 @@ SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   BigInt: 8e8a52161c745cd3ab78e3dc346a9fbee51e6cf6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  BonMot: 68da0bd7c2f602aca85511bedabd211eb0fae666
   Cache: f28f8dd64b632155aabf9b3906b036a659048251
   Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
   CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
@@ -180,6 +184,6 @@ SPEC CHECKSUMS:
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 3fc9ba4330d83bde2528017ac0b5098bbae94212
+PODFILE CHECKSUM: 455b1ea41043838e77d43f3378d3d237953d7ebc
 
 COCOAPODS: 1.5.3

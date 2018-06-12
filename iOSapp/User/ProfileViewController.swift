@@ -5,86 +5,71 @@
 //  Created by Ran Reichman on 11/30/17.
 //  Copyright © 2017 Ran Reichman. All rights reserved.
 //
-
+import Foundation
 import UIKit
 
-class ProfileViewController : GenericProgramViewController
-{
-    @IBOutlet weak var logoutButton: UIButton!
-    @IBOutlet weak var welcomeText: UITextView!
-    
-    @IBOutlet weak var profileTopView: ProfileView!
+protocol ProfileViewDelegate: class {
+    func viewDidAppear()
+    func onSavedPostsRequested()
+    func onMyPostsRequested()
+    func onSettingsClicked()
+}
+
+class ProfileViewController : GenericProgramViewController {
     
     @IBOutlet weak var savedSnipsSurroundingView: UIView!
-    @IBOutlet weak var savedSnippetsTextView: UITextView!
     @IBOutlet weak var savedSnippetsSeparator: UIView!
     
     @IBOutlet weak var logInSurroundingView: UIView!
-    @IBOutlet weak var logInTextView: UITextView!
     @IBOutlet weak var logInSeparatorView: UIView!
     
-    @IBOutlet weak var statusBarView: UIView!
+    @IBOutlet var initialsLabel: UILabel!
+    @IBOutlet var fullNameLabel: UILabel!
     
     @IBOutlet weak var settingsView: UIView!
-    
-    let SAVED_SNIPS_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().SAVED_SNIPS_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().SAVED_SNIPS_COLOR]
-    
-    var timeOfLastWelcomScreen : TimeInterval = 0
-    var shouldShowWelcomeScreen : Bool = true
-    
+    var userPrfile: User?
+    var delegate: ProfileViewDelegate!
     override func viewDidLoad()
     {
-        /*let userFirstName : String = UserInformation().getUserInfo(key: UserInformation().firstNameKey)
-        */
-        navigationController?.navigationBar.isHidden = true
-        
-        removePaddingFromTextView(textView: savedSnippetsTextView)
-        removePaddingFromTextView(textView: logInTextView)
-        
-        savedSnippetsTextView.attributedText = NSAttributedString(string: "Saved Snips", attributes: SAVED_SNIPS_ATTRIBUTES)
-        logInTextView.attributedText = NSAttributedString(string: "Log In", attributes: SAVED_SNIPS_ATTRIBUTES)
-        
-        savedSnippetsSeparator.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
-        logInSeparatorView.backgroundColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1)
-        
-        setButtons()
-        setUsername()
-        
-        statusBarView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        
-        profileTopView.backButtonView.isHidden = true
-        
-        if (UserInformation().isUserLoggedIn())
-        {
-            logInSurroundingView.isHidden = true
-            shouldShowWelcomeScreen = false
-        }
-        else
-        {
-            moveToWelcomeScreen()
+        bind(profile: self.userPrfile)
+        addSettingsBarItem()
+    }
+    
+    func addSettingsBarItem() {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 19, 9, 0)
+        menuBtn.setImage(UIImage(named:"whiteSettingsCog"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(self.settingsClicked(sender:)), for: .touchUpInside)
+        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        currHeight?.isActive = true
+        self.navigationItem.rightBarButtonItem = menuBarItem
+    }
+    
+    
+    func bind(profile: User?) {
+        self.userPrfile = profile
+        guard let _ = fullNameLabel else { return }
+        if let u = profile {
+            setHidden(false)
+            fullNameLabel.text = "\(u.first_name) \(u.last_name)"
+            initialsLabel.text = "\(u.initials.uppercased())"
+        } else {
+            setHidden(true)
         }
     }
     
+    func setHidden(_ hidden: Bool) {
+        
+    }
     override func viewDidAppear(_ animated: Bool)
     {
-        setUsername()
-        
-        let currentTime : TimeInterval = Date().timeIntervalSince1970
-        let ONE_HOUR_IN_SECONDS : TimeInterval = 60 * 60
-        
-        if (UserInformation().isUserLoggedIn())
-        {
-            logInSurroundingView.isHidden = true
-        }
-        else
-        {
-            logInSurroundingView.isHidden = false
-            
-            if (shouldShowWelcomeScreen && currentTime - timeOfLastWelcomScreen > ONE_HOUR_IN_SECONDS)
-            {
-                moveToWelcomeScreen()
-            }
-        }
+        //Show login on return if not logged in
+        delegate.viewDidAppear()
     }
     
     func setButtons()
@@ -102,25 +87,13 @@ class ProfileViewController : GenericProgramViewController
         logInSurroundingView.addGestureRecognizer(loginClickRecognizer)
     }
     
-    func setUsername()
-    {
-        let userFullName = UserInformation().getUserInfo(key: UserInformation().firstNameKey) + " " + UserInformation().getUserInfo(key: UserInformation().lastNameKey)
-        profileTopView.setUI(receivedUserFullName: userFullName)
-    }
-    
-    func moveToWelcomeScreen()
-    {
-        timeOfLastWelcomScreen = Date().timeIntervalSince1970
-        
-        performSegue(withIdentifier: "showWelcomeScreen", sender: self)
-    }
     
     @objc func settingsClicked(sender: UITapGestureRecognizer)
     {
         print("settings")
         Logger().logClickedOnSettings()
-        
-        performSegue(withIdentifier: "showSettingsSegue", sender: self)
+        delegate.onSettingsClicked()
+        //performSegue(withIdentifier: "showSettingsSegue", sender: self)
     }
     
     @objc func savedSnipsClicked(sender: UITapGestureRecognizer)
@@ -161,7 +134,7 @@ class ProfileViewController : GenericProgramViewController
         print("clicked on log in")
         Logger().logClickProfileLoginButton()
         
-        moveToWelcomeScreen()
+        //moveToWelcomeScreen()
     }
     
     func logout(action: UIAlertAction)

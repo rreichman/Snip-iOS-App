@@ -80,11 +80,14 @@
 		403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D120AE03E700E4BF8B /* CategoryParam.swift */; };
 		403505D420AE07DD00E4BF8B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D320AE07DD00E4BF8B /* Image.swift */; };
 		405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F1D3520B75F380066CD94 /* PostContainer.swift */; };
+		405F709420CF2AC9000659E2 /* TimeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F709320CF2AC9000659E2 /* TimeUtils.swift */; };
 		406EBA1520B4972100682B58 /* NoHeightHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */; };
 		406EBA1720B4ACD800682B58 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1620B4ACD800682B58 /* ToggleButton.swift */; };
 		406EBA1920B4CC0D00682B58 /* VoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1820B4CC0D00682B58 /* VoteState.swift */; };
 		406EBA1B20B4CE6300682B58 /* PostStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1A20B4CE6300682B58 /* PostStateManager.swift */; };
 		406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1C20B6204500682B58 /* VoteAction.swift */; };
+		40816AAC20CF51BC0062D891 /* AccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */; };
+		40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAD20CF58180062D891 /* AuthCoordinator.swift */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
 		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
 		40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */; };
@@ -254,11 +257,14 @@
 		403505D120AE03E700E4BF8B /* CategoryParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryParam.swift; sourceTree = "<group>"; };
 		403505D320AE07DD00E4BF8B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		405F1D3520B75F380066CD94 /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
+		405F709320CF2AC9000659E2 /* TimeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUtils.swift; sourceTree = "<group>"; };
 		406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoHeightHeaderFooter.swift; sourceTree = "<group>"; };
 		406EBA1620B4ACD800682B58 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		406EBA1820B4CC0D00682B58 /* VoteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteState.swift; sourceTree = "<group>"; };
 		406EBA1A20B4CE6300682B58 /* PostStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateManager.swift; sourceTree = "<group>"; };
 		406EBA1C20B6204500682B58 /* VoteAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAction.swift; sourceTree = "<group>"; };
+		40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCoordinator.swift; sourceTree = "<group>"; };
+		40816AAD20CF58180062D891 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
 		40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
@@ -612,6 +618,8 @@
 				7DA1A94E1FCB7CF600ABB0C4 /* SnipUser.swift */,
 				4018401C20ACBCC6001DFE6E /* SignUpLogin */,
 				40E4B39320AE4267000EA9F6 /* UserCoordinator.swift */,
+				40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */,
+				40816AAD20CF58180062D891 /* AuthCoordinator.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -676,6 +684,7 @@
 				7D93CAE61FD8F6B60044C246 /* CachedData.swift */,
 				7D5C43461FBA6FF900551E49 /* Utils.swift */,
 				7D91DC591FBF79E400771820 /* Logger.swift */,
+				405F709320CF2AC9000659E2 /* TimeUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1014,6 +1023,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BonMot/BonMot.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1043,6 +1053,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BonMot.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -1222,6 +1233,7 @@
 				2337A9EE209CFE890090CFDA /* Transaction.swift in Sources */,
 				23D1A720209A50C50071D3E6 /* SnipScheduler.swift in Sources */,
 				23026B27208535FC00D959E1 /* WalletCoordinator.swift in Sources */,
+				405F709420CF2AC9000659E2 /* TimeUtils.swift in Sources */,
 				23DCC8E0208EAD5D003A2B3C /* PinPadEntryPoint.swift in Sources */,
 				40F81F4720AFA63C003157A0 /* SessionManager.swift in Sources */,
 				7DB1BD621F9EB9E00033F67A /* SnippetsTableViewController.swift in Sources */,
@@ -1291,11 +1303,13 @@
 				237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */,
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,
 				237561E8208AA0BB00D8018F /* SetWalletViewController.swift in Sources */,
+				40816AAC20CF51BC0062D891 /* AccountCoordinator.swift in Sources */,
 				408E364220B697650072921D /* PostDetailViewController.swift in Sources */,
 				40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
 				406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */,
+				40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */,
 				405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */,
 				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,
 				4018403120ACE287001DFE6E /* SnipRequests.swift in Sources */,

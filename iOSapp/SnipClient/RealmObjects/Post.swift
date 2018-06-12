@@ -39,38 +39,7 @@ class Post: Object {
     }
     
     func formattedTimeString() -> String {
-        Post.dateFormatter.timeStyle = .none
-        Post.dateFormatter.dateStyle = .short
-        
-        if postOlderThanFourteenDays() {
-            return Post.dateFormatter.string(from: date)
-        } else if postOlderThanOneDay() {
-            let components = Calendar.current.dateComponents([.day], from: date, to: Date())
-            guard let day = components.day else { return Post.dateFormatter.string(from: date) }
-            return "\(day)d"
-        } else {
-            let components = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
-            guard let min = components.minute, let hr = components.hour else { return Post.dateFormatter.string(from: date) }
-            if hr == 0 {
-                return "\(min)m"
-            } else {
-                return "\(hr)h"
-            }
-        }
-    }
-    
-    private func postOlderThanFourteenDays() -> Bool {
-        let fourteenDayTimeInterval: TimeInterval = 24*60*60 * 14
-        let fourteenDaysAgo = Date().addingTimeInterval(-fourteenDayTimeInterval)
-        let comparison = date.compare(fourteenDaysAgo)
-        return comparison == .orderedAscending
-    }
-    
-    private func postOlderThanOneDay() -> Bool {
-        let oneDayTimeInterval: TimeInterval = 24*60*60
-        let onDayAgo = Date().addingTimeInterval(-oneDayTimeInterval)
-        let comparison = date.compare(onDayAgo)
-        return comparison == .orderedAscending
+        return TimeUtils.getFormattedDateString(date: self.date)
     }
     
 }
@@ -94,16 +63,19 @@ extension Post {
                 post.relatedLinks.append(l)
             }
         }
-        
-        guard let imageJson = json["image"] as? [String: Any] else { throw SerializationError.missing("image") }
-        if let image = try? Image.parseJson(json: imageJson) {
-            if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
-                post.image = cached_image
+        if let imageJson = json["image"] as? [String: Any] {
+            if let image = try? Image.parseJson(json: imageJson) {
+                if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
+                    post.image = cached_image
+                } else {
+                    post.image = image
+                }
             } else {
-                post.image = image
+                post.image = nil
             }
+        } else {
+            post.image = nil
         }
-        
         
         guard let vote = json["votes"] as? [String: Any] else { throw SerializationError.missing("votes")}
         guard let like = vote["like"] as? Bool else { throw SerializationError.missing("like")}

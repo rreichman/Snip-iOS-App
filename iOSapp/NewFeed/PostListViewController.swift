@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 import RealmSwift
+import Crashlytics
+
+enum TableError: Error {
+    case invalidUpdate(msg: String)
+}
 
 protocol FeedNavigationViewDelegate: class {
     func onBackPressed()
@@ -40,22 +45,18 @@ class PostListViewController: UIViewController {
         if let d = self.navDescription {
             setNavTitle(title: d)
         }
-        //self.tableView.estimatedRowHeight = 0
-        //self.tableView.estimatedSectionHeaderHeight = 0
-        //self.tableView.estimatedSectionFooterHeight = 0
-        //tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.dataSource = self
         tableView.delegate = self
-        //tableView.tableHeaderView?.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
-        //tableView.tableFooterView?.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         whiteBackArrow()
         if !self.displayUserHeader {
-            tableView.tableHeaderView = UIView(frame: CGRect.zero)
+            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         } else {
             tableView .tableHeaderView = headerContainer
             authorLabel.text = self.userName
             initialsLabel.text = self.userInitials
         }
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+        tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         addRefresh()
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
@@ -78,22 +79,25 @@ class PostListViewController: UIViewController {
                 // Results are now populated and can be accessed without blocking the UI
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
-                print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications) ")
+                print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications, array size: \(String(describing: viewController.posts?.count)) ")
                 deletions.forEach({ (deletion) in
                     if viewController.expandedSet.contains(deletion) {
                         viewController.expandedSet.remove(deletion)
                     }
                 })
                 UIView.performWithoutAnimation {
-                    tableView.beginUpdates()
-                
-                    tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                         with: .none)
-                    tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                         with: .none)
-                    tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                         with: .none)
-                    tableView.endUpdates()
+                    // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
+                    /**
+                     s.tableView.beginUpdates()
+                     s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     
+                     s.tableView.endUpdates()
+                     **/
+                    
+                    viewController.tableView.reloadData()
                 }
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
@@ -111,14 +115,15 @@ class PostListViewController: UIViewController {
     
     private func whiteBackArrow() {
         let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
         menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
         menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
         menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 18)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
     }

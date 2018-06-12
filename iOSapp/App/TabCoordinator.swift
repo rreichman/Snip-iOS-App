@@ -43,12 +43,12 @@ class TabCoordinator: Coordinator {
         walletCoordinator.containerVC.tabBarItem = UITabBarItem(title: "Wallet", image: #imageLiteral(resourceName: "tabBarWallet"), tag: 1)
         walletCoordinator.start()
         
-        let userCoordinator = UserCoordinator()
-        childCoordinators.append(userCoordinator)
-        userCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 1)
-        userCoordinator.start()
+        let accountCoordinator = AccountCoordinator()
+        childCoordinators.append(accountCoordinator)
+        accountCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 1)
+        accountCoordinator.start()
         
-        return [ feedCoordinator.navigationController, walletCoordinator.containerVC, userCoordinator.navigationController ]
+        return [ feedCoordinator.navigationController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
         
     }
 }
