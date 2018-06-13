@@ -65,11 +65,7 @@ class SnipRequests {
                 let page = try Post.parsePostPage(json: json)
                 
                 
-                //hijack first post for testing
-                if next_page == 1 {
-                    var test = page[0]
-                    test.headline += "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen"
-                }
+                
                 let realm = RealmManager.instance.getMemRealm()
                 for post in page {
                     let _ = s.getPostImage(for: post)
@@ -123,6 +119,34 @@ class SnipRequests {
             return Single.just( (-1, []) )
         }
         return provider.rx.request(SnipService.getSavedSnips(page: nextPage))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .observeOn(MainScheduler.instance)
+            .map { [weak self] obj in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
+                var next_page: Int!
+                if let next_page_maybe = json["next_page"] as? Int  {
+                    next_page = next_page_maybe
+                } else {
+                    next_page = -1
+                }
+                guard let s = self else { throw SerializationError.missing("self") }
+                let page = try Post.parsePostPage(json: json)
+                var results: [ Post ] = []
+                for post in page {
+                    let _ = s.getPostImage(for: post)
+                        .subscribe()
+                    results.append(post)
+                }
+                return (next_page, results)
+        }
+    }
+    func getLikedSnips(nextPage: Int?) -> Single<(Int, [ Post ])> {
+        if nextPage == -1 {
+            return Single.just( (-1, []) )
+        }
+        return provider.rx.request(SnipService.getLikedSnips(page: nextPage))
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
@@ -202,9 +226,9 @@ class SnipRequests {
         }
     }
     
-    func buildProfile(authToken: String?) {
-        guard let token = authToken else { return }
-        let _ = provider.rx.request(SnipService.buildUserProfile(authToken: token))
+    func buildProfile(authToken: String) -> Single<User> {
+        
+        return provider.rx.request(SnipService.buildUserProfile(authToken: authToken))
             .subscribeOn(SingleBackgroundThread.scheduler)
             .mapSnipRequest()
             .mapJSON()
@@ -219,12 +243,11 @@ class SnipRequests {
                 try! realm.write {
                     realm.add(user, update: true)
                 }
-                SessionManager.instance.authToken = token
-                SessionManager.instance.currentLoginUsername = user.username
-                print("Logged in as \(user.username) using token \(token)")
+                SessionManager.instance.setUserProfile(name: "\(user.first_name) \(user.last_name)", username: user.username, initials: user.initials)
+                print("Logged in as \(user.username) using token \(authToken)")
+                return user
             }
-            .retry(4)
-            .subscribe()
+            .retry(2)
     }
     
     func postVoteState(post_id: Int, vote_val: Double) {

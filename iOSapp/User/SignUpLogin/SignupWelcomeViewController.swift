@@ -38,10 +38,17 @@ class SignupWelcomeViewController : GenericProgramViewController
         setLogInBarButton()
     }
     
+    func enableInteraction(enabled: Bool) {
+        self.navigationItem.leftBarButtonItem?.isEnabled = enabled
+        self.navigationItem.rightBarButtonItem?.isEnabled = enabled
+        signupButton.isUserInteractionEnabled = enabled
+        loginFBButton.isUserInteractionEnabled = enabled
+    }
+    
     func setCloseBarButton() {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
-        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 20)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(15, 0, 15, 30)
         menuBtn.setImage(UIImage(named:"whiteCross"), for: .normal)
         menuBtn.addTarget(self, action: #selector(self.closeButtonClicked(sender:)), for: .touchUpInside)
         menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
@@ -89,10 +96,13 @@ class SignupWelcomeViewController : GenericProgramViewController
     @objc func continueWithFacebookClicked(sender : UITapGestureRecognizer)
     {
         print("continue with Facebook clicked")
+        delegate.onFBLoginRequested()
+        /**
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self, completion: facebookResultHandler)
+         **/
     }
-    
+    /**
     func facebookResultHandler(loginResult : LoginResult)
     {
         switch loginResult
@@ -112,10 +122,12 @@ class SignupWelcomeViewController : GenericProgramViewController
             WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, completionHandler: completeSignupAction)
         }
     }
-    
+     **/
+    /**
     func completeSignupAction(responseString: String)
     {
         WebUtils().completeSignupAction(responseString: responseString, viewController: self)
     }
+     **/
     
 }

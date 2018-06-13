@@ -19,6 +19,7 @@ enum SnipService {
     case postSave(post_id: Int)
     case postComment(post_id: Int, parent_id: Int?, body: String)
     case getSavedSnips(page: Int?)
+    case getLikedSnips(page: Int?)
 }
 
 extension SnipService: TargetType {
@@ -27,8 +28,8 @@ extension SnipService: TargetType {
         case .getPostImage(let imageURL):
             return URL(string: imageURL)!
         default:
-            return URL(string: "https://readers-dev-test.snip.today")!
-            //return URL(string: "https://www.snip.today")!
+            //return URL(string: "https://readers-dev-test.snip.today")!
+            return URL(string: "https://www.snip.today")!
         }
         
     }
@@ -49,6 +50,8 @@ extension SnipService: TargetType {
             return "/comments/publish/"
         case .getSavedSnips:
             return "/saved-posts/"
+        case .getLikedSnips:
+            return "/my-upvotes/"
         default:
             return ""
         }
@@ -82,6 +85,13 @@ extension SnipService: TargetType {
             params["page_size"] = 20 //TODO:
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         case .getSavedSnips(let page):
+            var params: [String: Any] = [:]
+            if let p = page {
+                params["page"] = p
+            }
+            params["page_size"] = 20 //TODO:
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case .getLikedSnips(let page):
             var params: [String: Any] = [:]
             if let p = page {
                 params["page"] = p

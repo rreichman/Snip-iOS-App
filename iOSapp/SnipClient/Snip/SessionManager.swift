@@ -8,6 +8,7 @@
 
 import Foundation
 import KeychainSwift
+import RxSwift
 
 class SessionManager {
     
@@ -99,6 +100,35 @@ class SessionManager {
             }
             userdefaults.synchronize()
         }
+    }
+    
+    func clearAll() {
+        self.authToken = nil
+        self.currentLoginName = nil
+        self.currentLoginIntitals = nil
+        self.currentLoginUsername = nil
+    }
+    
+    func login(auth_token: String) {
+        clearAll()
+        self.authToken = auth_token
+        let _ = SnipRequests.instance.buildProfile(authToken: auth_token).subscribe()
+    }
+    
+    func loginFetchProfile(auth_token: String) -> Single<User> {
+        clearAll()
+        self.authToken = auth_token
+        return SnipRequests.instance.buildProfile(authToken: auth_token)
+    }
+    
+    func logout() {
+        clearAll()
+    }
+    
+    func setUserProfile(name: String, username: String, initials: String) {
+        self.currentLoginUsername = username
+        self.currentLoginIntitals = initials
+        self.currentLoginName = name
     }
     
     func oldAuthProxy(token: String) {

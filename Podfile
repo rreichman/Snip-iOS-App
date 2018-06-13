@@ -26,7 +26,6 @@ target 'iOSapp' do
   pod 'Moya/RxSwift', '~> 11.0'
   pod 'RealmSwift'
   pod 'CryptoSwift', '~> 0.8.1'
-  pod 'BonMot'
 
   # Pods for iOSapp
 

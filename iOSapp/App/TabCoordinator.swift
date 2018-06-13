@@ -11,6 +11,10 @@ import Realm
 import RxSwift
 import Crashlytics
 
+protocol FeedView: class {
+    func scrollToTop()
+}
+
 class TabCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
@@ -38,12 +42,15 @@ class TabCoordinator: Coordinator {
         feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "tabBarHomeTwo"), tag: 0)
         feedCoordinator.start()
         
+        mainFeedNavigationController = feedCoordinator.navigationController
+        
         let walletCoordinator = WalletCoordinator()
         childCoordinators.append(walletCoordinator)
         walletCoordinator.containerVC.tabBarItem = UITabBarItem(title: "Wallet", image: #imageLiteral(resourceName: "tabBarWallet"), tag: 1)
         walletCoordinator.start()
         
         let accountCoordinator = AccountCoordinator()
+        accountCoordinator.delegate = self
         childCoordinators.append(accountCoordinator)
         accountCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 1)
         accountCoordinator.start()
@@ -55,7 +62,23 @@ class TabCoordinator: Coordinator {
 
 extension TabCoordinator: MainTabBarViewDelegate {
     func onTabSelected(tag: Int) {
-        //pass
+        if let feed = mainFeedNavigationController.topViewController as? FeedView {
+            if tabController.selectedIndex == 0 && tag == 0 {
+                feed.scrollToTop()
+            }
+        }
+    }
+}
+
+extension TabCoordinator: AccountCoordinatorDelegate {
+    func onUserLogout() {
+        // Jump back to home tab when the user logs out
+        tabController.selectedIndex = 0
+    }
+    
+    func onCancelWithoutLoginSignup() {
+        // Jump back to home tab when user decides not to login or signup
+        tabController.selectedIndex = 0
     }
 }
 

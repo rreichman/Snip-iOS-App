@@ -14,5 +14,8 @@ enum APIError: Error {
     case badStatus(message: String)
     case serverError(errorMessage: String, code: Int, response: Response)
     case requestError(errorMessage: String, code: Int, response: Response)
-    case badLogin
+    case badLogin(message: String)
+    case userAlreadyExists(message: String)
+    case userDoesNotExist
+    case generalError
 }

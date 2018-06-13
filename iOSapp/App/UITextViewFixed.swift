@@ -10,7 +10,6 @@ import UIKit
         textContainerInset = UIEdgeInsets.zero
         textContainer.lineFragmentPadding = 0
         //contentInset = UIEdgeInsets.zero
-        //return
         // this is not ideal, but you can sometimes use this
         // to fix the "space at bottom" insanity
         var b = bounds
@@ -22,7 +21,8 @@ import UIKit
         bounds = b
     }
     
-    override func setContentOffset(_ contentOffset: CGPoint, animated: Bool) {
-        super.setContentOffset(contentOffset, animated: false)
+    override var intrinsicContentSize: CGSize {
+        let height = self.sizeThatFits(CGSize(width: self.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        return CGSize(width: self.contentSize.width, height: height)
     }
 }

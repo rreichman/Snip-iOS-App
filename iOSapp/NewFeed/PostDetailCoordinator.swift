@@ -30,12 +30,9 @@ class PostDetailCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     func pushLoginSignUp() {
-        let loginSignUp = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupWelcomeViewController")
-        //self.navigationController.pushViewController(loginSignUp, animated: true)
-        self.viewController.present(loginSignUp, animated: true) {
-            //maybe we need to do something
-            return
-        }
+        let authCoord = AuthCoordinator(presentingViewController: viewController)
+        authCoord.delegate = self
+        authCoord.start()
     }
 }
 
@@ -60,6 +57,21 @@ extension PostDetailCoordinator: PostDetailViewDelegate {
         navigationController.popViewController(animated: true)
         navigationController = nil
         post = nil
+    }
+}
+
+extension PostDetailCoordinator: AuthCoordinatorDelegate {
+    func onSuccessfulSignup(profile: User) {
+        // pass
+    }
+    
+    func onCancel() {
+        guard let vc = viewController, let input = vc.commentText else { return }
+        input.resignFirstResponder()
+    }
+    
+    func onSuccessfulLogin(profile: User) {
+        // pass
     }
     
     

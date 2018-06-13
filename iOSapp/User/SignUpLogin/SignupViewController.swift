@@ -8,14 +8,13 @@
 
 import UIKit
 
+protocol SignupViewDelegate: class {
+    func onSignupCancel()
+    func onSignupRequested(email: String, firstName: String, lastName: String, password: String)
+}
+
 class SignupViewController : GenericProgramViewController
 {
-    @IBOutlet weak var headlineView: UIView!
-    
-    @IBOutlet weak var closeButtonView: UIView!
-    
-    @IBOutlet weak var headlineLabel: UILabel!
-    @IBOutlet weak var headlineLabelTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -40,26 +39,20 @@ class SignupViewController : GenericProgramViewController
     @IBOutlet weak var termsAndConditionsView: UITextView!
     @IBOutlet weak var termsAndConditionsLeadingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var bottomSignupLabel: UILabel!
-    @IBOutlet weak var bottomSurroundingView: UIView!
-    @IBOutlet weak var bottomSurroundingViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var signUpButton: UIButton!
+    
     @IBOutlet weak var bottomSurroundingViewBottomConstraint: NSLayoutConstraint!
     
+    var delegate: SignupViewDelegate!
     override func viewDidLoad()
     {
         super.viewDidLoad()
-    
-        headlineView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        headlineLabel.attributedText = LoginDesignUtils.shared.SIGNUP_TEXT
-        bottomSignupLabel.attributedText = headlineLabel.attributedText
+        self.navigationItem.title = "Sign Up".uppercased()
         
         designTextFieldHighlights()
         
         setTexts()
         
-        bottomSurroundingView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
-        
-        bottomSurroundingView.layer.cornerRadius = 24
         
         emailTextField.borderStyle = UITextBorderStyle.none
         passwordTextField.borderStyle = UITextBorderStyle.none
@@ -77,6 +70,36 @@ class SignupViewController : GenericProgramViewController
         updateConstraints()
         
         emailTextField.becomeFirstResponder()
+        whiteBackArrow()
+    }
+    
+    private func whiteBackArrow() {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
+        menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
+        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        currHeight?.isActive = true
+        self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+    
+    @objc func backButtonTapped() {
+        delegate.onSignupCancel()
+    }
+    
+    func enableInteraction(enabled: Bool) {
+        emailTextField.isUserInteractionEnabled = enabled
+        passwordTextField.isUserInteractionEnabled = enabled
+        showPasswordView.isUserInteractionEnabled = enabled
+        firstNameTextField.isUserInteractionEnabled = enabled
+        lastNameTextField.isUserInteractionEnabled = enabled
+        signUpButton.isUserInteractionEnabled = enabled
+        self.navigationItem.leftBarButtonItem?.isEnabled = enabled
     }
     
     func designTextFieldHighlights()
@@ -98,9 +121,6 @@ class SignupViewController : GenericProgramViewController
     
     func setButtons()
     {
-        let closeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.closeButtonClicked(sender:)))
-        closeButtonView.isUserInteractionEnabled = true
-        closeButtonView.addGestureRecognizer(closeButtonClickRecognizer)
         
         let emailButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.emailButtonClicked(sender:)))
         emailTextField.isUserInteractionEnabled = true
@@ -122,24 +142,25 @@ class SignupViewController : GenericProgramViewController
         lastNameTextField.isUserInteractionEnabled = true
         lastNameTextField.addGestureRecognizer(lastNameButtonClickRecognizer)
         
-        let signupButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.signupButtonClicked(sender:)))
-        bottomSurroundingView.isUserInteractionEnabled = true
-        bottomSurroundingView.addGestureRecognizer(signupButtonClickRecognizer)
+        signUpButton.addTarget(self, action: #selector(onSignUpRequested), for: .touchUpInside)
+    }
+    
+    @objc func onSignUpRequested() {
+        if (validateRegisterData()) {
+            delegate.onSignupRequested(
+                email: emailTextField.text!,
+                firstName: firstNameTextField.text!,
+                lastName: lastNameTextField.text!,
+                password: passwordTextField.text!
+            )
+        }
+        print("signup button clicked")
     }
     
     func updateConstraints()
     {
-        setConstraintToMiddleOfScreen(constraint: headlineLabelTrailingConstraint, view: headlineLabel)
-        
         setConstraintToMiddleOfScreen(constraint: termsAndConditionsLeadingConstraint, view: termsAndConditionsView)
         
-        setConstraintToMiddleOfScreen(constraint: bottomSurroundingViewLeadingConstraint, view: bottomSurroundingView)
-    }
-    
-    @objc func closeButtonClicked(sender : UITapGestureRecognizer)
-    {
-        print("signup close button clicked")
-        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: false)
     }
     
     @objc func emailButtonClicked(sender : UITapGestureRecognizer)
@@ -180,16 +201,6 @@ class SignupViewController : GenericProgramViewController
         colorInputBackground(nameOfDrawnInput: "lastname")
     }
     
-    @objc func signupButtonClicked(sender : UITapGestureRecognizer)
-    {
-        if (validateRegisterData())
-        {
-            let signupData = LoginOrSignupData(urlString: "rest-auth/registration/", postJson: getSignupDataAsJson())
-            WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, completionHandler: completeSignupAction)
-        }
-        print("signup button clicked")
-    }
-    
     func completeSignupAction(responseString: String)
     {
         WebUtils().completeSignupAction(responseString: responseString, viewController: self)
@@ -216,23 +227,32 @@ class SignupViewController : GenericProgramViewController
     
     @objc func keyboardWasShown(notification: NSNotification)
     {
-        var info = notification.userInfo!
-        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        bottomSurroundingViewBottomConstraint.constant = 10 + keyboardHeight!
-        // Note - This is supposed to smoothen the constraint update
-        UIView.animate(withDuration: 1)
-        {
+        if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.25, animations: {
+                self.view.layoutIfNeeded()
+                var info = notification.userInfo!
+                var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+                
+                if #available(iOS 11.0, *)
+                {
+                    let bottomInset = self.view.safeAreaInsets.bottom
+                    keyboardHeight -= bottomInset
+                }
+                
+                self.bottomSurroundingViewBottomConstraint.constant = keyboardHeight + 10
+            }, completion: nil)
         }
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification)
     {
-        bottomSurroundingViewBottomConstraint.constant = 10
+        
         // Note - This is supposed to smoothen the constraint update
         UIView.animate(withDuration: 1)
         {
             self.view.layoutIfNeeded()
+            self.bottomSurroundingViewBottomConstraint.constant = 10
         }
     }
     

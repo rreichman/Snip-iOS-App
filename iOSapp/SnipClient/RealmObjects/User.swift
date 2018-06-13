@@ -51,6 +51,12 @@ extension User {
         //Optional, found in some places
         if let initials = json["initials"] as? String {
             u.initials = initials
+        } else {
+            if first_name.count > 0 && last_name.count > 0 {
+                let first = String(first_name[first_name.startIndex...first_name.startIndex])
+                let last = String(last_name[last_name.startIndex...last_name.startIndex])
+                u.initials = "\(first)\(last)".uppercased()
+            }
         }
         if let addr = json["wallet_address"] as? String {
             u.wallet_address = addr

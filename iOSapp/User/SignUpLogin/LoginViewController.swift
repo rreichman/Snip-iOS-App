@@ -7,15 +7,13 @@
 //
 
 import UIKit
-
+protocol LoginViewDelegate: class {
+    func onCancelLoginRequested()
+    func onLoginRequested(email: String, password: String)
+    func onForgotPasswordRequested(email: String)
+}
 class LoginViewController : GenericProgramViewController, UIGestureRecognizerDelegate
 {
-    @IBOutlet weak var closeScreenView: UIView!
-    
-    @IBOutlet weak var headerView: UIView!
-    
-    @IBOutlet weak var headlineLabel: UILabel!
-    @IBOutlet weak var headlineLabelTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailInputView: UITextField!
@@ -36,22 +34,18 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     var inForgotPasswordProcess : Bool = false
     var inLoginProcess : Bool = false
     
-    override func viewDidLoad()
-    {
-        print("start login")
+    var delegate: LoginViewDelegate!
+    override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Login".uppercased()
         
         loginButtonView.layer.cornerRadius = 24
-        
-        headerView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         loginButtonView.backgroundColor = SystemVariables().SPLASH_SCREEN_BACKGROUND_COLOR
         
         colorEmailInputBackground()
         
-        setConstraintToMiddleOfScreen(constraint: headlineLabelTrailingConstraint, view: headlineLabel)
         setConstraintToMiddleOfScreen(constraint: loginButtonViewLeadingConstraint, view: loginButtonView)
         
-        headlineLabel.attributedText = LoginDesignUtils.shared.LOGIN_STRING
         bottomLoginLabel.attributedText = LoginDesignUtils.shared.LOGIN_STRING_BOTTOM
         
         emailLabel.attributedText = LoginDesignUtils.shared.EMAIL_ACTIVE_STRING
@@ -68,13 +62,38 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         
         emailInputView.becomeFirstResponder()
         print("end login")
+        whiteBackArrow()
+    }
+    
+    private func whiteBackArrow() {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
+        menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
+        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        currHeight?.isActive = true
+        self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+    
+    @objc func backButtonTapped() {
+        delegate.onCancelLoginRequested()
+    }
+    
+    func enableInteraction(enabled: Bool) {
+        loginButtonView.isUserInteractionEnabled = enabled
+        emailInputView.isUserInteractionEnabled = enabled
+        passwordInputView.isUserInteractionEnabled = enabled
+        forgotPasswordView.isUserInteractionEnabled = enabled
+        self.navigationItem.leftBarButtonItem?.isEnabled = enabled
     }
     
     func setButtons()
     {
-        let closeButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.closeButtonClicked(sender:)))
-        closeScreenView.isUserInteractionEnabled = true
-        closeScreenView.addGestureRecognizer(closeButtonClickRecognizer)
         
         let loginButtonClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.loginButtonClicked(sender:)))
         loginButtonView.isUserInteractionEnabled = true
@@ -95,36 +114,31 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         forgotPasswordView.addGestureRecognizer(forgotPasswordClickRecognzier)
     }
     
-    @objc func closeButtonClicked(sender : UITapGestureRecognizer)
-    {
-        print("login close button clicked")
-        goBackToPreviousViewController(navigationController: navigationController!, showNavigationBar: false)
-    }
-    
     @objc func loginButtonClicked(sender : UITapGestureRecognizer)
     {
-        if (!inLoginProcess)
+        if (emailInputView.text?.count == 0)
         {
-            if (emailInputView.text?.count == 0)
-            {
-                emailInputView.becomeFirstResponder()
-                colorEmailInputBackground()
-                promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing an e-mail address...", viewController: self)
-            }
-            else if (passwordInputView.text?.count == 0)
-            {
-                passwordInputView.becomeFirstResponder()
-                colorPasswordInputBackround()
-                promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing a password...", viewController: self)
-            }
-            else
-            {
-                inLoginProcess = true
-                print("actually login button clicked")
-                let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
-                WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, completionHandler: completeLoginAction)
-            }
+            emailInputView.becomeFirstResponder()
+            colorEmailInputBackground()
+            promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing an e-mail address...", viewController: self)
         }
+        else if (passwordInputView.text?.count == 0)
+        {
+            passwordInputView.becomeFirstResponder()
+            colorPasswordInputBackround()
+            promptToUser(promptMessageTitle: "", promptMessageBody: "We'll be needing a password...", viewController: self)
+        }
+        else
+        {
+            delegate.onLoginRequested(email: self.emailInputView.text!, password: self.passwordInputView.text!)
+            /**
+            inLoginProcess = true
+            print("actually login button clicked")
+            let loginData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/login/", postJson: getLoginDataAsJson())
+            WebUtils().postContentWithJsonBody(jsonString: loginData._postJson, urlString: loginData._urlString, completionHandler: completeLoginAction)
+            **/
+        }
+        
     }
     
     @objc func emailButtonClicked(sender : UITapGestureRecognizer)
@@ -147,13 +161,21 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     
     @objc func keyboardWasShown(notification: NSNotification)
     {
-        var info = notification.userInfo!
-        let keyboardHeight = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
-        loginButtonViewBottomConstraint.constant = 10 + keyboardHeight!
-        // Note - This is supposed to smoothen the constraint update
-        UIView.animate(withDuration: 1)
-        {
+        if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.25, animations: {
+                self.view.layoutIfNeeded()
+                var info = notification.userInfo!
+                var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+                
+                if #available(iOS 11.0, *)
+                {
+                    let bottomInset = self.view.safeAreaInsets.bottom
+                    keyboardHeight -= bottomInset
+                }
+                
+                self.loginButtonViewBottomConstraint.constant = keyboardHeight + 10 // - 83 presenting as modal here, no tab offset needed
+            }, completion: nil)
         }
     }
     
@@ -161,7 +183,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
     {
         loginButtonViewBottomConstraint.constant = 10
         // Note - This is supposed to smoothen the constraint update
-        UIView.animate(withDuration: 1)
+        UIView.animate(withDuration: 0.25)
         {
             self.view.layoutIfNeeded()
         }
@@ -173,9 +195,12 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         {
             if (emailInputView.text!.count > 0)
             {
+                delegate.onForgotPasswordRequested(email: emailInputView.text!)
+                /**
                 inForgotPasswordProcess = true
                 forgotPasswordView.attributedText = NSAttributedString(string: forgotPasswordView.text, attributes: LoginDesignUtils.shared.FORGOT_PASSWORD_ACTIVE_ATTRIBUTES)
                 postResetPassword(emailString: emailInputView.text!)
+                 **/
             }
             else
             {

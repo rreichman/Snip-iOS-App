@@ -234,6 +234,11 @@ extension MainFeedViewController: CategorySelectionDelegate {
     func onCategorySelected(category: Category) {
         delegate.onCategorySelected(category: category)
     }
-    
-    
+}
+
+extension MainFeedViewController: FeedView {
+    func scrollToTop() {
+        guard let _ = tableView else { return }
+        tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+    }
 }

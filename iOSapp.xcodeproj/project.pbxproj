@@ -90,6 +90,10 @@
 		40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAD20CF58180062D891 /* AuthCoordinator.swift */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
 		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
+		40A1CA0320D04F8F001C26F6 /* SnipAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0220D04F8F001C26F6 /* SnipAuthService.swift */; };
+		40A1CA0520D04F99001C26F6 /* SnipAuthRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */; };
+		40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0620D051C0001C26F6 /* RestUtils.swift */; };
+		40A1CA0920D097AB001C26F6 /* PostHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */; };
 		40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */; };
 		40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */; };
 		40B7AF0A20AA499D00A4F608 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */; };
@@ -267,6 +271,10 @@
 		40816AAD20CF58180062D891 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
+		40A1CA0220D04F8F001C26F6 /* SnipAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipAuthService.swift; sourceTree = "<group>"; };
+		40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipAuthRequests.swift; sourceTree = "<group>"; };
+		40A1CA0620D051C0001C26F6 /* RestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUtils.swift; sourceTree = "<group>"; };
+		40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContainer.swift; sourceTree = "<group>"; };
 		40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
 		40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPresentationController.swift; sourceTree = "<group>"; };
 		40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
@@ -685,6 +693,7 @@
 				7D5C43461FBA6FF900551E49 /* Utils.swift */,
 				7D91DC591FBF79E400771820 /* Logger.swift */,
 				405F709320CF2AC9000659E2 /* TimeUtils.swift */,
+				40A1CA0620D051C0001C26F6 /* RestUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -701,6 +710,7 @@
 		4018402220ACBE60001DFE6E /* SnipClient */ = {
 			isa = PBXGroup;
 			children = (
+				40A1CA0120D04F7A001C26F6 /* SnipAuth */,
 				4018403720ACEBB5001DFE6E /* RealmObjects */,
 				4018402D20ACE263001DFE6E /* Snip */,
 				7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */,
@@ -741,6 +751,7 @@
 				406EBA1620B4ACD800682B58 /* ToggleButton.swift */,
 				408E364120B697650072921D /* PostDetailViewController.swift */,
 				408E364320B69B2C0072921D /* PostDetailCoordinator.swift */,
+				40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */,
 			);
 			path = NewFeed;
 			sourceTree = "<group>";
@@ -758,6 +769,15 @@
 				405F1D3520B75F380066CD94 /* PostContainer.swift */,
 			);
 			path = RealmObjects;
+			sourceTree = "<group>";
+		};
+		40A1CA0120D04F7A001C26F6 /* SnipAuth */ = {
+			isa = PBXGroup;
+			children = (
+				40A1CA0220D04F8F001C26F6 /* SnipAuthService.swift */,
+				40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */,
+			);
+			path = SnipAuth;
 			sourceTree = "<group>";
 		};
 		40E4B39520AE5525000EA9F6 /* Cells */ = {
@@ -1217,6 +1237,7 @@
 				7D0CC8A9207DA9770047A501 /* GenericNavigationController.swift in Sources */,
 				23DCC8E3208EADFE003A2B3C /* SetWalletCoordinator.swift in Sources */,
 				2337A9F2209D0C4D0090CFDA /* InfuraService.swift in Sources */,
+				40A1CA0920D097AB001C26F6 /* PostHeaderContainer.swift in Sources */,
 				2319A87220A3729200BF588E /* WalletUtils.swift in Sources */,
 				7D91DC5C1FC35D4700771820 /* MixpanelType+ToString.swift in Sources */,
 				7DA998021FE4EC7A0091749F /* LoginOrSignupData.swift in Sources */,
@@ -1245,6 +1266,7 @@
 				7DAD9295203E304500337922 /* CommentView.swift in Sources */,
 				23F3586D20A2546A00FC6C60 /* GasRequests.swift in Sources */,
 				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
+				40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */,
 				4018403B20ACEBDC001DFE6E /* Category.swift in Sources */,
 				236C11CA209D26180026E476 /* DateFmt.swift in Sources */,
 				230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */,
@@ -1299,6 +1321,8 @@
 				7DDA3D9D206C5DAE00960252 /* SignupViewController.swift in Sources */,
 				40E4B39220AE3C84000EA9F6 /* TabCoordinator.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
+				40A1CA0320D04F8F001C26F6 /* SnipAuthService.swift in Sources */,
+				40A1CA0520D04F99001C26F6 /* SnipAuthRequests.swift in Sources */,
 				239F4FBB2093F37500093B58 /* SendTransactionCoordinator.swift in Sources */,
 				237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */,
 				7DCB69DC20699E57005BAD86 /* SnippetsTableViewUIUtils.swift in Sources */,
@@ -1448,6 +1472,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappTests;
@@ -1464,6 +1489,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappUITests;
@@ -1585,6 +1611,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iOSapp/iOSapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = X7V5M88296;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1632,6 +1659,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappTests;
@@ -1649,6 +1677,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappTests;
@@ -1665,6 +1694,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappUITests;
@@ -1681,6 +1711,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X7V5M88296;
 				INFOPLIST_FILE = iOSappUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = snipDev.iOSappUITests;

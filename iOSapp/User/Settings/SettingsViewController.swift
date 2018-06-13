@@ -26,7 +26,7 @@ class SettingsViewController : GenericProgramViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.navigationItem.title = "Settings"
+        self.navigationItem.title = "Settings".uppercased()
         
         
         designSettings()
@@ -43,7 +43,6 @@ class SettingsViewController : GenericProgramViewController
         thirdSetting.imageView.image = #imageLiteral(resourceName: "logout")
         thirdSetting.textView.attributedText = LoginDesignUtils.shared.LOGOUT_STRING
         
-        thirdSetting.isHidden = (!UserInformation().isUserLoggedIn())
     }
     
     func setButtons()
@@ -74,7 +73,7 @@ class SettingsViewController : GenericProgramViewController
     @objc func logoutClicked(sender: UITapGestureRecognizer)
     {
         print("in logout")
-        if (UserInformation().isUserLoggedIn() || SessionManager.instance.loggedIn)
+        if (SessionManager.instance.loggedIn)
         {
             
             let alertController : UIAlertController = UIAlertController(title: "Are you sure you want to log out?", message: "", preferredStyle: UIAlertControllerStyle.alert)
@@ -92,15 +91,9 @@ class SettingsViewController : GenericProgramViewController
     
     func operateLogout(action: UIAlertAction)
     {
-        SessionManager.instance.oldAuthProxyLogout()
-        UserInformation().logOutUser()
-        promptToUserWithAutoDismiss(promptMessageTitle: "Log out successful!", promptMessageBody: "", viewController: self, lengthInSeconds: 1, completionHandler: self.moveToProfileTab)
+        delegate.onLogoutRequested()
     }
-    
-    func moveToProfileTab(action: UIAlertAction)
-    {
-        segueBackToContent(alertAction: action)
-    }
+
     
     @objc func backButtonTapped() {
         delegate.backRequested()

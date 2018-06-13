@@ -64,12 +64,26 @@ class FeedTests: XCTestCase {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { category in
                 XCTAssert(category.posts.count > 1)
-                SnipRequests.instance.postVoteState(post: category.topThreePosts[0], vote_state: .like)
+                SnipRequests.instance.postVoteState(post_id: category.topThreePosts[0].id, vote_val: 0)
             }, onError: { err in
                 print(err)
             })
         waitForExpectations(timeout: 5, handler: nil)
         let cat = RealmManager.instance.getMemRealm().object(ofType: Category.self, forPrimaryKey: "Politics")!
         print(cat.topThreePosts[0].isLiked)
+    }
+    
+    func testLogin() {
+        let promise = expectation(description: "login")
+        
+        
+        let _ = SnipAuthRequests.instance.postLogin(email: "cj.z.eiger@snip.today", password: "913fkCtBnunZ")
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { token in
+                XCTAssert(token.count > 0)
+            }, onError: { err in
+                print(err)
+            })
+        waitForExpectations(timeout: 5, handler: nil)
     }
 }

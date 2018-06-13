@@ -15,8 +15,10 @@ enum FeedMode {
     case category(category: Category)
     case writer(writer: User)
     case savedSnips
+    case likedSnips
 }
-protocol PostListCoordinatorDelegate: class {
+protocol GeneralFeedCoordinatorDelegate: class {
+    func onLeaveFeed()
 }
 
 fileprivate enum LoadingState {
@@ -31,6 +33,9 @@ class GeneralFeedCoordinator: Coordinator {
     var navController: UINavigationController!
     var postListVC: PostListViewController!
     var category: Category!
+    
+    var delegate: GeneralFeedCoordinatorDelegate?
+    
     fileprivate var loadingState: LoadingState {
         get {
             print("someone got loadingState, it is \(_loadingState)")
@@ -71,30 +76,17 @@ class GeneralFeedCoordinator: Coordinator {
                 realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
+        case .likedSnips:
+            let realm = RealmManager.instance.getMemRealm()
+            let postCotainer = PostContainer()
+            postCotainer.key = SessionManager.instance.currentLoginUsername! + "-liked-snips"
+            try! realm.write {
+                realm.add(postCotainer, update: true)
+            }
+            self.postCotainer = postCotainer
         }
         self.mode = mode
         
-    }
-    
-    func getPostListForMode() -> List<Post> {
-        switch self.mode {
-        case .category:
-            return self.category.posts
-        case .writer:
-            return self.postCotainer.posts
-        case .savedSnips:
-            return self.postCotainer.posts
-        }
-    }
-    func getParamsForMode() -> [String: String] {
-        switch self.mode {
-        case .category:
-            return category.paramDictionary as! [String: String]
-        case .writer:
-            return ["writer": self.writer.username]
-        case .savedSnips:
-            return [:]
-        }
     }
     
     func start() {
@@ -109,15 +101,55 @@ class GeneralFeedCoordinator: Coordinator {
             self.postListVC.setPostQuery(posts: getPostListForMode(), description: "")
             self.postListVC.setUserHeader(name: "\(writer.first_name) \(writer.last_name)", initials: writer.initials)
         case .savedSnips:
-            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "")
+            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "SAVED SNIPS")
+        case .likedSnips:
+            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "FAVORITE SNIPS")
         }
-        
         navController.pushViewController(self.postListVC, animated: true)
     }
+    
+    func getPostListForMode() -> List<Post> {
+        switch self.mode {
+        case .category:
+            return self.category.posts
+        case .writer:
+            return self.postCotainer.posts
+        case .savedSnips:
+            return self.postCotainer.posts
+        case .likedSnips:
+            return self.postCotainer.posts
+        }
+    }
+    func getParamsForMode() -> [String: String] {
+        switch self.mode {
+        case .category:
+            return category.paramDictionary as! [String: String]
+        case .writer:
+            return ["writer": self.writer.username]
+        case .savedSnips:
+            return [:]
+        case .likedSnips:
+            return [:]
+        }
+    }
+    
+    func getRequestForMode() -> Single< (Int, [ Post ]) > {
+        switch self.mode {
+        //Not used for category, do not use this function for category requests
+        case .category:
+            return SnipRequests.instance.getSavedSnips(nextPage: self.postCotainer.nextPage)
+        case .writer:
+            return SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
+        case .savedSnips:
+            return SnipRequests.instance.getSavedSnips(nextPage: self.postCotainer.nextPage)
+        case .likedSnips:
+            return SnipRequests.instance.getLikedSnips(nextPage: self.postCotainer.nextPage)
+        }
+    }
+    
     func loadNextPage() {
         //print("load next page")
         let realm = RealmManager.instance.getMemRealm()
-        
         switch self.mode {
         case .category:
             if self.category.nextPage == -1 {
@@ -141,13 +173,13 @@ class GeneralFeedCoordinator: Coordinator {
                     s.postListVC.endRefreshing()
                     s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
-        case .writer:
+        default:
             if self.postCotainer.nextPage == -1 {
                 self.loadingState = .notLoading
                 return
                 
             }
-            SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
+            getRequestForMode()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, result) in
                     guard let s = self else {return}
@@ -172,35 +204,6 @@ class GeneralFeedCoordinator: Coordinator {
                     s.loadingState = .notLoading
                     s.postListVC.endRefreshing()
             }.disposed(by: disposeBag)
-        case .savedSnips:
-            if self.postCotainer.nextPage == -1 {
-                self.loadingState = .notLoading
-                return
-                
-            }
-            SnipRequests.instance.getSavedSnips(nextPage: postCotainer.nextPage)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: {[weak self] (nextPage, results) in
-                    guard let s = self else {return}
-                    try! realm.write {
-                        s.postCotainer.nextPage = nextPage
-                        for newPost in results {
-                            if s.postCotainer.posts.index(of: newPost) == nil {
-                                realm.add(newPost, update: true)
-                                s.postCotainer.posts.append(newPost)
-                            }
-                        }
-                    }
-                    s.loadingState = .notLoading
-                }) { [weak self](err) in
-                    print(err)
-                    Crashlytics.sharedInstance().recordError(err)
-                    
-                    guard let s = self else { return }
-                    guard let _ = s.postListVC else { return }
-                    s.loadingState = .notLoading
-                    s.postListVC.endRefreshing()
-                }.disposed(by: disposeBag)
         }
         
     }
@@ -231,12 +234,12 @@ class GeneralFeedCoordinator: Coordinator {
                     vc.endRefreshing()
                     s.loadingState = .notLoading
                 }.disposed(by: self.disposeBag)
-        case .writer:
+        default:
             try! realm.write {
                 self.postCotainer.posts.removeAll()
                 self.postCotainer.nextPage = nil
             }
-            SnipRequests.instance.getPostPageForQuery(params: getParamsForMode(), nextPage: self.postCotainer.nextPage)
+            getRequestForMode()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, results) in
                     guard let s = self else {return}
@@ -257,33 +260,6 @@ class GeneralFeedCoordinator: Coordinator {
                     guard let s = self else { return }
                     s.postListVC.endRefreshing()
                     s.loadingState = .notLoading
-                }.disposed(by: disposeBag)
-        case .savedSnips:
-            try! realm.write {
-                self.postCotainer.posts.removeAll()
-                self.postCotainer.nextPage = nil
-            }
-            SnipRequests.instance.getSavedSnips( nextPage: postCotainer.nextPage)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: {[weak self] (nextPage, results) in
-                    guard let s = self else {return}
-                    try! realm.write {
-                        s.postCotainer.nextPage = nextPage
-                        for newPost in results {
-                            if s.postCotainer.posts.index(of: newPost) == nil {
-                                realm.add(newPost, update: true)
-                                s.postCotainer.posts.append(newPost)
-                            }
-                        }
-                    }
-                    s.loadingState = .notLoading
-                }) { [weak self](err) in
-                    print(err)
-                    Crashlytics.sharedInstance().recordError(err)
-                    
-                    guard let s = self else { return }
-                    s.loadingState = .notLoading
-                    s.postListVC.endRefreshing()
                 }.disposed(by: disposeBag)
             
         }
@@ -296,6 +272,9 @@ class GeneralFeedCoordinator: Coordinator {
     
     func popViewController() {
         self.navController.popViewController(animated: true)
+        if let d = self.delegate {
+            d.onLeaveFeed()
+        }
     }
 }
 

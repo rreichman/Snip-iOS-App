@@ -21,10 +21,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
-    //@IBOutlet var bodyLabel: UILabel!
     @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var sourceTextView: UITextViewFixed!
-    //@IBOutlet var sourceLabel: UILabel!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIImageView!
     @IBOutlet var dislikeButton: ToggleButton!
@@ -68,27 +66,44 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         dynamicKeyboardViewPosition()
         setUpWriteBox()
         
-        self.bindViews(data: self.post)
         
+        bodyTextView.isScrollEnabled = false
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
         cancelReplyButton.addTarget(self, action: #selector(onCancelReply), for: .touchUpInside)
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
         topConstraint.isActive = true
+        
+        //postContainer.autoresizingMask = .flexibleWidth
+
+        self.bindViews(data: self.post)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let headerView = tableView.tableHeaderView else {
-            return
-        }
-        let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        if headerView.frame.size.height != size.height {
-            headerView.frame.size.height = size.height
-            tableView.tableHeaderView = headerView
-            tableView.layoutIfNeeded()
-        }
+        sizeHeaderToFit()
     }
-     
+    
+    func sizeHeaderToFit() {
+        let headerView = tableView.tableHeaderView!
+        
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+        
+        let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let actual_header_height = headerView.frame.size.height
+        let contentSize = bodyTextView.contentSize
+        let frame_size = bodyTextView.frame.size.height
+        let intrinsicContentSize = bodyTextView.intrinsicContentSize
+        let post = self.post
+        let text = bodyTextView.text
+        
+        var frame = headerView.frame
+        frame.size.height = height
+        headerView.frame = frame
+        
+        tableView.tableHeaderView = headerView
+    }
     
     func viewInit() {
         
@@ -113,6 +128,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         self.post = data
         bindViews(data: data)
     }
+    
+    
     func bindViews(data: Post) {
         guard let _ = self.tableView else { return }
         //Binding of elements that will never be hindden
@@ -153,8 +170,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 richText.append(attributedText)
             }
             bodyTextView.attributedText = (data.relatedLinks.count > 0 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
-            bodyTextView.sizeToFit()
-            bodyTextView.layoutSubviews()
+            //bodyTextView.sizeToFit()
         } else {
             bodyTextView.text = data.text
         }
@@ -207,6 +223,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 fatalError("\(error)")
             }
         })
+        
+        
     }
     
     func bindNumberOfCommentsLabel(comment_count: Int) {
@@ -326,6 +344,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     func addTap() {
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
+        optionsButton.isUserInteractionEnabled = true
+        optionsButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPostOptionsTap)))
     }
     
 
@@ -375,10 +395,15 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         //NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
     
+    @objc func onPostOptionsTap() {
+        PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.25, animations: {
+            var animationDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+            UIView.animate(withDuration: animationDuration, animations: {
                 self.view.layoutIfNeeded()
                 var info = notification.userInfo!
                 var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
@@ -388,8 +413,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                     let bottomInset = self.view.safeAreaInsets.bottom
                     keyboardHeight -= bottomInset
                 }
-                
-                self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
+                let tabBarController = self.tabBarController
+                let tabBarHeight = (tabBarController == nil ? 0 : tabBarController!.tabBar.frame.size.height)
+                self.bottomConstraint.constant = keyboardHeight - tabBarHeight //Tab bar height, quick fix
             }, completion: { [weak self] completed in
                 guard let s = self else { return }
                 s.scrollToComment(scrollComment: s.replyComment, type: .bottom)
