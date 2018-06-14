@@ -37,7 +37,7 @@ class ProfileViewController : GenericProgramViewController {
     func addSettingsBarItem() {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
-        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 19, 9, 0)
+        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 20, 10, 0)
         menuBtn.setImage(UIImage(named:"whiteSettingsCog"), for: .normal)
         menuBtn.addTarget(self, action: #selector(self.settingsClicked(sender:)), for: .touchUpInside)
         menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
@@ -47,6 +47,7 @@ class ProfileViewController : GenericProgramViewController {
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
         currHeight?.isActive = true
         self.navigationItem.rightBarButtonItem = menuBarItem
+        
     }
     
     

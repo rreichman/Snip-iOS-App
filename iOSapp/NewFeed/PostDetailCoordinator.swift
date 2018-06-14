@@ -18,15 +18,17 @@ class PostDetailCoordinator: Coordinator {
     var viewController: PostDetailViewController!
     var navigationController: UINavigationController!
     var post: Post!
-    init(navigationController: UINavigationController, post: Post) {
+    var showComments: Bool = false
+    init(navigationController: UINavigationController, post: Post, showComments: Bool) {
         self.navigationController = navigationController
         self.post = post
+        self.showComments = showComments
     }
     
     func start() {
         viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
         viewController.delegate = self
-        viewController.bind(data: post)
+        viewController.bind(data: post, showComments: self.showComments)
         navigationController.pushViewController(viewController, animated: true)
     }
     func pushLoginSignUp() {

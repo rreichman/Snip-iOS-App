@@ -57,13 +57,15 @@ extension SnipAuthService: TargetType {
         case .facbookSync(let auth_token):
             let params = [ ("access_token", auth_token) ]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
-            
-            
         }
     }
     
     var headers: [String : String]? {
-        return ["Accept" : "application/json"]
+        var headers: [String: String] = ["Accept" : "application/json"]
+        if let session = SessionManager.instance.sessionCookie {
+            headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
+        }
+        return headers
     }
     
     

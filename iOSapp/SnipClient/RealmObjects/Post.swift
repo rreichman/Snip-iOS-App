@@ -109,4 +109,54 @@ extension Post {
         }
         return parsedList
     }
+    
+    func calculateCommentArray() -> [ RealmComment ] {
+        if self.comments.count == 0 {
+            return []
+        }
+        var post_comments = self.formList(from: self.comments)
+        post_comments.sort { (c1, c2) -> Bool in
+            return c1.date.compare(c2.date).rawValue > 0
+        }
+        self.nestTimeSortedCommentArray(of: post_comments)
+        var unNestedComments: [ RealmComment ] = []
+        for comment in post_comments {
+            if comment.level == 0 {
+                unNestedComments.append(contentsOf: flattenComments(parent: comment))
+            }
+        }
+        return unNestedComments
+    }
+    
+    func flattenComments(parent: RealmComment) -> [ RealmComment ] {
+        var flat: [ RealmComment ] = []
+        flat.append(parent)
+        if parent.childComments.count > 0 {
+            for child in parent.childComments {
+                flat.append(contentsOf: flattenComments(parent: child))
+            }
+        }
+        return flat
+    }
+    
+    func nestTimeSortedCommentArray(of flatComments: [ RealmComment ]){
+        //TODO: really bad efficency fix later. Should be find for small comment numbers
+        for comment in flatComments {
+            for possibleChild in flatComments {
+                if let parent_id = possibleChild.parent_id.value {
+                    if parent_id == comment.id {
+                        comment.childComments.append(possibleChild)
+                    }
+                }
+            }
+        }
+    }
+    
+    func formList(from commentList: List<RealmComment>) -> [ RealmComment ] {
+        var result: [ RealmComment ] = []
+        for i in 0..<commentList.count {
+            result.append(commentList[i])
+        }
+        return result
+    }
 }

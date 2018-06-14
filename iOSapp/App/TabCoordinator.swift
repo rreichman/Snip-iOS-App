@@ -20,8 +20,9 @@ class TabCoordinator: Coordinator {
     
     var tabController: MainTabBarViewController!
     var presentingViewController: UIViewController!
-    
+    var disposeBag = DisposeBag()
     var mainFeedNavigationController: UINavigationController!
+    var mainFeedCoordinator: MainFeedCoordinator?
     init(_ presenting: UIViewController) {
         self.presentingViewController = presenting
     }
@@ -38,6 +39,7 @@ class TabCoordinator: Coordinator {
         let _ = UIColor(red: 0, green: 0.7, blue: 0.8, alpha: 1.0)
         
         let feedCoordinator = MainFeedCoordinator()
+        self.mainFeedCoordinator = feedCoordinator
         childCoordinators.append(feedCoordinator)
         feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "tabBarHomeTwo"), tag: 0)
         feedCoordinator.start()
@@ -57,6 +59,25 @@ class TabCoordinator: Coordinator {
         
         return [ feedCoordinator.navigationController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
         
+    }
+    
+    func showPostFromDeepLink(url: String) {
+        let realm = RealmManager.instance.getMemRealm()
+        SnipRequests.instance.getPostFromAppLink(url: url)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] (post) in
+                guard let s = self, let main = s.mainFeedCoordinator else {
+                    print("Missing TabCoordinator or MainFeedCoordinator")
+                    return
+                }
+                try! realm.write {
+                    realm.add(post, update: true)
+                }
+                main.showPostFromDeepLink(post: post)
+            }) { (err) in
+                print("Error resolving post from deep link: \(err.localizedDescription)")
+                Crashlytics.sharedInstance().recordError(err)
+        }
     }
 }
 

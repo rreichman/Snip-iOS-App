@@ -226,6 +226,9 @@ extension MainFeedViewController: SnipCellViewDelegate {
         }
         UIView.performWithoutAnimation {
             tableView.reloadRows(at: [ path ], with: .automatic)
+            if large {
+                tableView.scrollToRow(at: path, at: .top, animated: true)
+            }
         }
     }
 }
@@ -239,6 +242,6 @@ extension MainFeedViewController: CategorySelectionDelegate {
 extension MainFeedViewController: FeedView {
     func scrollToTop() {
         guard let _ = tableView else { return }
-        tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+        tableView.setContentOffset(.zero, animated: true)
     }
 }

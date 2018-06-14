@@ -18,4 +18,5 @@ enum APIError: Error {
     case userAlreadyExists(message: String)
     case userDoesNotExist
     case generalError
+    case unableToResolveAppLink(of: String)
 }

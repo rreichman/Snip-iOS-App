@@ -107,6 +107,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         if expanded {
             if let richText = data.getAttributedBody() {
                 //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
+                richText.append(NSAttributedString(string: "\n"))
                 let pStyle = NSMutableParagraphStyle()
                 pStyle.lineSpacing = 0.0
                 pStyle.paragraphSpacing = 12

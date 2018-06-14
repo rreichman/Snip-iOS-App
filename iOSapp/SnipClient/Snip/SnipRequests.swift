@@ -171,6 +171,35 @@ class SnipRequests {
         }
     }
     
+    func getPostFromAppLink(url: String) -> Single<Post> {
+        return provider.rx.request(SnipService.getAppLink(url: url))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .observeOn(MainScheduler.instance)
+            .map { [weak self] obj in
+                guard let s = self else { throw SerializationError.missing("self")}
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
+                if let _ = json["posts"] as? [ [String: Any] ]{
+                    let post_list = try Post.parsePostPage(json: json)
+                    if post_list.count > 0 {
+                        let _ = s.getPostImage(for: post_list[0])
+                            .subscribe()
+                        return post_list[0]
+                    } else {
+                        throw APIError.unableToResolveAppLink(of: url)
+                    }
+                } else if let post_json = json["main_post"] as? [String: Any] {
+                    let post = try Post.parseJson(json: post_json)
+                    let _ = s.getPostImage(for: post)
+                        .subscribe()
+                    return post
+                } else {
+                    throw APIError.unableToResolveAppLink(of: url)
+                }
+        }
+    }
+    
     func getPostImage(for post: Post) -> Single<Bool> {
         guard let image = post.image else { return Single.just(false) }
         if image.hasData {

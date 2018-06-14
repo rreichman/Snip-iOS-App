@@ -79,7 +79,7 @@ class PostListViewController: UIViewController {
                 // Results are now populated and can be accessed without blocking the UI
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
-                print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications, array size: \(String(describing: viewController.posts?.count)) ")
+                //print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications, array size: \(String(describing: viewController.posts?.count)) ")
                 deletions.forEach({ (deletion) in
                     if viewController.expandedSet.contains(deletion) {
                         viewController.expandedSet.remove(deletion)
@@ -247,6 +247,9 @@ extension PostListViewController: SnipCellViewDelegate {
         }
         UIView.performWithoutAnimation {
             tableView.reloadRows(at: [ path ], with: .automatic)
+            if large {
+                tableView.scrollToRow(at: path, at: .top, animated: true)
+            }
         }
     }
 }
@@ -254,6 +257,6 @@ extension PostListViewController: SnipCellViewDelegate {
 extension PostListViewController: FeedView {
     func scrollToTop() {
         guard let _ = tableView else { return }
-        tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+        tableView.setContentOffset(.zero, animated: true)
     }
 }

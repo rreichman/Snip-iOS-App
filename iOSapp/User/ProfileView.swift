@@ -16,7 +16,7 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 
 class ProfileView: UIView
 {

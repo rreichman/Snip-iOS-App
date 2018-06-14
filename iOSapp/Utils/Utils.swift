@@ -134,17 +134,15 @@ func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
     
     urlRequest.httpMethod = method
     
-    if (UserInformation().isUserLoggedIn())
+    if (SessionManager.instance.loggedIn)
     {
-        urlRequest.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Token \(SessionManager.instance.authToken!)", forHTTPHeaderField: "Authorization")
     }
     
-    let cookieStringArray = getCookiesForUrlRequest()
-    for cookieString in cookieStringArray
-    {
-        urlRequest.setValue(cookieString, forHTTPHeaderField: "Cookie")
+    if let session = SessionManager.instance.sessionCookie {
+        urlRequest.setValue("sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;", forHTTPHeaderField: "Cookie")
     }
-
+    
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     

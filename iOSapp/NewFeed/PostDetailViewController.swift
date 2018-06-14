@@ -51,8 +51,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     var commentArray: [ RealmComment ]?
     var replyComment: RealmComment?
     var token: NotificationToken?
+    var postImageToken: NotificationToken?
     var topConstraint: NSLayoutConstraint!
-    
+    var showComments: Bool = false
     override func viewDidLoad() {
         tableView.dataSource = self
         //tableView.tableHeaderView = postContainer
@@ -91,12 +92,15 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         headerView.layoutIfNeeded()
         
         let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        
+        /**
         let actual_header_height = headerView.frame.size.height
         let contentSize = bodyTextView.contentSize
         let frame_size = bodyTextView.frame.size.height
         let intrinsicContentSize = bodyTextView.intrinsicContentSize
         let post = self.post
         let text = bodyTextView.text
+        **/
         
         var frame = headerView.frame
         frame.size.height = height
@@ -105,11 +109,29 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.tableHeaderView = headerView
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if (self.isBeingPresented || self.isMovingToParentViewController) && self.showComments {
+            print("PostDetailView is appearing for the first time")
+            if let comments = self.commentArray {
+                if comments.count > 0 {
+                    self.scrollToFirstComment()
+                }
+            }
+        }
+    }
+    
     func viewInit() {
         
         postImage.layer.cornerRadius = 10
         //contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         addTap()
+    }
+    
+    func setUpWriteBox() {
+        let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(interceptWriteBoxTap))
+        writeCommentRecognizer.delegate = self
+        commentText.isUserInteractionEnabled = true
+        commentText.addGestureRecognizer(writeCommentRecognizer)
     }
     
     func toggleReplyStatus(show: Bool) {
@@ -124,8 +146,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         topConstraint.isActive = true
     }
     
-    func bind(data: Post) {
+    func bind(data: Post, showComments: Bool) {
         self.post = data
+        self.showComments = showComments
         bindViews(data: data)
     }
     
@@ -151,6 +174,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         if let richText = data.getAttributedBody() {
             //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
+            richText.append(NSAttributedString(string: "\n"))
             let pStyle = NSMutableParagraphStyle()
             pStyle.lineSpacing = 0.0
             pStyle.paragraphSpacing = 12
@@ -190,12 +214,27 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         let comment_count = data.comments.count
         bindNumberOfCommentsLabel(comment_count: comment_count)
         
-        self.commentArray = calculateCommentArray(for: data)
+        self.commentArray = data.calculateCommentArray()
         
-        
+        if let image = data.image {
+            self.postImageToken = image.observe({ [weak self] (change) in
+                switch change {
+                case .change(let properties):
+                    for property in properties {
+                        if property.name == "data" && (property.newValue as! Data).count > 0 {
+                            guard let s = self else { return }
+                            s.bindImage(imageOpt: image)
+                        }
+                    }
+                default:
+                    //do nothing
+                    break
+                }
+            })
+        }
         self.token = data.comments.observe({ [weak self](changes) in
             guard let s = self else { return }
-            s.commentArray = s.calculateCommentArray(for: s.post)
+            s.commentArray = s.post.calculateCommentArray()
             guard let comments = s.commentArray else { return }
             s.bindNumberOfCommentsLabel(comment_count: comments.count)
             switch changes {
@@ -223,7 +262,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 fatalError("\(error)")
             }
         })
-        
+        bindImage(imageOpt: data.image)
         
     }
     
@@ -236,14 +275,14 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         guard let _ = imageOpt,
             let data = imageOpt?.data else {
                 postImage.image = nil
-                setActivityIndicatorState(loading: true)
+                //setActivityIndicatorState(loading: true)
                 return
         }
         
         if data.count < 2 {
-            setActivityIndicatorState(loading: true)
+            //setActivityIndicatorState(loading: true)
         } else {
-            setActivityIndicatorState(loading: false)
+            //setActivityIndicatorState(loading: false)
             let ui_image = UIImage(data: data)
             postImage.image = ui_image
             postImage.layer.cornerRadius = 10
@@ -252,80 +291,55 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         //set image to data
     }
     
-    
-    //Why doesnt the server do this?
-    func calculateCommentArray(for post: Post) -> [ RealmComment ] {
-        if post.comments.count == 0 {
-            return []
-        }
-        var post_comments = formList(from: post.comments)
-        post_comments.sort { (c1, c2) -> Bool in
-           return c1.date.compare(c2.date).rawValue > 0
-        }
-        nestTimeSortedCommentArray(of: post_comments)
-        var unNestedComments: [ RealmComment ] = []
-        for comment in post_comments {
-            if comment.level == 0 {
-                unNestedComments.append(contentsOf: flattenComments(parent: comment))
-            }
-        }
-        return unNestedComments
+    func scrollToHeader() {
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: numberOfCommentsLabel.frame.maxY + 5, width: 1, height: 1), animated: true)
     }
     
-    func flattenComments(parent: RealmComment) -> [ RealmComment ] {
-        var flat: [ RealmComment ] = []
-        flat.append(parent)
-        if parent.childComments.count > 0 {
-            for child in parent.childComments {
-                flat.append(contentsOf: flattenComments(parent: child))
-            }
+    func scrollToFirstComment() {
+        guard let comments = self.commentArray else { return }
+        if tableView.numberOfRows(inSection: 0) == 0 || comments.count == 0 {
+            print("attempted to scroll to first comment when it did not exist")
+            return
         }
-        return flat
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
     }
     
-    func nestTimeSortedCommentArray(of flatComments: [ RealmComment ]){
-        //TODO: really bad efficency fix later. Should be find for small comment numbers
-        for comment in flatComments {
-            for possibleChild in flatComments {
-                if let parent_id = possibleChild.parent_id.value {
-                    if parent_id == comment.id {
-                        comment.childComments.append(possibleChild)
-                    }
+    func scrollToComment(scrollComment: RealmComment?, type: UITableViewScrollPosition) {
+        var scrollIndex: Int?
+        if let target = scrollComment {
+            if let comments = self.commentArray {
+                let index = comments.index { (cmt) -> Bool in
+                    return cmt.id == target.id
+                }
+                if index != nil {
+                    scrollIndex = index!
+                }
+            }
+        } else {
+            if let c = self.commentArray {
+                if c.count > 0 {
+                    scrollIndex = 0
                 }
             }
         }
-    }
-    
-    func getChildComments(for comments: [ RealmComment ]) -> [ RealmComment ] {
-        return []
-    }
-    
-    func formList(from commentList: List<RealmComment>) -> [ RealmComment ] {
-        var result: [ RealmComment ] = []
-        for i in 0..<commentList.count {
-            result.append(commentList[i])
-        }
-        return result
-    }
-    
-    func setActivityIndicatorState(loading: Bool) {
-        /**
-        if loading {
-            postImage.image = nil
-            postImage.backgroundColor = UIColor.black
-            activityIndicator.startAnimating()
-            activityIndicator.isHidden = false
+        if let i = scrollIndex {
+            tableView.scrollToRow(at: IndexPath(row: i, section: 0), at: type, animated: true)
         } else {
-            activityIndicator.stopAnimating()
-            activityIndicator.isHidden = true
+            scrollToHeader()
         }
-         **/
+    }
+    
+    func addTap() {
+        shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
+        optionsButton.isUserInteractionEnabled = true
+        optionsButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPostOptionsTap)))
     }
     
     func onToggleSave(on: Bool, for post: Post) {
         print("onToggleSave on:\(on)")
         dataDelegate.onSaveAciton(saved: on, for: post)
     }
+    
     func onToggleLike(on: Bool, for post: Post) {
         let action: VoteAction = on ? .likeOn : .likeOff
         dataDelegate.onVoteAciton(action: action, for: post)
@@ -342,13 +356,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             likeButton.setState(on: false)
         }
     }
-    func addTap() {
-        shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
-        optionsButton.isUserInteractionEnabled = true
-        optionsButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPostOptionsTap)))
-    }
     
-
     @objc func shareTap() {
         guard
             let msg = self.shareMessage,
@@ -358,6 +366,76 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func backButtonTapped() {
         delegate.onBackPressed()
+    }
+    
+    @objc func onPostOptionsTap() {
+        PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
+    }
+    
+    @objc func keyboardDidChangeFrame(notification: NSNotification) {
+        if let info = notification.userInfo {
+            var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
+            if #available(iOS 11.0, *)
+            {
+                let bottomInset = self.view.safeAreaInsets.bottom
+                keyboardHeight -= bottomInset
+            }
+            self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        return true
+    }
+    
+    @objc func interceptWriteBoxTap() {
+        if (SessionManager.instance.loggedIn) {
+            if !commentText.isFirstResponder {
+                commentText.becomeFirstResponder()
+            }
+        } else {
+            popAlertController()
+        }
+    }
+    
+    @objc func onSend() {
+        guard let body = commentText.text else { return }
+        if body.count == 0 {
+            return
+        }
+        delegate.postComment(for: self.post, with: body, parent: self.replyComment)
+        commentText.resignFirstResponder()
+        commentText.text = ""
+        replyToLabel.text = ""
+        replyComment = nil
+        self.toggleReplyStatus(show: false)
+    }
+    
+    @objc func onCancelReply() {
+        self.replyComment = nil
+        self.replyToLabel.text = ""
+        self.toggleReplyStatus(show: false)
+        
+        // Not sure if scroll position should be touched here or not
+        //tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+    }
+    
+    @IBAction func onKeyboardSend() {
+        onSend()
+    }
+    
+    func popAlertController() {
+        let alertController : UIAlertController = UIAlertController(title: "To Comment You Need to Sign Up", message: "It only takes a few seconds...", preferredStyle: UIAlertControllerStyle.alert)
+        let alertActionSignup : UIAlertAction = UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.default, handler: { _ in
+            self.delegate.showLoginSignUp()
+        })
+        let alertActionStayHere : UIAlertAction = UIAlertAction(title: "Stay Here", style: UIAlertActionStyle.default, handler: { _ in
+            self.commentText.resignFirstResponder()
+        })
+        alertController.addAction(alertActionSignup)
+        alertController.addAction(alertActionStayHere)
+        present(alertController, animated: true, completion: nil)
     }
     
     private func whiteBackArrow() {
@@ -375,28 +453,10 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
-    func popAlertController()
-    {
-        let alertController : UIAlertController = UIAlertController(title: "To Comment You Need to Sign Up", message: "It only takes a few seconds...", preferredStyle: UIAlertControllerStyle.alert)
-        let alertActionSignup : UIAlertAction = UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.default, handler: { _ in
-            self.delegate.showLoginSignUp()
-        })
-        let alertActionStayHere : UIAlertAction = UIAlertAction(title: "Stay Here", style: UIAlertActionStyle.default, handler: { _ in
-            self.commentText.resignFirstResponder()
-        })
-        alertController.addAction(alertActionSignup)
-        alertController.addAction(alertActionStayHere)
-        present(alertController, animated: true, completion: nil)
-    }
-    
     private func dynamicKeyboardViewPosition() {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
-    }
-    
-    @objc func onPostOptionsTap() {
-        PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -437,94 +497,12 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc func keyboardDidChangeFrame(notification: NSNotification) {
-        if let info = notification.userInfo {
-            var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
-            if #available(iOS 11.0, *)
-            {
-                let bottomInset = self.view.safeAreaInsets.bottom
-                keyboardHeight -= bottomInset
-            }
-            self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
-        }
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
-    {
-        return true
-    }
-    func setUpWriteBox() {
-        let writeCommentRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(interceptWriteBoxTap))
-        writeCommentRecognizer.delegate = self
-        commentText.isUserInteractionEnabled = true
-        commentText.addGestureRecognizer(writeCommentRecognizer)
-    }
-    
-    func scrollToHeader() {
-        self.tableView.scrollRectToVisible(CGRect(x: 0, y: numberOfCommentsLabel.frame.maxY + 5, width: 1, height: 1), animated: true)
-    }
-    
-    func scrollToComment(scrollComment: RealmComment?, type: UITableViewScrollPosition) {
-        var scrollIndex: Int?
-        if let target = scrollComment {
-            if let comments = self.commentArray {
-                let index = comments.index { (cmt) -> Bool in
-                    return cmt.id == target.id
-                }
-                if index != nil {
-                    scrollIndex = index!
-                }
-            }
-        } else {
-            if let c = self.commentArray {
-                if c.count > 0 {
-                    scrollIndex = 0
-                }
-            }
-        }
-        if let i = scrollIndex {
-            tableView.scrollToRow(at: IndexPath(row: i, section: 0), at: type, animated: true)
-        } else {
-            scrollToHeader()
-        }
-    }
-    
-    @objc func interceptWriteBoxTap() {
-        if (SessionManager.instance.loggedIn) {
-            if !commentText.isFirstResponder {
-                commentText.becomeFirstResponder()
-            }
-        } else {
-            popAlertController()
-        }
-    }
-    
-    @objc func onSend() {
-        guard let body = commentText.text else { return }
-        if body.count == 0 {
-            return
-        }
-        delegate.postComment(for: self.post, with: body, parent: self.replyComment)
-        commentText.resignFirstResponder()
-        commentText.text = ""
-        replyToLabel.text = ""
-        replyComment = nil
-        self.toggleReplyStatus(show: false)
-    }
-    
-    @objc func onCancelReply() {
-        self.replyComment = nil
-        self.replyToLabel.text = ""
-        self.toggleReplyStatus(show: false)
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-    }
-    @IBAction func onKeyboardSend() {
-        onSend()
-    }
-    
     deinit {
         if let t = self.token {
             t.invalidate()
+        }
+        if let t2 = self.postImageToken {
+            t2.invalidate()
         }
     }
 }

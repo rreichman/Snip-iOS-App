@@ -10,6 +10,7 @@
 		<string>applinks:snip.today</string>
 		<string>webcredentials:www.snip.today</string>
 		<string>applinks:www.snip.today</string>
+		<string>applinks:*.snip.today</string>
 	</array>
 </dict>
 </plist>

@@ -132,11 +132,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfM-kv-LUr" userLabel="View Inside of ScrollView">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-e9-yik" customClass="SnippetView" customModule="iOSapp">
+                                                    <view contentMode="scaleToFill" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-e9-yik" customClass="SnippetView" customModule="iOSapp">
                                                         <rect key="frame" x="20" y="0.0" width="335" height="459"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
-                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p7q-t1-5rA">
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p7q-t1-5rA">
                                                         <rect key="frame" x="20" y="488" width="335" height="300"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
@@ -273,7 +273,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5da-yM-SHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="823" y="258"/>
+            <point key="canvasLocation" x="1460" y="258"/>
         </scene>
         <!--Item-->
         <scene sceneID="z3Q-GX-L0H">
@@ -287,7 +287,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hxv-Hd-HcK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="119" y="887"/>
+            <point key="canvasLocation" x="31" y="888"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VeH-q0-RfX">
@@ -298,7 +298,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
@@ -508,8 +508,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a50-FW-nnI" userLabel="Top Container">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lPC-JG-VBC">
-                                        <rect key="frame" x="331" y="44" width="44" height="44"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lPC-JG-VBC">
+                                        <rect key="frame" x="311" y="44" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="OFP-Fe-eIg"/>
                                             <constraint firstAttribute="height" constant="44" id="vxV-dJ-3Vu"/>
@@ -519,7 +519,7 @@
                                         </connections>
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lbC-Tt-qds" customClass="ButtonBarView" customModule="XLPagerTabStrip">
-                                        <rect key="frame" x="0.0" y="44" width="331" height="44"/>
+                                        <rect key="frame" x="10" y="44" width="301" height="44"/>
                                         <color key="backgroundColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="OSr-5r-SnZ"/>
@@ -537,8 +537,8 @@
                                 <constraints>
                                     <constraint firstItem="lPC-JG-VBC" firstAttribute="leading" secondItem="lbC-Tt-qds" secondAttribute="trailing" id="Kgu-Vb-o7h"/>
                                     <constraint firstAttribute="bottom" secondItem="lbC-Tt-qds" secondAttribute="bottom" id="boQ-Vc-3Rk"/>
-                                    <constraint firstAttribute="trailing" secondItem="lPC-JG-VBC" secondAttribute="trailing" id="oBx-Q4-h62"/>
-                                    <constraint firstItem="lbC-Tt-qds" firstAttribute="leading" secondItem="a50-FW-nnI" secondAttribute="leading" id="qkn-Se-iYT"/>
+                                    <constraint firstAttribute="trailing" secondItem="lPC-JG-VBC" secondAttribute="trailing" constant="20" placeholder="YES" id="oBx-Q4-h62"/>
+                                    <constraint firstItem="lbC-Tt-qds" firstAttribute="leading" secondItem="a50-FW-nnI" secondAttribute="leading" constant="10" id="qkn-Se-iYT"/>
                                     <constraint firstAttribute="bottom" secondItem="lPC-JG-VBC" secondAttribute="bottom" id="trf-wC-pWy"/>
                                 </constraints>
                             </view>
@@ -2154,7 +2154,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
@@ -2308,7 +2308,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9jC-fK-suO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="266" y="258"/>
+            <point key="canvasLocation" x="724" y="255"/>
         </scene>
         <!--Opening Splash Screen View Controller-->
         <scene sceneID="yLJ-4l-csu">
@@ -2405,7 +2405,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.63" blue="0.70999999999999996" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
@@ -3026,7 +3026,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.63" blue="0.70999999999999996" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <userDefinedRuntimeAttributes>

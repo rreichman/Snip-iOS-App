@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+protocol OpeningSplashScreenViewDelegate: class {
+    func restoreUserActivityState(_ userActivity: NSUserActivity)
+}
 class OpeningSplashScreenViewController: UIViewController
 {
     @IBOutlet weak var splashScreenBackgroundImage: UIImageView!
@@ -18,10 +20,7 @@ class OpeningSplashScreenViewController: UIViewController
     @IBOutlet weak var logoViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var logoViewLeadingConstraint: NSLayoutConstraint!
     
-    var snippetsTableViewController = SnippetsTableViewController()
-    var _snipRetrieverFromWeb : SnipRetrieverFromWeb = SnipRetrieverFromWeb()
-    var _postDataArray : [PostData] = []
-    
+    var delegate: OpeningSplashScreenViewDelegate!
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -66,39 +65,23 @@ class OpeningSplashScreenViewController: UIViewController
     
     override func restoreUserActivityState(_ userActivity: NSUserActivity)
     {
-        
+        print("OpeningSplashScreenViewController.restoreUserActivityState")
+        /**
         snippetsTableViewController.operateRefresh(newBaseUrlString: (userActivity.webpageURL?.absoluteString)!, newQuery: "", useActivityIndicator: true)
         snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
-        
+        **/
+        delegate.restoreUserActivityState(userActivity)
         super.restoreUserActivityState(userActivity)
     }
     
     func collectionCompletionHandler(postsToAdd: [PostData], appendDataAndNotReplace : Bool)
     {
+        /**
         print("starting here: \(Date())")
         _postDataArray = WebUtils.shared.addPostsToFeed(snipRetriever: _snipRetrieverFromWeb, originalPostDataArray: _postDataArray, postsToAdd: postsToAdd, appendDataAndNotReplace: appendDataAndNotReplace)
 
         print("performing segue: \(Date())")
         performSegue(withIdentifier: "segueToTabBarView", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        print("preparing")
-        //TODO: Replace this segue /w coordinator logic
-        /**
-        if (segue.identifier == "segueToTabBarView")
-        {
-            print("preparing to segue to tab bar view")
-            
-            let barViewController : MainTabBarViewController = segue.destination as! MainTabBarViewController
-            let mainSnippetsTableViewController = (barViewController.viewControllers?.first as! UINavigationController).viewControllers.first as! SnippetsTableViewController
-            mainSnippetsTableViewController.snipRetrieverFromWeb = _snipRetrieverFromWeb
-            mainSnippetsTableViewController._postDataArray = _postDataArray
-            snippetsTableViewController = mainSnippetsTableViewController
-            
-            print("done seguing to tab bar view")
-        }
-        **/
+         **/
     }
 }

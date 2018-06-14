@@ -75,7 +75,7 @@ class MainFeedCoordinator: Coordinator {
     }
     
     func pushDetailViewController(for post: Post) {
-        let c = PostDetailCoordinator(navigationController: self.navigationController, post: post)
+        let c = PostDetailCoordinator(navigationController: self.navigationController, post: post, showComments: true)
         childCoordinators.append(c)
         c.start()
     }
@@ -83,6 +83,12 @@ class MainFeedCoordinator: Coordinator {
         let post_coordinator = GeneralFeedCoordinator(nav: self.navigationController, mode: .category(category: category))
         self.childCoordinators.append(post_coordinator)
         post_coordinator.start()
+    }
+    
+    func showPostFromDeepLink(post: Post) {
+        navigationController.popToRootViewController(animated: false)
+        let postDetailCoordinator = PostDetailCoordinator(navigationController: navigationController, post: post, showComments: false)
+        postDetailCoordinator.start()
     }
 }
 

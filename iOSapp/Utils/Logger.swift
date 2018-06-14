@@ -80,7 +80,7 @@ public class Logger
         urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
         
         //sending the data to the url
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        let task = URLSession.shared.dataTask(with: urlRequest) { [logParams, urlRequest] data, response, error in
             guard let _ = data, error == nil else
             {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
@@ -89,6 +89,7 @@ public class Logger
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200
             {           // check for http errors
+                print("\(urlRequest.allHTTPHeaderFields) \(urlRequest.url) \(String(data: urlRequest.httpBody!, encoding: .utf8))")
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(String(describing: response))")
             }

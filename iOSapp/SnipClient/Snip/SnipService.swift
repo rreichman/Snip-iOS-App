@@ -20,6 +20,7 @@ enum SnipService {
     case postComment(post_id: Int, parent_id: Int?, body: String)
     case getSavedSnips(page: Int?)
     case getLikedSnips(page: Int?)
+    case getAppLink(url: String)
 }
 
 extension SnipService: TargetType {
@@ -27,6 +28,8 @@ extension SnipService: TargetType {
         switch self {
         case .getPostImage(let imageURL):
             return URL(string: imageURL)!
+        case .getAppLink(let url):
+            return URL(string: url)!
         default:
             //return URL(string: "https://readers-dev-test.snip.today")!
             return URL(string: "https://www.snip.today")!
@@ -98,6 +101,8 @@ extension SnipService: TargetType {
             }
             params["page_size"] = 20 //TODO:
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case .getAppLink:
+            return .requestPlain
         case .getPostImage:
             return .requestPlain
         case .getUserProfile:
@@ -142,13 +147,15 @@ extension SnipService: TargetType {
         default:
             if SessionManager.instance.loggedIn {
                 if let authToken = SessionManager.instance.authToken {
-                    
                     headers["Authorization"] = "Token \(authToken)"
-                    print("Auth Token: \(authToken)")
+                    //print("Auth Token: \(authToken)")
                 }
             }
             if let session = SessionManager.instance.sessionCookie {
-                headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly; Expires=Wed, 22 Aug 2018 00:05:10 GMT;"
+                headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
+            }
+            if false {
+                print("Auth Headers:\n\t Authorization=Token \(SessionManager.instance.authToken)\n\tCookie=\(SessionManager.instance.sessionCookie)")
             }
         }
         //print("cookie: request cookies \(headers)")

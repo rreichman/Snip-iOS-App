@@ -60,8 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool
     {
-        print("User Activity: ")
-        print(Date().timeIntervalSince1970 - enteredBackgroundTime.timeIntervalSince1970)
+        print("AppDelegate.continueUserActivity")
+        //print("User Activity: ")
+        //print(Date().timeIntervalSince1970 - enteredBackgroundTime.timeIntervalSince1970)
         
         window?.rootViewController?.restoreUserActivityState(userActivity)
         

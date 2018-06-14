@@ -71,11 +71,11 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     }
     
     func buildSettingsButton() {
-        let image = UIImage(named: "settings")
-        let imageView = UIImageView(image: image!)
-        let w = settingsButton.frame.width
-        imageView.frame = CGRect(x: (w/2) - 10, y: (w/2)-10, width: 20, height: 20)
-        settingsButton.addSubview(imageView)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
+        settingsButton.imageEdgeInsets = UIEdgeInsetsMake(10, 20, 10, 0)
+        settingsButton.setImage(UIImage(named:"whiteSettingsCog"), for: .normal)
+        settingsButton.imageView?.contentMode = .scaleAspectFit
+        settingsButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16.0).isActive = true
     }
     /*
     func move_indicator(pos: Int) {
@@ -104,7 +104,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
         settings.style.buttonBarBackgroundColor = snipBlue
         settings.style.buttonBarItemBackgroundColor = snipBlue
         settings.style.selectedBarBackgroundColor = .white
-        settings.style.buttonBarItemFont = UIFont.latoBold(size: 16)
+        settings.style.buttonBarItemFont = UIFont.latoBlack(size: 16.0)
         settings.style.buttonBarItemTitleColor = .white
         settings.style.buttonBarItemsShouldFillAvailableWidth = false
         settings.style.buttonBarItemLeftRightMargin = 20

@@ -265,7 +265,7 @@ class GeneralFeedCoordinator: Coordinator {
         }
     }
     func pushDetailViewController(for post: Post) {
-        let c = PostDetailCoordinator(navigationController: self.navController, post: post)
+        let c = PostDetailCoordinator(navigationController: self.navController, post: post, showComments: true)
         childCoordinators.append(c)
         c.start()
     }
@@ -280,6 +280,15 @@ class GeneralFeedCoordinator: Coordinator {
 
 extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
     func viewWriterPosts(for writer: User) {
+        switch self.mode {
+        case .writer:
+            if self.writer.username == writer.username {
+                print("User requsted a writers posts, but we are already showing that writers posts")
+                return
+            }
+        default:
+            break
+        }
         let coord = GeneralFeedCoordinator(nav: self.navController, mode: .writer(writer: writer))
         self.childCoordinators.append(coord)
         coord.start()
