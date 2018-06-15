@@ -200,11 +200,12 @@ class SignupViewController : GenericProgramViewController
         lastNameTextField.becomeFirstResponder()
         colorInputBackground(nameOfDrawnInput: "lastname")
     }
-    
+    /**
     func completeSignupAction(responseString: String)
     {
         WebUtils().completeSignupAction(responseString: responseString, viewController: self)
     }
+     **/
     
     func getSignupDataAsJson() -> Dictionary<String,String>
     {

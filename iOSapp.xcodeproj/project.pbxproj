@@ -86,6 +86,9 @@
 		406EBA1920B4CC0D00682B58 /* VoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1820B4CC0D00682B58 /* VoteState.swift */; };
 		406EBA1B20B4CE6300682B58 /* PostStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1A20B4CE6300682B58 /* PostStateManager.swift */; };
 		406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1C20B6204500682B58 /* VoteAction.swift */; };
+		4071068C20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068B20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift */; };
+		4071068E20D36008006DED24 /* ExpandedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068D20D36008006DED24 /* ExpandedImageViewController.swift */; };
+		4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068F20D36E26006DED24 /* DynamicImageView.swift */; };
 		40816AAC20CF51BC0062D891 /* AccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */; };
 		40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAD20CF58180062D891 /* AuthCoordinator.swift */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
@@ -95,6 +98,7 @@
 		40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0620D051C0001C26F6 /* RestUtils.swift */; };
 		40A1CA0920D097AB001C26F6 /* PostHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */; };
 		40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */; };
+		40AD601820D2E88800A87AF5 /* AppLinkUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD601720D2E88800A87AF5 /* AppLinkUtils.swift */; };
 		40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */; };
 		40B7AF0A20AA499D00A4F608 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */; };
 		40DE49A320AF4F3D001701B6 /* SnipFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */; };
@@ -267,6 +271,9 @@
 		406EBA1820B4CC0D00682B58 /* VoteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteState.swift; sourceTree = "<group>"; };
 		406EBA1A20B4CE6300682B58 /* PostStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateManager.swift; sourceTree = "<group>"; };
 		406EBA1C20B6204500682B58 /* VoteAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAction.swift; sourceTree = "<group>"; };
+		4071068B20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedImageViewPresentationController.swift; sourceTree = "<group>"; };
+		4071068D20D36008006DED24 /* ExpandedImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedImageViewController.swift; sourceTree = "<group>"; };
+		4071068F20D36E26006DED24 /* DynamicImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicImageView.swift; sourceTree = "<group>"; };
 		40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCoordinator.swift; sourceTree = "<group>"; };
 		40816AAD20CF58180062D891 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -276,6 +283,7 @@
 		40A1CA0620D051C0001C26F6 /* RestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUtils.swift; sourceTree = "<group>"; };
 		40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContainer.swift; sourceTree = "<group>"; };
 		40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
+		40AD601720D2E88800A87AF5 /* AppLinkUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinkUtils.swift; sourceTree = "<group>"; };
 		40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPresentationController.swift; sourceTree = "<group>"; };
 		40B7AF0920AA499D00A4F608 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		40DE49A220AF4F3D001701B6 /* SnipFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipFooterView.swift; sourceTree = "<group>"; };
@@ -656,6 +664,7 @@
 				40E4B38F20AE1797000EA9F6 /* AppCoordinator.swift */,
 				40E4B39120AE3C84000EA9F6 /* TabCoordinator.swift */,
 				40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */,
+				4071068F20D36E26006DED24 /* DynamicImageView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -694,6 +703,7 @@
 				7D91DC591FBF79E400771820 /* Logger.swift */,
 				405F709320CF2AC9000659E2 /* TimeUtils.swift */,
 				40A1CA0620D051C0001C26F6 /* RestUtils.swift */,
+				40AD601720D2E88800A87AF5 /* AppLinkUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -743,6 +753,7 @@
 		4018403220ACE8E6001DFE6E /* NewFeed */ = {
 			isa = PBXGroup;
 			children = (
+				4071068A20D35FD6006DED24 /* ExpandedImageView */,
 				40E4B39520AE5525000EA9F6 /* Cells */,
 				4018403320ACE904001DFE6E /* MainFeedCoordinator.swift */,
 				4018403520ACEB39001DFE6E /* MainFeedViewController.swift */,
@@ -769,6 +780,15 @@
 				405F1D3520B75F380066CD94 /* PostContainer.swift */,
 			);
 			path = RealmObjects;
+			sourceTree = "<group>";
+		};
+		4071068A20D35FD6006DED24 /* ExpandedImageView */ = {
+			isa = PBXGroup;
+			children = (
+				4071068B20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift */,
+				4071068D20D36008006DED24 /* ExpandedImageViewController.swift */,
+			);
+			path = ExpandedImageView;
 			sourceTree = "<group>";
 		};
 		40A1CA0120D04F7A001C26F6 /* SnipAuth */ = {
@@ -1222,6 +1242,7 @@
 				7DA1A9511FCB7CFF00ABB0C4 /* SnipImage.swift in Sources */,
 				238CF3012097F10E00B80DEB /* GasPriceSelectorViewController.swift in Sources */,
 				2333D1962093FDDC002F5DD4 /* ShareAddressViewController.swift in Sources */,
+				4071068C20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift in Sources */,
 				236C11CE209D2FE50026E476 /* RealmManager.swift in Sources */,
 				23D1A722209A72D70071D3E6 /* PinLock.swift in Sources */,
 				7D820EB11FCE22F800404FA2 /* CommentsTableViewController.swift in Sources */,
@@ -1270,6 +1291,7 @@
 				4018403B20ACEBDC001DFE6E /* Category.swift in Sources */,
 				236C11CA209D26180026E476 /* DateFmt.swift in Sources */,
 				230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */,
+				4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */,
 				2312B9D820A66C4F00A41B36 /* SettingPopoverViewController.swift in Sources */,
 				406EBA1520B4972100682B58 /* NoHeightHeaderFooter.swift in Sources */,
 				7D839E2F1FC6843E007501F2 /* CommentTableViewCell.swift in Sources */,
@@ -1336,12 +1358,14 @@
 				40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */,
 				405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */,
 				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,
+				4071068E20D36008006DED24 /* ExpandedImageViewController.swift in Sources */,
 				4018403120ACE287001DFE6E /* SnipRequests.swift in Sources */,
 				40DE49A320AF4F3D001701B6 /* SnipFooterView.swift in Sources */,
 				232275F020A3B260006CAD77 /* TransactionError.swift in Sources */,
 				7DC588722069C51600BFA5AD /* SignupWelcomeViewController.swift in Sources */,
 				40B7AF0A20AA499D00A4F608 /* ConfirmationViewController.swift in Sources */,
 				401F43A820B35601003BECFE /* PostListViewController.swift in Sources */,
+				40AD601820D2E88800A87AF5 /* AppLinkUtils.swift in Sources */,
 				23DCC8E5208EB38B003A2B3C /* SetWalletType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

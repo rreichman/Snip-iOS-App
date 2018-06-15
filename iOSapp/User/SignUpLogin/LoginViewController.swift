@@ -276,7 +276,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         
         return loginData
     }
-    
+    /**
     func completeLoginAction(responseString: String)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
@@ -314,6 +314,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         
         inLoginProcess = false
     }
+    **/
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {

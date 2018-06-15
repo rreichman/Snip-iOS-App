@@ -23,22 +23,21 @@ class TabCoordinator: Coordinator {
     var disposeBag = DisposeBag()
     var mainFeedNavigationController: UINavigationController!
     var mainFeedCoordinator: MainFeedCoordinator?
-    init(_ presenting: UIViewController) {
+    init(_ presenting: UIViewController, openWithAppLink: Bool, appLinkUrl: URL?) {
         self.presentingViewController = presenting
+        tabController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarViewController") as! MainTabBarViewController
+        tabController._delegate = self
+        tabController.viewControllers = buildTabBarControllers(openWithAppLink, appLinkUrl)
     }
     
     func start() {
-        tabController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarViewController") as! MainTabBarViewController
-        tabController._delegate = self
-        tabController.viewControllers = buildTabBarControllers()
-        
         presentingViewController.present(tabController, animated: true, completion: nil)
     }
     
-    func buildTabBarControllers() -> [UIViewController] {
+    func buildTabBarControllers(_ openWithAppLink: Bool, _ appLink: URL?) -> [UIViewController] {
         let _ = UIColor(red: 0, green: 0.7, blue: 0.8, alpha: 1.0)
         
-        let feedCoordinator = MainFeedCoordinator()
+        let feedCoordinator = MainFeedCoordinator(openInitialAppLink: openWithAppLink, appLink: appLink)
         self.mainFeedCoordinator = feedCoordinator
         childCoordinators.append(feedCoordinator)
         feedCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "tabBarHomeTwo"), tag: 0)
@@ -61,23 +60,9 @@ class TabCoordinator: Coordinator {
         
     }
     
-    func showPostFromDeepLink(url: String) {
-        let realm = RealmManager.instance.getMemRealm()
-        SnipRequests.instance.getPostFromAppLink(url: url)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] (post) in
-                guard let s = self, let main = s.mainFeedCoordinator else {
-                    print("Missing TabCoordinator or MainFeedCoordinator")
-                    return
-                }
-                try! realm.write {
-                    realm.add(post, update: true)
-                }
-                main.showPostFromDeepLink(post: post)
-            }) { (err) in
-                print("Error resolving post from deep link: \(err.localizedDescription)")
-                Crashlytics.sharedInstance().recordError(err)
-        }
+    func showPostFromDeepLink(url: URL) {
+        guard let main = self.mainFeedCoordinator else { return }
+        main.resolveAndPushAppLink(url: url)
     }
 }
 
@@ -92,9 +77,18 @@ extension TabCoordinator: MainTabBarViewDelegate {
 }
 
 extension TabCoordinator: AccountCoordinatorDelegate {
+    func onUserLogin() {
+        if let main = mainFeedCoordinator {
+            main.resetMainFeed()
+        }
+    }
+    
     func onUserLogout() {
         // Jump back to home tab when the user logs out
         tabController.selectedIndex = 0
+        if let main = mainFeedCoordinator {
+            main.resetMainFeed()
+        }
     }
     
     func onCancelWithoutLoginSignup() {

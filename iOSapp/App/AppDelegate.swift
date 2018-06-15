@@ -28,13 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var coordinator: AppCoordinator!
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool
     {
-        print("in application from URL " + url.absoluteString)
+        print("AppDelegate.open with url \(url.absoluteString)")
         return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String?, annotation: options[.annotation])
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
-        print("started app \(Date())")
+        print("Appdelegate.didFinishLaunchingWithOptions")
         HTTPCookieStorage.shared.removeCookies(since: Date(timeIntervalSince1970: 0))
         
         application.statusBarStyle = .lightContent
@@ -43,11 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
         RealmManager.instance = RealmManager()
-        coordinator = AppCoordinator(window!, rootController: window!.rootViewController as! OpeningSplashScreenViewController)
+        
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        self.coordinator = AppCoordinator(window, launchOptions: launchOptions)
+        self.window = window
         coordinator.start()
-        coordinator.didFinishLaunchingWithOptions(options: launchOptions)
-        
-        
         
         print("app init done \(Date())")
         Fabric.with([Crashlytics.self])
@@ -58,14 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
-                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool
-    {
+                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         print("AppDelegate.continueUserActivity")
-        //print("User Activity: ")
-        //print(Date().timeIntervalSince1970 - enteredBackgroundTime.timeIntervalSince1970)
-        
-        window?.rootViewController?.restoreUserActivityState(userActivity)
-        
+        self.coordinator.handleDeepLink(userActivity: userActivity)
         return true
     }
 
@@ -97,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication)
     {
-        print("did become active \(Date())")
+        print("AppDelegate.applicationDidBecomeActive")
         
         FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)

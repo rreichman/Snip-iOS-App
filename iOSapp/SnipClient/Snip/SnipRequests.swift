@@ -73,9 +73,7 @@ class SnipRequests {
                     try! realm.write {
                         realm.add(post, update: true)
                         if category.posts.index(of: post) == nil {
-                            
                             category.posts.append(post)
-                            print("Post appended to a category under a write")
                         }
                     }
                 }

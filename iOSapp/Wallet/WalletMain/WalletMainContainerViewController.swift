@@ -25,6 +25,7 @@ class WalletMainContainerViewController : ButtonBarPagerTabStripViewController, 
     @IBOutlet var contentView: UIView!
     var _delegate: WalletMainContainerDelegate!
     weak var coordinator: WalletCoordinator?
+    
     @IBAction func onSettingsPress() {
         let story = UIStoryboard(name: "Main", bundle: nil)
         let popover = story.instantiateViewController(withIdentifier: "SettingPopover") as! SettingPopoverViewController

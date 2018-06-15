@@ -96,14 +96,14 @@ class GeneralFeedCoordinator: Coordinator {
         
         switch self.mode {
         case .category:
-            self.postListVC.setPostQuery(posts: category.posts, description: category.categoryName)
+            self.postListVC.bindData(posts: category.posts, description: category.categoryName)
         case .writer:
-            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "")
+            self.postListVC.bindData(posts: getPostListForMode(), description: "")
             self.postListVC.setUserHeader(name: "\(writer.first_name) \(writer.last_name)", initials: writer.initials)
         case .savedSnips:
-            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "SAVED SNIPS")
+            self.postListVC.bindData(posts: getPostListForMode(), description: "SAVED SNIPS")
         case .likedSnips:
-            self.postListVC.setPostQuery(posts: getPostListForMode(), description: "FAVORITE SNIPS")
+            self.postListVC.bindData(posts: getPostListForMode(), description: "FAVORITE SNIPS")
         }
         navController.pushViewController(self.postListVC, animated: true)
     }
@@ -264,8 +264,8 @@ class GeneralFeedCoordinator: Coordinator {
             
         }
     }
-    func pushDetailViewController(for post: Post) {
-        let c = PostDetailCoordinator(navigationController: self.navController, post: post, showComments: true)
+    func pushDetailViewController(for post: Post, _ startComment: Bool) {
+        let c = PostDetailCoordinator(navigationController: self.navController, post: post, mode: (startComment ? .startComment : .showComments))
         childCoordinators.append(c)
         c.start()
     }
@@ -279,6 +279,10 @@ class GeneralFeedCoordinator: Coordinator {
 }
 
 extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
+    func openInternalLink(url: URL) {
+        AppLinkUtils.resolveAndPushAppLink(link: url.absoluteString, navigationController: self.navController)
+    }
+    
     func viewWriterPosts(for writer: User) {
         switch self.mode {
         case .writer:
@@ -294,8 +298,8 @@ extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
         coord.start()
     }
     
-    func showDetail(for post: Post) {
-        pushDetailViewController(for: post)
+    func showDetail(for post: Post, startComment: Bool) {
+        pushDetailViewController(for: post, startComment)
     }
     
     func refreshFeed() {

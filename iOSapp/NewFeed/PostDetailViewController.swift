@@ -15,6 +15,7 @@ protocol PostDetailViewDelegate: class {
     func postComment(for post: Post, with body: String, parent: RealmComment?)
     func onBackPressed()
     func showLoginSignUp()
+    func openInternalLink(url: URL)
 }
 
 class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -22,7 +23,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var bodyTextView: UITextViewFixed!
-    @IBOutlet var sourceTextView: UITextViewFixed!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIImageView!
     @IBOutlet var dislikeButton: ToggleButton!
@@ -53,18 +53,16 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     var token: NotificationToken?
     var postImageToken: NotificationToken?
     var topConstraint: NSLayoutConstraint!
-    var showComments: Bool = false
+    var mode: PostDisplayMode?
+    
     override func viewDidLoad() {
         tableView.dataSource = self
-        //tableView.tableHeaderView = postContainer
         tableView.allowsSelection = false
         tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         bodyTextView.delegate = self
         dataDelegate = PostStateManager.instance
         whiteBackArrow()
-        viewInit()
-        dynamicKeyboardViewPosition()
         setUpWriteBox()
         
         
@@ -74,7 +72,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
         topConstraint.isActive = true
         
-        //postContainer.autoresizingMask = .flexibleWidth
+        postImage.layer.cornerRadius = 10
+        addTap()
 
         self.bindViews(data: self.post)
         
@@ -110,21 +109,32 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if (self.isBeingPresented || self.isMovingToParentViewController) && self.showComments {
+        self.registerForKeyboardUpdates()
+        if (self.isBeingPresented || self.isMovingToParentViewController) {
             print("PostDetailView is appearing for the first time")
-            if let comments = self.commentArray {
-                if comments.count > 0 {
-                    self.scrollToFirstComment()
+            guard let m = self.mode else { return }
+            switch m {
+            case .showComments:
+                if let comments = self.commentArray {
+                    if comments.count > 0 {
+                        self.scrollToFirstComment()
+                    }
                 }
+            case .startComment:
+                if let comments = self.commentArray {
+                    if comments.count > 0 {
+                        self.scrollToFirstComment()
+                    }
+                }
+                commentText.becomeFirstResponder()
+            default:
+                break
             }
         }
     }
     
-    func viewInit() {
-        
-        postImage.layer.cornerRadius = 10
-        //contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
-        addTap()
+    override func viewDidDisappear(_ animated: Bool) {
+        self.unregisterForKeyboardUpdates()
     }
     
     func setUpWriteBox() {
@@ -146,12 +156,61 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         topConstraint.isActive = true
     }
     
-    func bind(data: Post, showComments: Bool) {
+    func bind(data: Post, mode: PostDisplayMode) {
         self.post = data
-        self.showComments = showComments
+        self.mode = mode
+        subscribeToRealmNotifications(data: data)
         bindViews(data: data)
     }
     
+    func subscribeToRealmNotifications(data: Post) {
+        if let image = data.image {
+            self.postImageToken = image.observe({ [weak self] (change) in
+                switch change {
+                case .change(let properties):
+                    for property in properties {
+                        if property.name == "data" && (property.newValue as! Data).count > 0 {
+                            guard let s = self, let _ = s.postImage else { return }
+                            s.bindImage(imageOpt: image)
+                        }
+                    }
+                default:
+                    //do nothing
+                    break
+                }
+            })
+        }
+        self.token = data.comments.observe({ [weak self](changes) in
+            guard let s = self, let _ = s.tableView else { return }
+            s.commentArray = s.post.calculateCommentArray()
+            guard let comments = s.commentArray else { return }
+            s.bindNumberOfCommentsLabel(comment_count: comments.count)
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                s.tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                
+                UIView.performWithoutAnimation {
+                    // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
+                    /**
+                     s.tableView.beginUpdates()
+                     s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
+                     with: .none)
+                     
+                     s.tableView.endUpdates()
+                     **/
+                    
+                    s.tableView.reloadData()
+                }
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        })
+    }
     
     func bindViews(data: Post) {
         guard let _ = self.tableView else { return }
@@ -215,53 +274,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         bindNumberOfCommentsLabel(comment_count: comment_count)
         
         self.commentArray = data.calculateCommentArray()
-        
-        if let image = data.image {
-            self.postImageToken = image.observe({ [weak self] (change) in
-                switch change {
-                case .change(let properties):
-                    for property in properties {
-                        if property.name == "data" && (property.newValue as! Data).count > 0 {
-                            guard let s = self else { return }
-                            s.bindImage(imageOpt: image)
-                        }
-                    }
-                default:
-                    //do nothing
-                    break
-                }
-            })
-        }
-        self.token = data.comments.observe({ [weak self](changes) in
-            guard let s = self else { return }
-            s.commentArray = s.post.calculateCommentArray()
-            guard let comments = s.commentArray else { return }
-            s.bindNumberOfCommentsLabel(comment_count: comments.count)
-            switch changes {
-            case .initial:
-                // Results are now populated and can be accessed without blocking the UI
-                s.tableView.reloadData()
-            case .update(_, let deletions, let insertions, let modifications):
-                
-                UIView.performWithoutAnimation {
-                    // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
-                    /**
-                     s.tableView.beginUpdates()
-                     s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
-                     with: .none)
-                     s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
-                     with: .none)
-                     
-                     s.tableView.endUpdates()
-                     **/
-                    
-                    s.tableView.reloadData()
-                }
-            case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
-                fatalError("\(error)")
-            }
-        })
         bindImage(imageOpt: data.image)
         
     }
@@ -372,23 +384,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
     }
     
-    @objc func keyboardDidChangeFrame(notification: NSNotification) {
-        if let info = notification.userInfo {
-            var keyboardHeight : CGFloat = ((info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height)!
-            if #available(iOS 11.0, *)
-            {
-                let bottomInset = self.view.safeAreaInsets.bottom
-                keyboardHeight -= bottomInset
-            }
-            self.bottomConstraint.constant = keyboardHeight - 83 //Tab bar height, quick fix
-        }
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
-    {
-        return true
-    }
-    
     @objc func interceptWriteBoxTap() {
         if (SessionManager.instance.loggedIn) {
             if !commentText.isFirstResponder {
@@ -453,13 +448,18 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
-    private func dynamicKeyboardViewPosition() {
+    private func registerForKeyboardUpdates() {
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+    }
+    
+    private func unregisterForKeyboardUpdates() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
+        print("PostDetailViewController.keyboardWillShow")
         if let _ = notification.userInfo {
             self.view.layoutIfNeeded()
             var animationDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
@@ -484,7 +484,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.replyComment = nil
+        //self.replyComment = nil
+        print("PostDetailViewController.keyboardWillHide")
         if let info = notification.userInfo {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
@@ -551,7 +552,13 @@ extension PostDetailViewController: CommentCellDelegate {
 
 extension PostDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        UIApplication.shared.open(URL, options: [:])
+        if AppLinkUtils.shouldOpenLinkInApp(link: URL) {
+            print("Opening internal link \(URL.absoluteString)")
+            delegate.openInternalLink(url: URL)
+        } else {
+            UIApplication.shared.open(URL, options: [:])
+        }
+        
         return false
     }
 }

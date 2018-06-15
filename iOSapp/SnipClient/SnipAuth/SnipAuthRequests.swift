@@ -97,4 +97,14 @@ class SnipAuthRequests {
                 throw APIError.generalError
         }
     }
+    
+    func postLogout() -> Single<Bool> {
+        return provider.rx.request(SnipAuthService.logout)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapString()
+            .map { response in
+                return true
+            }
+        }
 }

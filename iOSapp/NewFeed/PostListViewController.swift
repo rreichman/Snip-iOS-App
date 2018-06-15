@@ -19,8 +19,9 @@ protocol FeedNavigationViewDelegate: class {
     func onBackPressed()
     func fetchNextPage()
     func refreshFeed()
-    func showDetail(for post: Post)
+    func showDetail(for post: Post, startComment: Bool)
     func viewWriterPosts(for writer: User)
+    func openInternalLink(url: URL)
 }
 
 class PostListViewController: UIViewController {
@@ -31,7 +32,7 @@ class PostListViewController: UIViewController {
     @IBOutlet var headerContainer: UIView!
     var delegate: FeedNavigationViewDelegate!
     var posts: List<Post>?
-    var navDescription: String?
+    var navTitle: String?
     var notificationToken: NotificationToken?
     var expandedSet = Set<Int>()
     var refreshControl: UIRefreshControl!
@@ -41,35 +42,57 @@ class PostListViewController: UIViewController {
     var userInitials: String = ""
     
     override func viewDidLoad() {
-        
-        if let d = self.navDescription {
-            setNavTitle(title: d)
-        }
         tableView.dataSource = self
         tableView.delegate = self
         whiteBackArrow()
-        if !self.displayUserHeader {
-            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        } else {
-            tableView .tableHeaderView = headerContainer
-            authorLabel.text = self.userName
-            initialsLabel.text = self.userInitials
-        }
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         addRefresh()
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
+        
+        self.bindViews(posts: self.posts, navTitle: self.navTitle)
     }
+    
     func setUserHeader(name: String, initials: String) {
         self.displayUserHeader = true
         self.userName = name
         self.userInitials = initials.uppercased()
     }
-    func setPostQuery(posts: List<Post>, description: String) {
+    
+    
+    
+    func bindData(posts: List<Post>, description: String?) {
         self.posts = posts
-        navDescription = description
-        setNavTitle(title: description)
+        self.navTitle = description
+        subscribeToRealmNotifications(posts: posts)
+        bindViews(posts: posts, navTitle: navTitle)
+    }
+    
+    func bindViews(posts: List<Post>?, navTitle: String?) {
+        if let tv = self.tableView {
+            if !self.displayUserHeader {
+                tv.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+            } else {
+                tv .tableHeaderView = headerContainer
+                // If the tableView has been constructed, the labels are there too
+                authorLabel.text = self.userName
+                initialsLabel.text = self.userInitials
+            }
+            if posts != nil {
+                tv.reloadData()
+            }
+        }
+        
+        if let title = navTitle {
+            self.navigationItem.title = title.uppercased()
+        } else {
+            self.navigationItem.title = ""
+        }
+        
+    }
+    
+    func subscribeToRealmNotifications(posts: List<Post>) {
         self.notificationToken = posts.observe { [weak self] changes in
             guard let viewController = self else { return }
             guard let tableView = viewController.tableView else { return }
@@ -104,9 +127,6 @@ class PostListViewController: UIViewController {
                 fatalError("\(error)")
             }
         }
-    }
-    func setNavTitle(title: String) {
-        self.navigationItem.title = title.uppercased()
     }
     
     @objc func backButtonTapped() {
@@ -169,6 +189,7 @@ extension PostListViewController: UITableViewDataSource {
             let large = expandedSet.contains(indexPath.row)
             cell!.bind(data: post, path: indexPath, expanded: large)
             cell!.delegate = self
+            cell!.bodyTextView.delegate = self
             cell!.dataDelegate = PostStateManager.instance
         }
         return cell!
@@ -217,6 +238,10 @@ extension PostListViewController: UITableViewDelegate {
 }
 
 extension PostListViewController: SnipCellViewDelegate {
+    func showExpandedImage(for post: Post) {
+        ExpandedImageViewController.showExpandedImage(for: post, presentingVC: self)
+    }
+    
     func viewWriterPost(writer: User) {
         delegate.viewWriterPosts(for: writer)
     }
@@ -225,8 +250,8 @@ extension PostListViewController: SnipCellViewDelegate {
         PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
     }
     
-    func showDetail(for post: Post) {
-        delegate.showDetail(for: post)
+    func showDetail(for post: Post, startComment: Bool) {
+        delegate.showDetail(for: post, startComment: startComment)
     }
     
     
@@ -258,5 +283,18 @@ extension PostListViewController: FeedView {
     func scrollToTop() {
         guard let _ = tableView else { return }
         tableView.setContentOffset(.zero, animated: true)
+    }
+}
+
+extension PostListViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if AppLinkUtils.shouldOpenLinkInApp(link: URL) {
+            print("Opening internal link \(URL.absoluteString)")
+            delegate.openInternalLink(url: URL)
+        } else {
+            UIApplication.shared.open(URL, options: [:])
+        }
+        
+        return false
     }
 }

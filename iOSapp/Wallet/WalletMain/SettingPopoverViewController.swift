@@ -20,7 +20,12 @@ class SettingPopoverViewController : UIViewController {
     var delegate: SettingPopoverViewDelegate!
     override func viewDidLoad() {
         //pass
-        self.view.layer.cornerRadius = 5
+        //Not the right place for this self.view.superview?.layer.cornerRadius = 5
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.view.superview?.layer.cornerRadius = 5
+        super.viewWillAppear(animated)
     }
     
     //Updating the popover size
@@ -52,7 +57,8 @@ class SettingPopoverViewController : UIViewController {
         popoverPresentationController?.permittedArrowDirections = .up
         popoverPresentationController?.backgroundColor = UIColor.white
         popoverPresentationController?.sourceView = button
-        popoverPresentationController?.sourceRect = button.bounds
+        popoverPresentationController?.sourceRect = CGRect(x: button.bounds.origin.x, y: button.bounds.origin.y, width: button.bounds.width, height: button.bounds.height)//button.bounds
+        //popoverPresentationController?.popoverLayoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         popoverPresentationController?.delegate = delegate as! UIPopoverPresentationControllerDelegate
     }
 }

@@ -76,6 +76,7 @@ class SessionManager {
             if let token = newValue {
                 keychain.set(token, forKey: SessionManager.authTokenKey)
             } else {
+                print("authToken deleted")
                 keychain.delete(SessionManager.authTokenKey)
             }
         }
@@ -96,6 +97,7 @@ class SessionManager {
             if let session = newValue {
                 userdefaults.set(session, forKey: SessionManager.sessionCookieKey)
             } else {
+                print("session deleted")
                 userdefaults.removeObject(forKey: SessionManager.sessionCookieKey)
             }
             userdefaults.synchronize()
@@ -123,24 +125,14 @@ class SessionManager {
     
     func logout() {
         clearAll()
+        // Logging out invalidates the session cookie, but we don't want it to be cleared on login
+        self.sessionCookie = nil
     }
     
     func setUserProfile(name: String, username: String, initials: String) {
         self.currentLoginUsername = username
         self.currentLoginIntitals = initials
         self.currentLoginName = name
-    }
-    
-    func oldAuthProxy(token: String) {
-        self.authToken = token
-        SnipRequests.instance.buildProfile(authToken: token)
-        
-    }
-    func oldAuthProxyLogout() {
-        self.authToken = nil
-        self.currentLoginUsername = nil
-        self.currentLoginName = nil
-        self.currentLoginIntitals = nil
     }
     
 }

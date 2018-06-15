@@ -18,17 +18,49 @@ class AppCoordinator: Coordinator {
     var userActivity: NSUserActivity!
     var rootController: OpeningSplashScreenViewController!
     var tabCoordinator: TabCoordinator!
-    init(_ window: UIWindow, rootController: OpeningSplashScreenViewController) {
-        //self.userActivity = userActivity
-        rootController.delegate = self
+    
+    var openingWithAppLink = false
+    var appLink: URL?
+    
+    init(_ window: UIWindow, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         self.window = window
-        self.rootController = rootController
-        window.rootViewController = rootController
-        window.makeKeyAndVisible()
+        self.rootController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OpeningSplashScreenViewController") as! OpeningSplashScreenViewController
+        
+        if let options = launchOptions {
+            let userActivityDictionary : [String : Any] = options[UIApplicationLaunchOptionsKey.userActivityDictionary] as! [String : Any]
+            let userActivityKey = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"]
+            let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
+            if let url = appLinkFromUserActivity(userActivity: userActivity) {
+                if AppLinkUtils.shouldOpenLinkInApp(link: url) {
+                    openingWithAppLink = true
+                    appLink = url
+                }
+            }
+        }
     }
     
     func start() {
+        window.rootViewController = self.rootController
+        window.makeKeyAndVisible()
         loadMainFeed()
+    }
+    
+    func continueUserActivity(userActivity : NSUserActivity) {
+        if let url = appLinkFromUserActivity(userActivity: userActivity) {
+            if AppLinkUtils.shouldOpenLinkInApp(link: url) {
+                guard let tab = self.tabCoordinator else { return }
+                tabCoordinator.showPostFromDeepLink(url: url)
+            }
+        }
+    }
+    
+    func appLinkFromUserActivity(userActivity : NSUserActivity) -> URL? {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            if let url = userActivity.webpageURL {
+                return url
+            }
+        }
+        return nil
     }
     
     func loadMainFeed() {
@@ -68,48 +100,24 @@ class AppCoordinator: Coordinator {
     }
     
     func onPreLoadingFinished() {
-        self.tabCoordinator = TabCoordinator(rootController)
+        self.tabCoordinator = TabCoordinator(rootController, openWithAppLink: self.openingWithAppLink, appLinkUrl: self.appLink)
         tabCoordinator.start()
-    }
-    
-    func didFinishLaunchingWithOptions(options: [UIApplicationLaunchOptionsKey: Any]?) {
-        print("AppCoordinator.didFinishLaunchingWithOptions")
-        if let o = options {
-            let userActivityDictionary : [String : Any] = o[UIApplicationLaunchOptionsKey.userActivityDictionary] as! [String : Any]
-            let userActivityKey = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"]
-            let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
-            print("didFinishLaunchingWithOptions found UIApplicationLaunchOptions")
-            
-            
-            /**
-            rootController._snipRetrieverFromWeb.setFullUrlString(urlString: (userActivity.webpageURL?.absoluteString)!, query: "")
-            **/
-        }
     }
     
     func handleDeepLink(userActivity: NSUserActivity) {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             let url = userActivity.webpageURL!
             print("Attempting to fetch post from deep link \(url.absoluteString)")
-            tabCoordinator.showPostFromDeepLink(url: url.absoluteString)
+            tabCoordinator.showPostFromDeepLink(url: url)
         }
     }
     
+    // Refreshes the main feed after a specific time the app was in background
     func applicationDidBecomeActive(_ fromBackground: Bool, _ longBackground: Bool, _ fromPost: Bool) {
-        if fromBackground && longBackground && !fromPost {
-            let rc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as! OpeningSplashScreenViewController
-            self.window.rootViewController = rc
-            self.rootController = rc
-            loadMainFeed()
+        if fromBackground && longBackground {
+            guard let tab = tabCoordinator, let main = tab.mainFeedCoordinator else { return }
+            main.refreshMainFeedAfterLongBackground()
         }
     }
-    
-}
-
-extension AppCoordinator: OpeningSplashScreenViewDelegate {
-    func restoreUserActivityState(_ userActivity: NSUserActivity) {
-        handleDeepLink(userActivity: userActivity)
-    }
-    
     
 }

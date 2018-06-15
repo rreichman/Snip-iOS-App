@@ -126,7 +126,7 @@ class WebUtils
         
         return newPostDataArray
     }
-    
+    /**
     func completeSignupAction(responseString: String, viewController : GenericProgramViewController)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]
@@ -154,4 +154,5 @@ class WebUtils
             print("what to do here?")
         }
     }
+ **/
 }

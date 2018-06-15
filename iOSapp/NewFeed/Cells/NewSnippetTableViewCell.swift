@@ -12,8 +12,9 @@ protocol SnipCellViewDelegate: class {
     func setExpanded(large: Bool, path: IndexPath)
     func share(msg: String, url: NSURL, sourceView: UIView)
     func postOptions(for post: Post)
-    func showDetail(for post: Post)
+    func showDetail(for post: Post, startComment: Bool)
     func viewWriterPost(writer: User)
+    func showExpandedImage(for post: Post)
 }
 protocol SnipCellDataDelegate: class {
     func onVoteAciton(action: VoteAction, for post: Post)
@@ -161,7 +162,6 @@ class NewSnippetTableViewCell: UITableViewCell {
         setBottomConstraint(large: expanded)
         setHiddenState(large: expanded)
         
-        commentInput.addTarget(self, action: #selector(commentTap), for: .touchUpInside)
         self.post = data
     }
     
@@ -240,7 +240,8 @@ class NewSnippetTableViewCell: UITableViewCell {
         bodyTextView.isUserInteractionEnabled = true
         authorLabel.isUserInteractionEnabled = true
         numberOfCommentsLabel.isUserInteractionEnabled = true
-        numberOfCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(commentTap)))
+        numberOfCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewCommentsTap)))
+        commentInput.addTarget(self, action: #selector(startCommentTap), for: .touchUpInside)
         titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         bodyTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
@@ -249,6 +250,13 @@ class NewSnippetTableViewCell: UITableViewCell {
         
         touchAreaView.isUserInteractionEnabled = true
         touchAreaView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
+        postImage.isUserInteractionEnabled = true
+        postImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTap)))
+    }
+    
+    @objc func imageTap() {
+        guard let p = self.post else { return }
+        delegate.showExpandedImage(for: p)
     }
     
     @objc func authorTap() {
@@ -271,9 +279,14 @@ class NewSnippetTableViewCell: UITableViewCell {
         delegate.share(msg: msg, url: url, sourceView: shareButton)
     }
     
-    @objc func commentTap() {
+    @objc func startCommentTap() {
         guard let p = self.post else { return }
-        delegate.showDetail(for: p)
+        delegate.showDetail(for: p, startComment: true)
+    }
+    
+    @objc func viewCommentsTap() {
+        guard let p = self.post else { return }
+        delegate.showDetail(for: p, startComment: false)
     }
     
     @objc func postOptionsTab() {

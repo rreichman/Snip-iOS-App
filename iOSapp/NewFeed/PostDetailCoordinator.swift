@@ -10,25 +10,28 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-
+enum PostDisplayMode {
+    case none
+    case showComments
+    case startComment
+}
 class PostDetailCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
-    
     
     var viewController: PostDetailViewController!
     var navigationController: UINavigationController!
     var post: Post!
-    var showComments: Bool = false
-    init(navigationController: UINavigationController, post: Post, showComments: Bool) {
+    var displayMode: PostDisplayMode
+    init(navigationController: UINavigationController, post: Post, mode: PostDisplayMode) {
         self.navigationController = navigationController
         self.post = post
-        self.showComments = showComments
+        self.displayMode = mode
     }
     
     func start() {
         viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
         viewController.delegate = self
-        viewController.bind(data: post, showComments: self.showComments)
+        viewController.bind(data: post, mode: displayMode)
         navigationController.pushViewController(viewController, animated: true)
     }
     func pushLoginSignUp() {
@@ -39,6 +42,10 @@ class PostDetailCoordinator: Coordinator {
 }
 
 extension PostDetailCoordinator: PostDetailViewDelegate {
+    func openInternalLink(url: URL) {
+        AppLinkUtils.resolveAndPushAppLink(link: url.absoluteString, navigationController: self.navigationController)
+    }
+    
     func showLoginSignUp() {
         pushLoginSignUp()
     }
@@ -75,6 +82,4 @@ extension PostDetailCoordinator: AuthCoordinatorDelegate {
     func onSuccessfulLogin(profile: User) {
         // pass
     }
-    
-    
 }

@@ -7,9 +7,6 @@
 //
 
 import UIKit
-protocol OpeningSplashScreenViewDelegate: class {
-    func restoreUserActivityState(_ userActivity: NSUserActivity)
-}
 class OpeningSplashScreenViewController: UIViewController
 {
     @IBOutlet weak var splashScreenBackgroundImage: UIImageView!
@@ -20,7 +17,6 @@ class OpeningSplashScreenViewController: UIViewController
     @IBOutlet weak var logoViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var logoViewLeadingConstraint: NSLayoutConstraint!
     
-    var delegate: OpeningSplashScreenViewDelegate!
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -49,8 +45,7 @@ class OpeningSplashScreenViewController: UIViewController
         logoViewLeadingConstraint.constant = (CachedData().getScreenWidth() - logoView.bounds.width) / 2
     }
     
-    override func viewDidAppear(_ animated: Bool)
-    {
+    override func viewDidAppear(_ animated: Bool) {
         print("before super didAppear \(Date())")
         super.viewDidAppear(animated)
         print("after super didAppear \(Date())")
@@ -61,17 +56,6 @@ class OpeningSplashScreenViewController: UIViewController
         Logger().logAboutToRetrieveSplashScreenSnippets()
         _snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.collectionCompletionHandler, appendDataAndNotReplace: false)
          **/
-    }
-    
-    override func restoreUserActivityState(_ userActivity: NSUserActivity)
-    {
-        print("OpeningSplashScreenViewController.restoreUserActivityState")
-        /**
-        snippetsTableViewController.operateRefresh(newBaseUrlString: (userActivity.webpageURL?.absoluteString)!, newQuery: "", useActivityIndicator: true)
-        snippetsTableViewController.shouldEnterCommentOfFirstSnippet = (userActivity.webpageURL?.absoluteString.range(of: "?comment") != nil)
-        **/
-        delegate.restoreUserActivityState(userActivity)
-        super.restoreUserActivityState(userActivity)
     }
     
     func collectionCompletionHandler(postsToAdd: [PostData], appendDataAndNotReplace : Bool)

@@ -8,10 +8,13 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import Crashlytics
 
 protocol AccountCoordinatorDelegate: class {
     func onCancelWithoutLoginSignup()
     func onUserLogout()
+    func onUserLogin()
 }
 
 class AccountCoordinator: Coordinator {
@@ -21,7 +24,7 @@ class AccountCoordinator: Coordinator {
     
     var settingsViewController: SettingsViewController?
     var authCoordinator: AuthCoordinator?
-    
+    var disposeBag = DisposeBag()
     var delegate: AccountCoordinatorDelegate!
     init() {
         navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountNavigationController") as! UINavigationController
@@ -112,9 +115,21 @@ class AccountCoordinator: Coordinator {
     }
     
     func logUserOut() {
-        SessionManager.instance.logout()
-        profileViewController.bind(profile: nil)
-        popSettingsViewController()
+        SnipAuthRequests.instance.postLogout()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] (success) in
+                guard let s = self else { return }
+                SessionManager.instance.logout()
+                s.profileViewController.bind(profile: nil)
+                s.popSettingsViewController()
+                
+                s.delegate.onUserLogout()
+            }) { (err) in
+                print("error logging out")
+                Crashlytics.sharedInstance().recordError(err)
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     
@@ -141,7 +156,6 @@ extension AccountCoordinator: ProfileViewDelegate {
 extension AccountCoordinator: SettingsViewDelegate {
     func onLogoutRequested() {
         logUserOut()
-        delegate.onUserLogout()
     }
     
     func backRequested() {
@@ -154,11 +168,13 @@ extension AccountCoordinator: AuthCoordinatorDelegate {
     func onSuccessfulSignup(profile: User) {
         profileViewController.bind(profile: profile)
         popAuthCoordinator()
+        delegate.onUserLogin()
     }
     
     func onSuccessfulLogin(profile: User) {
         profileViewController.bind(profile: profile)
         popAuthCoordinator()
+        delegate.onUserLogin()
     }
     
     func onCancel() {

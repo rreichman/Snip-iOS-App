@@ -154,7 +154,7 @@ extension SnipService: TargetType {
             if let session = SessionManager.instance.sessionCookie {
                 headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
             }
-            if false {
+            if true {
                 print("Auth Headers:\n\t Authorization=Token \(SessionManager.instance.authToken)\n\tCookie=\(SessionManager.instance.sessionCookie)")
             }
         }

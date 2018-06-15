@@ -13,8 +13,11 @@ import RealmSwift
 protocol MainFeedViewDelegate: class {
     func onCategorySelected(category: Category)
     func refreshFeed()
-    func showDetail(for post: Post)
+    func showDetail(for post: Post, startComment: Bool)
     func showWriterPosts(writer: User)
+    func viewDidAppearForTheFirstTime()
+    func openInternalLink(url: URL)
+    func showExpandedImageView(for post: Post)
 }
 
 class MainFeedViewController: UIViewController {
@@ -43,6 +46,12 @@ class MainFeedViewController: UIViewController {
         tableView.register(SnipFooterView.self, forHeaderFooterViewReuseIdentifier: SnipFooterView.reuseIdent)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
         addRefresh()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if (self.isBeingPresented || self.isMovingToParentViewController) {
+            delegate.viewDidAppearForTheFirstTime()
+        }
     }
     
     func setCategoryList(categories: Results<Category>) {
@@ -95,6 +104,7 @@ class MainFeedViewController: UIViewController {
         }
          **/
     }
+    
     func addRefresh() {
         self.refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -102,6 +112,7 @@ class MainFeedViewController: UIViewController {
         
         self.tableView.addSubview(self.refreshControl)
     }
+    
     @objc func handleRefresh() {
         delegate.refreshFeed()
     }
@@ -110,6 +121,10 @@ class MainFeedViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
+    func scrollTableViewToTop() {
+        guard let tv = self.tableView else { return }
+        tv.setContentOffset(.zero, animated: true)
+    }
     deinit {
         tokens.forEach { (token) in
             token.invalidate()
@@ -197,6 +212,10 @@ extension MainFeedViewController: UITableViewDelegate {
 }
 
 extension MainFeedViewController: SnipCellViewDelegate {
+    func showExpandedImage(for post: Post) {
+        delegate.showExpandedImageView(for: post)
+    }
+    
     func viewWriterPost(writer: User) {
         delegate.showWriterPosts(writer: writer)
     }
@@ -205,8 +224,8 @@ extension MainFeedViewController: SnipCellViewDelegate {
         PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
     }
     
-    func showDetail(for post: Post) {
-        delegate.showDetail(for: post)
+    func showDetail(for post: Post, startComment: Bool) {
+        delegate.showDetail(for: post, startComment: startComment)
     }
     
     func share(msg: String, url: NSURL, sourceView: UIView) {
@@ -241,7 +260,19 @@ extension MainFeedViewController: CategorySelectionDelegate {
 
 extension MainFeedViewController: FeedView {
     func scrollToTop() {
-        guard let _ = tableView else { return }
-        tableView.setContentOffset(.zero, animated: true)
+        self.scrollTableViewToTop()
+    }
+}
+
+extension MainFeedViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if AppLinkUtils.shouldOpenLinkInApp(link: URL) {
+            print("Opening internal link \(URL.absoluteString)")
+            delegate.openInternalLink(url: URL)
+        } else {
+            UIApplication.shared.open(URL, options: [:])
+        }
+        
+        return false
     }
 }

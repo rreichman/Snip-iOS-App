@@ -14,6 +14,7 @@ enum SnipAuthService {
     case registration(email: String, password1: String, first_name: String, last_name: String)
     case forgotPassword(email: String)
     case facbookSync(auth_token: String)
+    case logout
 }
 
 extension SnipAuthService: TargetType {
@@ -32,6 +33,8 @@ extension SnipAuthService: TargetType {
             return "/rest-auth/password/reset/"
         case .facbookSync:
             return "/rest-auth/facebook/"
+        case .logout:
+            return "/rest-auth/logout/"
         }
     }
     
@@ -57,6 +60,8 @@ extension SnipAuthService: TargetType {
         case .facbookSync(let auth_token):
             let params = [ ("access_token", auth_token) ]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .logout:
+            return .requestPlain
         }
     }
     
@@ -65,6 +70,15 @@ extension SnipAuthService: TargetType {
         if let session = SessionManager.instance.sessionCookie {
             headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
         }
+        if SessionManager.instance.loggedIn {
+            if let authToken = SessionManager.instance.authToken {
+                headers["Authorization"] = "Token \(authToken)"
+            }
+        }
+        if true {
+            print("Auth Headers:\n\t Authorization=Token \(SessionManager.instance.authToken)\n\tCookie=\(SessionManager.instance.sessionCookie)")
+        }
+        
         return headers
     }
     

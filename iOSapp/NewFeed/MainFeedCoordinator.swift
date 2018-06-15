@@ -23,7 +23,10 @@ class MainFeedCoordinator: Coordinator {
     var mainFeedController: MainFeedViewController!
     var disposeBag: DisposeBag = DisposeBag()
     fileprivate var loadingState: LoadingState = .loadingPage
-    init() {
+    
+    var openInitialAppLink: Bool = false
+    var appLink: URL?
+    init(openInitialAppLink: Bool, appLink: URL?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         navigationController = storyBoard.instantiateViewController(withIdentifier: "FeedNavigationController") as! UINavigationController
         
@@ -32,6 +35,9 @@ class MainFeedCoordinator: Coordinator {
         navigationController.navigationBar.shadowImage = UIImage()
         mainFeedController = storyBoard.instantiateViewController(withIdentifier: "HomeFeedViewController") as! MainFeedViewController
         navigationController.viewControllers = [ mainFeedController ]
+        
+        self.openInitialAppLink = openInitialAppLink
+        self.appLink = appLink
     }
     
     func start() {
@@ -40,9 +46,11 @@ class MainFeedCoordinator: Coordinator {
         mainFeedController.setCategoryList(categories: categories)
         mainFeedController.delegate = self
         loadingState = .notLoading
+        
     }
     
     func loadMainFeed() {
+        print("loadMainFeed")
         let realm = RealmManager.instance.getMemRealm()
         SnipRequests.instance.getMain()
             .observeOn(MainScheduler.instance)
@@ -52,12 +60,6 @@ class MainFeedCoordinator: Coordinator {
                         realm.add(category, update: true)
                     }
                 }
-                /**catList.forEach({ (cat) in
-                    cat.topThreePosts.forEach({ (post) in
-                        let headline = post.headline
-                        //let short = String(headline[..<headline.index(headline.startIndex, offsetBy: 20)])
-                    })
-                })**/
                 guard let s = self else { return }
                 s.loadingState = .notLoading
                 guard let vc = s.mainFeedController else { return }
@@ -74,8 +76,57 @@ class MainFeedCoordinator: Coordinator {
             .disposed(by: disposeBag)
     }
     
-    func pushDetailViewController(for post: Post) {
-        let c = PostDetailCoordinator(navigationController: self.navigationController, post: post, showComments: true)
+    func resolveAndPushAppLink(url: URL) {
+        let realm = RealmManager.instance.getMemRealm()
+        SnipRequests.instance.getPostFromAppLink(url: url.absoluteString)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] (post) in
+                guard let s = self else {
+                    print("Missing TabCoordinator or MainFeedCoordinator")
+                    return
+                }
+                try! realm.write {
+                    realm.add(post, update: true)
+                }
+                s.showPostFromDeepLink(post: post)
+            }) { (err) in
+                print("Error resolving post from deep link: \(err.localizedDescription)")
+                Crashlytics.sharedInstance().recordError(err)
+        }
+        .disposed(by: disposeBag)
+    }
+    
+    func refreshMainFeedAfterLongBackground() {
+        loadMainFeed()
+        guard let main = self.mainFeedController else { return }
+        main.scrollTableViewToTop()
+    }
+    
+    func resetMainFeed() {
+        loadMainFeed()
+        guard let main = self.mainFeedController, let nav = self.navigationController else { return }
+        navigationController.popViewController(animated: true)
+        main.scrollToTop()
+    }
+    
+    func showAppLink() {
+        if self.openInitialAppLink {
+            if let link = self.appLink {
+                self.resolveAndPushAppLink(url: link)
+                openInitialAppLink = false
+                appLink = nil
+            }
+        }
+    }
+    
+    func showPostFromDeepLink(post: Post) {
+        navigationController.popToRootViewController(animated: false)
+        let postDetailCoordinator = PostDetailCoordinator(navigationController: navigationController, post: post, mode: .none)
+        postDetailCoordinator.start()
+    }
+    
+    func pushDetailViewController(for post: Post, _ startComment: Bool) {
+        let c = PostDetailCoordinator(navigationController: self.navigationController, post: post, mode: (startComment ? .startComment : .showComments))
         childCoordinators.append(c)
         c.start()
     }
@@ -85,21 +136,31 @@ class MainFeedCoordinator: Coordinator {
         post_coordinator.start()
     }
     
-    func showPostFromDeepLink(post: Post) {
-        navigationController.popToRootViewController(animated: false)
-        let postDetailCoordinator = PostDetailCoordinator(navigationController: navigationController, post: post, showComments: false)
-        postDetailCoordinator.start()
+    func showExpandedImage(for post: Post) {
+        ExpandedImageViewController.showExpandedImage(for: post, presentingVC: mainFeedController)
     }
 }
 
 extension MainFeedCoordinator: MainFeedViewDelegate {
+    func showExpandedImageView(for post: Post) {
+        self.showExpandedImage(for: post)
+    }
+    
+    func openInternalLink(url: URL) {
+        AppLinkUtils.resolveAndPushAppLink(link: url.absoluteString, navigationController: self.navigationController)
+    }
+    
+    func viewDidAppearForTheFirstTime() {
+        self.showAppLink()
+    }
+    
     func showWriterPosts(writer: User) {
         let coord = GeneralFeedCoordinator(nav: self.navigationController, mode: .writer(writer: writer))
         self.childCoordinators.append(coord)
         coord.start()
     }
-    func showDetail(for post: Post) {
-        pushDetailViewController(for: post)
+    func showDetail(for post: Post, startComment: Bool) {
+        pushDetailViewController(for: post, startComment)
     }
     
     func onCategorySelected(category: Category) {
