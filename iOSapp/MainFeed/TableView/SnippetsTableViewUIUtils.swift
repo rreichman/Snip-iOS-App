@@ -83,7 +83,7 @@ extension SnippetsTableViewController
             print("getting more posts. Current URL string: \(snipRetrieverFromWeb.getFullURLString())")
             Logger().logScrolledToInfiniteScroll()
             let tableViewController : SnippetsTableViewController = tableView.delegate as! SnippetsTableViewController
-            snipRetrieverFromWeb.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
+            //snipRetrieverFromWeb.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
     }
 }

@@ -62,7 +62,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         bodyTextView.delegate = self
         dataDelegate = PostStateManager.instance
-        whiteBackArrow()
+        //whiteBackArrow()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setUpWriteBox()
         
         
@@ -70,8 +71,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
         cancelReplyButton.addTarget(self, action: #selector(onCancelReply), for: .touchUpInside)
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
+        UIFont.lato(size: 10)
         topConstraint.isActive = true
-        
         postImage.layer.cornerRadius = 10
         addTap()
 

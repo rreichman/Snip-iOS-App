@@ -97,6 +97,7 @@
 		40A1CA0520D04F99001C26F6 /* SnipAuthRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */; };
 		40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0620D051C0001C26F6 /* RestUtils.swift */; };
 		40A1CA0920D097AB001C26F6 /* PostHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */; };
+		40A7D4AB20D4747E0081DDBC /* FixBackSwipeRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7D4AA20D4747E0081DDBC /* FixBackSwipeRecognizer.swift */; };
 		40AD5DAC20CB4C21007E37B8 /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */; };
 		40AD601820D2E88800A87AF5 /* AppLinkUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD601720D2E88800A87AF5 /* AppLinkUtils.swift */; };
 		40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */; };
@@ -282,6 +283,7 @@
 		40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipAuthRequests.swift; sourceTree = "<group>"; };
 		40A1CA0620D051C0001C26F6 /* RestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUtils.swift; sourceTree = "<group>"; };
 		40A1CA0820D097AB001C26F6 /* PostHeaderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContainer.swift; sourceTree = "<group>"; };
+		40A7D4AA20D4747E0081DDBC /* FixBackSwipeRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixBackSwipeRecognizer.swift; sourceTree = "<group>"; };
 		40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
 		40AD601720D2E88800A87AF5 /* AppLinkUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinkUtils.swift; sourceTree = "<group>"; };
 		40B40F1820AA556F0086E7AA /* ConfirmationPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPresentationController.swift; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 				40E4B39120AE3C84000EA9F6 /* TabCoordinator.swift */,
 				40AD5DAB20CB4C21007E37B8 /* UITextViewFixed.swift */,
 				4071068F20D36E26006DED24 /* DynamicImageView.swift */,
+				40A7D4AA20D4747E0081DDBC /* FixBackSwipeRecognizer.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1063,7 +1066,6 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/BonMot/BonMot.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1075,6 +1077,7 @@
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LatoFont/LatoFont.framework",
 				"${BUILT_PRODUCTS_DIR}/Mixpanel-swift/Mixpanel.framework",
+				"${BUILT_PRODUCTS_DIR}/MontserratFont/MontserratFont.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/NextResponderTextField/NextResponderTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -1093,7 +1096,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BonMot.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -1105,6 +1107,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LatoFont.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mixpanel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MontserratFont.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextResponderTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -1290,6 +1293,7 @@
 				40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */,
 				4018403B20ACEBDC001DFE6E /* Category.swift in Sources */,
 				236C11CA209D26180026E476 /* DateFmt.swift in Sources */,
+				40A7D4AB20D4747E0081DDBC /* FixBackSwipeRecognizer.swift in Sources */,
 				230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */,
 				4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */,
 				2312B9D820A66C4F00A41B36 /* SettingPopoverViewController.swift in Sources */,

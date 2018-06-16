@@ -62,7 +62,7 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         
         emailInputView.becomeFirstResponder()
         print("end login")
-        whiteBackArrow()
+        //whiteBackArrow()
     }
     
     private func whiteBackArrow() {

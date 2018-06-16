@@ -14,6 +14,7 @@ target 'iOSapp' do
   pod 'FacebookLogin'
   pod 'FacebookShare'
   pod 'LatoFont', :git=>'https://github.com/cj-zeiger/LatoFont', :branch=>'master'
+  pod 'MontserratFont', :git => 'https://github.com/cj-zeiger/MontserratFont', :branch=>'master'
   pod 'TrustCore', '~> 0.0.7'
   pod 'TrustKeystore', '~> 0.4.0'
   pod 'TrustWeb3Provider', :git=>'https://github.com/TrustWallet/trust-web3-provider', :branch=>'master'

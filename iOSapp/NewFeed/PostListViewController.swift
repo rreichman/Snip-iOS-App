@@ -44,7 +44,8 @@ class PostListViewController: UIViewController {
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
-        whiteBackArrow()
+        //whiteBackArrow()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         addRefresh()

@@ -70,7 +70,7 @@ class SignupViewController : GenericProgramViewController
         updateConstraints()
         
         emailTextField.becomeFirstResponder()
-        whiteBackArrow()
+        //whiteBackArrow()
     }
     
     private func whiteBackArrow() {

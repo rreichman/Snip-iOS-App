@@ -33,6 +33,7 @@ extension SnipService: TargetType {
         default:
             //return URL(string: "https://readers-dev-test.snip.today")!
             return URL(string: "https://www.snip.today")!
+            //return URL(string:"http://10.44.110.230:8000")!
         }
         
     }
@@ -154,7 +155,7 @@ extension SnipService: TargetType {
             if let session = SessionManager.instance.sessionCookie {
                 headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
             }
-            if true {
+            if false {
                 print("Auth Headers:\n\t Authorization=Token \(SessionManager.instance.authToken)\n\tCookie=\(SessionManager.instance.sessionCookie)")
             }
         }

@@ -57,8 +57,10 @@ extension SnippetsTableViewController
     
     func fillSnippetViewController()
     {
-        snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
+        //snipRetrieverFromWeb.getSnipsJsonFromWebServer(completionHandler: self.dataCollectionCompletionHandler, appendDataAndNotReplace: false, errorHandler: self.collectionErrorHandler)
     }
+    
+    /**
     
     func dataCollectionCompletionHandler(postsCollected: [PostData], appendDataAndNotReplace : Bool)
     {
@@ -94,6 +96,7 @@ extension SnippetsTableViewController
                 self.snipRetrieverFromWeb.lock.unlock()
         }
     }
+ **/
     
     func operateRefresh(newBaseUrlString: String, newQuery: String, useActivityIndicator: Bool)
     {

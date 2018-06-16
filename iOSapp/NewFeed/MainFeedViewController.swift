@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import RealmSwift
+import Crashlytics
 
 protocol MainFeedViewDelegate: class {
     func onCategorySelected(category: Category)
@@ -26,6 +27,7 @@ class MainFeedViewController: UIViewController {
     
     var categories: Results<Category>?
     var tokens: [NotificationToken] = []
+    var querySetToken: NotificationToken?
     var delegate: MainFeedViewDelegate!
     var expandedSet = Set<IndexPath>()
     var refreshControl: UIRefreshControl = UIRefreshControl()
@@ -40,22 +42,90 @@ class MainFeedViewController: UIViewController {
         tableView.delegate = self
         //tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         //tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(SnipHeaderView.self, forHeaderFooterViewReuseIdentifier: SnipHeaderView.reuseIdent)
         tableView.register(SnipFooterView.self, forHeaderFooterViewReuseIdentifier: SnipFooterView.reuseIdent)
         tableView.register(nib, forCellReuseIdentifier: NewSnippetTableViewCell.cellReuseIdentifier)
         addRefresh()
+        bindViews(categories: self.categories)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if (self.isBeingPresented || self.isMovingToParentViewController) {
             delegate.viewDidAppearForTheFirstTime()
         }
+        resetRealmNotifications()
     }
     
-    func setCategoryList(categories: Results<Category>) {
-        self.categories = categories
+    override func viewDidDisappear(_ animated: Bool) {
+        self.unsubscribeFromRealmNotifications()
+    }
+    
+    func resetRealmNotifications() {
+        unsubscribeFromRealmNotifications()
+        guard let c = self.categories else { return }
+        subscribeToRealmNotifications(queryResults: c)
+    }
+    
+    func subscribeToRealmNotifications(queryResults: Results<Category>) {
+        self.querySetToken = queryResults.observe { [weak self] (changes) in
+            guard let s = self else { return }
+            switch changes {
+            case .initial:
+                //s.subscribeToTopThreeNotifications()
+                if let tv = s.tableView {
+                    tv.reloadData()
+                }
+            case .update(_, let deletions, let insertions, let modifications):
+                print("MainFeedCorrdinator.onNotification \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications")
+                UIView.performWithoutAnimation {
+                    if let tv = s.tableView {
+                        tv.reloadData()
+                    }
+                }
+                /**
+                if deletions.count > 0 || insertions.count > 0 {
+                    s.resetTopThreeNotifications()
+                    if let tv = s.tableView {
+                        tv.reloadData()
+                    }
+                }
+                **/
+            case .error(let err):
+                Crashlytics.sharedInstance().recordError(err)
+                print("Real notification block in MainFeedViewController encountered an error \(err)")
+            }
+        }
+        
+        if let tv = self.tableView {
+            tv.reloadData()
+        }
+    }
+    
+    func unsubscribeFromRealmNotifications() {
+        if let t = self.querySetToken {
+            t.invalidate()
+            self.querySetToken = nil
+        }
+    }
+    /**
+    func resetTopThreeNotifications() {
+        unsubscribeFromTopThreeNotification()
+        subscribeToTopThreeNotifications()
+    }
+    
+    func unsubscribeFromTopThreeNotification() {
+        for token in self.tokens {
+            if token != nil {
+                token.invalidate()
+            }
+        }
+        self.tokens.removeAll()
+    }
+    
+    func subscribeToTopThreeNotifications() {
+        guard let categories = self.categories else { return }
         for cat in categories {
             let t = cat.topThreePosts.observe { [weak self, cat] (changes) in
                 guard let s = self else { return }
@@ -63,7 +133,6 @@ class MainFeedViewController: UIViewController {
                 
                 switch changes {
                 case.update(_, let deletions, let insertions, let modifications):
-                    guard let index = categories.index(of: cat) else { return }
                     //print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications) ")
                     if insertions.count > 0 {
                         s.expandedSet.removeAll()
@@ -71,14 +140,14 @@ class MainFeedViewController: UIViewController {
                     UIView.performWithoutAnimation {
                         // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
                         /**
-                        s.tableView.beginUpdates()
-                        s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
-                                             with: .none)
-                        s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
-                                               with: .none)
-                        
-                        s.tableView.endUpdates()
-                        **/
+                         s.tableView.beginUpdates()
+                         s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
+                         with: .none)
+                         s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
+                         with: .none)
+                         
+                         s.tableView.endUpdates()
+                         **/
                         
                         s.tableView.reloadData()
                     }
@@ -88,6 +157,19 @@ class MainFeedViewController: UIViewController {
             }
             self.tokens.append(t)
         }
+    }
+     **/
+    
+    func bindViews(categories: Results<Category>?) {
+        guard let tv = self.tableView, let results = categories else { return }
+        tv.reloadData()
+    }
+    
+    func bindData(categories: Results<Category>) {
+        self.categories = categories
+        subscribeToRealmNotifications(queryResults: categories)
+        bindViews(categories: categories)
+        
         /**
         self.notificationToken = categories.observe { [weak self] changes in
             guard let viewController = self else { return }
@@ -126,8 +208,8 @@ class MainFeedViewController: UIViewController {
         tv.setContentOffset(.zero, animated: true)
     }
     deinit {
-        tokens.forEach { (token) in
-            token.invalidate()
+        if let t = self.querySetToken {
+            t.invalidate()
         }
     }
 }

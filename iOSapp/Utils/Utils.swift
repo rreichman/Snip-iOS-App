@@ -18,7 +18,7 @@ func getSnippetAreaWidth() -> CGFloat
     
     return CGFloat(Int(CachedData().getScreenWidth()) - sizeOfLeftBorder - sizeOfRightBorder)
 }
-
+/**
 func getAuthorizationString() -> String
 {
     var tokenDeclarationString: String = "Token "
@@ -27,6 +27,7 @@ func getAuthorizationString() -> String
     
     return tokenDeclarationString
 }
+ **/
 
 func getTermsAndConditionsString(color: UIColor) -> NSMutableAttributedString
 {
@@ -90,6 +91,7 @@ func convertDateToCookieString(date: Date) -> String
     return res
 }
 
+/**
 func getCookiesForUrlRequest() -> [String]
 {
     var cookieString = ""
@@ -126,11 +128,13 @@ func getCookiesForUrlRequest() -> [String]
     
     return cookieStringArray
 }
+ **/
 
 func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
 {
     let url: URL = URL(string: serverString)!
     var urlRequest: URLRequest = URLRequest(url: url)
+    urlRequest.httpShouldHandleCookies = false
     
     urlRequest.httpMethod = method
     
@@ -146,14 +150,16 @@ func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
     urlRequest.setValue(SystemVariables().URL_STRING, forHTTPHeaderField: "Referer")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
     
+    //print("\t\t Old http request being sent to \(url.absoluteString) with headers \(urlRequest.allHTTPHeaderFields)")
+    
     return urlRequest
 }
-
+/**
 func storeUserAuthenticationToken(authenticationToken : String)
 {
     UserInformation().setUserInfo(key: UserInformation().authenticationTokenKey, value: authenticationToken)
 }
-
+**/
 func getUniqueDeviceID() -> String
 {
     return UIDevice.current.identifierForVendor!.uuidString

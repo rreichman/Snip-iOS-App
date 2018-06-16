@@ -115,20 +115,10 @@ class AccountCoordinator: Coordinator {
     }
     
     func logUserOut() {
-        SnipAuthRequests.instance.postLogout()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] (success) in
-                guard let s = self else { return }
-                SessionManager.instance.logout()
-                s.profileViewController.bind(profile: nil)
-                s.popSettingsViewController()
-                
-                s.delegate.onUserLogout()
-            }) { (err) in
-                print("error logging out")
-                Crashlytics.sharedInstance().recordError(err)
-            }
-            .disposed(by: disposeBag)
+        SessionManager.instance.logout()
+        profileViewController.bind(profile: nil)
+        popSettingsViewController()
+        delegate.onUserLogout()
         
     }
     

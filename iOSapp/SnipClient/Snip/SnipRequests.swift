@@ -16,10 +16,20 @@ class SnipRequests {
     
     static let instance = SnipRequests()
     
+    let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestResultClosure) in
+            do {
+                var request: URLRequest = try endpoint.urlRequest()
+                request.httpShouldHandleCookies = false
+                done(.success(request))
+            } catch {
+                done(.failure(MoyaError.underlying(error, nil)))
+            }
+    }
+    
     let provider: MoyaProvider<SnipService>.CompatibleType
     let disposeBag: DisposeBag = DisposeBag()
     init() {
-        self.provider = MoyaProvider<SnipService>()
+        self.provider = MoyaProvider<SnipService>(requestClosure: requestClosure)
     }
     
     func getMain() -> Single<[Category]> {

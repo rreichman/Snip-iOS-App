@@ -31,6 +31,7 @@ class WebUtils
         let commentData : Dictionary<String,String> = jsonString
         let jsonString = convertDictionaryToJsonString(dictionary: commentData)
         urlRequest.httpBody = jsonString.data(using: String.Encoding.utf8)
+        urlRequest.httpShouldHandleCookies = false
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data, error == nil else
@@ -70,7 +71,7 @@ class WebUtils
         }
         return false
     }
-    
+    /**
     func getImageFromWebSync(urlString : String) -> UIImage
     {
         let storage = AppCache.shared.getStorage()
@@ -90,7 +91,8 @@ class WebUtils
         
         return UIImage()
     }
-    
+     **/
+    /**
     func addPostsToFeed(snipRetriever: SnipRetrieverFromWeb, originalPostDataArray : [PostData], postsToAdd : [PostData], appendDataAndNotReplace : Bool) -> [PostData]
     {
         var newPostDataArray : [PostData] = originalPostDataArray
@@ -126,6 +128,7 @@ class WebUtils
         
         return newPostDataArray
     }
+     **/
     /**
     func completeSignupAction(responseString: String, viewController : GenericProgramViewController)
     {

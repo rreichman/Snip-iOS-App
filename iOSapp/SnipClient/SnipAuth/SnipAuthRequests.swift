@@ -15,11 +15,21 @@ import RealmSwift
 class SnipAuthRequests {
     static let instance = SnipAuthRequests()
     
+    let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestResultClosure) in
+        do {
+            var request: URLRequest = try endpoint.urlRequest()
+            request.httpShouldHandleCookies = false
+            done(.success(request))
+        } catch {
+            done(.failure(MoyaError.underlying(error, nil)))
+        }
+    }
+    
     let provider: MoyaProvider<SnipAuthService>.CompatibleType
     let disposeBag: DisposeBag = DisposeBag()
     
     init() {
-        self.provider = MoyaProvider<SnipAuthService>()
+        self.provider = MoyaProvider<SnipAuthService>(requestClosure: requestClosure)
     }
     
     

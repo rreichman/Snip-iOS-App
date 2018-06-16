@@ -31,7 +31,8 @@ class SettingsViewController : GenericProgramViewController
         
         designSettings()
         setButtons()
-        whiteBackArrow()
+        //whiteBackArrow()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func designSettings()

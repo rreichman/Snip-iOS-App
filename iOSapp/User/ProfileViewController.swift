@@ -32,6 +32,7 @@ class ProfileViewController : GenericProgramViewController {
         bind(profile: self.userPrfile)
         addSettingsBarItem()
         setButtons()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func addSettingsBarItem() {

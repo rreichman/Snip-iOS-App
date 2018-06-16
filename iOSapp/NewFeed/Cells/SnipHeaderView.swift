@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MontserratFont
 
 protocol CategorySelectionDelegate: class {
     func onCategorySelected(category: Category)
@@ -22,7 +23,8 @@ class SnipHeaderView: UITableViewHeaderFooterView {
     override public init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
-        catLabel.font = UIFont.latoBold(size: 20)
+        //catLabel.font = UIFont.latoBold(size: 20)
+        catLabel.font = UIFont.montserratExtraBold(size: 20)
         catLabel.textColor = UIColor(red:0, green:0.63, blue:0.71, alpha:1)
         catLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(catLabel)

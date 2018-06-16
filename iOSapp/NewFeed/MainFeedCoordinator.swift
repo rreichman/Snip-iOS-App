@@ -35,6 +35,8 @@ class MainFeedCoordinator: Coordinator {
         navigationController.navigationBar.shadowImage = UIImage()
         mainFeedController = storyBoard.instantiateViewController(withIdentifier: "HomeFeedViewController") as! MainFeedViewController
         navigationController.viewControllers = [ mainFeedController ]
+        //navigationController.interactivePopGestureRecognizer?.delegate = FixBackSwipeRecognizer()
+        //navigationController.interactivePopGestureRecognizer?.isEnabled = true
         
         self.openInitialAppLink = openInitialAppLink
         self.appLink = appLink
@@ -43,7 +45,7 @@ class MainFeedCoordinator: Coordinator {
     func start() {
         let realm = RealmManager.instance.getMemRealm()
         let categories = realm.objects(Category.self)
-        mainFeedController.setCategoryList(categories: categories)
+        mainFeedController.bindData(categories: categories)
         mainFeedController.delegate = self
         loadingState = .notLoading
         

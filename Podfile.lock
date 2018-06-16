@@ -8,7 +8,6 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - BonMot (5.2)
   - Cache (4.2.0)
   - Crashlytics (3.10.2):
     - Fabric (~> 1.7.7)
@@ -38,6 +37,7 @@ PODS:
   - Mixpanel-swift (2.2.2):
     - Mixpanel-swift/Complete (= 2.2.2)
   - Mixpanel-swift/Complete (2.2.2)
+  - MontserratFont (1.1)
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -73,7 +73,6 @@ PODS:
 
 DEPENDENCIES:
   - BigInt
-  - BonMot
   - Cache
   - Crashlytics
   - CryptoSwift (~> 0.8.1)
@@ -84,6 +83,7 @@ DEPENDENCIES:
   - KeychainSwift (~> 11.0)
   - LatoFont (from `https://github.com/cj-zeiger/LatoFont`, branch `master`)
   - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
+  - MontserratFont (from `https://github.com/cj-zeiger/MontserratFont`, branch `master`)
   - Moya/RxSwift (~> 11.0)
   - NextResponderTextField
   - RealmSwift
@@ -101,7 +101,6 @@ SPEC REPOS:
     - Alamofire
     - BigInt
     - Bolts
-    - BonMot
     - Cache
     - Crashlytics
     - CryptoSwift
@@ -135,6 +134,9 @@ EXTERNAL SOURCES:
   Mixpanel-swift:
     :branch: swift4
     :git: https://github.com/mixpanel/mixpanel-swift.git
+  MontserratFont:
+    :branch: master
+    :git: https://github.com/cj-zeiger/MontserratFont
   TrustWeb3Provider:
     :branch: master
     :git: https://github.com/TrustWallet/trust-web3-provider
@@ -146,6 +148,9 @@ CHECKOUT OPTIONS:
   Mixpanel-swift:
     :commit: a057763547eeac578e1effe05a4e26319c8197bd
     :git: https://github.com/mixpanel/mixpanel-swift.git
+  MontserratFont:
+    :commit: 12fab825ddafd806d7060d8f15d0c27919701a42
+    :git: https://github.com/cj-zeiger/MontserratFont
   TrustWeb3Provider:
     :commit: db33eee2ab92f45f484d77f62cbefc78450348ce
     :git: https://github.com/TrustWallet/trust-web3-provider
@@ -154,7 +159,6 @@ SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   BigInt: 8e8a52161c745cd3ab78e3dc346a9fbee51e6cf6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  BonMot: 68da0bd7c2f602aca85511bedabd211eb0fae666
   Cache: f28f8dd64b632155aabf9b3906b036a659048251
   Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
   CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
@@ -168,6 +172,7 @@ SPEC CHECKSUMS:
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   LatoFont: 2bb2a5ab140299a3ccdb8bde61a8720d7bef75c7
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
+  MontserratFont: 0c2b12306b459b283bebae69b2b3013d49082046
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   NextResponderTextField: 07ee7b2737981bfd402f63f390bf3de55e245ccd
   Realm: 906be37d52f17f25484ac01643a7f26a9d3bfbd5
@@ -184,6 +189,6 @@ SPEC CHECKSUMS:
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 455b1ea41043838e77d43f3378d3d237953d7ebc
+PODFILE CHECKSUM: c143fd7e53cbeeb647dd773a3a11ae9983fc8265
 
 COCOAPODS: 1.5.3

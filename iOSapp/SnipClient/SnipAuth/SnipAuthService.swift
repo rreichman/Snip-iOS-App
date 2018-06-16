@@ -21,6 +21,7 @@ extension SnipAuthService: TargetType {
     var baseURL: URL {
         //return URL(string: "https://readers-dev-test.snip.today")!
         return URL(string: "https://www.snip.today")!
+        //return URL(string:"http://10.44.110.230:8000")!
     }
     
     var path: String {
@@ -75,7 +76,7 @@ extension SnipAuthService: TargetType {
                 headers["Authorization"] = "Token \(authToken)"
             }
         }
-        if true {
+        if false {
             print("Auth Headers:\n\t Authorization=Token \(SessionManager.instance.authToken)\n\tCookie=\(SessionManager.instance.sessionCookie)")
         }
         
