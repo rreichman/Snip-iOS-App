@@ -9,6 +9,9 @@
 import Foundation
 import Moya
 class RestUtils {
+    static let snipURL: URL = URL(string: "https://www.snip.today")!
+    //static let snipURL: URL = URL(string: "https://readers-dev-test.snip.today")!
+    
     static func buildPostData(params: [ (String, String) ]) -> [ MultipartFormData ] {
         var data: [ MultipartFormData ] = []
         for param in params {

@@ -396,7 +396,7 @@ class SnipRequests {
             .mapJSON()
             .map { obj -> Bool in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("Json", obj)}
-                print("TEST EDIT COMMENT RESPONSE \(json)")
+                print("Successfully edited \(comment.id)")
                 return true
             }
             .subscribe(onSuccess: { (success) in

@@ -33,9 +33,7 @@ extension SnipService: TargetType {
         case .getAppLink(let url):
             return URL(string: url)!
         default:
-            //return URL(string: "https://readers-dev-test.snip.today")!
-            return URL(string: "https://www.snip.today")!
-            //return URL(string:"http://10.44.110.230:8000")!
+            return RestUtils.snipURL
         }
         
     }

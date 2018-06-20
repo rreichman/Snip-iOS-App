@@ -67,10 +67,7 @@ public class SystemVariables
     // Number of objects stored in app memory cache
     let MEMORY_COUNT_LIMIT = 20
     
-    //let URL_STRING = "http://localhost:8000/"
-    let URL_STRING = "https://www.snip.today/"
-    //let URL_STRING = "https://readers-dev-test.snip.today/"
-    //let URL_STRING = "http://10.44.110.230:8000"
+    let URL_STRING = RestUtils.snipURL.absoluteString
     
     let MAX_LOG_FLUSH_FREQUENCY_IN_SECONDS = 30
     

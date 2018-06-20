@@ -65,6 +65,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     //Input mode state, depends on what the text input will do on send
     var replyComment: RealmComment?
     var editComment: RealmComment?
+    var deleteComment: RealmComment?
     var inputMode: CommentInputMode = .none
     
     override func viewDidLoad() {
@@ -392,6 +393,31 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func showDeleteConfirmationDialog(for comment: RealmComment) {
+        self.deleteComment = comment
+        let alert = UIAlertController(title: "Deleting Comment", message: "Are you sure you want to delete this comment?", preferredStyle: .actionSheet)
+        let alertYesAction = UIAlertAction(title: "Delete", style: .destructive, handler: self.completeDeleteAction)
+        let alertNoAction = UIAlertAction(title: "Cancel", style: .cancel, handler: self.cancelDeleteAction)
+        
+        alert.addAction(alertYesAction)
+        alert.addAction(alertNoAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func completeDeleteAction(alert: UIAlertAction) {
+        guard let comment = self.deleteComment else { return }
+        if comment.id == self.replyComment?.id || comment.id == self.editComment?.id {
+            onCancelInputMode()
+        }
+        delegate.deleteComment(comment: comment)
+        self.deleteComment = nil
+    }
+    
+    func cancelDeleteAction(alert: UIAlertAction) {
+        self.deleteComment = nil
+    }
+    
     @objc func onSend() {
         guard let body = commentText.text else { return }
         if body.count == 0 {
@@ -418,6 +444,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func onCancelInputMode() {
         self.replyComment = nil
         self.editComment = nil
+        self.commentText.text = ""
         self.inputStatusLabel.text = ""
         self.inputMode = .none
         self.toggleInputModeStatusView(show: false)
@@ -488,7 +515,14 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.bottomConstraint.constant = keyboardHeight - tabBarHeight //Tab bar height, quick fix
             }, completion: { [weak self] completed in
                 guard let s = self else { return }
-                s.scrollToComment(scrollComment: s.replyComment, type: .bottom)
+                switch s.inputMode {
+                case .none:
+                    s.scrollToFirstComment()
+                case .reply:
+                    s.scrollToComment(scrollComment: s.replyComment, type: .bottom)
+                case .edit:
+                    s.scrollToComment(scrollComment: s.editComment, type: .bottom)
+                }
             })
         }
     }
@@ -501,9 +535,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             UIView.animate(withDuration: 0.25, animations: {
                 self.view.layoutIfNeeded()
                 self.bottomConstraint.constant = 0
-            }, completion: { [weak self] completed in
-                guard let s = self else { return }
-                s.scrollToComment(scrollComment: s.replyComment, type: .top)
             })
         }
     }
@@ -545,7 +576,7 @@ extension PostDetailViewController: UITableViewDataSource {
 
 extension PostDetailViewController: CommentCellDelegate {
     func onDeleteRequested(for comment: RealmComment) {
-        delegate.deleteComment(comment: comment)
+        self.showDeleteConfirmationDialog(for: comment)
     }
     
     func onEditRequested(for comment: RealmComment) {
@@ -569,6 +600,7 @@ extension PostDetailViewController: CommentCellDelegate {
         } else {
             inputStatusLabel.text = "Replying"
         }
+        self.commentText.text = ""
         self.inputMode = .reply
         self.toggleInputModeStatusView(show: true)
         if !commentText.isFirstResponder {

@@ -3293,7 +3293,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2HS-WD-rTn" userLabel="Share Button">
-                                            <rect key="frame" x="331" y="639" width="24" height="24"/>
+                                            <rect key="frame" x="331" y="646.66666666666663" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="24" id="45J-as-SZJ"/>
                                                 <constraint firstAttribute="height" constant="24" id="GVv-fg-R0U"/>
@@ -3308,7 +3308,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xHu-g2-n2b" customClass="VoteControl" customModule="iOSapp" customModuleProvider="target">
-                                            <rect key="frame" x="10" y="585" width="200" height="132"/>
+                                            <rect key="frame" x="10" y="600" width="200" height="117"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="Ox1-y1-XGg"/>
@@ -3347,7 +3347,7 @@
                                         <constraint firstAttribute="trailing" secondItem="2HS-WD-rTn" secondAttribute="trailing" constant="20" id="h0L-Hh-kWh"/>
                                         <constraint firstItem="tt7-Gr-HY5" firstAttribute="leading" secondItem="vcY-Rw-fS3" secondAttribute="leading" constant="20" id="kFK-Jr-mkc"/>
                                         <constraint firstItem="tt7-Gr-HY5" firstAttribute="top" secondItem="xHu-g2-n2b" secondAttribute="bottom" constant="20" id="o8W-oR-4S1"/>
-                                        <constraint firstItem="xHu-g2-n2b" firstAttribute="top" secondItem="WPE-YY-q4j" secondAttribute="bottom" constant="10" id="oP6-33-kcO"/>
+                                        <constraint firstItem="xHu-g2-n2b" firstAttribute="top" secondItem="WPE-YY-q4j" secondAttribute="bottom" constant="25" id="oP6-33-kcO"/>
                                         <constraint firstItem="OBq-t0-luX" firstAttribute="top" secondItem="K41-fF-jQY" secondAttribute="bottom" constant="20" id="wAx-uN-axF"/>
                                         <constraint firstItem="wXz-qy-1v2" firstAttribute="top" secondItem="OBq-t0-luX" secondAttribute="bottom" constant="8" id="xk7-xc-L2W"/>
                                     </constraints>

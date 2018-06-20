@@ -19,9 +19,7 @@ enum SnipAuthService {
 
 extension SnipAuthService: TargetType {
     var baseURL: URL {
-        //return URL(string: "https://readers-dev-test.snip.today")!
-        return URL(string: "https://www.snip.today")!
-        //return URL(string:"http://10.44.110.230:8000")!
+        return RestUtils.snipURL
     }
     
     var path: String {
