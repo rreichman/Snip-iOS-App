@@ -99,7 +99,7 @@ class SignupViewController : GenericProgramViewController
         firstNameTextField.isUserInteractionEnabled = enabled
         lastNameTextField.isUserInteractionEnabled = enabled
         signUpButton.isUserInteractionEnabled = enabled
-        self.navigationItem.leftBarButtonItem?.isEnabled = enabled
+        self.navigationItem.hidesBackButton = !enabled
     }
     
     func designTextFieldHighlights()

@@ -22,43 +22,16 @@ class PostStateManager {
         SnipRequests.instance.postSaveState(post_id: post.id)
     }
     
-    private func postVoteState(action: VoteAction, for post: Post) {
-        let vote_val = handleVoteAction(action: action, post: post)
-        SnipRequests.instance.postVoteState(post_id: post.id, vote_val: vote_val)
+    private func postVoteState(newVoteValue: Double, for post: Post) {
+        handleVoteAction(newVoteValue: newVoteValue, post: post)
+        SnipRequests.instance.postVoteState(post_id: post.id, vote_val: newVoteValue)
     }
     
-    func handleVoteAction(action: VoteAction, post: Post) -> Double {
-        var like: Bool = post.isLiked
-        var dislike: Bool = post.isDisliked
-        switch action {
-        case .likeOn:
-            dislike = false
-            like = true
-        case .likeOff:
-            like = false
-        case .dislikeOn:
-            dislike = true
-            like = false
-        case .dislikeOff:
-            dislike = false
-        }
-        
-        var vote_val: Double
-        if !like && !dislike {
-            vote_val = 0.0
-        } else if like {
-            vote_val = 1.0
-        } else {
-            vote_val = -1.0
-        }
-        
+    func handleVoteAction(newVoteValue: Double, post: Post) {
         let realm = RealmManager.instance.getMemRealm()
         try! realm.write {
-            post.isLiked = like
-            post.isDisliked = dislike
-            post.voteValue = vote_val
+            post.voteValue = newVoteValue
         }
-        return vote_val
     }
     
     func sendReportToServer(snippetID: Int, reasons: String)
@@ -109,8 +82,8 @@ class PostStateManager {
 }
 
 extension PostStateManager: SnipCellDataDelegate {
-    func onVoteAciton(action: VoteAction, for post: Post) {
-        postVoteState(action: action, for: post)
+    func onVoteAciton(newVoteValue: Double, for post: Post) {
+        postVoteState(newVoteValue: newVoteValue, for: post)
     }
     
     func onSaveAciton(saved: Bool, for post: Post) {

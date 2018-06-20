@@ -18,6 +18,8 @@ enum SnipService {
     case postVote(post_id: Int, vote_value: Double)
     case postSave(post_id: Int)
     case postComment(post_id: Int, parent_id: Int?, body: String)
+    case editComment(post_id: Int, comment_id: Int, body: String)
+    case deleteComment(comment_id: Int)
     case getSavedSnips(page: Int?)
     case getLikedSnips(page: Int?)
     case getAppLink(url: String)
@@ -52,6 +54,10 @@ extension SnipService: TargetType {
             return "/action/\(post_id)/"
         case .postComment:
             return "/comments/publish/"
+        case .editComment:
+            return "/comments/publish/"
+        case .deleteComment:
+            return "/comments/delete/"
         case .getSavedSnips:
             return "/saved-posts/"
         case .getLikedSnips:
@@ -68,6 +74,10 @@ extension SnipService: TargetType {
         case .postSave:
             return .post
         case .postComment:
+            return .post
+        case .editComment:
+            return .post
+        case .deleteComment:
             return .post
         default:
             return .get
@@ -134,6 +144,12 @@ extension SnipService: TargetType {
                 params.insert(parent, at: 1)
             }
             return .uploadMultipart(params)
+        case .editComment(let post_id, let comment_id, let body):
+            let params = [("post_id", String(post_id)), ("id", String(comment_id)), ("body", body)]
+            return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .deleteComment(let comment_id):
+            let params = [("id", String(comment_id))]
+            return .uploadMultipart(RestUtils.buildPostData(params: params))
         }
     }
     

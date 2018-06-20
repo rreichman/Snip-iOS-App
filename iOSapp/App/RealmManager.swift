@@ -14,7 +14,7 @@ class RealmManager {
     }
     
     func buildDiskRealm() {
-        let version: UInt64 = 22
+        let version: UInt64 = 23
         // Inside your application(application:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used

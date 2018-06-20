@@ -79,13 +79,12 @@
 		401F43AA20B37D2A003BECFE /* GeneralFeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */; };
 		403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D120AE03E700E4BF8B /* CategoryParam.swift */; };
 		403505D420AE07DD00E4BF8B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D320AE07DD00E4BF8B /* Image.swift */; };
+		403AEEE020D86C490039E4DB /* VoteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AEEDF20D86C490039E4DB /* VoteControl.swift */; };
 		405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F1D3520B75F380066CD94 /* PostContainer.swift */; };
 		405F709420CF2AC9000659E2 /* TimeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F709320CF2AC9000659E2 /* TimeUtils.swift */; };
 		406EBA1520B4972100682B58 /* NoHeightHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */; };
 		406EBA1720B4ACD800682B58 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1620B4ACD800682B58 /* ToggleButton.swift */; };
-		406EBA1920B4CC0D00682B58 /* VoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1820B4CC0D00682B58 /* VoteState.swift */; };
 		406EBA1B20B4CE6300682B58 /* PostStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1A20B4CE6300682B58 /* PostStateManager.swift */; };
-		406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406EBA1C20B6204500682B58 /* VoteAction.swift */; };
 		4071068C20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068B20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift */; };
 		4071068E20D36008006DED24 /* ExpandedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068D20D36008006DED24 /* ExpandedImageViewController.swift */; };
 		4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068F20D36E26006DED24 /* DynamicImageView.swift */; };
@@ -93,6 +92,7 @@
 		40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAD20CF58180062D891 /* AuthCoordinator.swift */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
 		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
+		408FA7A320D83C5E00184725 /* VoteSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FA7A220D83C5E00184725 /* VoteSlider.swift */; };
 		40A1CA0320D04F8F001C26F6 /* SnipAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0220D04F8F001C26F6 /* SnipAuthService.swift */; };
 		40A1CA0520D04F99001C26F6 /* SnipAuthRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */; };
 		40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A1CA0620D051C0001C26F6 /* RestUtils.swift */; };
@@ -265,13 +265,12 @@
 		401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralFeedCoordinator.swift; sourceTree = "<group>"; };
 		403505D120AE03E700E4BF8B /* CategoryParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryParam.swift; sourceTree = "<group>"; };
 		403505D320AE07DD00E4BF8B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		403AEEDF20D86C490039E4DB /* VoteControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteControl.swift; sourceTree = "<group>"; };
 		405F1D3520B75F380066CD94 /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		405F709320CF2AC9000659E2 /* TimeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUtils.swift; sourceTree = "<group>"; };
 		406EBA1420B4972100682B58 /* NoHeightHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoHeightHeaderFooter.swift; sourceTree = "<group>"; };
 		406EBA1620B4ACD800682B58 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
-		406EBA1820B4CC0D00682B58 /* VoteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteState.swift; sourceTree = "<group>"; };
 		406EBA1A20B4CE6300682B58 /* PostStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateManager.swift; sourceTree = "<group>"; };
-		406EBA1C20B6204500682B58 /* VoteAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAction.swift; sourceTree = "<group>"; };
 		4071068B20D35FF9006DED24 /* ExpandedImageViewPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedImageViewPresentationController.swift; sourceTree = "<group>"; };
 		4071068D20D36008006DED24 /* ExpandedImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedImageViewController.swift; sourceTree = "<group>"; };
 		4071068F20D36E26006DED24 /* DynamicImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicImageView.swift; sourceTree = "<group>"; };
@@ -279,6 +278,7 @@
 		40816AAD20CF58180062D891 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
+		408FA7A220D83C5E00184725 /* VoteSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteSlider.swift; sourceTree = "<group>"; };
 		40A1CA0220D04F8F001C26F6 /* SnipAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipAuthService.swift; sourceTree = "<group>"; };
 		40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipAuthRequests.swift; sourceTree = "<group>"; };
 		40A1CA0620D051C0001C26F6 /* RestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUtils.swift; sourceTree = "<group>"; };
@@ -736,8 +736,6 @@
 				7D44B5701FA6ECCA005482C9 /* PostData.swift */,
 				7DA35D0A1FA70B7A006306FD /* AppCache.swift */,
 				4018402B20ACDFC6001DFE6E /* CategoryData.swift */,
-				406EBA1820B4CC0D00682B58 /* VoteState.swift */,
-				406EBA1C20B6204500682B58 /* VoteAction.swift */,
 			);
 			path = SnipClient;
 			sourceTree = "<group>";
@@ -756,6 +754,7 @@
 		4018403220ACE8E6001DFE6E /* NewFeed */ = {
 			isa = PBXGroup;
 			children = (
+				408FA7A120D83C2300184725 /* VoteSlider */,
 				4071068A20D35FD6006DED24 /* ExpandedImageView */,
 				40E4B39520AE5525000EA9F6 /* Cells */,
 				4018403320ACE904001DFE6E /* MainFeedCoordinator.swift */,
@@ -792,6 +791,15 @@
 				4071068D20D36008006DED24 /* ExpandedImageViewController.swift */,
 			);
 			path = ExpandedImageView;
+			sourceTree = "<group>";
+		};
+		408FA7A120D83C2300184725 /* VoteSlider */ = {
+			isa = PBXGroup;
+			children = (
+				408FA7A220D83C5E00184725 /* VoteSlider.swift */,
+				403AEEDF20D86C490039E4DB /* VoteControl.swift */,
+			);
+			path = VoteSlider;
 			sourceTree = "<group>";
 		};
 		40A1CA0120D04F7A001C26F6 /* SnipAuth */ = {
@@ -1225,7 +1233,6 @@
 				4018403420ACE904001DFE6E /* MainFeedCoordinator.swift in Sources */,
 				2391D2A02098F894001DDC9B /* SnipKeystore.swift in Sources */,
 				236C11DC209D3CD20026E476 /* Single+Extension.swift in Sources */,
-				406EBA1920B4CC0D00682B58 /* VoteState.swift in Sources */,
 				4018403620ACEB39001DFE6E /* MainFeedViewController.swift in Sources */,
 				238CF2FF2097CFAA00B80DEB /* ShareAddressPresentationController.swift in Sources */,
 				403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */,
@@ -1304,6 +1311,7 @@
 				7D812FC6202423F700968B9E /* CellTextUtils.swift in Sources */,
 				7DD073C020784D8D001D24BD /* SettingsMember.swift in Sources */,
 				4018403D20ACECBB001DFE6E /* User.swift in Sources */,
+				408FA7A320D83C5E00184725 /* VoteSlider.swift in Sources */,
 				4018403F20ACECC7001DFE6E /* RealmComment.swift in Sources */,
 				40E4B39420AE4267000EA9F6 /* UserCoordinator.swift in Sources */,
 				7DD073BC20771BB7001D24BD /* BackHeaderView.swift in Sources */,
@@ -1333,6 +1341,7 @@
 				7D44B56B1FA418B7005482C9 /* ProgramError.swift in Sources */,
 				4018403920ACEBCF001DFE6E /* Post.swift in Sources */,
 				239F4FB52093A94500093B58 /* Coordinator.swift in Sources */,
+				403AEEE020D86C490039E4DB /* VoteControl.swift in Sources */,
 				239F4FB92093EC8900093B58 /* CoinType.swift in Sources */,
 				7D8C5C722045F8B400E53DE0 /* ReportInfo.swift in Sources */,
 				408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */,
@@ -1358,7 +1367,6 @@
 				40B40F1920AA556F0086E7AA /* ConfirmationPresentationController.swift in Sources */,
 				7D4641951FBBD3ED00E29578 /* SnipRetrieverFromWeb.swift in Sources */,
 				7D5C43491FBA778A00551E49 /* UIImageViewWithMetadata.swift in Sources */,
-				406EBA1D20B6204500682B58 /* VoteAction.swift in Sources */,
 				40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */,
 				405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */,
 				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,

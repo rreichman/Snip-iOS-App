@@ -17,7 +17,7 @@ protocol SnipCellViewDelegate: class {
     func showExpandedImage(for post: Post)
 }
 protocol SnipCellDataDelegate: class {
-    func onVoteAciton(action: VoteAction, for post: Post)
+    func onVoteAciton(newVoteValue: Double, for post: Post)
     func onSaveAciton(saved: Bool, for post: Post)
     
 }
@@ -34,14 +34,13 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var saveButton: ToggleButton!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIButton!
-    @IBOutlet var dislikeButton: ToggleButton!
-    @IBOutlet var likeButton: ToggleButton!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var numberOfCommentsLabel: UILabel!
     @IBOutlet var touchAreaView: UIView!
     
+    @IBOutlet var voteControl: VoteControl!
     @IBOutlet var views: [UIView]!
     var delegate: SnipCellViewDelegate!
     var dataDelegate: SnipCellDataDelegate!
@@ -73,6 +72,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         commentInput.layer.cornerRadius = 16
         commentInput.layer.borderWidth = 1
         commentInput.layer.borderColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0).cgColor
+        voteControl.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         //commentInput.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         //commentInput.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
 
@@ -80,8 +80,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         //bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
         addTap()
-        dislikeButton.contentMode = .center
-        dislikeButton.imageView?.contentMode = .scaleAspectFit
+        
     }
     
     func bind(data:Post, path: IndexPath, expanded: Bool) {
@@ -95,18 +94,31 @@ class NewSnippetTableViewCell: UITableViewCell {
         }
         dateLabel.text = data.formattedTimeString()
         bindImage(imageOpt: data.image)
-        saveButton.bind(on_state: data.saved) { [data] (on) in
+        saveButton.bind(on_state: data.saved) { [data] (value) in
+            var on: Bool!
+            switch value {
+            case .on:
+                on = true
+            case .fractional:
+                //this will never happen with the save button
+                on = false
+            case .off:
+                on = false
+            }
             self.onToggleSave(on: on, for: data)
         }
-        likeButton.bind(on_state: data.isLiked) { [data] (on) in
-            self.onToggleLike(on: on, for: data)
-        }
-        dislikeButton.bind(on_state: data.isDisliked) {[data] (on) in
-            self.onToggleDislike(on: on, for: data)
-        }
+        voteControl.bind(voteValue: data.voteValue)
+        voteControl.delegate = self
         //Binding of elements that might be hidden
         if expanded {
             if let richText = data.getAttributedBody() {
+                /**
+                let lineSpacingParagraphStyle = NSMutableParagraphStyle()
+                lineSpacingParagraphStyle.lineSpacing = 2.5
+                let lineSpaceAttribute: [NSAttributedStringKey : Any] =
+                    [.paragraphStyle: lineSpacingParagraphStyle]
+                richText.addAttributes(lineSpaceAttribute, range: NSMakeRange(0, richText.length))
+                 **/
                 //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
                 richText.append(NSAttributedString(string: "\n"))
                 let pStyle = NSMutableParagraphStyle()
@@ -217,8 +229,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     func setHiddenState(large: Bool) {
         let hidden = !large
         bodyTextView.isHidden = hidden
-        dislikeButton.isHidden = hidden
-        likeButton.isHidden = hidden
+        voteControl.isHidden = hidden
         shareButton.isHidden = hidden
         commentInput.isHidden = hidden
     }
@@ -227,14 +238,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         print("onToggleSave on:\(on)")
         dataDelegate.onSaveAciton(saved: on, for: post)
     }
-    func onToggleLike(on: Bool, for post: Post) {
-        let action: VoteAction = on ? .likeOn : .likeOff
-        dataDelegate.onVoteAciton(action: action, for: post)
-    }
-    func onToggleDislike(on: Bool, for post: Post) {
-        let action: VoteAction = on ? .dislikeOn : .dislikeOff
-        dataDelegate.onVoteAciton(action: action, for: post)
-    }
+    
     func addTap() {
         titleLabel.isUserInteractionEnabled = true
         bodyTextView.isUserInteractionEnabled = true
@@ -293,6 +297,15 @@ class NewSnippetTableViewCell: UITableViewCell {
         guard let p = self.post else { return }
         delegate.postOptions(for: p)
     }
+}
+
+extension NewSnippetTableViewCell: VoteControlDelegate {
+    func voteValueSet(to value: Double) {
+        guard let p = self.post else { return }
+        dataDelegate.onVoteAciton(newVoteValue: value, for: p)
+    }
+    
+    
 }
 
 extension Post {

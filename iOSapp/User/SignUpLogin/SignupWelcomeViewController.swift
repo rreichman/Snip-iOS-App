@@ -33,6 +33,8 @@ class SignupWelcomeViewController : GenericProgramViewController
         
         termsAndConditionsView.attributedText = getTermsAndConditionsString(color: UIColor.white)
         termsAndConditionsView.tintColor = UIColor.white
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setButtons()
         setCloseBarButton()
         setLogInBarButton()
@@ -43,6 +45,8 @@ class SignupWelcomeViewController : GenericProgramViewController
         self.navigationItem.rightBarButtonItem?.isEnabled = enabled
         signupButton.isUserInteractionEnabled = enabled
         loginFBButton.isUserInteractionEnabled = enabled
+        
+        
     }
     
     func setCloseBarButton() {

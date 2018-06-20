@@ -10,9 +10,17 @@ import Foundation
 import UIKit
 import RealmSwift
 
+enum CommentInputMode {
+    case reply
+    case edit
+    case none
+}
+
 protocol PostDetailViewDelegate: class {
     func share(msg: String, url: NSURL, sourceView: UIView)
     func postComment(for post: Post, with body: String, parent: RealmComment?)
+    func editComment(for post: Post, with body: String, of comment: RealmComment)
+    func deleteComment(comment: RealmComment)
     func onBackPressed()
     func showLoginSignUp()
     func openInternalLink(url: URL)
@@ -25,8 +33,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var postImage: UIImageView!
     @IBOutlet var optionsButton: UIImageView!
-    @IBOutlet var dislikeButton: ToggleButton!
-    @IBOutlet var likeButton: ToggleButton!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var shortAuthorLabel: UILabel!
@@ -38,8 +44,9 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     @IBOutlet var statusContainer: UIView!
     @IBOutlet var cancelReplyButton: UIButton!
-    @IBOutlet var replyToLabel: UILabel!
+    @IBOutlet var inputStatusLabel: UILabel!
     
+    @IBOutlet var voteControl: VoteControl!
     @IBOutlet var writeBoxDivider: UIView!
     var delegate: PostDetailViewDelegate!
     var dataDelegate: SnipCellDataDelegate!
@@ -49,11 +56,16 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var post: Post!
     var commentArray: [ RealmComment ]?
-    var replyComment: RealmComment?
     var token: NotificationToken?
     var postImageToken: NotificationToken?
     var topConstraint: NSLayoutConstraint!
     var mode: PostDisplayMode?
+    var currentUser: User?
+    
+    //Input mode state, depends on what the text input will do on send
+    var replyComment: RealmComment?
+    var editComment: RealmComment?
+    var inputMode: CommentInputMode = .none
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -61,6 +73,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         bodyTextView.delegate = self
+        voteControl.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         dataDelegate = PostStateManager.instance
         //whiteBackArrow()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -69,12 +82,17 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         
         bodyTextView.isScrollEnabled = false
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
-        cancelReplyButton.addTarget(self, action: #selector(onCancelReply), for: .touchUpInside)
+        cancelReplyButton.addTarget(self, action: #selector(onCancelInputMode), for: .touchUpInside)
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
         UIFont.lato(size: 10)
         topConstraint.isActive = true
         postImage.layer.cornerRadius = 10
         addTap()
+        
+        if SessionManager.instance.loggedIn && SessionManager.instance.currentLoginUsername != nil {
+            let realm = RealmManager.instance.getRealm()
+            self.currentUser = realm.object(ofType: User.self, forPrimaryKey: SessionManager.instance.currentLoginUsername!)
+        }
 
         self.bindViews(data: self.post)
         
@@ -145,7 +163,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         commentText.addGestureRecognizer(writeCommentRecognizer)
     }
     
-    func toggleReplyStatus(show: Bool) {
+    func toggleInputModeStatusView(show: Bool) {
         topConstraint.isActive = false
         if show {
             topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: statusContainer.topAnchor)
@@ -226,12 +244,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         /**saveButton.bind(on_state: data.saved) { [data] (on) in
             self.onToggleSave(on: on, for: data)
         }**/
-        likeButton.bind(on_state: data.isLiked) { [data] (on) in
-            self.onToggleLike(on: on, for: data)
-        }
-        dislikeButton.bind(on_state: data.isDisliked) {[data] (on) in
-            self.onToggleDislike(on: on, for: data)
-        }
+        voteControl.bind(voteValue: data.voteValue)
+        voteControl.delegate = self
         if let richText = data.getAttributedBody() {
             //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
             richText.append(NSAttributedString(string: "\n"))
@@ -353,23 +367,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         dataDelegate.onSaveAciton(saved: on, for: post)
     }
     
-    func onToggleLike(on: Bool, for post: Post) {
-        let action: VoteAction = on ? .likeOn : .likeOff
-        dataDelegate.onVoteAciton(action: action, for: post)
-        
-        if on {
-            dislikeButton.setState(on: false)
-        }
-        self.postContainer.layoutSubviews()
-    }
-    func onToggleDislike(on: Bool, for post: Post) {
-        let action: VoteAction = on ? .dislikeOn : .dislikeOff
-        dataDelegate.onVoteAciton(action: action, for: post)
-        if on {
-            likeButton.setState(on: false)
-        }
-    }
-    
     @objc func shareTap() {
         guard
             let msg = self.shareMessage,
@@ -400,18 +397,30 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         if body.count == 0 {
             return
         }
-        delegate.postComment(for: self.post, with: body, parent: self.replyComment)
+        switch self.inputMode {
+        case .none:
+            delegate.postComment(for: self.post, with: body, parent: nil)
+        case .reply:
+            delegate.postComment(for: self.post, with: body, parent: self.replyComment)
+        case .edit:
+            guard let edit_comment = self.editComment else { break }
+            delegate.editComment(for: self.post, with: body, of: edit_comment)
+        }
+        
         commentText.resignFirstResponder()
         commentText.text = ""
-        replyToLabel.text = ""
+        inputStatusLabel.text = ""
         replyComment = nil
-        self.toggleReplyStatus(show: false)
+        editComment = nil
+        self.toggleInputModeStatusView(show: false)
     }
     
-    @objc func onCancelReply() {
+    @objc func onCancelInputMode() {
         self.replyComment = nil
-        self.replyToLabel.text = ""
-        self.toggleReplyStatus(show: false)
+        self.editComment = nil
+        self.inputStatusLabel.text = ""
+        self.inputMode = .none
+        self.toggleInputModeStatusView(show: false)
         
         // Not sure if scroll position should be touched here or not
         //tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
@@ -521,7 +530,7 @@ extension PostDetailViewController: UITableViewDataSource {
             return cell
         }
         cell.delegate = self
-        cell.bind(with: list[indexPath.row])
+        cell.bind(with: list[indexPath.row], currentUser: self.currentUser)
         return cell
     }
     
@@ -535,14 +544,33 @@ extension PostDetailViewController: UITableViewDataSource {
 }
 
 extension PostDetailViewController: CommentCellDelegate {
+    func onDeleteRequested(for comment: RealmComment) {
+        delegate.deleteComment(comment: comment)
+    }
+    
+    func onEditRequested(for comment: RealmComment) {
+        self.editComment = comment
+        self.inputStatusLabel.text = "Editing comment"
+        self.commentText.text = comment.body
+        self.inputMode = .edit
+        self.toggleInputModeStatusView(show: true)
+        if !commentText.isFirstResponder {
+            commentText.becomeFirstResponder()
+        } else {
+            scrollToComment(scrollComment: comment, type: .bottom)
+        }
+        self.commentText.selectedTextRange = self.commentText.textRange(from: self.commentText.endOfDocument, to: self.commentText.endOfDocument)
+    }
+    
     func onReplyRequested(for comment: RealmComment) {
         self.replyComment = comment
         if let writer = comment.writer {
-            replyToLabel.text = "Replying to \(writer.first_name) \(writer.last_name)"
+            inputStatusLabel.text = "Replying to \(writer.first_name) \(writer.last_name)"
         } else {
-            replyToLabel.text = "Replying"
+            inputStatusLabel.text = "Replying"
         }
-        self.toggleReplyStatus(show: true)
+        self.inputMode = .reply
+        self.toggleInputModeStatusView(show: true)
         if !commentText.isFirstResponder {
             commentText.becomeFirstResponder()
         } else {
@@ -561,5 +589,11 @@ extension PostDetailViewController: UITextViewDelegate {
         }
         
         return false
+    }
+}
+
+extension PostDetailViewController: VoteControlDelegate {
+    func voteValueSet(to value: Double) {
+        self.dataDelegate.onVoteAciton(newVoteValue: value, for: self.post)
     }
 }

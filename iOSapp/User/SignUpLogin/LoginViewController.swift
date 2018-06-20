@@ -62,7 +62,6 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         
         emailInputView.becomeFirstResponder()
         print("end login")
-        //whiteBackArrow()
     }
     
     private func whiteBackArrow() {
@@ -89,7 +88,8 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         emailInputView.isUserInteractionEnabled = enabled
         passwordInputView.isUserInteractionEnabled = enabled
         forgotPasswordView.isUserInteractionEnabled = enabled
-        self.navigationItem.leftBarButtonItem?.isEnabled = enabled
+        self.navigationItem.hidesBackButton = !enabled
+        
     }
     
     func setButtons()

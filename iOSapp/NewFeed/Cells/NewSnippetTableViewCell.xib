@@ -48,7 +48,7 @@
                         </constraints>
                     </imageView>
                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tJP-HP-LUx" userLabel="BodyTextView" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="20" y="276.5" width="335" height="168.5"/>
+                        <rect key="frame" x="20" y="140" width="335" height="201"/>
                         <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" link="YES"/>
@@ -71,32 +71,8 @@
                             <userDefinedRuntimeAttribute type="image" keyPath="offImage" value="savePost"/>
                         </userDefinedRuntimeAttributes>
                     </button>
-                    <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-mR-kKs" customClass="ToggleButton" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="64" y="606.5" width="24" height="24"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="24" id="REf-du-L0n"/>
-                            <constraint firstAttribute="height" constant="24" id="SUl-2m-Xvh"/>
-                        </constraints>
-                        <state key="normal" image="like"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="onImage" value="likeActive"/>
-                            <userDefinedRuntimeAttribute type="image" keyPath="offImage" value="like"/>
-                        </userDefinedRuntimeAttributes>
-                    </button>
-                    <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNg-1p-C7W" customClass="ToggleButton" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="20" y="606.5" width="24" height="24"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="24" id="Uht-zY-37p"/>
-                            <constraint firstAttribute="width" constant="24" id="ttf-WD-NLf"/>
-                        </constraints>
-                        <state key="normal" image="dislike"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="onImage" value="dislikeActive"/>
-                            <userDefinedRuntimeAttribute type="image" keyPath="offImage" value="dislike"/>
-                        </userDefinedRuntimeAttributes>
-                    </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wyx-bg-hAq">
-                        <rect key="frame" x="331" y="606.5" width="24" height="24"/>
+                        <rect key="frame" x="331" y="481" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="6vi-8c-4yU"/>
                             <constraint firstAttribute="width" constant="24" id="chj-mQ-iVb"/>
@@ -128,7 +104,7 @@
                         <rect key="frame" x="295" y="60" width="20" height="20"/>
                     </activityIndicatorView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21 Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gli-8d-p8T">
-                        <rect key="frame" x="219" y="610" width="92" height="18"/>
+                        <rect key="frame" x="219" y="484.5" width="92" height="18"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.63" blue="0.70999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -143,44 +119,47 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QuL-NW-ueL" customClass="VoteControl" customModule="iOSapp" customModuleProvider="target">
+                        <rect key="frame" x="10" y="356" width="189" height="274.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="02d-4T-c2y"/>
-                    <constraint firstItem="LNg-1p-C7W" firstAttribute="top" secondItem="tJP-HP-LUx" secondAttribute="bottom" constant="25" id="2pZ-qz-9iz"/>
                     <constraint firstItem="Wyx-bg-hAq" firstAttribute="leading" secondItem="gli-8d-p8T" secondAttribute="trailing" constant="20" id="3uN-Pf-YRx"/>
                     <constraint firstItem="9V7-nQ-Dx5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="4pe-WI-3cH"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="5Ep-8u-Aqj"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="69l-pt-MJN"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="A9O-Rj-AHd"/>
                     <constraint firstAttribute="bottom" secondItem="fIE-vP-4Ar" secondAttribute="bottom" priority="999" constant="20" placeholder="YES" id="BKs-VH-Mto"/>
+                    <constraint firstItem="QuL-NW-ueL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="CWW-Xh-HaG"/>
                     <constraint firstAttribute="trailing" secondItem="fIE-vP-4Ar" secondAttribute="trailing" constant="20" id="Cle-Fo-fGJ"/>
                     <constraint firstItem="rcf-cN-PGf" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="Fd0-RI-Cf6"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerY" secondItem="kD3-GU-mQq" secondAttribute="centerY" id="HDg-67-56U"/>
-                    <constraint firstItem="LCE-mR-kKs" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="top" id="HoI-QI-quZ"/>
+                    <constraint firstItem="fIE-vP-4Ar" firstAttribute="top" secondItem="QuL-NW-ueL" secondAttribute="bottom" constant="10" id="LTL-qV-ti6"/>
                     <constraint firstItem="tJP-HP-LUx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="LVE-4p-wIV"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="rcf-cN-PGf" secondAttribute="trailing" constant="10" id="NAe-kR-03X"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="top" id="OEp-fJ-Umw"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="PQn-EJ-6Ai"/>
-                    <constraint firstItem="Wyx-bg-hAq" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="top" id="UEc-69-x10"/>
-                    <constraint firstItem="LNg-1p-C7W" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Uej-uJ-aBt"/>
+                    <constraint firstItem="gli-8d-p8T" firstAttribute="leading" secondItem="QuL-NW-ueL" secondAttribute="trailing" constant="20" id="Vvx-WT-FHl"/>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" priority="999" constant="20" id="ZcQ-kb-yjB"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerX" secondItem="kD3-GU-mQq" secondAttribute="centerX" id="Zjv-BY-gph"/>
                     <constraint firstAttribute="trailing" secondItem="kD3-GU-mQq" secondAttribute="trailing" constant="20" id="boE-SL-Raw"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="leading" secondItem="cHH-oH-6UX" secondAttribute="trailing" constant="5" id="bzN-Ds-0fx"/>
+                    <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="QuL-NW-ueL" secondAttribute="centerY" id="dyl-ic-kuP"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="top" secondItem="9V7-nQ-Dx5" secondAttribute="bottom" constant="5" id="gTj-Fd-MUk"/>
                     <constraint firstAttribute="trailing" secondItem="Wyx-bg-hAq" secondAttribute="trailing" constant="20" id="il6-32-GBh"/>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="cHH-oH-6UX" secondAttribute="top" constant="-10" id="ini-dN-2vm"/>
                     <constraint firstAttribute="trailing" secondItem="tJP-HP-LUx" secondAttribute="trailing" constant="20" id="kKC-13-hkw"/>
                     <constraint firstItem="9V7-nQ-Dx5" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="bottom" id="lD9-Y8-PoZ"/>
-                    <constraint firstItem="fIE-vP-4Ar" firstAttribute="top" secondItem="LNg-1p-C7W" secondAttribute="bottom" constant="10" id="lop-ZV-Qrl"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="2yA-X6-rnf" secondAttribute="trailing" constant="10" id="oUi-ln-LXj"/>
-                    <constraint firstItem="LCE-mR-kKs" firstAttribute="leading" secondItem="LNg-1p-C7W" secondAttribute="trailing" constant="20" id="poa-1C-PX3"/>
                     <constraint firstItem="tJP-HP-LUx" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="qxi-Da-dP1"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="top" id="rPV-ok-DOz"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="Wyx-bg-hAq" secondAttribute="centerY" id="tOx-AZ-hsU"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="leading" secondItem="AAz-pe-1HY" secondAttribute="trailing" constant="4" id="v6Z-KA-P3n"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="9V7-nQ-Dx5" secondAttribute="trailing" constant="16" id="zdk-5o-ZEC"/>
+                    <constraint firstItem="QuL-NW-ueL" firstAttribute="top" secondItem="tJP-HP-LUx" secondAttribute="bottom" constant="15" id="zkv-DZ-h4b"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -190,8 +169,6 @@
                 <outlet property="bodyTextView" destination="tJP-HP-LUx" id="FNP-Ln-UZY"/>
                 <outlet property="commentInput" destination="fIE-vP-4Ar" id="JQw-8k-nB6"/>
                 <outlet property="dateLabel" destination="bm5-ZK-pAa" id="uyZ-AN-9ol"/>
-                <outlet property="dislikeButton" destination="LNg-1p-C7W" id="kBK-Na-27L"/>
-                <outlet property="likeButton" destination="LCE-mR-kKs" id="xv5-NI-hWa"/>
                 <outlet property="numberOfCommentsLabel" destination="gli-8d-p8T" id="krc-T7-GcB"/>
                 <outlet property="optionsButton" destination="rcf-cN-PGf" id="Xw2-Pt-e1r"/>
                 <outlet property="postImage" destination="kD3-GU-mQq" id="M13-eo-9FU"/>
@@ -199,13 +176,12 @@
                 <outlet property="shareButton" destination="Wyx-bg-hAq" id="afN-oG-MKd"/>
                 <outlet property="titleLabel" destination="AAz-pe-1HY" id="CQ3-ZB-0Xc"/>
                 <outlet property="touchAreaView" destination="9V7-nQ-Dx5" id="Ktl-zg-zoF"/>
+                <outlet property="voteControl" destination="QuL-NW-ueL" id="3Yz-fb-a2L"/>
                 <outletCollection property="views" destination="AAz-pe-1HY" collectionClass="NSMutableArray" id="Ub7-01-Kqj"/>
                 <outletCollection property="views" destination="cHH-oH-6UX" collectionClass="NSMutableArray" id="cX7-aw-rvw"/>
                 <outletCollection property="views" destination="bm5-ZK-pAa" collectionClass="NSMutableArray" id="Pmb-8Y-ifq"/>
                 <outletCollection property="views" destination="kD3-GU-mQq" collectionClass="NSMutableArray" id="EYl-Ss-CJZ"/>
                 <outletCollection property="views" destination="2yA-X6-rnf" collectionClass="NSMutableArray" id="m9L-Gg-FdS"/>
-                <outletCollection property="views" destination="LCE-mR-kKs" collectionClass="NSMutableArray" id="Xo8-VL-OoD"/>
-                <outletCollection property="views" destination="LNg-1p-C7W" collectionClass="NSMutableArray" id="sfP-gz-JrD"/>
                 <outletCollection property="views" destination="Wyx-bg-hAq" collectionClass="NSMutableArray" id="07Z-G9-FHa"/>
                 <outletCollection property="views" destination="fIE-vP-4Ar" collectionClass="NSMutableArray" id="BOb-JC-bGC"/>
                 <outletCollection property="views" destination="rcf-cN-PGf" collectionClass="NSMutableArray" id="Jx9-gd-YUQ"/>
@@ -215,11 +191,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="dislike" width="21" height="20"/>
-        <image name="dislikeActive" width="21" height="20"/>
         <image name="downArrow" width="16" height="16"/>
-        <image name="like" width="20" height="19"/>
-        <image name="likeActive" width="20" height="19"/>
         <image name="savePost" width="16" height="16"/>
         <image name="savePostActive" width="16" height="16"/>
         <image name="shareIcon" width="24" height="24"/>

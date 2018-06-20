@@ -42,6 +42,14 @@ class PostDetailCoordinator: Coordinator {
 }
 
 extension PostDetailCoordinator: PostDetailViewDelegate {
+    func deleteComment(comment: RealmComment) {
+        SnipRequests.instance.postDeleteComment(comment: comment)
+    }
+    
+    func editComment(for post: Post, with body: String, of comment: RealmComment) {
+        SnipRequests.instance.postCommentEdit(post_id: post.id, comment: comment, newBody: body)
+    }
+    
     func openInternalLink(url: URL) {
         AppLinkUtils.resolveAndPushAppLink(link: url.absoluteString, navigationController: self.navigationController)
     }

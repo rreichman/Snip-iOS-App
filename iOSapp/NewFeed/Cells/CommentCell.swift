@@ -11,6 +11,8 @@ import UIKit
 
 protocol CommentCellDelegate: class {
     func onReplyRequested(for comment: RealmComment)
+    func onDeleteRequested(for comment: RealmComment)
+    func onEditRequested(for comment: RealmComment)
 }
 class CommentCell: UITableViewCell {
     @IBOutlet var commentLabel: UILabel!
@@ -22,8 +24,24 @@ class CommentCell: UITableViewCell {
     var comment: RealmComment!
     var delegate: CommentCellDelegate!
     
+    @IBOutlet var deleteLabel: UILabel!
+    @IBOutlet var editLabel: UILabel!
     @IBOutlet var replyLabel: UILabel!
-    func bind(with comment: RealmComment) {
+    
+    var hasGestureRecognizers: Bool = false
+    
+    func addGestureRecognizers() {
+        replyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onReply)))
+        editLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onEdit)))
+        deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDelete)))
+    }
+    
+    func bind(with comment: RealmComment, currentUser: User?) {
+        
+        if !hasGestureRecognizers {
+            addGestureRecognizers()
+            self.hasGestureRecognizers = true
+        }
         self.comment = comment
         if let writer = comment.writer {
             nameLabel.text = "\(writer.first_name) \(writer.last_name)"
@@ -36,15 +54,39 @@ class CommentCell: UITableViewCell {
         //Set indentation
         leadingConstraint.constant =  CGFloat(integerLiteral: 20 + (comment.level * 15))
         if comment.level < 2 {
-            replyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onReply)))
+            
             replyLabel.isHidden = false
         } else {
             replyLabel.isHidden = true
         }
         commentTimeLabel.text = comment.formattedTimeString()
+        
+        if let user = currentUser, let writer = comment.writer {
+            if user.username == writer.username {
+                editLabel.isHidden = false
+                deleteLabel.isHidden = false
+                editLabel.isUserInteractionEnabled = true
+                deleteLabel.isUserInteractionEnabled = true
+            } else {
+                editLabel.isHidden = true
+                deleteLabel.isHidden = true
+                editLabel.isUserInteractionEnabled = false
+                deleteLabel.isUserInteractionEnabled = false
+            }
+        }
     }
     
     @objc func onReply() {
         delegate.onReplyRequested(for: comment)
+    }
+    
+    @objc func onEdit() {
+        print("onEdit(), comment text \(comment.body)")
+        delegate.onEditRequested(for: comment)
+    }
+    
+    @objc func onDelete() {
+        print("onDelete(), comment text \(comment.body)")
+        delegate.onDeleteRequested(for: comment)
     }
 }

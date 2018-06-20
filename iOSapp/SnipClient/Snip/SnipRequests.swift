@@ -374,12 +374,77 @@ class SnipRequests {
                     }
                 }
             }) { err in
+                Crashlytics.sharedInstance().recordError(err)
                 try! realm.write{
                     if let c = cached, let index = post.comments.index(of: c) {
                         post.comments.remove(at: index)
                     }
                 }
                 print(err)
+            }
+    }
+    
+    func postCommentEdit(post_id: Int, comment: RealmComment, newBody: String) {
+        let realm = RealmManager.instance.getMemRealm()
+        try! realm.write {
+            comment.body = newBody
+        }
+        
+        let _ = provider.rx.request(SnipService.editComment(post_id: post_id, comment_id: comment.id, body: newBody))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .map { obj -> Bool in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("Json", obj)}
+                print("TEST EDIT COMMENT RESPONSE \(json)")
+                return true
+            }
+            .subscribe(onSuccess: { (success) in
+                print("postCommentEdit() success")
+            }) { (err) in
+                print("postCommentEdit() error \(err)")
+                Crashlytics.sharedInstance().recordError(err)
+        }
+    }
+    
+    func postDeleteComment(comment: RealmComment) {
+        let comment_id = comment.id
+        let realm = RealmManager.instance.getMemRealm()
+        try! realm.write {
+            if comment.childComments.count != 0 {
+                comment.body = "[This comment has been deleted]"
+            } else {
+                realm.delete(comment)
+            }
+        }
+        let _ = provider.rx.request(SnipService.deleteComment(comment_id: comment_id))
+            .subscribeOn(MainScheduler.instance)
+            .mapSnipRequest()
+            .mapJSON()
+            .map { obj -> Bool in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("JSON", obj) }
+                guard let msg = json["message"] as? String else { throw SerializationError.missing("message") }
+                if msg != "success" {
+                    return false
+                }
+                guard let post_ids = json["deleted"] as? [ Int ] else { throw SerializationError.missing("deleted") }
+                if post_ids.count > 0 {
+                    if post_ids[0] == comment_id {
+                        return true
+                    }
+                }
+                return false
+            }
+            .subscribe(onSuccess: { (success) in
+                if success {
+                    print("Successfully deleted comment \(comment_id)")
+                    
+                } else {
+                    print("Error deleting comment \(comment_id)")
+                }
+            }) { (err) in
+                print("Error deleting comment \(comment_id): \(err)")
+                Crashlytics.sharedInstance().recordError(err)
             }
     }
 }

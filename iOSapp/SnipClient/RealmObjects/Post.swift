@@ -20,8 +20,6 @@ class Post: Object {
     dynamic var date : Date = Date()
     dynamic var timestamp: Int = 0
     dynamic var image: Image? = nil
-    dynamic var isLiked : Bool = false
-    dynamic var isDisliked : Bool = false
     dynamic var voteValue: Double = 0
     dynamic var fullURL : String = ""
     dynamic var saved: Bool = false
@@ -78,11 +76,7 @@ extension Post {
         }
         
         guard let vote = json["votes"] as? [String: Any] else { throw SerializationError.missing("votes")}
-        guard let like = vote["like"] as? Bool else { throw SerializationError.missing("like")}
-        guard let dislike = vote["dislike"] as? Bool else { throw SerializationError.missing("dislike")}
         guard let vote_value = vote["value"] as? Double else { throw SerializationError.missing("value")}
-        post.isLiked = like
-        post.isDisliked = dislike
         post.voteValue = vote_value
         
         post.fullURL = json["url"] as! String
