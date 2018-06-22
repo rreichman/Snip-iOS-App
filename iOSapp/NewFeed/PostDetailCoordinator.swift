@@ -29,7 +29,7 @@ class PostDetailCoordinator: Coordinator {
     }
     
     func start() {
-        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
+        viewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
         viewController.delegate = self
         viewController.bind(data: post, mode: displayMode)
         navigationController.pushViewController(viewController, animated: true)

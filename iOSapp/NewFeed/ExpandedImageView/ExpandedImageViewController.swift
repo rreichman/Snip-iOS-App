@@ -83,7 +83,7 @@ extension ExpandedImageViewController: UIViewControllerTransitioningDelegate {
 extension ExpandedImageViewController {
     static func showExpandedImage(for post: Post, presentingVC: UIViewController) {
         guard let image = post.image, let data = image.data else { return }
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ExpandedImageViewController") as! ExpandedImageViewController
+        let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ExpandedImageViewController") as! ExpandedImageViewController
         
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = vc

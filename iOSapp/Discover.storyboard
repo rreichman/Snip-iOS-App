@@ -1,7 +1,73 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <scenes/>
+    <customFonts key="customFonts">
+        <array key="Lato-Black.ttf">
+            <string>Lato-Black</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--DISCOVER-->
+        <scene sceneID="Dyj-Za-Kn8">
+            <objects>
+                <viewController storyboardIdentifier="DiscoverViewController" title="DISCOVER" id="92k-dI-sTi" customClass="DiscoverViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tvq-F4-R7T">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VfO-PG-4nI" userLabel="Fake Navigation Bar">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piZ-eR-pI7" userLabel="Title Container">
+                                        <rect key="frame" x="0.0" y="-24" width="375" height="44"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISCOVER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HdF-FS-zcZ">
+                                                <rect key="frame" x="147.5" y="11.5" width="80" height="20"/>
+                                                <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="HdF-FS-zcZ" firstAttribute="centerY" secondItem="piZ-eR-pI7" secondAttribute="centerY" id="Lr4-SM-icw"/>
+                                            <constraint firstItem="HdF-FS-zcZ" firstAttribute="centerX" secondItem="piZ-eR-pI7" secondAttribute="centerX" id="XFT-We-ELq"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="piZ-eR-pI7" secondAttribute="bottom" id="H93-wm-Gog"/>
+                                    <constraint firstAttribute="trailing" secondItem="piZ-eR-pI7" secondAttribute="trailing" id="htZ-xo-xvG"/>
+                                    <constraint firstItem="piZ-eR-pI7" firstAttribute="leading" secondItem="VfO-PG-4nI" secondAttribute="leading" id="rD9-mo-mwS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VfO-PG-4nI" firstAttribute="leading" secondItem="JcV-89-z7a" secondAttribute="leading" id="96w-K8-dtV"/>
+                            <constraint firstAttribute="top" secondItem="VfO-PG-4nI" secondAttribute="top" id="9Kh-NI-Kh9"/>
+                            <constraint firstItem="VfO-PG-4nI" firstAttribute="trailing" secondItem="JcV-89-z7a" secondAttribute="trailing" id="KWy-JR-gVd"/>
+                            <constraint firstItem="JcV-89-z7a" firstAttribute="top" secondItem="VfO-PG-4nI" secondAttribute="bottom" id="ORC-KT-56M"/>
+                            <constraint firstItem="piZ-eR-pI7" firstAttribute="top" secondItem="JcV-89-z7a" secondAttribute="top" constant="-44" id="gJa-qt-NlB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JcV-89-z7a"/>
+                    </view>
+                    <size key="freeformSize" width="375" height="812"/>
+                    <connections>
+                        <outlet property="fakeNavigationBar" destination="VfO-PG-4nI" id="oTB-rG-5kd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LWG-bX-HUy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0" y="0"/>
+        </scene>
+    </scenes>
 </document>

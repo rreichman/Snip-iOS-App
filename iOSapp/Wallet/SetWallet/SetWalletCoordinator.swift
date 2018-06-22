@@ -33,7 +33,7 @@ class SetWalletCoordinator: Coordinator {
     }
     
     func start(animated: Bool) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "SetWalletNavController") as! UINavigationController
         let controller = storyboard.instantiateViewController(withIdentifier: "SetWalletViewController") as! SetWalletViewController
         self.containerVC = controller
@@ -57,7 +57,7 @@ class SetWalletCoordinator: Coordinator {
     }
     
     func showResult() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         if creationType == SetWalletType.import_wallet {
             let controller = storyboard.instantiateViewController(withIdentifier: "ImportWalletViewController")
             importWalletVC = controller as! ImportWalletViewController

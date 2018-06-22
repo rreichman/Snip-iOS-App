@@ -33,7 +33,7 @@ class SendTransactionCoordinator: Coordinator {
     }
     
     func start(presentingController: UIViewController) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         self.navController = storyboard.instantiateViewController(withIdentifier: "SendTransactionNavigationController") as! UINavigationController
         self.sendTransactionVC = storyboard.instantiateViewController(withIdentifier: "SendTransactionViewController") as! SendTransactionViewController
         sendTransactionVC.setDelegate(del: self)
@@ -142,7 +142,7 @@ class SendTransactionCoordinator: Coordinator {
     }
     
     func openGasSettingModal() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         gasSettingVC = storyboard.instantiateViewController(withIdentifier: "GasPriceSelectorViewController") as? GasPriceSelectorViewController
         gasSettingVC!.setDelegate(del: self)
         gasSettingVC!.setModel(gas: RealmManager.instance.getGasData())
@@ -150,7 +150,7 @@ class SendTransactionCoordinator: Coordinator {
     }
     
     func showConfirmationSheet(type: CoinType, amount: BigInt, gas: BigInt, exchangeData: ExchangeData) {
-        let main = UIStoryboard(name: "Main", bundle: nil)
+        let main = UIStoryboard(name: "Wallet", bundle: nil)
         confirmationVC = (main.instantiateViewController(withIdentifier: "Confirmation") as! ConfirmationViewController)
         confirmationVC!.modalPresentationStyle = .custom
         confirmationVC!.transitioningDelegate = confirmationVC!.presenterDelegate
@@ -177,7 +177,7 @@ class SendTransactionCoordinator: Coordinator {
     }
     
     func showTransactionSummary(to address: String, for amount: BigInt) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         transactionSummaryVC = storyboard.instantiateViewController(withIdentifier: "TransactionSummaryViewController") as? TransactionSummaryController
         transactionSummaryVC!.setDelegate(del: self)
         let amountString = (self.type == .eth ? "\(EtherNumberFormatter.short.string(from: amount)) ETH" : "\(EtherNumberFormatter.init().string(from: amount)) SNIP")

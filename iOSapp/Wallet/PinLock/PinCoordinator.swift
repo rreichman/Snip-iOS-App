@@ -32,7 +32,7 @@ class PinCoordinator: Coordinator {
     }
     
     func start() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         viewController = storyboard.instantiateViewController(withIdentifier: "PinViewController") as? PinViewController
         viewController!.setDelegate(delegate: self)
         if let nc = self.navController {

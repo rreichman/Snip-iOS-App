@@ -27,7 +27,7 @@ class MainFeedCoordinator: Coordinator {
     var openInitialAppLink: Bool = false
     var appLink: URL?
     init(openInitialAppLink: Bool, appLink: URL?) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let storyBoard = UIStoryboard(name: "Home", bundle: nil)
         navigationController = storyBoard.instantiateViewController(withIdentifier: "FeedNavigationController") as! UINavigationController
         
         navigationController.navigationBar.isTranslucent = false

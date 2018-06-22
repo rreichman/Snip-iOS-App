@@ -91,7 +91,7 @@ class GeneralFeedCoordinator: Coordinator {
     
     func start() {
         loadFirstPage()
-        self.postListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FeedNavigationViewController") as! PostListViewController
+        self.postListVC = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "FeedNavigationViewController") as! PostListViewController
         self.postListVC.delegate = self
         
         switch self.mode {

@@ -17,7 +17,7 @@ class UserCoordinator: Coordinator {
     var rootViewController: ProfileViewController!
     
     init() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Account", bundle: nil)
         navigationController = storyboard.instantiateViewController(withIdentifier: "UserNavigationController") as! GenericNavigationController
         rootViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
         navigationController.viewControllers = [ rootViewController ]

@@ -24,9 +24,3 @@ extension Coordinator {
     }
     
 }
-
-extension Coordinator {
-    func getStoryboard() -> UIStoryboard {
-        return UIStoryboard(name: "Main", bundle: nil)
-    }
-}

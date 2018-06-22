@@ -20,7 +20,7 @@ class DiscoverCoordinator: Coordinator {
     var delegate: DiscoverCoordinatorDelegate?
     
     init() {
-        discoverViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DiscoverViewController") as! DiscoverViewController
+        discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewController(withIdentifier: "DiscoverViewController") as! DiscoverViewController
     }
     
     func start() {

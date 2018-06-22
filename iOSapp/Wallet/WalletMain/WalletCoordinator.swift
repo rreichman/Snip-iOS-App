@@ -22,7 +22,7 @@ class WalletCoordinator: Coordinator {
     var userWallet: UserWallet!
     
     init() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         self.containerVC = storyboard.instantiateViewController(withIdentifier: "WalletMainContainerViewController") as! WalletMainContainerViewController
         let ethVC = storyboard.instantiateViewController(withIdentifier: "WalletMainViewController") as! WalletMainViewController
         ethVC.setCoinType(type: .eth)
@@ -205,7 +205,7 @@ class WalletCoordinator: Coordinator {
     
     func showAddressModal(_ type: CoinType) {
         let vc = (type == .eth) ? containerVC.ethVC : containerVC.snipVC
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Wallet", bundle: nil)
         let modalVc = storyboard.instantiateViewController(withIdentifier: "ShareAddressViewController") as! ShareAddressViewController
         modalVc.modalPresentationStyle = .custom
         modalVc.transitioningDelegate = modalVc.presenterDelegate

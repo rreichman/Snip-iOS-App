@@ -27,12 +27,12 @@ class AccountCoordinator: Coordinator {
     var disposeBag = DisposeBag()
     var delegate: AccountCoordinatorDelegate!
     init() {
-        navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountNavigationController") as! UINavigationController
+        navigationController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "AccountNavigationController") as! UINavigationController
         navigationController.navigationBar.isTranslucent = false
         navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController.navigationBar.shadowImage = UIImage()
         
-        profileViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        profileViewController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
         profileViewController.delegate = self
         navigationController.viewControllers = [ profileViewController ]
     }
@@ -85,7 +85,7 @@ class AccountCoordinator: Coordinator {
     }
     
     func pushSettingsViewController() {
-        self.settingsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        self.settingsViewController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
         self.settingsViewController!.delegate = self
         self.navigationController.pushViewController(self.settingsViewController!, animated: true)
     }

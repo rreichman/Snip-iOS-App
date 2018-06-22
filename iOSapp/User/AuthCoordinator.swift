@@ -31,11 +31,11 @@ class AuthCoordinator: Coordinator {
     var loginViewController: LoginViewController?
     
     init(presentingViewController: UIViewController) {
-        navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountNavigationController") as! UINavigationController
+        navigationController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "AccountNavigationController") as! UINavigationController
         navigationController.navigationBar.isTranslucent = false
         navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController.navigationBar.shadowImage = UIImage()
-        loginSignUpViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupWelcomeViewController") as! SignupWelcomeViewController
+        loginSignUpViewController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "SignupWelcomeViewController") as! SignupWelcomeViewController
         loginSignUpViewController.delegate = self
         self.presentingViewController = presentingViewController
         navigationController.viewControllers = [ loginSignUpViewController ]
@@ -47,7 +47,7 @@ class AuthCoordinator: Coordinator {
     }
     
     func pushSignup() {
-        signupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
+        signupViewController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
         signupViewController!.delegate = self
         navigationController.pushViewController(signupViewController!, animated: true)
     }
@@ -62,7 +62,7 @@ class AuthCoordinator: Coordinator {
     }
     
     func pushLogin() {
-        loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        loginViewController = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         loginViewController!.delegate = self
         navigationController.pushViewController(loginViewController!, animated: true)
     }
