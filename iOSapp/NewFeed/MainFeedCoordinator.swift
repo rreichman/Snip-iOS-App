@@ -57,6 +57,9 @@ class MainFeedCoordinator: Coordinator {
         SnipRequests.instance.getMain()
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self](catList) in
+                if let vc = self?.mainFeedController {
+                    vc.resetExpandedSet()
+                }
                 try! realm.write {
                     for category in catList {
                         realm.add(category, update: true)
@@ -121,6 +124,12 @@ class MainFeedCoordinator: Coordinator {
         }
     }
     
+    func showNotificationBanner() {
+        guard let vc = self.mainFeedController else { return }
+        vc.showNotificationBanner()
+        
+    }
+    
     func showPostFromDeepLink(post: Post) {
         navigationController.popToRootViewController(animated: false)
         let postDetailCoordinator = PostDetailCoordinator(navigationController: navigationController, post: post, mode: .none)
@@ -144,6 +153,14 @@ class MainFeedCoordinator: Coordinator {
 }
 
 extension MainFeedCoordinator: MainFeedViewDelegate {
+    func onNotificationsDenied() {
+        NotificationManager.instance.userClosedNotificationBanner()
+    }
+    
+    func onNotificationsRequested() {
+        NotificationManager.instance.showNotificationAccessRequest()
+    }
+    
     func showExpandedImageView(for post: Post) {
         self.showExpandedImage(for: post)
     }
@@ -153,6 +170,10 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
     }
     
     func viewDidAppearForTheFirstTime() {
+        if NotificationManager.instance.shouldShowNotificationRequest() {
+            self.showNotificationBanner()
+        }
+        
         self.showAppLink()
     }
     

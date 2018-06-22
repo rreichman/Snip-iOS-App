@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>476434886330-eimlncb4m2ecqa73bqf7inbn15n998tb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.476434886330-eimlncb4m2ecqa73bqf7inbn15n998tb</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>476434886330-f5dnr6ah7f6vbpgb8qhisir1j8sndq27.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB0AyLsLWZ3BF_6HaYNkIp9KeUHWDsE8tg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>476434886330</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.snip.iOSapp</string>
+	<key>PROJECT_ID</key>
+	<string>snip-news-a47d5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>snip-news-a47d5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:476434886330:ios:72eb8a54abec65f1</string>
+	<key>DATABASE_URL</key>
+	<string>https://snip-news-a47d5.firebaseio.com</string>
+</dict>
+</plist>

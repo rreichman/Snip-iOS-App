@@ -19,6 +19,8 @@ protocol MainFeedViewDelegate: class {
     func viewDidAppearForTheFirstTime()
     func openInternalLink(url: URL)
     func showExpandedImageView(for post: Post)
+    func onNotificationsRequested()
+    func onNotificationsDenied()
 }
 
 class MainFeedViewController: UIViewController {
@@ -31,6 +33,13 @@ class MainFeedViewController: UIViewController {
     var delegate: MainFeedViewDelegate!
     var expandedSet = Set<IndexPath>()
     var refreshControl: UIRefreshControl = UIRefreshControl()
+    
+    @IBOutlet var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var notificationPrompt: UIView!
+    @IBOutlet var notificationPromptCloseButton: UIButton!
+    
+    var tempTopConstraint: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         
         self.navigationItem.title = "HOME"
@@ -78,7 +87,7 @@ class MainFeedViewController: UIViewController {
                     tv.reloadData()
                 }
             case .update(_, let deletions, let insertions, let modifications):
-                print("MainFeedCorrdinator.onNotification \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications")
+                //print("MainFeedCorrdinator.onNotification \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications")
                 UIView.performWithoutAnimation {
                     if let tv = s.tableView {
                         tv.reloadData()
@@ -109,6 +118,8 @@ class MainFeedViewController: UIViewController {
             self.querySetToken = nil
         }
     }
+    
+    
     /**
     func resetTopThreeNotifications() {
         unsubscribeFromTopThreeNotification()
@@ -207,6 +218,46 @@ class MainFeedViewController: UIViewController {
         guard let tv = self.tableView else { return }
         tv.setContentOffset(.zero, animated: true)
     }
+    
+    func showNotificationBanner() {
+        self.notificationPrompt.isHidden = false
+        self.notificationPrompt.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onNotificationPrompt)))
+        self.notificationPromptCloseButton.addTarget(self, action: #selector(onNotificationPromptClose), for: .touchUpInside)
+        
+        UIView.animate(withDuration: 0.25) {
+            self.tableViewTopConstraint.isActive = false
+            self.tempTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.notificationPrompt.bottomAnchor)
+            self.tempTopConstraint!.isActive = true
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func onNotificationPrompt() {
+        delegate.onNotificationsRequested()
+        self.closeNotificationPromp()
+    }
+    
+    @objc func onNotificationPromptClose() {
+        delegate.onNotificationsDenied()
+        self.closeNotificationPromp()
+    }
+    
+    private func closeNotificationPromp() {
+        self.notificationPrompt.isHidden = true
+        UIView.animate(withDuration: 0.25) {
+            if let temp = self.tempTopConstraint {
+                temp.isActive = false
+                self.tempTopConstraint = nil
+            }
+            self.tableViewTopConstraint.isActive = true
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func resetExpandedSet() {
+        self.expandedSet.removeAll()
+    }
+    
     deinit {
         if let t = self.querySetToken {
             t.invalidate()

@@ -45,6 +45,18 @@ class AppCoordinator: Coordinator {
         loadMainFeed()
     }
     
+    func showPostFromNotification(link: String) {
+        guard let tab = self.tabCoordinator else {
+            print("Could not show post from notification because tab coordinator is nil")
+            return
+        }
+        guard let url = URL(string: link) else {
+            print("could not parse URL from notificaiton")
+            return
+        }
+        tab.showPostFromDeepLink(url: url)
+    }
+    
     func continueUserActivity(userActivity : NSUserActivity) {
         if let url = appLinkFromUserActivity(userActivity: userActivity) {
             if AppLinkUtils.shouldOpenLinkInApp(link: url) {
@@ -54,7 +66,7 @@ class AppCoordinator: Coordinator {
         }
     }
     
-    func appLinkFromUserActivity(userActivity : NSUserActivity) -> URL? {
+    private func appLinkFromUserActivity(userActivity : NSUserActivity) -> URL? {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             if let url = userActivity.webpageURL {
                 return url

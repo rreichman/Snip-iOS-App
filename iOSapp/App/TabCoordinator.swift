@@ -45,18 +45,23 @@ class TabCoordinator: Coordinator {
         
         mainFeedNavigationController = feedCoordinator.navigationController
         
+        let discoverCoordinator = DiscoverCoordinator()
+        childCoordinators.append(discoverCoordinator)
+        discoverCoordinator.discoverViewController.tabBarItem = UITabBarItem(title: "Discover", image: #imageLiteral(resourceName: "Discover"), tag: 1)
+        discoverCoordinator.start()
+        
         let walletCoordinator = WalletCoordinator()
         childCoordinators.append(walletCoordinator)
-        walletCoordinator.containerVC.tabBarItem = UITabBarItem(title: "Wallet", image: #imageLiteral(resourceName: "tabBarWallet"), tag: 1)
+        walletCoordinator.containerVC.tabBarItem = UITabBarItem(title: "Wallet", image: #imageLiteral(resourceName: "tabBarWallet"), tag: 2)
         walletCoordinator.start()
         
         let accountCoordinator = AccountCoordinator()
         accountCoordinator.delegate = self
         childCoordinators.append(accountCoordinator)
-        accountCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 1)
+        accountCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 3)
         accountCoordinator.start()
         
-        return [ feedCoordinator.navigationController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
+        return [ feedCoordinator.navigationController, discoverCoordinator.discoverViewController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
         
     }
     
