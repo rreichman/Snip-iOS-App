@@ -141,14 +141,22 @@ class MainFeedCoordinator: Coordinator {
         childCoordinators.append(c)
         c.start()
     }
-    func openPostList(for category: Category) {
+    func openPostList(for category: Category, animated: Bool = true) {
         let post_coordinator = GeneralFeedCoordinator(nav: self.navigationController, mode: .category(category: category))
         self.childCoordinators.append(post_coordinator)
-        post_coordinator.start()
+        post_coordinator.start(animated: animated)
     }
     
     func showExpandedImage(for post: Post) {
         ExpandedImageViewController.showExpandedImage(for: post, presentingVC: mainFeedController)
+    }
+    
+    func onDiscoverCategorySelected(name: String) {
+        let realm = RealmManager.instance.getMemRealm()
+        guard let category = realm.object(ofType: Category.self, forPrimaryKey: name), let nav = self.navigationController, let _ = self.mainFeedController else { return }
+        nav.popToRootViewController(animated: false)
+        self.openPostList(for: category, animated: false)
+        
     }
 }
 
@@ -170,10 +178,12 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
     }
     
     func viewDidAppearForTheFirstTime() {
+        // Not showing notifications yet
+        /**
         if NotificationManager.instance.shouldShowNotificationRequest() {
             self.showNotificationBanner()
         }
-        
+        **/
         self.showAppLink()
     }
     

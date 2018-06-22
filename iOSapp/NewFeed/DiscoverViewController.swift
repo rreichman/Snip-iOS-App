@@ -9,18 +9,27 @@
 import Foundation
 import UIKit
 
+protocol DiscoverViewDelegate: class {
+    func onCategorySelected(name: String)
+}
+
 class DiscoverViewController: UIViewController {
     
     let categories: [ String ] = [ "Top Stories", "Politics", "Business", "Tech", "World", "Crypto", "Health", "Science", "Sports", "Entertainment", "Misc" ]
-    let columns: Int = 2
+    let categoryImages: [ UIImage ] = [#imageLiteral(resourceName: "discoverTopStories"), #imageLiteral(resourceName: "discoverPolitics"), #imageLiteral(resourceName: "discoverBusiness"), #imageLiteral(resourceName: "discoverTech"), #imageLiteral(resourceName: "discoverWorld"), #imageLiteral(resourceName: "discoverCrypto"), #imageLiteral(resourceName: "discoverHealth"), #imageLiteral(resourceName: "discoverScience"), #imageLiteral(resourceName: "discoverSports"), #imageLiteral(resourceName: "discoverEntertainment"), #imageLiteral(resourceName: "discoverMisc")]
+    var columns: Int = 3
     
-    @IBOutlet var fakeNavigationBar: UIView!
     var verticalStackView: UIStackView!
     var scrollView: UIScrollView!
     var categoryViews: [ UIView ] = []
     var categoryViewWidth: CGFloat!
+    
+    var delegate: DiscoverViewDelegate!
+    
     override func viewDidLoad() {
-        self.additionalSafeAreaInsets = UIEdgeInsets(top: 44.0, left: 0.0, bottom: 0.0, right: 0.0)
+        if UIScreen.main.bounds.width < 375.0 {
+            self.columns = 2
+        }
         print("DiscoverVC viewDidLoad()")
         scrollView = UIScrollView(frame: self.view.frame)
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +44,7 @@ class DiscoverViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         print("DiscoverVC viewWillLayoutSubviews()")
+        print("Screen Width \(UIScreen.main.bounds.width)")
     }
     
     func buildStackViews() {
@@ -83,9 +93,12 @@ class DiscoverViewController: UIViewController {
                 catView.isHidden = true
             } else {
                 let title = self.categories[i]
-                catView = self._buildSingleCategoryView(title: title, image: UIImage())
+                let image = self.categoryImages[i]
+                catView = self._buildSingleCategoryView(title: title, image: image)
             }
-            
+            catView.tag = i
+            catView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onCategorySelected(_:))))
+            catView.isUserInteractionEnabled = true
             self.categoryViews.append(catView)
             horizontalStackView.addArrangedSubview(catView)
             if i == (row * columns) + columns - 1 {
@@ -103,24 +116,26 @@ class DiscoverViewController: UIViewController {
         category_view.heightAnchor.constraint(equalToConstant: self.categoryViewWidth).isActive = true
         category_view.widthAnchor.constraint(equalToConstant: self.categoryViewWidth).isActive = true
         
-        let image_view = UIImageView(image: #imageLiteral(resourceName: "tabBarWallet"))
+        let label_view = UILabel.init()
+        label_view.translatesAutoresizingMaskIntoConstraints = false
+        label_view.text = title
+        label_view.font = UIFont.latoBold(size: 13.0)
+        label_view.textColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
+        category_view.addSubview(label_view)
+        label_view.bottomAnchor.constraint(equalTo: category_view.bottomAnchor, constant: -12.0).isActive = true
+        label_view.leadingAnchor.constraint(equalTo: category_view.leadingAnchor).isActive = true
+        label_view.trailingAnchor.constraint(equalTo: category_view.trailingAnchor).isActive = true
+        label_view.textAlignment = .center
+        
+        let image_view = UIImageView(image: image)
         image_view.translatesAutoresizingMaskIntoConstraints = false
         image_view.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
         image_view.widthAnchor.constraint(equalToConstant: 36.0).isActive = true
         category_view.addSubview(image_view)
         image_view.centerXAnchor.constraint(equalTo: category_view.centerXAnchor).isActive = true
-        image_view.centerYAnchor.constraint(equalTo: category_view.centerYAnchor).isActive = true
         
-        let label_view = UILabel.init()
-        label_view.translatesAutoresizingMaskIntoConstraints = false
-        label_view.text = title
-        label_view.font = UIFont.latoBold(size: 14.0)
-        label_view.textColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
-        category_view.addSubview(label_view)
-        label_view.bottomAnchor.constraint(equalTo: category_view.bottomAnchor, constant: -8.0).isActive = true
-        label_view.leadingAnchor.constraint(equalTo: category_view.leadingAnchor).isActive = true
-        label_view.trailingAnchor.constraint(equalTo: category_view.trailingAnchor).isActive = true
-        label_view.textAlignment = .center
+        // The offset is attempt to make the entire view feel more centered
+        image_view.centerYAnchor.constraint(equalTo: category_view.centerYAnchor, constant: -(12.0 + (label_view.frame.height / 2.0)) ).isActive = true
         
         category_view.layer.borderWidth = 1
         category_view.layer.borderColor = UIColor(red:0.87, green:0.87, blue:0.87, alpha:1).cgColor
@@ -140,5 +155,15 @@ class DiscoverViewController: UIViewController {
         return .lightContent
     }
     
+    @objc func onCategorySelected(_ sender: UIGestureRecognizer) {
+        guard let view = sender.view else { return }
+        let tag = view.tag
+        if tag < 0 || tag >= self.categories.count {
+            print("DiscoverViewController view tag out of range of the data object")
+            return
+        }
+        let categoryName = self.categories[tag]
+        delegate.onCategorySelected(name: categoryName)
+    }
 }
 

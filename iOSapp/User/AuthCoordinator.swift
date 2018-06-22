@@ -99,7 +99,8 @@ class AuthCoordinator: Coordinator {
                 print("fb login success")
                 SnipAuthRequests.instance.postFBToken(facebookToken: accessToken.authenticationToken)
                     .flatMap({ (snip_auth_token) -> Single<User> in
-                        print("POST fb token, got snip_auth_token")
+                        print("POST fb token, got snip_auth_token, sending FCM notificatoin token")
+                        NotificationManager.instance.sendRegistrationTokenAfterLogin()
                         return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
                     })
                     .observeOn(MainScheduler.instance)
@@ -134,7 +135,8 @@ class AuthCoordinator: Coordinator {
         loginvc.enableInteraction(enabled: false)
         SnipAuthRequests.instance.postLogin(email: email, password: password)
             .flatMap({ (snip_auth_token) -> Single<User> in
-                print("Successful login, fetching user profile")
+                print("Successful login, fetching user profile, sending FCM notification token")
+                NotificationManager.instance.sendRegistrationTokenAfterLogin()
                 return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
             })
             .observeOn(MainScheduler.instance)
@@ -169,7 +171,8 @@ class AuthCoordinator: Coordinator {
         signupvc.enableInteraction(enabled: false)
         SnipAuthRequests.instance.postSignUp(email: email, first_name: first_name, last_name: last_name, password: password)
             .flatMap({ (snip_auth_token) -> Single<User> in
-                print("Successful Signup, fetching user profile")
+                print("Successful Signup, fetching user profile, sending FCM notificationToken")
+                NotificationManager.instance.sendRegistrationTokenAfterLogin()
                 return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
             })
             .observeOn(MainScheduler.instance)

@@ -89,7 +89,7 @@ class GeneralFeedCoordinator: Coordinator {
         
     }
     
-    func start() {
+    func start(animated: Bool = true) {
         loadFirstPage()
         self.postListVC = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "FeedNavigationViewController") as! PostListViewController
         self.postListVC.delegate = self
@@ -105,7 +105,7 @@ class GeneralFeedCoordinator: Coordinator {
         case .likedSnips:
             self.postListVC.bindData(posts: getPostListForMode(), description: "FAVORITE SNIPS")
         }
-        navController.pushViewController(self.postListVC, animated: true)
+        navController.pushViewController(self.postListVC, animated: animated)
     }
     
     func getPostListForMode() -> List<Post> {

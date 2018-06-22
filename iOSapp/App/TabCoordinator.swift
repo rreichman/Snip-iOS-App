@@ -47,7 +47,7 @@ class TabCoordinator: Coordinator {
         
         let discoverCoordinator = DiscoverCoordinator()
         childCoordinators.append(discoverCoordinator)
-        discoverCoordinator.discoverViewController.tabBarItem = UITabBarItem(title: "Discover", image: #imageLiteral(resourceName: "Discover"), tag: 1)
+        discoverCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Discover", image: #imageLiteral(resourceName: "Discover"), tag: 1)
         discoverCoordinator.start()
         
         let walletCoordinator = WalletCoordinator()
@@ -61,13 +61,14 @@ class TabCoordinator: Coordinator {
         accountCoordinator.navigationController.tabBarItem = UITabBarItem(title: "Account", image: #imageLiteral(resourceName: "tabAccount"), tag: 3)
         accountCoordinator.start()
         
-        return [ feedCoordinator.navigationController, discoverCoordinator.discoverViewController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
+        return [ feedCoordinator.navigationController, discoverCoordinator.navigationController, walletCoordinator.containerVC, accountCoordinator.navigationController ]
         
     }
     
     func showPostFromDeepLink(url: URL) {
         guard let main = self.mainFeedCoordinator else { return }
         main.resolveAndPushAppLink(url: url)
+        tabController.selectedIndex = 0
     }
 }
 
@@ -101,6 +102,7 @@ extension TabCoordinator: AccountCoordinatorDelegate {
         tabController.selectedIndex = 0
     }
 }
+
 
 extension UIImage {
     func tinted(with color: UIColor) -> UIImage? {

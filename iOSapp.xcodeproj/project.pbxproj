@@ -98,6 +98,7 @@
 		4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4071068F20D36E26006DED24 /* DynamicImageView.swift */; };
 		40816AAC20CF51BC0062D891 /* AccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */; };
 		40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40816AAD20CF58180062D891 /* AuthCoordinator.swift */; };
+		408D03A420DC844400658483 /* DiscoverIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 408D03A320DC844400658483 /* DiscoverIcons.xcassets */; };
 		408E364220B697650072921D /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364120B697650072921D /* PostDetailViewController.swift */; };
 		408E364420B69B2C0072921D /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E364320B69B2C0072921D /* PostDetailCoordinator.swift */; };
 		408FA7A320D83C5E00184725 /* VoteSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FA7A220D83C5E00184725 /* VoteSlider.swift */; };
@@ -297,6 +298,7 @@
 		4071068F20D36E26006DED24 /* DynamicImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicImageView.swift; sourceTree = "<group>"; };
 		40816AAB20CF51BC0062D891 /* AccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCoordinator.swift; sourceTree = "<group>"; };
 		40816AAD20CF58180062D891 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		408D03A320DC844400658483 /* DiscoverIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = DiscoverIcons.xcassets; sourceTree = "<group>"; };
 		408E364120B697650072921D /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		408E364320B69B2C0072921D /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
 		408FA7A220D83C5E00184725 /* VoteSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteSlider.swift; sourceTree = "<group>"; };
@@ -902,20 +904,21 @@
 				4018403220ACE8E6001DFE6E /* NewFeed */,
 				4018402220ACBE60001DFE6E /* SnipClient */,
 				4018402020ACBDAA001DFE6E /* Utils */,
-				4018401E20ACBD1B001DFE6E /* Foundation */,
 				4018401D20ACBD06001DFE6E /* App */,
 				4018401B20ACBCBF001DFE6E /* User */,
-				4018401820ACBC10001DFE6E /* MainFeed */,
 				23BDF12B20818461005DED76 /* Wallet */,
-				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
+				4018401820ACBC10001DFE6E /* MainFeed */,
+				4018401E20ACBD1B001DFE6E /* Foundation */,
 				7D0047FB1F997E3E00B02D1A /* Main.storyboard */,
-				7D92A1AB1FA033380014D31D /* Images.xcassets */,
-				7D0048031F997E3E00B02D1A /* Info.plist */,
-				40F444D620D9EBFE00593FCA /* GoogleService-Info.plist */,
 				405B04C920DC752E00203265 /* Home.storyboard */,
 				405B04CB20DC755F00203265 /* Discover.storyboard */,
 				405B04CD20DC756800203265 /* Wallet.storyboard */,
 				405B04CF20DC757500203265 /* Account.storyboard */,
+				7DD405E320423F8300FF3ACB /* iOSapp.entitlements */,
+				7D92A1AB1FA033380014D31D /* Images.xcassets */,
+				408D03A320DC844400658483 /* DiscoverIcons.xcassets */,
+				7D0048031F997E3E00B02D1A /* Info.plist */,
+				40F444D620D9EBFE00593FCA /* GoogleService-Info.plist */,
 			);
 			path = iOSapp;
 			sourceTree = "<group>";
@@ -1087,6 +1090,7 @@
 				40F444D720D9EBFE00593FCA /* GoogleService-Info.plist in Resources */,
 				405B04CC20DC755F00203265 /* Discover.storyboard in Resources */,
 				7D85D30F202BEC9600867F8B /* SnippetView.xib in Resources */,
+				408D03A420DC844400658483 /* DiscoverIcons.xcassets in Resources */,
 				7D92A1AC1FA033380014D31D /* Images.xcassets in Resources */,
 				405B04D020DC757500203265 /* Account.storyboard in Resources */,
 			);

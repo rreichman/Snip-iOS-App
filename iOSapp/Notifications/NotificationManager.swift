@@ -71,7 +71,7 @@ class NotificationManager {
     }
     
     func shouldShowNotificationRequest() -> Bool {
-        return self.appLaunchCount > 0 && !self.userDidOptOutOfNotifications
+        return !self.haveNotificationAccess && self.appLaunchCount > 0 && !self.userDidOptOutOfNotifications
     }
     
     func userClosedNotificationBanner() {
