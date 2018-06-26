@@ -21,14 +21,11 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
                     SessionManager.instance.logout()
                     throw APIError.badLogin(message: "Bad auth token")
                 }
-                throw APIError.requestError(errorMessage: response.description, code: response.statusCode, response: response)
             }
             return response
         }
     }
-}
-
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    
     public func cookieIntercept() -> Single<Response> {
         return map { response -> Response in
             guard
@@ -46,11 +43,42 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
             return response
         }
     }
-}
-
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    
     public func mapSnipRequest() -> Single<Response> {
         return mapServerErrors()
-                .cookieIntercept()
+            .cookieIntercept()
+    }
+    
+    public func mapJSONWithResponse() -> Single<(Any, Response)> {
+        return map { response -> (Any, Response) in
+            return (try! response.mapJSON(), response)
+        }
+    }
+}
+
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Any {
+    public func mapSnipAuthErrors() -> Single<Any> {
+        return map { obj -> Any in
+            guard let json = obj as? [String: Any] else {
+                return obj
+            }
+            
+            if let email_errors = json["email"] as? [ String ] {
+                let error_message = SnipAuthRequests.parseErrorMessageList(errors: email_errors)
+                throw APIError.authFieldError(field: "email", message: error_message)
+            }
+            
+            if let password_errors = json["password1"] as? [ String ] {
+                let error_message = SnipAuthRequests.parseErrorMessageList(errors: password_errors)
+                throw APIError.authFieldError(field: "passsword", message: error_message)
+            }
+            
+            if let error_message_list = json["non_field_errors"] as? [ String ] {
+                let error_message = SnipAuthRequests.parseErrorMessageList(errors: error_message_list)
+                throw APIError.authNonFieldError(message: error_message)
+            }
+            
+            return obj
+        }
     }
 }

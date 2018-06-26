@@ -42,15 +42,15 @@ class AccountCoordinator: Coordinator {
             let realm = RealmManager.instance.getRealm()
             guard let username = SessionManager.instance.currentLoginUsername else {
                 print("AccountCoordinator:start() found we were logged in but SessionManager does not have a saved username")
-                profileViewController.bind(profile: nil)
+                profileViewController.bindData(user: nil)
                 //fetch it for next time
                 SnipRequests.instance.buildProfile(authToken: SessionManager.instance.authToken!).subscribe()
                 return
             }
             let user = realm.object(ofType: User.self, forPrimaryKey: username)
-            profileViewController.bind(profile: user)
+            profileViewController.bindData(user: user)
         } else {
-            profileViewController.bind(profile: nil)
+            profileViewController.bindData(user: nil)
         }
     }
     
@@ -59,7 +59,7 @@ class AccountCoordinator: Coordinator {
             print("No login found, pushing Login/Signup flow")
             
             //bind nil to userprofile to clear old data
-            profileViewController.bind(profile: nil)
+            profileViewController.bindData(user: nil)
             
             self.authCoordinator = AuthCoordinator(presentingViewController: profileViewController)
             authCoordinator!.delegate = self
@@ -71,11 +71,11 @@ class AccountCoordinator: Coordinator {
             let realm = RealmManager.instance.getRealm()
             guard let username = SessionManager.instance.currentLoginUsername else {
                 print("AccountCoordinator:showAuthIfNeeded() found we were logged in but SessionManager does not have a saved username")
-                profileViewController.bind(profile: nil)
+                profileViewController.bindData(user: nil)
                 return
             }
             let user = realm.object(ofType: User.self, forPrimaryKey: username)
-            profileViewController.bind(profile: user)
+            profileViewController.bindData(user: user)
         }
     }
     
@@ -116,7 +116,7 @@ class AccountCoordinator: Coordinator {
     
     func logUserOut() {
         SessionManager.instance.logout()
-        profileViewController.bind(profile: nil)
+        profileViewController.bindData(user: nil)
         popSettingsViewController()
         delegate.onUserLogout()
         
@@ -156,13 +156,13 @@ extension AccountCoordinator: SettingsViewDelegate {
 
 extension AccountCoordinator: AuthCoordinatorDelegate {
     func onSuccessfulSignup(profile: User) {
-        profileViewController.bind(profile: profile)
+        profileViewController.bindData(user: profile)
         popAuthCoordinator()
         delegate.onUserLogin()
     }
     
     func onSuccessfulLogin(profile: User) {
-        profileViewController.bind(profile: profile)
+        profileViewController.bindData(user: profile)
         popAuthCoordinator()
         delegate.onUserLogin()
     }

@@ -44,4 +44,10 @@ extension Image {
         i.imageWidth = width
         return i
     }
+    
+    static func buildSimpleImage(with url: String) -> Image {
+        let i = Image()
+        i.imageUrl = url
+        return i
+    }
 }

@@ -29,6 +29,8 @@ target 'iOSapp' do
   pod 'CryptoSwift', '~> 0.8.1'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Performance'
+  pod 'Nuke'
 
   # Pods for iOSapp
 

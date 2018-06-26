@@ -54,14 +54,14 @@ class AppCoordinator: Coordinator {
             print("could not parse URL from notificaiton")
             return
         }
-        tab.showPostFromDeepLink(url: url)
+        tab.showPostFromDeepLink(url: url, fromNotification: true)
     }
     
     func continueUserActivity(userActivity : NSUserActivity) {
         if let url = appLinkFromUserActivity(userActivity: userActivity) {
             if AppLinkUtils.shouldOpenLinkInApp(link: url) {
                 guard let tab = self.tabCoordinator else { return }
-                tabCoordinator.showPostFromDeepLink(url: url)
+                tabCoordinator.showPostFromDeepLink(url: url, fromNotification: false)
             }
         }
     }
@@ -79,6 +79,7 @@ class AppCoordinator: Coordinator {
         let realm = RealmManager.instance.getMemRealm()
         SnipRequests.instance.getMain()
             .timeout(5, scheduler: MainScheduler.asyncInstance)
+            .retry(2)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] (catList) in
                 try! realm.write {
@@ -120,7 +121,7 @@ class AppCoordinator: Coordinator {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             let url = userActivity.webpageURL!
             print("Attempting to fetch post from deep link \(url.absoluteString)")
-            tabCoordinator.showPostFromDeepLink(url: url)
+            tabCoordinator.showPostFromDeepLink(url: url, fromNotification: false)
         }
     }
     

@@ -16,6 +16,7 @@ class User: Object {
     dynamic var first_name: String = ""
     dynamic var last_name: String = ""
     dynamic var avatarUrl: String = ""
+    //dynamic var avatarImage: Image?
     dynamic var initials: String = ""
     dynamic var wallet_address: String? = nil
     
@@ -23,6 +24,23 @@ class User: Object {
         return "username"
     }
     
+    /**
+    func hasAvatarImageData() -> Bool {
+        guard let img = self.avatarImage else {
+            return false
+        }
+        
+        if img.imageUrl != self.avatarUrl {
+            return false
+        }
+        
+        guard let data = img.data else {
+            return false
+        }
+        
+        return data.count > 0
+    }
+    **/
 }
 
 extension User {

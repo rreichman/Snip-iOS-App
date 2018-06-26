@@ -11,6 +11,8 @@ import Moya
 
 enum SnipLoggerService {
     case deviceLog(deviceID: String)
+    case logActionParam(action: String, param: String)
+    case logPostAction(postId: Int, action: String, param: String)
     
 }
 
@@ -23,6 +25,10 @@ extension SnipLoggerService: TargetType {
         switch self {
         case .deviceLog:
             return "/user/device_log/"
+        case .logActionParam:
+            return "/user/log/"
+        case .logPostAction(let postId, _, _):
+            return "/action/\(String(postId))/"
         }
     }
     
@@ -44,7 +50,14 @@ extension SnipLoggerService: TargetType {
             }
             let params = [("device_id", deviceID), ("os", "ios"), ("os_version", os_version), ("app_version", app_version)]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .logActionParam(let action, let param):
+            let params = [("action", action), ("param1", param)]
+            return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .logPostAction(_, let action, let param):
+            let params = [("action", action), ("param1", param)]
+            return .uploadMultipart(RestUtils.buildPostData(params: params))
         }
+        
     }
     
     var headers: [String : String]? {

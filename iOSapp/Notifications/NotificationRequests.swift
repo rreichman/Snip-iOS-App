@@ -89,4 +89,16 @@ class NotificationRequests {
             }
             .disposed(by: self.disposeBag)
     }
+    
+    func logNotificationClicked(notificationId: Int) {
+        provider.rx.request(NotificationService.logNotificationClicked(notificationId: notificationId))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .subscribe(onSuccess: { (response) in
+                print("Logged notification click")
+            }) { (err) in
+                print("Error logging notification click \(err)")
+                Crashlytics.sharedInstance().recordError(err)
+        }
+    }
 }

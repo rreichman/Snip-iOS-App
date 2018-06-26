@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RealmSwift
 import Crashlytics
+import Nuke
 
 enum TableError: Error {
     case invalidUpdate(msg: String)
@@ -30,6 +31,7 @@ class PostListViewController: UIViewController {
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var initialsLabel: UILabel!
     @IBOutlet var headerContainer: UIView!
+    @IBOutlet var writerAvatarImageView: UIImageView!
     var delegate: FeedNavigationViewDelegate!
     var posts: List<Post>?
     var navTitle: String?
@@ -37,9 +39,7 @@ class PostListViewController: UIViewController {
     var expandedSet = Set<Int>()
     var refreshControl: UIRefreshControl!
     
-    var displayUserHeader: Bool = false
-    var userName: String = ""
-    var userInitials: String = ""
+    var writer: User?
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -55,42 +55,39 @@ class PostListViewController: UIViewController {
         self.bindViews(posts: self.posts, navTitle: self.navTitle)
     }
     
-    func setUserHeader(name: String, initials: String) {
-        self.displayUserHeader = true
-        self.userName = name
-        self.userInitials = initials.uppercased()
-    }
-    
-    
-    
-    func bindData(posts: List<Post>, description: String?) {
+    func bindData(posts: List<Post>, description: String?, writer: User?) {
         self.posts = posts
         self.navTitle = description
+        self.writer = writer
         subscribeToRealmNotifications(posts: posts)
         bindViews(posts: posts, navTitle: navTitle)
     }
     
     func bindViews(posts: List<Post>?, navTitle: String?) {
         if let tv = self.tableView {
-            if !self.displayUserHeader {
-                tv.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-            } else {
-                tv .tableHeaderView = headerContainer
+            if let w = self.writer {
+                tv.tableHeaderView = headerContainer
                 // If the tableView has been constructed, the labels are there too
-                authorLabel.text = self.userName
-                initialsLabel.text = self.userInitials
+                authorLabel.text = "\(w.first_name) \(w.last_name)"
+                initialsLabel.text = w.initials.uppercased()
+                
+                if let avatarURL = URL(string: w.avatarUrl) {
+                    Nuke.loadImage(with: avatarURL, into: self.writerAvatarImageView)
+                } else {
+                    self.writerAvatarImageView.image = nil
+                }
+            } else {
+                tv.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             }
             if posts != nil {
                 tv.reloadData()
             }
         }
-        
         if let title = navTitle {
             self.navigationItem.title = title.uppercased()
         } else {
             self.navigationItem.title = ""
         }
-        
     }
     
     func subscribeToRealmNotifications(posts: List<Post>) {
@@ -261,6 +258,8 @@ extension PostListViewController: SnipCellViewDelegate {
         let activityVC = UIActivityViewController(activityItems: objects, applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = sourceView
         present(activityVC, animated: true, completion: nil)
+        
+        
     }
     
     func setExpanded(large: Bool, path: IndexPath) {

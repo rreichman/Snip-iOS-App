@@ -124,6 +124,19 @@ class SessionManager {
     }
     
     func logout() {
+        
+        // Delete user object in realm if it exists
+        let realm = RealmManager.instance.getRealm()
+        if let loggedInUserName = SessionManager.instance.currentLoginUsername,
+            let loggedInUser = realm.object(ofType: User.self, forPrimaryKey: loggedInUserName) {
+            try! realm.write {
+                //if let avatarImage = loggedInUser.avatarImage {
+                //    realm.delete(avatarImage)
+                //}
+                realm.delete(loggedInUser)
+            }
+        }
+        
         clearAll()
         // Logging out invalidates the session cookie, but we don't want it to be cleared on login
         self.sessionCookie = nil

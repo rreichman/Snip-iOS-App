@@ -443,8 +443,6 @@
 		236C11D1209D35AD0026E476 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
-				236C11CB209D2D720026E476 /* SerializationError.swift */,
-				236C11CF209D357C0026E476 /* APIError.swift */,
 				232275EF20A3B260006CAD77 /* TransactionError.swift */,
 			);
 			path = Errors;
@@ -686,6 +684,7 @@
 		4018401D20ACBD06001DFE6E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				40CE59CF20DD9AC000CD4E2B /* Errors */,
 				236C11DB209D3CD20026E476 /* Single+Extension.swift */,
 				236C11CD209D2FE50026E476 /* RealmManager.swift */,
 				7D4641921FBBC4C300E29578 /* OpeningSplashScreenViewController.swift */,
@@ -849,6 +848,15 @@
 				40A1CA0420D04F99001C26F6 /* SnipAuthRequests.swift */,
 			);
 			path = SnipAuth;
+			sourceTree = "<group>";
+		};
+		40CE59CF20DD9AC000CD4E2B /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				236C11CB209D2D720026E476 /* SerializationError.swift */,
+				236C11CF209D357C0026E476 /* APIError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		40E4B39520AE5525000EA9F6 /* Cells */ = {
@@ -1149,6 +1157,7 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LatoFont/LatoFont.framework",
@@ -1156,6 +1165,7 @@
 				"${BUILT_PRODUCTS_DIR}/MontserratFont/MontserratFont.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/NextResponderTextField/NextResponderTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -1182,6 +1192,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LatoFont.framework",
@@ -1189,6 +1200,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MontserratFont.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextResponderTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nuke.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",

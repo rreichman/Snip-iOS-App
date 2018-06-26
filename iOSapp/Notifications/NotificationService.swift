@@ -13,6 +13,7 @@ enum NotificationService {
     case firebaseToken(registrationToken: String)
     case subscribe(topic: Int)
     case unsubscribe(topic: Int)
+    case logNotificationClicked(notificationId: Int)
 }
 
 extension NotificationService: TargetType {
@@ -28,6 +29,8 @@ extension NotificationService: TargetType {
             return "/notification/subscribe/"
         case .unsubscribe:
             return "/notification/unsubscribe/"
+        case .logNotificationClicked:
+            return "/notification/log/"
         }
     }
     
@@ -50,6 +53,8 @@ extension NotificationService: TargetType {
         case .unsubscribe(let topic):
             let params = [("topic", String(topic))]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .logNotificationClicked(let notificationId):
+            return .uploadMultipart(RestUtils.buildPostData(params: [("action", "clicked"), ("notification", String(notificationId))]))
         }
     }
     

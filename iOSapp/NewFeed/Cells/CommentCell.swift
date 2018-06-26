@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Nuke
 
 protocol CommentCellDelegate: class {
     func onReplyRequested(for comment: RealmComment)
@@ -20,6 +21,7 @@ class CommentCell: UITableViewCell {
     @IBOutlet var leadingConstraint: NSLayoutConstraint!
     @IBOutlet var shortName: UILabel!
     @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var avatarImageView: UIImageView!
     @IBOutlet var commentTimeLabel: UILabel!
     var comment: RealmComment!
     var delegate: CommentCellDelegate!
@@ -46,9 +48,26 @@ class CommentCell: UITableViewCell {
         if let writer = comment.writer {
             nameLabel.text = "\(writer.first_name) \(writer.last_name)"
             shortName.text = writer.initials.uppercased()
+            if writer.avatarUrl != "", let url = URL(string: writer.avatarUrl) {
+                Nuke.loadImage(with: url, into: self.avatarImageView)
+            } else {
+                self.avatarImageView.image = nil
+            }
+            /**
+            if writer.hasAvatarImageData() {
+                avatarImageView.isHidden = false
+                print("Avatar image size \(writer.avatarImage!.data!.count)")
+                avatarImageView.contentMode = .scaleAspectFill
+                avatarImageView.image = UIImage(data: writer.avatarImage!.data!, scale: 1000000.0 / CGFloat(writer.avatarImage!.data!.count))
+            } else {
+                avatarImageView.isHidden = true
+                avatarImageView.image = UIImage()
+            }
+            **/
         } else {
             nameLabel.text = ""
             shortName.text = ""
+            avatarImageView.image = nil
         }
         commentLabel.text = comment.body
         //Set indentation

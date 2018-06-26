@@ -68,6 +68,8 @@ class GeneralFeedCoordinator: Coordinator {
                 realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
+            
+            SnipLoggerRequests.instance.logAuthorProfileView(authorUserName: writer.username)
         case .savedSnips:
             let realm = RealmManager.instance.getMemRealm()
             let postCotainer = PostContainer()
@@ -76,6 +78,8 @@ class GeneralFeedCoordinator: Coordinator {
                 realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
+            
+            SnipLoggerRequests.instance.logSavedPostsViewed()
         case .likedSnips:
             let realm = RealmManager.instance.getMemRealm()
             let postCotainer = PostContainer()
@@ -84,6 +88,7 @@ class GeneralFeedCoordinator: Coordinator {
                 realm.add(postCotainer, update: true)
             }
             self.postCotainer = postCotainer
+            SnipLoggerRequests.instance.logFavoritePostsViewed()
         }
         self.mode = mode
         
@@ -96,14 +101,13 @@ class GeneralFeedCoordinator: Coordinator {
         
         switch self.mode {
         case .category:
-            self.postListVC.bindData(posts: category.posts, description: category.categoryName)
+            self.postListVC.bindData(posts: category.posts, description: category.categoryName, writer: nil)
         case .writer:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "")
-            self.postListVC.setUserHeader(name: "\(writer.first_name) \(writer.last_name)", initials: writer.initials)
+            self.postListVC.bindData(posts: getPostListForMode(), description: "", writer: writer)
         case .savedSnips:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "SAVED SNIPS")
+            self.postListVC.bindData(posts: getPostListForMode(), description: "SAVED SNIPS", writer: nil)
         case .likedSnips:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "FAVORITE SNIPS")
+            self.postListVC.bindData(posts: getPostListForMode(), description: "FAVORITE SNIPS", writer: nil)
         }
         navController.pushViewController(self.postListVC, animated: animated)
     }
@@ -296,10 +300,12 @@ extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
         let coord = GeneralFeedCoordinator(nav: self.navController, mode: .writer(writer: writer))
         self.childCoordinators.append(coord)
         coord.start()
+        
     }
     
     func showDetail(for post: Post, startComment: Bool) {
         pushDetailViewController(for: post, startComment)
+        
     }
     
     func refreshFeed() {

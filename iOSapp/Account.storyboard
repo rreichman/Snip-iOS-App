@@ -52,7 +52,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y55-bh-mL6" userLabel="Profile Container">
                                 <rect key="frame" x="0.0" y="20" width="375" height="145"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8e-k2-Ivd" userLabel="Avatar Container">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8e-k2-Ivd" userLabel="Avatar Container">
                                         <rect key="frame" x="155" y="20" width="64" height="64"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgS-Kl-2vK" userLabel="Initials">
@@ -61,11 +61,18 @@
                                                 <color key="textColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wLA-wV-p6A">
+                                                <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="wLA-wV-p6A" firstAttribute="width" secondItem="u8e-k2-Ivd" secondAttribute="width" id="1fE-YB-riM"/>
+                                            <constraint firstItem="wLA-wV-p6A" firstAttribute="centerY" secondItem="u8e-k2-Ivd" secondAttribute="centerY" id="Fou-sc-wWc"/>
                                             <constraint firstAttribute="height" constant="64" id="NtM-vJ-4wV"/>
+                                            <constraint firstItem="wLA-wV-p6A" firstAttribute="centerX" secondItem="u8e-k2-Ivd" secondAttribute="centerX" id="U2c-EC-K6Q"/>
                                             <constraint firstAttribute="width" constant="64" id="jV0-QM-7lo"/>
+                                            <constraint firstItem="wLA-wV-p6A" firstAttribute="height" secondItem="u8e-k2-Ivd" secondAttribute="height" id="jjf-w3-eaX"/>
                                             <constraint firstItem="GgS-Kl-2vK" firstAttribute="centerY" secondItem="u8e-k2-Ivd" secondAttribute="centerY" id="kB7-Vq-JfN"/>
                                             <constraint firstItem="GgS-Kl-2vK" firstAttribute="centerX" secondItem="u8e-k2-Ivd" secondAttribute="centerX" id="nAA-w8-398"/>
                                         </constraints>
@@ -162,6 +169,7 @@
                     <navigationItem key="navigationItem" id="lVh-am-j8l"/>
                     <connections>
                         <outlet property="avatarContainer" destination="u8e-k2-Ivd" id="nVs-b6-cP5"/>
+                        <outlet property="avatarImageView" destination="wLA-wV-p6A" id="MCf-y5-jpf"/>
                         <outlet property="favoriteSnipsButton" destination="WhZ-bP-eWL" id="ZL2-Oe-j7x"/>
                         <outlet property="fullNameLabel" destination="B4x-4g-5eA" id="UgX-fm-lTR"/>
                         <outlet property="initialsLabel" destination="GgS-Kl-2vK" id="gPU-7k-O3B"/>

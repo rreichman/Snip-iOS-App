@@ -14,9 +14,10 @@ enum APIError: Error {
     case badStatus(message: String)
     case serverError(errorMessage: String, code: Int, response: Response)
     case requestError(errorMessage: String, code: Int, response: Response)
+    case generalAuthError(message: String)
+    case authFieldError(field: String, message: String)
+    case authNonFieldError(message: String)
     case badLogin(message: String)
-    case userAlreadyExists(message: String)
-    case userDoesNotExist
     case generalError
     case unableToResolveAppLink(of: String)
 }

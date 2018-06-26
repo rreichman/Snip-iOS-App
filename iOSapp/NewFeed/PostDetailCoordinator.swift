@@ -26,6 +26,8 @@ class PostDetailCoordinator: Coordinator {
         self.navigationController = navigationController
         self.post = post
         self.displayMode = mode
+        
+        SnipLoggerRequests.instance.logPostCommentIteraction(postId: post.id, interaction: .opened)
     }
     
     func start() {
@@ -44,10 +46,14 @@ class PostDetailCoordinator: Coordinator {
 extension PostDetailCoordinator: PostDetailViewDelegate {
     func deleteComment(comment: RealmComment) {
         SnipRequests.instance.postDeleteComment(comment: comment)
+        
+        SnipLoggerRequests.instance.logPostCommentIteraction(postId: self.post.id, interaction: .delete)
     }
     
     func editComment(for post: Post, with body: String, of comment: RealmComment) {
         SnipRequests.instance.postCommentEdit(post_id: post.id, comment: comment, newBody: body)
+        
+        SnipLoggerRequests.instance.logPostCommentIteraction(postId: self.post.id, interaction: .edit)
     }
     
     func openInternalLink(url: URL) {
@@ -60,6 +66,7 @@ extension PostDetailCoordinator: PostDetailViewDelegate {
     
     func postComment(for post: Post, with body: String, parent: RealmComment?) {
         SnipRequests.instance.postCommentToPost(for: post, body: body, parent: parent)
+        SnipLoggerRequests.instance.logPostCommentIteraction(postId: self.post.id, interaction: .submit)
     }
     
     func share(msg: String, url: NSURL, sourceView: UIView) {
@@ -67,6 +74,8 @@ extension PostDetailCoordinator: PostDetailViewDelegate {
         let activityVC = UIActivityViewController(activityItems: objects, applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = sourceView
         viewController.present(activityVC, animated: true, completion: nil)
+        
+        SnipLoggerRequests.instance.logPostShared(postId: self.post.id)
     }
     
     func onBackPressed() {

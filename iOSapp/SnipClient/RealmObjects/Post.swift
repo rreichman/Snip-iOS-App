@@ -26,6 +26,8 @@ class Post: Object {
     
     let comments = List<RealmComment>()
     let relatedLinks = List<Link>()
+    dynamic var postHasBeenViewed: Bool = false
+    dynamic var postHasBeenExpanded: Bool = false
     
     
     override static func primaryKey() -> String? {
@@ -33,7 +35,7 @@ class Post: Object {
     }
     
     override static func ignoredProperties() -> [String] {
-        return ["dateFormatter"]
+        return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded"]
     }
     
     func formattedTimeString() -> String {

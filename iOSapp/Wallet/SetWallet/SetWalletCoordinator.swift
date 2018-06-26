@@ -90,6 +90,7 @@ class SetWalletCoordinator: Coordinator {
             delegate!.finished(walletChanged: false)
         } else {
             delegate!.finished(walletChanged: true)
+            SnipLoggerRequests.instance.logNewWallet(imported: self.creationType == SetWalletType.import_wallet)
         }
     }
     

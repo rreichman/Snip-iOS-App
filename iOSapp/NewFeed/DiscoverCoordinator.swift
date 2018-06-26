@@ -49,5 +49,7 @@ class DiscoverCoordinator: Coordinator {
 extension DiscoverCoordinator: DiscoverViewDelegate {
     func onCategorySelected(name: String) {
         self.pushPostListCoordinator(categoryName: name)
+        
+        SnipLoggerRequests.instance.logCategoryView(categoryName: name, fromDiscover: true)
     }
 }

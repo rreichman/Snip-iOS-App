@@ -39,14 +39,11 @@ class SnipAuthRequests {
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
+            .mapSnipAuthErrors()
             .map { obj -> String in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
                 if let key = json["key"] as? String {
                     return key
-                }
-                
-                if let error_message = json["non_field_errors"] as? String {
-                    throw APIError.badLogin(message: error_message)
                 }
                 throw APIError.generalError
             }
@@ -58,20 +55,14 @@ class SnipAuthRequests {
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
-            .map { obj -> String in
+            .mapSnipAuthErrors()
+            .map { (obj) -> String in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
                 if let key = json["key"] as? String {
                     return key
                 }
-                
-                if let error_message_list = json["email"] as? [ String ] {
-                    if error_message_list.count > 0 {
-                        let msg = error_message_list[0]
-                        throw APIError.userAlreadyExists(message: msg)
-                    }
-                }
                 throw APIError.generalError
-        }
+            }
     }
     
     // Returns auth token
@@ -95,14 +86,11 @@ class SnipAuthRequests {
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
+            .mapSnipAuthErrors()
             .map { obj -> String in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
                 if let detail = json["detail"] as? String {
                     return detail
-                }
-                
-                if let _ = json["email"] as? [ String ] {
-                    throw APIError.userDoesNotExist
                 }
                 throw APIError.generalError
         }
@@ -116,5 +104,18 @@ class SnipAuthRequests {
             .map { response in
                 return true
             }
+    }
+    
+    public static func parseErrorMessageList(errors: [ String ] ) -> String {
+        var errors_list = errors
+        //errors_list.append("Test Error Message")
+        var error_message = ""
+        for msg in errors_list {
+            error_message += "\(msg)\n"
         }
+        if errors_list.count > 0 {
+            error_message = String(error_message[error_message.startIndex...error_message.index(error_message.endIndex, offsetBy: -2)])
+        }
+        return error_message
+    }
 }

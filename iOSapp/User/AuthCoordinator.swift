@@ -109,6 +109,8 @@ class AuthCoordinator: Coordinator {
                         guard let s = self, let _ = s.loginSignUpViewController else { return }
                         s.delegate.onSuccessfulLogin(profile: user_profile)
                         s.popSelf()
+                        
+                        SnipLoggerRequests.instance.logSignIn(fromFacebook: true)
                     }, onError: { (err) in
                         print("Error logging in with fb \(err)")
                         Crashlytics.sharedInstance().recordError(err)
@@ -117,15 +119,6 @@ class AuthCoordinator: Coordinator {
                         vc.enableInteraction(enabled: true)
                     })
                     .disposed(by: s.disposeBag)
-                /**
-                var facebookLoginDataAsJson : Dictionary<String,String> = Dictionary<String,String>()
-                facebookLoginDataAsJson["access_token"] = accessToken.authenticationToken
-                facebookLoginDataAsJson["code"] = "null"
-                
-                let signupData : LoginOrSignupData = LoginOrSignupData(urlString: "rest-auth/facebook/", postJson: facebookLoginDataAsJson)
-                
-                WebUtils().postContentWithJsonBody(jsonString: signupData._postJson, urlString: signupData._urlString, completionHandler: completeSignupAction)
-                 **/
             }
         }
     }
@@ -145,16 +138,20 @@ class AuthCoordinator: Coordinator {
                 guard let s = self, let _ = s.loginViewController else { return }
                 s.delegate.onSuccessfulLogin(profile: user_profile)
                 s.popSelf()
+                
+                SnipLoggerRequests.instance.logSignIn(fromFacebook: false)
             }) { [weak self] (err) in
                 print("Error logging user in\(err)")
                 guard let s = self, let vc = s.loginViewController else { return }
                 
                 if let api_error = err as? APIError {
                     switch api_error {
-                    case .badLogin(let message):
+                    case .authFieldError(let field, let message):
+                        promptToUser(promptMessageTitle: "There was an error with your \(field)", promptMessageBody: message, viewController: vc)
+                    case .authNonFieldError(let message):
                         promptToUser(promptMessageTitle: "Error logging in", promptMessageBody: message, viewController: vc)
                     default:
-                        promptToUser(promptMessageTitle: "Error logging in", promptMessageBody: "There was an error logging in, please try again", viewController: vc)
+                        promptToUser(promptMessageTitle: "Error Logging Int", promptMessageBody: "There was an logging in, please try again", viewController: vc)
                     }
                 } else {
                     Crashlytics.sharedInstance().recordError(err)
@@ -181,13 +178,17 @@ class AuthCoordinator: Coordinator {
                 guard let s = self, let _ = s.signupViewController else { return }
                 s.delegate.onSuccessfulSignup(profile: user_profile)
                 s.popSelf()
+                
+                SnipLoggerRequests.instance.logSingup(fromFacebook: false)
             }) { [weak self] (err) in
                 print("Error on user signup \(err)")
                 guard let s = self, let vc = s.signupViewController else { return }
                 
                 if let api_error = err as? APIError {
                     switch api_error {
-                    case .userAlreadyExists(let message):
+                    case .authFieldError(let field, let message):
+                        promptToUser(promptMessageTitle: "There was an error with your \(field)", promptMessageBody: message, viewController: vc)
+                    case .authNonFieldError(let message):
                         promptToUser(promptMessageTitle: "Error Creating Account", promptMessageBody: message, viewController: vc)
                     default:
                         promptToUser(promptMessageTitle: "Error Creating Account", promptMessageBody: "There was an error creating your account, please try again", viewController: vc)
@@ -214,12 +215,14 @@ class AuthCoordinator: Coordinator {
             }) { [weak self] (err) in
                 print("error posting pasword reset \(err)")
                 guard let s = self, let vc = s.loginViewController else { return }
-                if let api_err = err as? APIError {
-                    switch api_err {
-                    case .userDoesNotExist:
-                        promptToUser(promptMessageTitle: "Password Reset", promptMessageBody: "A user with that email does not exist.", viewController: vc)
+                if let api_error = err as? APIError {
+                    switch api_error {
+                    case .authFieldError(let field, let message):
+                        promptToUser(promptMessageTitle: "There was an error with your \(field)", promptMessageBody: message, viewController: vc)
+                    case .authNonFieldError(let message):
+                        promptToUser(promptMessageTitle: "Error Resetting Password", promptMessageBody: message, viewController: vc)
                     default:
-                        promptToUser(promptMessageTitle: "Password Reset", promptMessageBody: "We encountered an error trying to reset your password.", viewController: vc)
+                        promptToUser(promptMessageTitle: "Error Resetting Password", promptMessageBody: "There was an error resetting your password, please try again", viewController: vc)
                     }
                 } else {
                     Crashlytics.sharedInstance().recordError(err)

@@ -7,6 +7,8 @@
 //
 import Foundation
 import UIKit
+import RealmSwift
+import Nuke
 
 protocol ProfileViewDelegate: class {
     func viewDidAppear()
@@ -19,17 +21,19 @@ class ProfileViewController : GenericProgramViewController {
     
     
     
+    @IBOutlet var avatarImageView: UIImageView!
     @IBOutlet var avatarContainer: UIView!
     @IBOutlet var favoriteSnipsButton: UIView!
     @IBOutlet var savedSnipsButton: UIView!
     @IBOutlet var initialsLabel: UILabel!
     @IBOutlet var fullNameLabel: UILabel!
     
-    var userPrfile: User?
+    var userProfile: User?
+    var updateToken: NotificationToken?
     var delegate: ProfileViewDelegate!
     override func viewDidLoad()
     {
-        bind(profile: self.userPrfile)
+        self.bindViews(user: userProfile)
         addSettingsBarItem()
         setButtons()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -52,17 +56,59 @@ class ProfileViewController : GenericProgramViewController {
     }
     
     
-    func bind(profile: User?) {
-        self.userPrfile = profile
+    func bindData(user: User?) {
+        self.userProfile = user
+        //self.subscribeToNotifications(user: user)
+        self.bindViews(user: user)
+    }
+    
+    /**
+    
+    private func subscribeToNotifications(user: User?) {
+        if let u = user, let avatarImage = u.avatarImage {
+            self.updateToken = avatarImage.observe({ [weak self] (changes) in
+                print("Profile NotificationChangeBlock \(changes)")
+                guard let vc = self else { return }
+                vc.bindViews(user: vc.userProfile)
+            })
+        } else {
+            self.unsubscribeFromNotifications()
+        }
+    }
+    
+    private func unsubscribeFromNotifications() {
+        if let token = self.updateToken {
+            token.invalidate()
+        }
+        self.updateToken = nil
+    }
+    **/
+    
+    func bindViews(user: User?) {
+        //Check to make sure views have been bound
         guard let _ = fullNameLabel else { return }
-        if let u = profile {
+        
+        if let u = user {
             setHidden(false)
             fullNameLabel.text = "\(u.first_name) \(u.last_name)"
             initialsLabel.text = "\(u.initials.uppercased())"
+            if let avatarURL = URL(string: u.avatarUrl) {
+                Nuke.loadImage(with: avatarURL, into: self.avatarImageView)
+            } else {
+                self.avatarImageView.image = nil
+            }
+            
+            /**
+            if u.hasAvatarImageData() {
+                avatarImageView.isHidden = false
+                avatarImageView.image = UIImage(data: u.avatarImage!.data!)
+            }
+            **/
         } else {
             setHidden(true)
             fullNameLabel.text = ""
             initialsLabel.text = ""
+            self.avatarImageView.image = nil
         }
     }
     
@@ -104,5 +150,9 @@ class ProfileViewController : GenericProgramViewController {
     }
     @objc func onFavoriteSnipsRequested() {
         delegate.onFavoriteSnipsRequested()
+    }
+    
+    deinit {
+        //self.unsubscribeFromNotifications()
     }
 }

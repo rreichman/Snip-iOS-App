@@ -46,8 +46,7 @@ class SnipRequests {
                 }
                 for cat in categories {
                     for post in cat.topThreePosts {
-                        let _ = sr.getPostImage(for: post)
-                            .subscribe()
+                        sr.populatePostFields(for: post)
                     }
                 }
                 return categories
@@ -73,19 +72,15 @@ class SnipRequests {
                 }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
-                
-                
-                
                 let realm = RealmManager.instance.getMemRealm()
                 for post in page {
-                    let _ = s.getPostImage(for: post)
-                        .subscribe()
                     try! realm.write {
                         realm.add(post, update: true)
                         if category.posts.index(of: post) == nil {
                             category.posts.append(post)
                         }
                     }
+                    s.populatePostFields(for: post)
                 }
                 category.nextPage = next_page
                 return category
@@ -114,8 +109,7 @@ class SnipRequests {
                 let page = try Post.parsePostPage(json: json)
                 var result: [ Post ] = []
                 for post in page {
-                    let _ = s.getPostImage(for: post)
-                        .subscribe()
+                    s.populatePostFields(for: post)
                     result.append(post)
                 }
                 return (next_page, result)
@@ -143,8 +137,7 @@ class SnipRequests {
                 let page = try Post.parsePostPage(json: json)
                 var results: [ Post ] = []
                 for post in page {
-                    let _ = s.getPostImage(for: post)
-                        .subscribe()
+                    s.populatePostFields(for: post)
                     results.append(post)
                 }
                 return (next_page, results)
@@ -171,8 +164,7 @@ class SnipRequests {
                 let page = try Post.parsePostPage(json: json)
                 var results: [ Post ] = []
                 for post in page {
-                    let _ = s.getPostImage(for: post)
-                        .subscribe()
+                    s.populatePostFields(for: post)
                     results.append(post)
                 }
                 return (next_page, results)
@@ -191,16 +183,14 @@ class SnipRequests {
                 if let _ = json["posts"] as? [ [String: Any] ]{
                     let post_list = try Post.parsePostPage(json: json)
                     if post_list.count > 0 {
-                        let _ = s.getPostImage(for: post_list[0])
-                            .subscribe()
+                        SnipRequests.instance.populatePostFields(for: post_list[0])
                         return post_list[0]
                     } else {
                         throw APIError.unableToResolveAppLink(of: url)
                     }
                 } else if let post_json = json["main_post"] as? [String: Any] {
                     let post = try Post.parseJson(json: post_json)
-                    let _ = s.getPostImage(for: post)
-                        .subscribe()
+                    SnipRequests.instance.populatePostFields(for: post)
                     return post
                 } else {
                     throw APIError.unableToResolveAppLink(of: url)
@@ -208,47 +198,102 @@ class SnipRequests {
         }
     }
     
-    func getPostImage(for post: Post) -> Single<Bool> {
-        guard let image = post.image else { return Single.just(false) }
-        if image.hasData {
-            return Single.just(true)
+    func populatePostFields(for post: Post) {
+        getPostImage(for: post)
+        /**
+        for comment in post.comments {
+            if let commentAuthor = comment.writer {
+                SnipRequests.instance.getUserAvatar(for: commentAuthor)
+            }
         }
-        return provider.rx.request(SnipService.getPostImage(imageURL: image.imageUrl))
+        if let author = post.author {
+            getUserAvatar(for: author)
+        }
+        **/
+    }
+    
+    // Post objects should already have an Image Object added to the realm, so no need to make one and add it here like in getUserAvatar()
+    func getPostImage(for post: Post) {
+        guard let image = post.image else { return }
+        if image.hasData {
+            return
+        }
+        let realm = image.realm == nil ? RealmManager.instance.getMemRealm() : image.realm!
+        provider.rx.request(SnipService.getPostImage(imageURL: image.imageUrl))
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
             .mapSnipRequest()
             .map { response -> Data in
                 return response.data
             }
             .observeOn(MainScheduler.instance)
-            .map { data -> Bool in
-                //print("got image data for img \(image.imageUrl)")
-                let realm = RealmManager.instance.getMemRealm()
+            .retry(3)
+            .subscribe(onSuccess: { (imageData) in
                 try! realm.write {
-                    image.data = data
+                    image.data = imageData
                     image.failed_loading = false
                 }
-                return true
-            }
-            .retry(3)
-            .catchError({ (err) -> Single<Bool> in
+            }, onError: { (err) in
                 Crashlytics.sharedInstance().recordError(err, withAdditionalUserInfo: ["imageURL": image.imageUrl ])
-                print("Error loading \(image.imageUrl) \(err)")
-                if let detailError = err as? APIError {
-                    switch detailError {
-                    case .requestError(_, _,let response):
-                        print(response)
-                    default:
-                        break
-                    }
-                }
-                let realm = RealmManager.instance.getMemRealm()
+                print("Error loading image for post \(post.id), \(image.imageUrl) \(err)")
+                
                 try! realm.write {
                     image.data = nil
                     image.failed_loading = true
                 }
-                return Single.just(false)
             })
+            .disposed(by: disposeBag)
     }
+    /**
+    func getUserAvatar(for user: User) {
+        if user.avatarUrl == "" || user.hasAvatarImageData() {
+            return
+        }
+        
+        let realm = user.realm == nil ? RealmManager.instance.getMemRealm() : user.realm!
+        
+        if let cached_image = realm.object(ofType: Image.self, forPrimaryKey: user.avatarUrl) {
+            print("Avatar Image cache hit")
+            try! realm.write {
+                user.avatarImage = cached_image
+            }
+            if cached_image.hasData {
+                print("Cached image object has data, returning")
+                return
+            }
+            print("Cached image object does not have data, loading ...")
+        } else {
+            print("Avatar Image cache miss")
+            let image = Image.buildSimpleImage(with: user.avatarUrl)
+            try! realm.write {
+                realm.add(image, update: true)
+                user.avatarImage = image
+            }
+        }
+        
+        provider.rx.request(SnipService.getPostImage(imageURL: user.avatarUrl))
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
+            .mapSnipRequest()
+            .map { response -> Data in
+                return response.data
+            }
+            .retry(3)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [ realm ] (imageData) in
+                try! realm.write {
+                    user.avatarImage!.data = imageData
+                    user.avatarImage!.failed_loading = false
+                }
+            }, onError: { (err) in
+                print("Error loading avatar for user \(user.username), \(err)")
+                Crashlytics.sharedInstance().recordError(err)
+                try! realm.write {
+                    user.avatarImage!.data = nil
+                    user.avatarImage!.failed_loading = true
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
+     **/
     
     func getUser() -> Single<User> {
         return provider.rx.request(SnipService.getUserProfile)
@@ -257,14 +302,12 @@ class SnipRequests {
             .mapJSON()
             .map { obj in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj)}
-                
                 let user = try User.parseJson(json: json)
                 return user
         }
     }
     
     func buildProfile(authToken: String) -> Single<User> {
-        
         return provider.rx.request(SnipService.buildUserProfile(authToken: authToken))
             .subscribeOn(SingleBackgroundThread.scheduler)
             .mapSnipRequest()
@@ -280,6 +323,7 @@ class SnipRequests {
                 try! realm.write {
                     realm.add(user, update: true)
                 }
+                //SnipRequests.instance.getUserAvatar(for: user)
                 SessionManager.instance.setUserProfile(name: "\(user.first_name) \(user.last_name)", username: user.username, initials: user.initials)
                 print("Logged in as \(user.username) using token \(authToken)")
                 return user

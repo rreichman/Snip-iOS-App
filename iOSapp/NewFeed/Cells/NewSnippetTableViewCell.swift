@@ -112,13 +112,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         //Binding of elements that might be hidden
         if expanded {
             if let richText = data.getAttributedBody() {
-                /**
-                let lineSpacingParagraphStyle = NSMutableParagraphStyle()
-                lineSpacingParagraphStyle.lineSpacing = 2.5
-                let lineSpaceAttribute: [NSAttributedStringKey : Any] =
-                    [.paragraphStyle: lineSpacingParagraphStyle]
-                richText.addAttributes(lineSpaceAttribute, range: NSMakeRange(0, richText.length))
-                 **/
+                
                 //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
                 richText.append(NSAttributedString(string: "\n"))
                 let pStyle = NSMutableParagraphStyle()
@@ -126,7 +120,7 @@ class NewSnippetTableViewCell: UITableViewCell {
                 pStyle.paragraphSpacing = 12
                 pStyle.defaultTabInterval = 36
                 pStyle.baseWritingDirection = .leftToRight
-                pStyle.minimumLineHeight = 15.0
+                pStyle.minimumLineHeight = 22.0
                 
                 for source in data.relatedLinks {
                     let text = source.title + ", "
@@ -134,7 +128,7 @@ class NewSnippetTableViewCell: UITableViewCell {
                     let attributes: [NSAttributedStringKey : Any] =
                         [.paragraphStyle: pStyle,
                          .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
-                         .font: UIFont.lato(size: 14),
+                         .font: UIFont.lato(size: 15),
                          .link: URL(string: source.url)!]
                     let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
                     richText.append(attributedText)
@@ -146,14 +140,6 @@ class NewSnippetTableViewCell: UITableViewCell {
                 bodyTextView.text = data.text
             }
             bodyTextView.tintColor = UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0)
-            var sourceString = ""
-            for source in data.relatedLinks {
-                sourceString += "\(source.title), "
-            }
-            if sourceString.count > 0 {
-                sourceString = String(sourceString[..<sourceString.index(sourceString.endIndex, offsetBy: -2)])
-            }
-            //sourceLabel.text = sourceString
             
             if data.comments.count > 0 {
                 numberOfCommentsLabel.isHidden = false
@@ -175,6 +161,18 @@ class NewSnippetTableViewCell: UITableViewCell {
         setHiddenState(large: expanded)
         
         self.post = data
+        
+        if !data.postHasBeenExpanded && expanded{
+            data.postHasBeenExpanded = true
+            
+            SnipLoggerRequests.instance.logPostReadMore(postId: data.id)
+        }
+        
+        if !data.postHasBeenViewed {
+            data.postHasBeenViewed = true
+            
+            SnipLoggerRequests.instance.logPostView(postId: data.id)
+        }
     }
     
     func bindImage(imageOpt: Image?) {
@@ -261,6 +259,8 @@ class NewSnippetTableViewCell: UITableViewCell {
     @objc func imageTap() {
         guard let p = self.post else { return }
         delegate.showExpandedImage(for: p)
+        
+        SnipLoggerRequests.instance.logImageExpanded(postId: p.id)
     }
     
     @objc func authorTap() {
@@ -296,6 +296,8 @@ class NewSnippetTableViewCell: UITableViewCell {
     @objc func postOptionsTab() {
         guard let p = self.post else { return }
         delegate.postOptions(for: p)
+        
+        SnipLoggerRequests.instance.logPostReadMore(postId: p.id)
     }
 }
 
@@ -311,8 +313,11 @@ extension NewSnippetTableViewCell: VoteControlDelegate {
 extension Post {
     func getAttributedBody() -> NSMutableAttributedString? {
         //Possibly strip paragraphs
-        guard let render = NSMutableAttributedString(htmlString: text) else { return nil }
-        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: 14), NSAttributedStringKey.foregroundColor: UIColorFromRGB(rgbValue: 0x4c4c4c)], range: NSRange(location: 0, length: render.length))
+        let font_size = 15
+        let line_height = 22
+        let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
+        guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return nil }
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: 15), NSAttributedStringKey.foregroundColor: UIColorFromRGB(rgbValue: 0x4c4c4c)], range: NSRange(location: 0, length: render.length))
         return render
     }
 }

@@ -65,9 +65,9 @@ class TabCoordinator: Coordinator {
         
     }
     
-    func showPostFromDeepLink(url: URL) {
+    func showPostFromDeepLink(url: URL, fromNotification: Bool) {
         guard let main = self.mainFeedCoordinator else { return }
-        main.resolveAndPushAppLink(url: url)
+        main.resolveAndPushAppLink(url: url, fromNotification: fromNotification)
         tabController.selectedIndex = 0
     }
 }
@@ -78,6 +78,11 @@ extension TabCoordinator: MainTabBarViewDelegate {
             if tabController.selectedIndex == 0 && tag == 0 {
                 feed.scrollToTop()
             }
+        }
+        if tabController.selectedIndex == 1 {
+            SnipLoggerRequests.instance.logDiscoverTabView()
+        } else if tabController.selectedIndex == 3 {
+            SnipLoggerRequests.instance.logProfileTabViewed(redirectedToLoginSingup: !SessionManager.instance.loggedIn)
         }
     }
 }

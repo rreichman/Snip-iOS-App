@@ -81,7 +81,7 @@ class MainFeedCoordinator: Coordinator {
             .disposed(by: disposeBag)
     }
     
-    func resolveAndPushAppLink(url: URL) {
+    func resolveAndPushAppLink(url: URL, fromNotification: Bool) {
         let realm = RealmManager.instance.getMemRealm()
         SnipRequests.instance.getPostFromAppLink(url: url.absoluteString)
             .observeOn(MainScheduler.instance)
@@ -94,6 +94,8 @@ class MainFeedCoordinator: Coordinator {
                     realm.add(post, update: true)
                 }
                 s.showPostFromDeepLink(post: post)
+                
+                SnipLoggerRequests.instance.logPostDeepLink(postId: post.id, fromNotification: fromNotification)
             }) { (err) in
                 print("Error resolving post from deep link: \(err.localizedDescription)")
                 Crashlytics.sharedInstance().recordError(err)
@@ -117,7 +119,7 @@ class MainFeedCoordinator: Coordinator {
     func showAppLink() {
         if self.openInitialAppLink {
             if let link = self.appLink {
-                self.resolveAndPushAppLink(url: link)
+                self.resolveAndPushAppLink(url: link, fromNotification: false)
                 openInitialAppLink = false
                 appLink = nil
             }
@@ -179,11 +181,13 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
     
     func viewDidAppearForTheFirstTime() {
         // Not showing notifications yet
-        /**
+        #if MAIN
+        print("Not show notification request yet")
+        #else
         if NotificationManager.instance.shouldShowNotificationRequest() {
             self.showNotificationBanner()
         }
-        **/
+        #endif
         self.showAppLink()
     }
     
@@ -191,6 +195,8 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
         let coord = GeneralFeedCoordinator(nav: self.navigationController, mode: .writer(writer: writer))
         self.childCoordinators.append(coord)
         coord.start()
+        
+        SnipLoggerRequests.instance.logAuthorProfileView(authorUserName: writer.username)
     }
     func showDetail(for post: Post, startComment: Bool) {
         pushDetailViewController(for: post, startComment)
@@ -199,6 +205,8 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
     func onCategorySelected(category: Category) {
         print("\(category.categoryName) selected")
         openPostList(for: category)
+        
+        SnipLoggerRequests.instance.logCategoryView(categoryName: category.categoryName, fromDiscover: false)
     }
     func refreshFeed() {
         if loadingState != .loadingPage {

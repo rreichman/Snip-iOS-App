@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import RealmSwift
+import Nuke
 
 enum CommentInputMode {
     case reply
@@ -29,6 +30,7 @@ protocol PostDetailViewDelegate: class {
 class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
+    @IBOutlet var authorAvatarImage: UIImageView!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var postImage: UIImageView!
@@ -85,7 +87,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
         cancelReplyButton.addTarget(self, action: #selector(onCancelInputMode), for: .touchUpInside)
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
-        UIFont.lato(size: 10)
         topConstraint.isActive = true
         postImage.layer.cornerRadius = 10
         addTap()
@@ -94,7 +95,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             let realm = RealmManager.instance.getRealm()
             self.currentUser = realm.object(ofType: User.self, forPrimaryKey: SessionManager.instance.currentLoginUsername!)
         }
-
+        
         self.bindViews(data: self.post)
         
     }
@@ -181,6 +182,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         self.mode = mode
         subscribeToRealmNotifications(data: data)
         bindViews(data: data)
+        
     }
     
     func subscribeToRealmNotifications(data: Post) {
@@ -239,15 +241,34 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         if let auth = data.author {
             authorLabel.text = "\(auth.first_name) \(auth.last_name)"
             shortAuthorLabel.text = auth.initials.uppercased()
+            if let avatarURL = URL(string: auth.avatarUrl) {
+                Nuke.loadImage(with: avatarURL, into: self.authorAvatarImage)
+            } else {
+                self.authorAvatarImage.image = nil
+            }
+            
+            /**
+            if auth.hasAvatarImageData() {
+                authorAvatarImage.isHidden = false
+                authorAvatarImage.image = UIImage(data: auth.avatarImage!.data!)
+            } else {
+                authorAvatarImage.isHidden = true
+                authorAvatarImage.image = UIImage()
+            }
+            **/
+        } else {
+            authorLabel.text = ""
+            shortAuthorLabel.text = ""
+            authorAvatarImage.image = nil
         }
         dateLabel.text = dateFormatter.string(from: data.date)
         bindImage(imageOpt: data.image)
-        /**saveButton.bind(on_state: data.saved) { [data] (on) in
-            self.onToggleSave(on: on, for: data)
-        }**/
+        
         voteControl.bind(voteValue: data.voteValue)
         voteControl.delegate = self
+        
         if let richText = data.getAttributedBody() {
+            
             //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
             richText.append(NSAttributedString(string: "\n"))
             let pStyle = NSMutableParagraphStyle()
@@ -255,7 +276,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             pStyle.paragraphSpacing = 12
             pStyle.defaultTabInterval = 36
             pStyle.baseWritingDirection = .leftToRight
-            pStyle.minimumLineHeight = 15.0
+            pStyle.minimumLineHeight = 22.0
             
             for source in data.relatedLinks {
                 let text = source.title + ", "
@@ -263,7 +284,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 let attributes: [NSAttributedStringKey : Any] =
                     [.paragraphStyle: pStyle,
                      .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
-                     .font: UIFont.lato(size: 14),
+                     .font: UIFont.lato(size: 15),
                      .link: URL(string: source.url)!]
                 let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
                 richText.append(attributedText)
@@ -274,15 +295,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             bodyTextView.text = data.text
         }
         bodyTextView.tintColor = UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0)
-        var sourceString = ""
-        for source in data.relatedLinks {
-            sourceString += "\(source.title), "
-        }
-        if sourceString.count > 0 {
-            sourceString = String(sourceString[..<sourceString.index(sourceString.endIndex, offsetBy: -2)])
-        }
-        //sourceLabel.text = sourceString
-        //sourceTextView.text = sourceString
+        
         self.shareMessage = "Check out this snippet:\n" + data.headline
         self.shareUrl = NSURL(string: data.fullURL)
         
@@ -381,6 +394,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func onPostOptionsTap() {
         PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: post.id, viewController: self)
+        
+        SnipLoggerRequests.instance.logPostReadMore(postId: post.id)
     }
     
     @objc func interceptWriteBoxTap() {

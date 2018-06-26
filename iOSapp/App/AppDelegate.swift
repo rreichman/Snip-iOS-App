@@ -21,6 +21,8 @@ import FacebookLogin
 import RealmSwift
 import UserNotifications
 import Firebase
+import Nuke
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -151,7 +153,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func subscribeToDevTopic() {
+    private func setNukeShareImageLoadingOptions() {
+        let options = ImageLoadingOptions(transition:
+            ImageLoadingOptions.Transition.fadeIn(duration: 0.33),
+            contentModes: .init(
+                success: .scaleAspectFill,
+                failure: .center,
+                placeholder: .center
+            )
+        )
+        ImageLoadingOptions.shared = options
+    }
+    
+    private func subscribeToDevTopic() {
         //Messaging.messaging().shouldEstablishDirectChannel = true
         Messaging.messaging().subscribe(toTopic: "dev") { (err) in
             print("Subscribed to dev topic, possible error subscribing \(err)")
@@ -164,6 +178,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         self.coordinator.showPostFromNotification(link: snippet_url)
+        
+        guard let notificationIdString = userInfo["id"] as? String, let notificationId = Int(notificationIdString) else {
+            print("Unable to find notification ID from the notification data")
+            return
+        }
+        
+        NotificationRequests.instance.logNotificationClicked(notificationId: notificationId)
     }
 }
 
@@ -171,7 +192,13 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase sent a new registration token, saving and sending.\nToken: \(fcmToken)")
         NotificationManager.instance.saveAndSendRegistrationToken(registrationToken: fcmToken)
+        #if MAIN
+        print("Subscribing to main topic")
+        #else
+        print("Subscribing to dev topic")
         self.subscribeToDevTopic()
+        #endif
+        
     }
     //This is not working at all for some reason.
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {

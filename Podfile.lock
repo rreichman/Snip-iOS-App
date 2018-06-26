@@ -40,6 +40,9 @@ PODS:
   - Firebase/Messaging (5.2.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.0.2)
+  - Firebase/Performance (5.2.0):
+    - Firebase/Core
+    - FirebasePerformance (= 2.0.0)
   - FirebaseAnalytics (5.0.1):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
@@ -54,11 +57,24 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
+  - FirebasePerformance (2.0.0):
+    - FirebaseAnalytics (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
+    - FirebaseSwizzlingUtilities/ISASwizzling (~> 2.0)
+    - FirebaseSwizzlingUtilities/MethodSwizzling (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.5)
+  - FirebaseSwizzlingUtilities/ISASwizzling (2.0.0)
+  - FirebaseSwizzlingUtilities/MethodSwizzling (2.0.0):
+    - FirebaseCore (~> 5.0)
   - GoogleToolboxForMac/Defines (2.1.4)
   - GoogleToolboxForMac/Logger (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GTMSessionFetcher/Core (1.1.15)
   - KeychainSwift (11.0.0)
   - LatoFont (2.0.1)
   - Mixpanel-swift (2.2.2):
@@ -77,6 +93,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - NextResponderTextField (3.0.0)
+  - Nuke (7.1)
   - Protobuf (3.6.0)
   - Realm (3.7.1):
     - Realm/Headers (= 3.7.1)
@@ -115,12 +132,14 @@ DEPENDENCIES:
   - FacebookShare
   - Firebase/Core
   - Firebase/Messaging
+  - Firebase/Performance
   - KeychainSwift (~> 11.0)
   - LatoFont (from `https://github.com/cj-zeiger/LatoFont`, branch `master`)
   - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
   - MontserratFont (from `https://github.com/cj-zeiger/MontserratFont`, branch `master`)
   - Moya/RxSwift (~> 11.0)
   - NextResponderTextField
+  - Nuke
   - RealmSwift
   - RxBlocking
   - RxCocoa (~> 4.0)
@@ -151,11 +170,15 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FirebasePerformance
+    - FirebaseSwizzlingUtilities
     - GoogleToolboxForMac
+    - GTMSessionFetcher
     - KeychainSwift
     - Moya
     - nanopb
     - NextResponderTextField
+    - Nuke
     - Protobuf
     - Realm
     - RealmSwift
@@ -217,7 +240,10 @@ SPEC CHECKSUMS:
   FirebaseCore: a3c87242451633fff8490183898075ce77d168d2
   FirebaseInstanceID: 05d779cbb97bd5bd5c51a38a903fc9cfe1b2454a
   FirebaseMessaging: 6894b8fe0a0cf26c3b13dad729f1131654ae0bdb
+  FirebasePerformance: 1ec6c40e5dad2543ca4c4f25d15168bde6322c2c
+  FirebaseSwizzlingUtilities: 6c22677c50d0b6f5f0dc637c1233f13694a3003f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   LatoFont: 2bb2a5ab140299a3ccdb8bde61a8720d7bef75c7
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
@@ -225,6 +251,7 @@ SPEC CHECKSUMS:
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NextResponderTextField: 07ee7b2737981bfd402f63f390bf3de55e245ccd
+  Nuke: 922cb05945ed5c7980a3ad0bc9ae57fbbd12899f
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   Realm: 906be37d52f17f25484ac01643a7f26a9d3bfbd5
   RealmSwift: 1c2b6bae3dc55bb87e080ffa96537d71442f6dce
@@ -240,6 +267,6 @@ SPEC CHECKSUMS:
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: a5fd06eeb0cf05b557e5f5685ad82d98459cb3dc
+PODFILE CHECKSUM: 787891e93aed1309d53897cfae2921069df999cc
 
 COCOAPODS: 1.5.3
