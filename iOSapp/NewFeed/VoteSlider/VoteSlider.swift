@@ -11,7 +11,7 @@ import UIKit
 
 class VoteSlider: UISlider {
     
-    var filledSliderTrack: UIImageView!
+    weak var filledSliderTrack: UIImageView?
     var filledImage: UIImage!
     
     override init(frame: CGRect) {
@@ -29,19 +29,22 @@ class VoteSlider: UISlider {
         self.maximumTrackTintColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1)
         let default_max_image = self.currentMaximumTrackImage
         self.setMinimumTrackImage(default_max_image!.withHorizontallyFlippedOrientation(), for: .normal)
-        filledSliderTrack = UIImageView(image: filledImage)
+        let filledSliderTrack = UIImageView(image: filledImage)
         filledSliderTrack.frame = calculateFilledImageViewFrame()
         self.addSubview(filledSliderTrack)
         self.bringSubview(toFront: filledSliderTrack)
+        self.filledSliderTrack = filledSliderTrack
     }
     
     override func didAddSubview(_ subview: UIView) {
         super.didAddSubview(subview)
+        guard let filledSliderTrack = self.filledSliderTrack else { return }
         self.bringSubview(toFront: filledSliderTrack)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        guard let filledSliderTrack = self.filledSliderTrack else { return }
         filledSliderTrack.frame = calculateFilledImageViewFrame()
     }
     

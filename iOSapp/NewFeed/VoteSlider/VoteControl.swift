@@ -15,18 +15,37 @@ protocol VoteControlDelegate: class {
 @IBDesignable
 class VoteControl: UIView {
     
-    var leftButton: ToggleButton!
-    var rightButton: ToggleButton!
-    var slider: VoteSlider!
-    var delegate: VoteControlDelegate?
+    weak var leftButton: ToggleButton?
+    weak var rightButton: ToggleButton?
+    weak var slider: VoteSlider?
+    weak var delegate: VoteControlDelegate?
     //This bullshit isnt worth the 200 extra lines you need to write (@IBInspectable)
     
-    @IBInspectable var emptyLeftImage: UIImage = UIImage()
-    @IBInspectable var filledLeftImage: UIImage = UIImage()
+    @IBInspectable var emptyLeftImage: UIImage = UIImage() {
+        didSet {
+            guard let leftButton = self.leftButton else { return }
+            leftButton.offImage = emptyLeftImage
+        }
+    }
+    @IBInspectable var filledLeftImage: UIImage = UIImage() {
+        didSet {
+            guard let leftButton = self.leftButton else { return }
+            leftButton.onImage = filledLeftImage
+        }
+    }
     
-    @IBInspectable var emptyRightImage: UIImage = UIImage()
-    @IBInspectable var filledRightImage: UIImage = UIImage()
-    
+    @IBInspectable var emptyRightImage: UIImage = UIImage() {
+        didSet {
+            guard let rightButton = self.rightButton else { return }
+            rightButton.offImage = emptyRightImage
+        }
+    }
+    @IBInspectable var filledRightImage: UIImage = UIImage() {
+        didSet {
+            guard let rightButton = self.rightButton else { return }
+            rightButton.onImage = filledRightImage
+        }
+    }
     
     private let view_height: CGFloat = 44.0
     
@@ -67,20 +86,21 @@ class VoteControl: UIView {
     func initView() {
         //self.translatesAutoresizingMaskIntoConstraints = false
         self.isUserInteractionEnabled = true
-        leftButton = buildButton(emptyImage: UIImage(named: "dislikeEmpty")!, filledImage: UIImage(named: "dislikeFilled")!)
-        leftButton.onButtonPress = { newValue in
+        let leftButton = buildButton(emptyImage: self.emptyLeftImage, filledImage: self.filledLeftImage)
+        leftButton.onButtonPress = { [unowned self] newValue in
+            guard let slider = self.slider, let rightButton = self.rightButton else { return }
             var overall_vote_value: Double!
             switch newValue {
             case .off:
-                self.slider.value = 0.0
+                slider.value = 0.0
                 overall_vote_value = 0.0
             case .on:
-                self.slider.value = -1.0
-                switch self.rightButton.value {
+                slider.value = -1.0
+                switch rightButton.value {
                 case .off:
                     break
                 default:
-                    self.rightButton.setValue(to: .off)
+                    rightButton.setValue(to: .off)
                 }
                 overall_vote_value = -1.0
             case .fractional:
@@ -91,21 +111,22 @@ class VoteControl: UIView {
                 d.voteValueSet(to: overall_vote_value)
             }
         }
-        rightButton = buildButton(emptyImage: UIImage(named: "likeEmpty")!, filledImage: UIImage(named: "likeFilled")!)
-        rightButton.onButtonPress = { newValue in
+        let rightButton = buildButton(emptyImage: self.emptyRightImage, filledImage: self.filledRightImage)
+        rightButton.onButtonPress = { [unowned self] newValue in
+            guard let slider = self.slider, let leftButton = self.leftButton else { return }
             var overall_vote_value: Double!
             switch newValue {
             case .off:
-                self.slider.value = 0.0
+                slider.value = 0.0
                 overall_vote_value = 0.0
             case .on:
-                self.slider.value = 1.0
+                slider.value = 1.0
                 overall_vote_value = 1.0
-                switch self.leftButton.value {
+                switch leftButton.value {
                 case .off:
                     break
                 default:
-                    self.leftButton.setValue(to: .off)
+                    leftButton.setValue(to: .off)
                 }
             case .fractional:
                 //will never happen
@@ -115,7 +136,7 @@ class VoteControl: UIView {
                 d.voteValueSet(to: overall_vote_value)
             }
         }
-        slider = VoteSlider()
+        var slider = VoteSlider()
         slider.setThumbImage(UIImage(named: "blueSliderThumb"), for: .normal)
         slider.setThumbImage(UIImage(named: "blueSliderThumb"), for: .highlighted)
         slider.translatesAutoresizingMaskIntoConstraints = false
@@ -124,6 +145,9 @@ class VoteControl: UIView {
         slider.value = 0.0
         slider.addTarget(self, action: #selector(onValueContinuous), for: .valueChanged)
         slider.addTarget(self, action: #selector(onValueChanged), for: .touchUpInside)
+        self.leftButton = leftButton
+        self.rightButton = rightButton
+        self.slider = slider
         addSubview(leftButton)
         addSubview(rightButton)
         addSubview(slider)
@@ -131,11 +155,13 @@ class VoteControl: UIView {
     }
     
     func bind(voteValue: Double) {
+        guard let slider = self.slider else { return }
         slider.value = Float.init(voteValue)
         onValueContinuous()
     }
     
     @objc func onValueContinuous() {
+        guard let slider = self.slider, let leftButton = self.leftButton, let rightButton = self.rightButton else { return }
         if slider.value == 0.0 {
             leftButton.setValue(to: .off)
             rightButton.setValue(to: .off)
@@ -155,12 +181,12 @@ class VoteControl: UIView {
     }
     
     @objc func onValueChanged() {
-        if let d = self.delegate {
-            d.voteValueSet(to: Double(exactly: slider.value)!)
-        }
+        guard let d = self.delegate, let slider = self.slider else { return }
+        d.voteValueSet(to: Double(exactly: slider.value)!)
     }
     
     private func setConstraints() {
+        guard let slider = self.slider, let leftButton = self.leftButton, let rightButton = self.rightButton else { return }
         leftButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         leftButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0).isActive = true
         leftButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
@@ -177,11 +203,7 @@ class VoteControl: UIView {
     }
     
     private func buildButton(emptyImage: UIImage, filledImage: UIImage) -> ToggleButton {
-        let button = ToggleButton(onImage: filledImage, offImage: emptyImage, imageFrame: CGRect(x: 0, y: 0, width: 24.0, height: 24.0), imageInsets: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        //button.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        //button.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
-        
+        let button = ToggleButton(onImage: filledImage, offImage: emptyImage, buttonDimension: self.view_height, imageInsets: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0))
         return button
     }
 }

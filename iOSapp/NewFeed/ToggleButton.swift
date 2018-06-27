@@ -15,62 +15,131 @@ enum ButtonValue {
     case on
 }
 
-
 @IBDesignable
 class ToggleButton: UIButton {
-    
-    @IBInspectable @objc dynamic var onImage: UIImage? = nil {
+    @IBInspectable var onImage: UIImage? = nil {
         didSet {
-            let f = CGRect(x: 0.0, y: 0.0, width: self.frame.width, height: self.frame.height)
-            onImageView = buildImageView(image: onImage, frame: f)
-            if self.imageInsets != nil {
-                addImageViewConstraints()
-            }
-            self.addSubview(onImageView)
+            guard let onImageView = self.onImageView else { return }
+            onImageView.image = onImage
         }
     }
-    @IBInspectable @objc dynamic var offImage: UIImage? = nil {
+    
+    @IBInspectable var offImage: UIImage? = nil {
         didSet {
             self.setImage(offImage, for: .normal)
         }
     }
+    
+    @IBInspectable var topImageInset: CGFloat = 0.0 {
+        didSet {
+            //updateConstraintsForDimensionChange()
+        }
+    }
+    
+    @IBInspectable var leftImageInset: CGFloat = 0.0 {
+        didSet {
+            //updateConstraintsForDimensionChange()
+        }
+    }
+    
+    @IBInspectable var bottomImageInset: CGFloat = 0.0 {
+        didSet {
+             updateConstraintsForDimensionChange()
+        }
+    }
+    
+    
+    @IBInspectable var rightImageInset: CGFloat = 0.0 {
+        didSet {
+            //updateConstraintsForDimensionChange()
+        }
+    }
+    
+    var imageInsets: UIEdgeInsets {
+        set {
+            self.imageEdgeInsets = newValue
+            topImageInset = newValue.top
+            leftImageInset = newValue.left
+            rightImageInset = newValue.right
+            bottomImageInset = newValue.bottom
+        }
+        get {
+            return UIEdgeInsets(top: topImageInset, left: leftImageInset, bottom: bottomImageInset, right: rightImageInset)
+        }
+    }
+    
+    @IBInspectable var buttonDimensions: CGFloat = 0.0 {
+        didSet {
+            //updateConstraintsForDimensionChange()
+        }
+    }
     var value: ButtonValue = .off
-    var onImageView: UIImageView!
+    weak var onImageView: UIImageView?
     var onButtonPress: ((ButtonValue) -> Void)?
-    var imageInsets: UIEdgeInsets?
+    
+    
+    
+    var buttonViewHeightConstraint: NSLayoutConstraint?
+    var buttonViewWidthConstraint: NSLayoutConstraint?
+    
+    var imageViewHeightConstraint: NSLayoutConstraint?
+    var imageViewWidthConstraint: NSLayoutConstraint?
+    var imageViewTopConstraint: NSLayoutConstraint?
+    var imageViewLeadingConstraint: NSLayoutConstraint?
+    var imageViewTrailingConstraint: NSLayoutConstraint?
+    var imageViewBottomConstraint: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        if onImage != nil {
-            initButton(imageFrame: frame)
-        }
+        initButton()
         
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initButton(imageFrame: self.frame)
+        initButton()
     }
     
-    convenience init(onImage: UIImage, offImage: UIImage, imageFrame: CGRect, imageInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)) {
-        let frame_with_insets = CGRect(x: 0.0, y: 0.0, width: imageFrame.width + imageInsets.left + imageInsets.right, height: imageFrame.height + imageInsets.top + imageInsets.bottom)
-        self.init(frame: frame_with_insets)
+    convenience init(onImage: UIImage, offImage: UIImage, buttonDimension: CGFloat, imageInsets: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)) {
+        self.init(frame: CGRect(x: 0.0, y: 0.0, width: buttonDimension, height: buttonDimension))
+        self.buttonDimensions = buttonDimension
         self.onImage = onImage
         self.offImage = offImage
         self.imageInsets = imageInsets
-        initButton(imageFrame: imageFrame)
+        initButton()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         if self.imageView != nil {
-
             self.setImageForValue(value: self.value)
         }
     }
     
-    func buildImageView(image: UIImage?, frame: CGRect) -> UIImageView {
-        let iv = UIImageView(frame: frame)
+    
+    
+    // All inits eventually call this
+    func initButton() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.imageEdgeInsets = self.imageInsets
+        addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        self.setImage(offImage, for: .normal)
+        buildOverlyingImageView()
+        updateConstraintsForDimensionChange()
+        self.setNeedsLayout()
+        self.layoutSubviews()
+    }
+    // 1. Build the UIImageView
+    // 2. Add the UIImageView as a subview
+    func buildOverlyingImageView() {
+        let onImageView = buildImageView(image: self.onImage)
+        self.addSubview(onImageView)
+        self.onImageView = onImageView
+    }
+    
+    func buildImageView(image: UIImage?) -> UIImageView {
+        let iv = UIImageView(frame: self.frame)
+        iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
         iv.image = image
         iv.isOpaque = false
@@ -78,33 +147,55 @@ class ToggleButton: UIButton {
         return iv
     }
     
-    func initButton(imageFrame: CGRect) {
-        if let insets = self.imageInsets {
-            self.imageEdgeInsets = insets
+    func updateConstraintsForDimensionChange() {
+        self.imageViewHeightConstraint?.isActive = false
+        self.imageViewWidthConstraint?.isActive = false
+        self.imageViewTopConstraint?.isActive = false
+        self.imageViewLeadingConstraint?.isActive = false
+        self.imageViewTrailingConstraint?.isActive = false
+        self.imageViewBottomConstraint?.isActive = false
+        
+        if let onImageView = self.onImageView {
+            self.imageViewHeightConstraint = onImageView.heightAnchor.constraint(equalToConstant: self.buttonDimensions - self.imageInsets.top - self.imageInsets.bottom)
+            self.imageViewHeightConstraint!.isActive = true
+            
+            self.imageViewWidthConstraint = onImageView.widthAnchor.constraint(equalToConstant: self.buttonDimensions - self.imageInsets.left - self.imageInsets.right)
+            self.imageViewWidthConstraint!.isActive = true
+            
+            self.imageViewTopConstraint = onImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.imageInsets.top)
+            self.imageViewTopConstraint!.isActive = true
+            
+            self.imageViewBottomConstraint = onImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.imageInsets.bottom)
+            self.imageViewBottomConstraint!.isActive = true
+            
+            self.imageViewLeadingConstraint = onImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: self.imageInsets.left)
+            self.imageViewLeadingConstraint!.isActive = true
+            
+            self.imageViewTrailingConstraint = onImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -self.imageInsets.right)
+            self.imageViewTrailingConstraint!.isActive = true
         }
-        addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        self.setImage(offImage, for: .normal)
-        if onImage != nil {
-            onImageView = buildImageView(image: self.onImage, frame: imageFrame)
-            self.addSubview(onImageView)
-            addImageViewConstraints()
+        
+        if let buttonHeight = self.buttonViewHeightConstraint, let buttonWidth = self.buttonViewWidthConstraint {
+            buttonHeight.isActive = false
+            buttonWidth.isActive = false
         }
-    }
-    
-    func addImageViewConstraints() {
-        guard let insets = self.imageInsets else { return }
-        onImageView.translatesAutoresizingMaskIntoConstraints = false
-        self.onImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: insets.top).isActive = true
-        self.onImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -insets.bottom).isActive = true
-        self.onImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: insets.left).isActive = true
-        self.onImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -insets.right).isActive = true
+        
+        self.buttonViewWidthConstraint = self.widthAnchor.constraint(equalToConstant: self.buttonDimensions)
+        self.buttonViewWidthConstraint!.isActive = true
+        
+        self.buttonViewHeightConstraint = self.heightAnchor.constraint(equalToConstant: self.buttonDimensions)
+        self.buttonViewHeightConstraint!.isActive = true
+        
+        self.imageEdgeInsets = self.imageInsets
+        
+        self.setNeedsLayout()
+        self.layoutSubviews()
     }
     
     override func didAddSubview(_ subview: UIView) {
         super.didAddSubview(subview)
-        if onImageView != nil {
-            self.bringSubview(toFront: onImageView)
-        }
+        guard let onImageView = self.onImageView else { return }
+        self.bringSubview(toFront: onImageView)
     }
     
     func bind(on_state: Bool, value_changed: @escaping (ButtonValue) -> Void) {
@@ -119,6 +210,7 @@ class ToggleButton: UIButton {
     }
     
     func setImageForValue(value: ButtonValue) {
+        guard let onImageView = self.onImageView else { return }
         var alpha: CGFloat!
         var off_alpha: CGFloat!
         switch value {

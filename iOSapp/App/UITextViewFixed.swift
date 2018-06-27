@@ -7,9 +7,12 @@ import UIKit
         setup()
     }
     func setup() {
+        //print("UITextViewFixed.setup()")
         textContainerInset = UIEdgeInsets.zero
         textContainer.lineFragmentPadding = 0
-        //contentInset = UIEdgeInsets.zero
+        contentInset = UIEdgeInsets.zero
+        
+        
         // this is not ideal, but you can sometimes use this
         // to fix the "space at bottom" insanity
         var b = bounds
@@ -22,7 +25,11 @@ import UIKit
     }
     
     override var intrinsicContentSize: CGSize {
-        let height = self.sizeThatFits(CGSize(width: self.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
-        return CGSize(width: self.contentSize.width, height: height)
+        // Below is a reminder of a warzone. Same thing above
+        //let height = self.sizeThatFits(CGSize(width: self.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        //print("UITextViewFixed.intrinsicContentSize read, frame: \(CGSize(width: self.contentSize.width, height: height)), super: \(super.intrinsicContentSize)")
+        //print("UITextViewFixed.contentSize \(self.contentSize)")
+        //return CGSize(width: self.contentSize.width, height: height)
+        return super.intrinsicContentSize
     }
 }

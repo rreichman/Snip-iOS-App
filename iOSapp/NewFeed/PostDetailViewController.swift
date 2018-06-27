@@ -39,7 +39,6 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var shortAuthorLabel: UILabel!
     @IBOutlet var writeBoxContainer: UIView!
-    @IBOutlet var postContainer: UIView!
     @IBOutlet var postCommentButton: UIButton!
     @IBOutlet var numberOfCommentsLabel: UILabel!
     @IBOutlet var commentText: UITextField!
@@ -48,6 +47,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var cancelReplyButton: UIButton!
     @IBOutlet var inputStatusLabel: UILabel!
     
+    @IBOutlet var headerContainerView: UIView!
     @IBOutlet var voteControl: VoteControl!
     @IBOutlet var writeBoxDivider: UIView!
     var delegate: PostDetailViewDelegate!
@@ -75,21 +75,29 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.allowsSelection = false
         tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        bodyTextView.delegate = self
+        
         voteControl.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         dataDelegate = PostStateManager.instance
-        //whiteBackArrow()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setUpWriteBox()
         
+        setupHeaderView()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         
         bodyTextView.isScrollEnabled = false
+        bodyTextView.translatesAutoresizingMaskIntoConstraints = false
+        bodyTextView.delegate = self
+        
         postCommentButton.addTarget(self, action: #selector(onSend), for: .touchUpInside)
         cancelReplyButton.addTarget(self, action: #selector(onCancelInputMode), for: .touchUpInside)
+        addTap()
+        
         topConstraint = writeBoxDivider.bottomAnchor.constraint(equalTo: commentText.topAnchor)
         topConstraint.isActive = true
+        
         postImage.layer.cornerRadius = 10
-        addTap()
+        
         
         if SessionManager.instance.loggedIn && SessionManager.instance.currentLoginUsername != nil {
             let realm = RealmManager.instance.getRealm()
@@ -97,42 +105,66 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         self.bindViews(data: self.post)
+    }
+    
+    func setupHeaderView() {
+        headerContainerView.translatesAutoresizingMaskIntoConstraints = false
+        let headerView = tableView.tableHeaderView!
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor).isActive = true
+        headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
+        headerView.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
+        /**
+        headerContainerView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor).isActive = true
+        headerContainerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
+        headerContainerView.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
+        **/
+        tableView.tableHeaderView = headerView
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        //print("PostDetailViewController.viewDidLayoutSubviews()")
         sizeHeaderToFit()
     }
     
     func sizeHeaderToFit() {
+        //print("PostDetailViewController.sizeHeaderToFit()")
         let headerView = tableView.tableHeaderView!
         
+        //print("PostDetailViewController setting needs layout flag on the header view, calling layoutIfNeeded()")
+        //print("bodyText intrinsic: \(bodyTextView.intrinsicContentSize) headerView intrinsic: \(headerView.intrinsicContentSize)")
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
-        
-        let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        //print("bodyText intrinsic: \(bodyTextView.intrinsicContentSize) headerView intrinsic: \(headerView.intrinsicContentSize)")
+        //print("PostDetailViewController Done layingout the header view")
         
         /**
+        let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        print("Calculating correct height using systemLayoutSizeFitting(UILayoutFittingCompressedSize).height, result is \(height)")
+        
         let actual_header_height = headerView.frame.size.height
         let contentSize = bodyTextView.contentSize
         let frame_size = bodyTextView.frame.size.height
         let intrinsicContentSize = bodyTextView.intrinsicContentSize
         let post = self.post
         let text = bodyTextView.text
+ 
+        var current_frame = headerView.frame
+        var size_that_fits = headerView.sizeThatFits(CGSize(width: current_frame.width, height: CGFloat.greatestFiniteMagnitude))
+        print("Size that fits: \(size_that_fits)")
+        current_frame.size.height = size_that_fits.height
+        headerView.frame = current_fram
         **/
-        
-        var frame = headerView.frame
-        frame.size.height = height
-        headerView.frame = frame
-        
+ 
         tableView.tableHeaderView = headerView
     }
     
     override func viewDidAppear(_ animated: Bool) {
         self.registerForKeyboardUpdates()
         if (self.isBeingPresented || self.isMovingToParentViewController) {
-            print("PostDetailView is appearing for the first time")
+            //print("PostDetailView is appearing for the first time")
             guard let m = self.mode else { return }
             switch m {
             case .showComments:
@@ -235,6 +267,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func bindViews(data: Post) {
+        //print("PostDetailViewController.bindViews()")
         guard let _ = self.tableView else { return }
         //Binding of elements that will never be hindden
         titleLabel.text = data.headline
@@ -261,7 +294,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             shortAuthorLabel.text = ""
             authorAvatarImage.image = nil
         }
-        dateLabel.text = dateFormatter.string(from: data.date)
+        dateLabel.text = data.formattedTimeString()
         bindImage(imageOpt: data.image)
         
         voteControl.bind(voteValue: data.voteValue)
@@ -276,7 +309,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             pStyle.paragraphSpacing = 12
             pStyle.defaultTabInterval = 36
             pStyle.baseWritingDirection = .leftToRight
-            pStyle.minimumLineHeight = 22.0
+            pStyle.minimumLineHeight = 20.0
             
             for source in data.relatedLinks {
                 let text = source.title + ", "
@@ -290,6 +323,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
                 richText.append(attributedText)
             }
             bodyTextView.attributedText = (data.relatedLinks.count > 0 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
+            //print("PostDetailViewController.bodyTextView.attributedText set")
             //bodyTextView.sizeToFit()
         } else {
             bodyTextView.text = data.text

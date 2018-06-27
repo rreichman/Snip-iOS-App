@@ -120,7 +120,7 @@ class NewSnippetTableViewCell: UITableViewCell {
                 pStyle.paragraphSpacing = 12
                 pStyle.defaultTabInterval = 36
                 pStyle.baseWritingDirection = .leftToRight
-                pStyle.minimumLineHeight = 22.0
+                pStyle.minimumLineHeight = 20.0
                 
                 for source in data.relatedLinks {
                     let text = source.title + ", "
@@ -314,7 +314,7 @@ extension Post {
     func getAttributedBody() -> NSMutableAttributedString? {
         //Possibly strip paragraphs
         let font_size = 15
-        let line_height = 22
+        let line_height = 20
         let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
         guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return nil }
         render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: 15), NSAttributedStringKey.foregroundColor: UIColorFromRGB(rgbValue: 0x4c4c4c)], range: NSRange(location: 0, length: render.length))

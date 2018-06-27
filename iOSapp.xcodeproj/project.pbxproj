@@ -80,6 +80,8 @@
 		403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D120AE03E700E4BF8B /* CategoryParam.swift */; };
 		403505D420AE07DD00E4BF8B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D320AE07DD00E4BF8B /* Image.swift */; };
 		403AEEE020D86C490039E4DB /* VoteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AEEDF20D86C490039E4DB /* VoteControl.swift */; };
+		40523BEE20E2D7C100494F7D /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40523BED20E2D7C100494F7D /* PostDetailView.swift */; };
+		40523BF020E2D7DF00494F7D /* PostDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40523BEF20E2D7DF00494F7D /* PostDetailView.xib */; };
 		405B04CA20DC752E00203265 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 405B04C920DC752E00203265 /* Home.storyboard */; };
 		405B04CC20DC755F00203265 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 405B04CB20DC755F00203265 /* Discover.storyboard */; };
 		405B04CE20DC756800203265 /* Wallet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 405B04CD20DC756800203265 /* Wallet.storyboard */; };
@@ -280,6 +282,8 @@
 		403505D120AE03E700E4BF8B /* CategoryParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryParam.swift; sourceTree = "<group>"; };
 		403505D320AE07DD00E4BF8B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		403AEEDF20D86C490039E4DB /* VoteControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteControl.swift; sourceTree = "<group>"; };
+		40523BED20E2D7C100494F7D /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		40523BEF20E2D7DF00494F7D /* PostDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailView.xib; sourceTree = "<group>"; };
 		405B04C920DC752E00203265 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		405B04CB20DC755F00203265 /* Discover.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Discover.storyboard; sourceTree = "<group>"; };
 		405B04CD20DC756800203265 /* Wallet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Wallet.storyboard; sourceTree = "<group>"; };
@@ -782,6 +786,7 @@
 		4018403220ACE8E6001DFE6E /* NewFeed */ = {
 			isa = PBXGroup;
 			children = (
+				40523BEC20E2D74700494F7D /* PostDetail */,
 				408FA7A120D83C2300184725 /* VoteSlider */,
 				4071068A20D35FD6006DED24 /* ExpandedImageView */,
 				40E4B39520AE5525000EA9F6 /* Cells */,
@@ -812,6 +817,15 @@
 				405F1D3520B75F380066CD94 /* PostContainer.swift */,
 			);
 			path = RealmObjects;
+			sourceTree = "<group>";
+		};
+		40523BEC20E2D74700494F7D /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				40523BED20E2D7C100494F7D /* PostDetailView.swift */,
+				40523BEF20E2D7DF00494F7D /* PostDetailView.xib */,
+			);
+			path = PostDetail;
 			sourceTree = "<group>";
 		};
 		40676A3520DAD380002E4130 /* SnipLogger */ = {
@@ -1086,6 +1100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DAD9293203E303600337922 /* CommentView.xib in Resources */,
+				40523BF020E2D7DF00494F7D /* PostDetailView.xib in Resources */,
 				405B04CE20DC756800203265 /* Wallet.storyboard in Resources */,
 				7DD073BA20771B9D001D24BD /* BackHeaderView.xib in Resources */,
 				405B04CA20DC752E00203265 /* Home.storyboard in Resources */,
@@ -1442,6 +1457,7 @@
 				7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */,
 				2337A9F0209D09680090CFDA /* UserWallet.swift in Sources */,
 				23F3586F20A255B600FC6C60 /* GasData.swift in Sources */,
+				40523BEE20E2D7C100494F7D /* PostDetailView.swift in Sources */,
 				7DC58874206B021300BFA5AD /* LoginViewController.swift in Sources */,
 				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,
 				7DDA3D9D206C5DAE00960252 /* SignupViewController.swift in Sources */,
