@@ -36,8 +36,7 @@ class PostStateManager {
     
     func sendReportToServer(snippetID: Int, reasons: String)
     {
-        let _ : ReportInfo = ReportInfo(snippetID: snippetID, reasons: reasons)
-        //testSendReportToServer(reportParams: reportInfo)
+        SnipRequests.instance.postReport(post_id: snippetID, reason: reasons, param1: "")
     }
     
   

@@ -41,7 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.statusBarStyle = .lightContent
         
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
-        Mixpanel.mainInstance().identify(distinctId: getUniqueDeviceID())
+        let uuid: UUID? = UIDevice.current.identifierForVendor
+        let uuid_string = (uuid == nil ? "" : uuid!.uuidString)
+        Mixpanel.mainInstance().identify(distinctId: uuid_string)
         FirebaseApp.configure()
         //Messaging.messaging().shouldEstablishDirectChannel = true
         self._registerForRemoteNotifications(application: application)
@@ -80,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("enter background")
-        Logger().logAppEnteredBackground()
+        //Logger().logAppEnteredBackground()
         
         enteredBackgroundTime = Date()
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
@@ -97,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKAppEvents.activateApp()
         AppEventsLogger.activate(application)
-        Logger().logAppBecameActive()
+        //Logger().logAppBecameActive()
         
         let currentTime : Date = Date()
         
@@ -105,11 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Making sure that it's not the initial time of the program.
         let didWeEverEnterBackground : Bool = currentTime.seconds(from: enteredBackgroundTime) < 86400 * 3000
         
-        print("Current URL in become active is \(WebUtils.shared.currentURLString)")
-        
-        let isComingFromSpecificPost : Bool = (WebUtils.shared.currentURLString.range(of: "/post/") != nil)
-        coordinator.applicationDidBecomeActive(didWeEverEnterBackground, wasAppLongInBackground, isComingFromSpecificPost)
-        print("done did become active \(Date())")
+        coordinator.applicationDidBecomeActive(didWeEverEnterBackground, wasAppLongInBackground)
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 

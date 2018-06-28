@@ -230,14 +230,6 @@ class LoginViewController : GenericProgramViewController, UIGestureRecognizerDel
         passwordLabel.attributedText = LoginDesignUtils.shared.PASSWORD_ACTIVE_STRING
     }
     
-    func postResetPassword(emailString: String)
-    {
-        var postResetUrlString : String = SystemVariables().URL_STRING
-        postResetUrlString.append("rest-auth/password/reset/")
-        
-        WebUtils().postContentWithJsonBody(jsonString : ["email" : emailString], urlString : postResetUrlString, completionHandler : handleForgotResponseString)
-    }
-    
     func handleForgotResponseString(responseString: String)
     {
         if let jsonObj = try? JSONSerialization.jsonObject(with: responseString.data(using: .utf8)!, options: .allowFragments) as! [String : Any]

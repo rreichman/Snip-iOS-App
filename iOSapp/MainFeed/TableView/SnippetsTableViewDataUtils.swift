@@ -11,6 +11,7 @@ import Cache
 
 extension SnippetsTableViewController
 {
+    /**
     func getRestOfImagesAsync()
     {
         let storage = AppCache.shared.getStorage()
@@ -286,5 +287,6 @@ extension SnippetsTableViewController
             }
         }
     }
+ **/
 }
 

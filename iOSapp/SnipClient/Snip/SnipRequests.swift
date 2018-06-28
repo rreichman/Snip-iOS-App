@@ -295,40 +295,29 @@ class SnipRequests {
     }
      **/
     
-    func getUser() -> Single<User> {
+    func fetchAndSaveLoggedInUser() {
         return provider.rx.request(SnipService.getUserProfile)
-            .subscribeOn(SingleBackgroundThread.scheduler)
+            .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
-            .map { obj in
-                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj)}
-                let user = try User.parseJson(json: json)
-                return user
-        }
-    }
-    
-    func buildProfile(authToken: String) -> Single<User> {
-        return provider.rx.request(SnipService.buildUserProfile(authToken: authToken))
-            .subscribeOn(SingleBackgroundThread.scheduler)
-            .mapSnipRequest()
-            .mapJSON()
+            .observeOn(MainScheduler.instance)
             .map { obj -> User in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj)}
                 let user = try User.parseJson(json: json)
                 return user
             }
-            .observeOn(MainScheduler.instance)
-            .map { user in
+            .subscribe(onSuccess: { (user) in
+                print("Fetched profile for user \(user.username)")
                 let realm = RealmManager.instance.getRealm()
                 try! realm.write {
                     realm.add(user, update: true)
                 }
-                //SnipRequests.instance.getUserAvatar(for: user)
-                SessionManager.instance.setUserProfile(name: "\(user.first_name) \(user.last_name)", username: user.username, initials: user.initials)
-                print("Logged in as \(user.username) using token \(authToken)")
-                return user
-            }
-            .retry(2)
+            }, onError: { (err) in
+                print("Error fetch profile for logged in user")
+                Crashlytics.sharedInstance().recordError(err)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     func postVoteState(post_id: Int, vote_val: Double) {
@@ -418,6 +407,7 @@ class SnipRequests {
                     }
                 }
             }) { err in
+                print("Error posting comment with body text \(body), err: \(err)")
                 Crashlytics.sharedInstance().recordError(err)
                 try! realm.write{
                     if let c = cached, let index = post.comments.index(of: c) {
@@ -490,5 +480,18 @@ class SnipRequests {
                 print("Error deleting comment \(comment_id): \(err)")
                 Crashlytics.sharedInstance().recordError(err)
             }
+    }
+    
+    func postReport(post_id: Int, reason: String, param1: String) {
+        provider.rx.request(SnipService.postReport(post_id: post_id, reason: reason, param1: param1))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .subscribe(onSuccess: { (response) in
+                print("Report submitted for post \(String(post_id)) for reason \(reason) (param1 \(param1)")
+            }) { (err) in
+                print("Error submitting report for post \(post_id), err: \(err)")
+                Crashlytics.sharedInstance().recordError(err)
+            }
+            .disposed(by: disposeBag)
     }
 }

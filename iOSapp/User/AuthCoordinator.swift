@@ -98,14 +98,9 @@ class AuthCoordinator: Coordinator {
             case LoginResult.success(_, _, let accessToken):
                 print("fb login success")
                 SnipAuthRequests.instance.postFBToken(facebookToken: accessToken.authenticationToken)
-                    .flatMap({ (snip_auth_token) -> Single<User> in
-                        print("POST fb token, got snip_auth_token, sending FCM notificatoin token")
-                        NotificationManager.instance.sendRegistrationTokenAfterLogin()
-                        return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
-                    })
-                    .observeOn(MainScheduler.instance)
                     .subscribe(onSuccess: { [weak self] (user_profile) in
                         print("Fetched user profile with auth token")
+                        NotificationManager.instance.sendRegistrationTokenAfterLogin()
                         guard let s = self, let _ = s.loginSignUpViewController else { return }
                         s.delegate.onSuccessfulLogin(profile: user_profile)
                         s.popSelf()
@@ -127,14 +122,9 @@ class AuthCoordinator: Coordinator {
         guard let loginvc = self.loginViewController else { return }
         loginvc.enableInteraction(enabled: false)
         SnipAuthRequests.instance.postLogin(email: email, password: password)
-            .flatMap({ (snip_auth_token) -> Single<User> in
-                print("Successful login, fetching user profile, sending FCM notification token")
-                NotificationManager.instance.sendRegistrationTokenAfterLogin()
-                return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
-            })
-            .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] (user_profile) in
                 print("User profile fetched")
+                NotificationManager.instance.sendRegistrationTokenAfterLogin()
                 guard let s = self, let _ = s.loginViewController else { return }
                 s.delegate.onSuccessfulLogin(profile: user_profile)
                 s.popSelf()
@@ -167,14 +157,9 @@ class AuthCoordinator: Coordinator {
         guard let signupvc = self.signupViewController else { return }
         signupvc.enableInteraction(enabled: false)
         SnipAuthRequests.instance.postSignUp(email: email, first_name: first_name, last_name: last_name, password: password)
-            .flatMap({ (snip_auth_token) -> Single<User> in
-                print("Successful Signup, fetching user profile, sending FCM notificationToken")
-                NotificationManager.instance.sendRegistrationTokenAfterLogin()
-                return SessionManager.instance.loginFetchProfile(auth_token: snip_auth_token)
-            })
-            .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] (user_profile) in
                 print("User profile fetched")
+                NotificationManager.instance.sendRegistrationTokenAfterLogin()
                 guard let s = self, let _ = s.signupViewController else { return }
                 s.delegate.onSuccessfulSignup(profile: user_profile)
                 s.popSelf()

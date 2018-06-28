@@ -15,6 +15,7 @@ let IMAGE_DESCRIPTION_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributed
 
 class WebUtils
 {
+    /**
     static let shared = WebUtils()
     
     var currentURLString : String = SystemVariables().URL_STRING
@@ -157,5 +158,6 @@ class WebUtils
             print("what to do here?")
         }
     }
+ **/
  **/
 }

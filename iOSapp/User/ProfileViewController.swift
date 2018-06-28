@@ -140,12 +140,10 @@ class ProfileViewController : GenericProgramViewController {
     @objc func settingsClicked(sender: UITapGestureRecognizer)
     {
         print("settings")
-        Logger().logClickedOnSettings()
         delegate.onSettingsClicked()
     }
     
     @objc func onSavedSnipsRequested() {
-        Logger().logClickMyUpvotes()
         delegate.onSavedPostsRequested()
     }
     @objc func onFavoriteSnipsRequested() {

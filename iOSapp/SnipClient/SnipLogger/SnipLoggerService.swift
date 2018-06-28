@@ -18,17 +18,17 @@ enum SnipLoggerService {
 
 extension SnipLoggerService: TargetType {
     var baseURL: URL {
-        return RestUtils.snipURL
+        return RestUtils.versionedApiUrl
     }
     
     var path: String {
         switch self {
         case .deviceLog:
-            return "/user/device_log/"
+            return "/user/device-log/"
         case .logActionParam:
             return "/user/log/"
         case .logPostAction(let postId, _, _):
-            return "/action/\(String(postId))/"
+            return "/posts/post/\(String(postId))/action/"
         }
     }
     

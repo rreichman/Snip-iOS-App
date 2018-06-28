@@ -148,6 +148,11 @@ class ToggleButton: UIButton {
     }
     
     func updateConstraintsForDimensionChange() {
+        if (self.leftImageInset + self.rightImageInset >= self.buttonDimensions) || (self.topImageInset + self.bottomImageInset >= self.buttonDimensions) {
+            print("Toggle Button has an invalid inset + dimension state")
+            return
+        }
+        
         self.imageViewHeightConstraint?.isActive = false
         self.imageViewWidthConstraint?.isActive = false
         self.imageViewTopConstraint?.isActive = false

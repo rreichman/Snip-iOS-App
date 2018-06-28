@@ -11,7 +11,8 @@ import UIKit
 //@IBDesignable
 
 class CommentView: UIView
-{    
+{
+    /**
     var contentView : UIView?
     
     @IBOutlet weak var userImage: UserImage!
@@ -163,5 +164,5 @@ class CommentView: UIView
         removePaddingFromTextView(textView: editButton)
         removePaddingFromTextView(textView: deleteButton)
     }
-
+     **/
 }

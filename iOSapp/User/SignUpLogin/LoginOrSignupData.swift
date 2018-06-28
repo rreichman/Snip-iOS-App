@@ -15,7 +15,7 @@ class LoginOrSignupData
     
     init(urlString : String, postJson : Dictionary<String,String>)
     {
-        _urlString = SystemVariables().URL_STRING
+        _urlString = ""//SystemVariables().URL_STRING
         _urlString.append(urlString)
         _postJson = postJson
     }

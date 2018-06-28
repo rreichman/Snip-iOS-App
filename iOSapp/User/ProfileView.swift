@@ -20,6 +20,7 @@ import UIKit
 
 class ProfileView: UIView
 {
+    /**
     var contentView : UIView?
     
     
@@ -34,7 +35,7 @@ class ProfileView: UIView
     var currentViewController : SnippetsTableViewController = SnippetsTableViewController()
     
     let USERNAME_ATTRIBUTES : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().PROFILE_NAME_TEXT_FONT!, NSAttributedStringKey.foregroundColor : UIColor.white]
-    
+    **/
     override init(frame: CGRect) {
         super.init(frame: frame)
         xibSetup()
@@ -46,6 +47,7 @@ class ProfileView: UIView
     }
     
     func xibSetup() {
+        /**
         contentView = loadViewFromNib()
         
         // use bounds not frame or it'll be offset
@@ -56,7 +58,9 @@ class ProfileView: UIView
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(contentView!)
+         **/
     }
+    /**
     
     func loadViewFromNib() -> UIView! {
         
@@ -103,5 +107,6 @@ class ProfileView: UIView
         userImageLeadingConstraint.constant = (CachedData().getScreenWidth() - userImage.frame.width) / 2
         userNameLeadingConstraint.constant = (CachedData().getScreenWidth() - usernameSize) / 2
     }
+ **/
 }
 

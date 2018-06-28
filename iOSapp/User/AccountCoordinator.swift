@@ -44,7 +44,7 @@ class AccountCoordinator: Coordinator {
                 print("AccountCoordinator:start() found we were logged in but SessionManager does not have a saved username")
                 profileViewController.bindData(user: nil)
                 //fetch it for next time
-                SnipRequests.instance.buildProfile(authToken: SessionManager.instance.authToken!).subscribe()
+                SnipRequests.instance.fetchAndSaveLoggedInUser()
                 return
             }
             let user = realm.object(ofType: User.self, forPrimaryKey: username)

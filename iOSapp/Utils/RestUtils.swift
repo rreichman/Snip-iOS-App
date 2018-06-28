@@ -9,10 +9,23 @@
 import Foundation
 import Moya
 class RestUtils {
-    static let snipURL: URL = URL(string: "https://www.snip.today")!
+    static let snipURLString: String = "https://www.snip.today"
     //static let snipURL: URL = URL(string: "https://readers-dev-test.snip.today")!
-    //static let snipURL: URL = URL(string: "http://localhost:8000")!
+    //static let snipURLString: String = "http://localhost:8000"
+    static let apiVersionString: String = "/api/v1"
     
+    
+    static var baseURL: URL {
+        get {
+            return URL(string: snipURLString)!
+        }
+    }
+    
+    static var versionedApiUrl: URL {
+        get {
+            return URL(string: "\(snipURLString)\(apiVersionString)")!
+        }
+    }
     static func buildPostData(params: [ (String, String) ]) -> [ MultipartFormData ] {
         var data: [ MultipartFormData ] = []
         for param in params {

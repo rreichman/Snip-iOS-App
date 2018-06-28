@@ -50,40 +50,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y55-bh-mL6" userLabel="Profile Container">
-                                <rect key="frame" x="0.0" y="20" width="375" height="145"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="183"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8e-k2-Ivd" userLabel="Avatar Container">
-                                        <rect key="frame" x="155" y="20" width="64" height="64"/>
+                                        <rect key="frame" x="136" y="20" width="102" height="102"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgS-Kl-2vK" userLabel="Initials">
-                                                <rect key="frame" x="18.5" y="21" width="27" height="22"/>
+                                                <rect key="frame" x="37.5" y="40" width="27" height="22"/>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                                 <color key="textColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wLA-wV-p6A">
-                                                <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="102" height="102"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="wLA-wV-p6A" firstAttribute="width" secondItem="u8e-k2-Ivd" secondAttribute="width" id="1fE-YB-riM"/>
                                             <constraint firstItem="wLA-wV-p6A" firstAttribute="centerY" secondItem="u8e-k2-Ivd" secondAttribute="centerY" id="Fou-sc-wWc"/>
-                                            <constraint firstAttribute="height" constant="64" id="NtM-vJ-4wV"/>
+                                            <constraint firstAttribute="height" constant="102" id="NtM-vJ-4wV"/>
                                             <constraint firstItem="wLA-wV-p6A" firstAttribute="centerX" secondItem="u8e-k2-Ivd" secondAttribute="centerX" id="U2c-EC-K6Q"/>
-                                            <constraint firstAttribute="width" constant="64" id="jV0-QM-7lo"/>
+                                            <constraint firstAttribute="width" constant="102" id="jV0-QM-7lo"/>
                                             <constraint firstItem="wLA-wV-p6A" firstAttribute="height" secondItem="u8e-k2-Ivd" secondAttribute="height" id="jjf-w3-eaX"/>
                                             <constraint firstItem="GgS-Kl-2vK" firstAttribute="centerY" secondItem="u8e-k2-Ivd" secondAttribute="centerY" id="kB7-Vq-JfN"/>
                                             <constraint firstItem="GgS-Kl-2vK" firstAttribute="centerX" secondItem="u8e-k2-Ivd" secondAttribute="centerX" id="nAA-w8-398"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="32"/>
+                                                <integer key="value" value="51"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B4x-4g-5eA" userLabel="Full Name">
-                                        <rect key="frame" x="128" y="96" width="119" height="29"/>
+                                        <rect key="frame" x="128" y="134" width="119" height="29"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -99,7 +99,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="raa-2E-QZV" userLabel="Saved Snippets View">
-                                <rect key="frame" x="20" y="165" width="335" height="64.5"/>
+                                <rect key="frame" x="20" y="203" width="335" height="64.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved Snips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQh-42-jsa">
                                         <rect key="frame" x="0.0" y="22" width="84" height="19.5"/>
@@ -125,7 +125,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WhZ-bP-eWL" userLabel="Favorite Snips">
-                                <rect key="frame" x="20" y="229.5" width="335" height="64.5"/>
+                                <rect key="frame" x="20" y="267.5" width="335" height="64.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite Snips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krg-N4-itn">
                                         <rect key="frame" x="0.0" y="22" width="101.5" height="19.5"/>

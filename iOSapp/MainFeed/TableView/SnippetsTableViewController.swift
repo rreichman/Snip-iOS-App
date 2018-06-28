@@ -9,8 +9,9 @@
 import UIKit
 import Cache
 
-class SnippetsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource
+class SnippetsTableViewController: GenericProgramViewController
 {
+    /**
     // This is put here so that the content doesn't jump when updating row in table (based on: https://stackoverflow.com/questions/27996438/jerky-scrolling-after-updating-uitableviewcell-in-place-with-uitableviewautomati)
     var heightAtIndexPath = NSMutableDictionary()
     var finishedLoadingSnippets = false
@@ -43,9 +44,10 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
     @IBOutlet weak var profileViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
-    
+    **/
     override func viewDidLoad()
     {
+        /**
         print("loading snippetViewController: \(Date().timeIntervalSince1970)")
         super.viewDidLoad()
      
@@ -101,8 +103,9 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         
         print("done loading snippetViewController: \(Date().timeIntervalSince1970)")
+        **/
     }
-    
+    /**
     override func viewDidAppear(_ animated: Bool)
     {
         backHeaderView.isHidden = !shouldShowBackView
@@ -211,4 +214,5 @@ class SnippetsTableViewController: GenericProgramViewController, UITableViewDele
         
         return cell
     }
+     **/
 }

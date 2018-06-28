@@ -10,6 +10,7 @@ import UIKit
 
 class ForgotPasswordController : GenericProgramViewController
 {
+    /**
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var resetPasswordButton: UIButton!
     @IBOutlet weak var forgotPasswordText: UITextView!
@@ -41,7 +42,7 @@ class ForgotPasswordController : GenericProgramViewController
             // TODO: What happens here?
         }
     }
-    
+    /**
     func postResetPassword(handlerParams: Any)
     {
         var postResetUrlString : String = SystemVariables().URL_STRING
@@ -51,6 +52,7 @@ class ForgotPasswordController : GenericProgramViewController
         
         WebUtils().postContentWithJsonBody(jsonString : ["email" : emailString], urlString : postResetUrlString, completionHandler : handleResponseString)
     }
+     **/
     
     @IBAction func resetPasswordPressed(_ sender: Any)
     {
@@ -67,4 +69,5 @@ class ForgotPasswordController : GenericProgramViewController
         
         emailTextField.layer.borderWidth = 0.5
     }
+    **/
 }

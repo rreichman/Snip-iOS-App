@@ -13,10 +13,10 @@ enum SnipService {
     case main
     case postQuery(params: [String: Any], page: Int?)
     case getPostImage(imageURL: String)
-    case buildUserProfile(authToken: String)
     case getUserProfile
     case postVote(post_id: Int, vote_value: Double)
     case postSave(post_id: Int)
+    case postReport(post_id: Int, reason: String, param1: String)
     case postComment(post_id: Int, parent_id: Int?, body: String)
     case editComment(post_id: Int, comment_id: Int, body: String)
     case deleteComment(comment_id: Int)
@@ -33,7 +33,7 @@ extension SnipService: TargetType {
         case .getAppLink(let url):
             return URL(string: url)!
         default:
-            return RestUtils.snipURL
+            return RestUtils.versionedApiUrl
         }
         
     }
@@ -41,25 +41,27 @@ extension SnipService: TargetType {
     var path: String {
         switch self {
         case .main:
-            return "/main/"
+            return "/posts/main/"
+        case .postQuery:
+            return "/posts/all/"
         case .getUserProfile:
-            return "/user/my_profile/"
-        case .buildUserProfile:
-            return "/user/my_profile/"
+            return "/user/my-profile/"
         case .postVote(let post_id, _):
-            return "/action/\(post_id)/"
+            return "/posts/post/\(post_id)/action/"
         case .postSave(let post_id):
-            return "/action/\(post_id)/"
+            return "/posts/post/\(post_id)/action/"
         case .postComment:
-            return "/comments/publish/"
-        case .editComment:
-            return "/comments/publish/"
-        case .deleteComment:
-            return "/comments/delete/"
+            return "/posts/comment/"
+        case .editComment(_, let comment_id, _):
+            return "/posts/comment/\(comment_id)/"
+        case .deleteComment(let comment_id):
+            return "/posts/comment/\(comment_id)/"
         case .getSavedSnips:
-            return "/saved-posts/"
+            return "/posts/saved-posts/"
         case .getLikedSnips:
-            return "/my-upvotes/"
+            return "/posts/my-upvotes/"
+        case .postReport(let post_id, _, _):
+            return "/posts/post/\(post_id)/report/"
         default:
             return ""
         }
@@ -74,8 +76,10 @@ extension SnipService: TargetType {
         case .postComment:
             return .post
         case .editComment:
-            return .post
+            return .patch
         case .deleteComment:
+            return .delete
+        case .postReport:
             return .post
         default:
             return .get
@@ -116,8 +120,6 @@ extension SnipService: TargetType {
             return .requestPlain
         case .getUserProfile:
             return .requestPlain
-        case .buildUserProfile:
-            return .requestPlain
         case .postVote(_, let vote_value):
             let action_string = String("vote")
             let vote_val_string = String("\(vote_value)")
@@ -129,24 +131,18 @@ extension SnipService: TargetType {
             let action = MultipartFormData(provider: .data(action_string.data(using: .utf8)!), name: "action")
             return .uploadMultipart([action])
         case .postComment(let post_id, let parent_id, let body):
-            let post_id_name = String("post_id")
-            let post_id_string = String(post_id)
-            let body_name = String("body")
-            let post_id = MultipartFormData(provider: .data(post_id_string.data(using: .utf8)!), name: post_id_name)
-            let body = MultipartFormData(provider: .data(body.data(using: .utf8)!), name: body_name)
-            var params = [post_id, body]
+            var params = [("post_id", String(post_id)), ("body", body)]
             if let p_id = parent_id {
-                let parent_id_name = String("parent")
-                let parent_id_string = String(p_id)
-                let parent = MultipartFormData(provider: .data(parent_id_string.data(using: .utf8)!), name: parent_id_name)
-                params.insert(parent, at: 1)
+                params.append(("parent", String(p_id)))
             }
-            return .uploadMultipart(params)
-        case .editComment(let post_id, let comment_id, let body):
-            let params = [("post_id", String(post_id)), ("id", String(comment_id)), ("body", body)]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
-        case .deleteComment(let comment_id):
-            let params = [("id", String(comment_id))]
+        case .editComment(_, _, let body):
+            let params = [("body", body)]
+            return .uploadMultipart(RestUtils.buildPostData(params: params))
+        case .deleteComment:
+            return .requestPlain
+        case .postReport(_, let reason, _):
+            let params = [("reason_list_str", reason)]
             return .uploadMultipart(RestUtils.buildPostData(params: params))
         }
     }
@@ -154,9 +150,6 @@ extension SnipService: TargetType {
     var headers: [String : String]? {
         var headers = ["Accept" : "application/json", "Referer": "https://www.snip.today/"]
         switch self {
-        case .buildUserProfile(let authToken):
-            headers["Authorization"] = "Token \(authToken)"
-            break
         case .getPostImage:
             return [:]
         default:

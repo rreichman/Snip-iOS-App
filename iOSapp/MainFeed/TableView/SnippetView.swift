@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 
 class SnippetView: UIView {
-    
+    /**
     var contentView : UIView?
     
     @IBOutlet weak var menuButton: UIView!
@@ -417,4 +417,5 @@ class SnippetView: UIView {
         
         handleSnippetMenuButtonClicked(snippetID : currentSnippetId, viewController: currentViewController)
     }
+ **/
 }

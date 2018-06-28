@@ -128,7 +128,7 @@ func getCookiesForUrlRequest() -> [String]
     
     return cookieStringArray
 }
- **/
+
 
 func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
 {
@@ -154,16 +154,16 @@ func getDefaultURLRequest(serverString: String, method: String) -> URLRequest
     
     return urlRequest
 }
-/**
 func storeUserAuthenticationToken(authenticationToken : String)
 {
     UserInformation().setUserInfo(key: UserInformation().authenticationTokenKey, value: authenticationToken)
 }
-**/
+
 func getUniqueDeviceID() -> String
 {
     return UIDevice.current.identifierForVendor!.uuidString
 }
+**/
 
 func promptToUser(promptMessageTitle: String, promptMessageBody: String, viewController: UIViewController, completionHandler : ((UIAlertAction) -> Void)? = nil)
 {

@@ -30,6 +30,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var commentInput: UIButton!
     
+    @IBOutlet var extraTouchArea: UIView!
     @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var saveButton: ToggleButton!
     @IBOutlet var postImage: UIImageView!
@@ -38,7 +39,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var numberOfCommentsLabel: UILabel!
-    @IBOutlet var touchAreaView: UIView!
+    //@IBOutlet var touchAreaView: UIView!
     
     @IBOutlet var voteControl: VoteControl!
     @IBOutlet var views: [UIView]!
@@ -51,6 +52,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     var shareMessage: String?
     var shareUrl: NSURL?
     var post: Post?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -63,21 +65,26 @@ class NewSnippetTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.contentView.layoutIfNeeded()
+        titleLabel.preferredMaxLayoutWidth = titleLabel.bounds.size.width
+    }
+    
     func viewInit() {
         for view in views {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
+        self.translatesAutoresizingMaskIntoConstraints = false
         postImage.layer.cornerRadius = 10
         contentView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
         commentInput.layer.cornerRadius = 16
         commentInput.layer.borderWidth = 1
         commentInput.layer.borderColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0).cgColor
         voteControl.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
-        //commentInput.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
-        //commentInput.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
 
         bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 20)
-        //bottomConstraint.priority = .defaultHigh
+        bottomConstraint.priority = .init(999.0)
         bottomConstraint.isActive = true
         addTap()
         
@@ -89,6 +96,9 @@ class NewSnippetTableViewCell: UITableViewCell {
         
         //Binding of elements that will never be hindden
         titleLabel.text = data.headline
+        titleLabel.sizeToFit()
+        titleLabel.needsUpdateConstraints()
+        titleLabel.layoutIfNeeded()
         if let auth = data.author {
             authorLabel.text = "\(auth.first_name) \(auth.last_name)"
         }
@@ -250,8 +260,8 @@ class NewSnippetTableViewCell: UITableViewCell {
         optionsButton.addTarget(self, action: #selector(postOptionsTab), for: .touchUpInside)
         authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(authorTap)))
         
-        touchAreaView.isUserInteractionEnabled = true
-        touchAreaView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
+        extraTouchArea.isUserInteractionEnabled = true
+        extraTouchArea.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTap)))
     }
@@ -313,11 +323,11 @@ extension NewSnippetTableViewCell: VoteControlDelegate {
 extension Post {
     func getAttributedBody() -> NSMutableAttributedString? {
         //Possibly strip paragraphs
-        let font_size = 15
+        let font_size: CGFloat = 15.0
         let line_height = 20
         let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
         guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return nil }
-        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: 15), NSAttributedStringKey.foregroundColor: UIColorFromRGB(rgbValue: 0x4c4c4c)], range: NSRange(location: 0, length: render.length))
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.0)], range: NSRange(location: 0, length: render.length))
         return render
     }
 }

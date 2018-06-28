@@ -18,13 +18,13 @@ enum NotificationService {
 
 extension NotificationService: TargetType {
     var baseURL: URL {
-        return RestUtils.snipURL
+        return RestUtils.versionedApiUrl
     }
     
     var path: String {
         switch self {
         case .firebaseToken:
-            return "/notification/save_token/"
+            return "/notification/save-token/"
         case .subscribe:
             return "/notification/subscribe/"
         case .unsubscribe:
@@ -59,7 +59,7 @@ extension NotificationService: TargetType {
     }
     
     var headers: [String : String]? {
-        var headers = ["Accept" : "application/json", "Referer": "https://www.snip.today/"]
+        var headers = ["Accept" : "application/json"]
         if SessionManager.instance.loggedIn {
             if let authToken = SessionManager.instance.authToken {
                 headers["Authorization"] = "Token \(authToken)"
@@ -67,7 +67,7 @@ extension NotificationService: TargetType {
             }
         }
         if let session = SessionManager.instance.sessionCookie {
-            headers["Cookie"] = "sniptoday=\(session); path=/; domain=.snip.today; HttpOnly;"
+            headers["Cookie"] = "sniptoday=\(session);"
         }
         return headers
     }

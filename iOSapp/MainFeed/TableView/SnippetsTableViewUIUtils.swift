@@ -10,6 +10,7 @@ import UIKit
 
 extension SnippetsTableViewController
 {
+    /**
     func runLoadingIndicator()
     {
         loadingIndicator.startAnimating()
@@ -86,4 +87,5 @@ extension SnippetsTableViewController
             //snipRetrieverFromWeb.loadMorePosts(completionHandler: tableViewController.dataCollectionCompletionHandler)
         }
     }
+     **/
 }

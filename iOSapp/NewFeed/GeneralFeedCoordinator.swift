@@ -246,7 +246,7 @@ class GeneralFeedCoordinator: Coordinator {
             getRequestForMode()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, results) in
-                    guard let s = self else {return}
+                    guard let s = self, let vc = s.postListVC else {return}
                     try! realm.write {
                         s.postCotainer.nextPage = nextPage
                         for newPost in results {
@@ -256,13 +256,14 @@ class GeneralFeedCoordinator: Coordinator {
                             }
                         }
                     }
+                    vc.endRefreshing()
                     s.loadingState = .notLoading
                 }) { [weak self](err) in
                     print(err)
                     Crashlytics.sharedInstance().recordError(err)
                     
-                    guard let s = self else { return }
-                    s.postListVC.endRefreshing()
+                    guard let s = self, let vc = s.postListVC else {return}
+                    vc.endRefreshing()
                     s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
             

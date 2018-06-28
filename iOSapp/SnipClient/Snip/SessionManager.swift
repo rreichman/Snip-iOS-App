@@ -111,20 +111,22 @@ class SessionManager {
         self.currentLoginUsername = nil
     }
     
-    func login(auth_token: String) {
+    func setLoginData(auth_token: String, user: User) {
         clearAll()
         self.authToken = auth_token
-        let _ = SnipRequests.instance.buildProfile(authToken: auth_token).subscribe()
+        
+        let realm = RealmManager.instance.getRealm()
+        try! realm.write {
+            realm.add(user, update: true)
+        }
+        
+        self.currentLoginUsername = user.username
+        self.currentLoginName = "\(user.first_name) \(user.last_name)"
+        self.currentLoginIntitals = user.initials
     }
     
-    func loginFetchProfile(auth_token: String) -> Single<User> {
-        clearAll()
-        self.authToken = auth_token
-        return SnipRequests.instance.buildProfile(authToken: auth_token)
-    }
     
     func logout() {
-        
         // Delete user object in realm if it exists
         let realm = RealmManager.instance.getRealm()
         if let loggedInUserName = SessionManager.instance.currentLoginUsername,

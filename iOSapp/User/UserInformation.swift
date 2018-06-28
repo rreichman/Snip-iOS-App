@@ -10,6 +10,7 @@ import UIKit
 
 class UserInformation
 {
+    /**
     var authenticationTokenKey : String = "key"
     var emailKey : String = "email"
     var firstNameKey : String = "first_name"
@@ -81,4 +82,5 @@ class UserInformation
             }).resume()
         }
     }
+     **/
 }

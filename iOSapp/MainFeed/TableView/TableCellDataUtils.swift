@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/**
 let referenceAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().REFERENCES_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().REFERENCES_COLOR]
 let headlineAttributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font : SystemVariables().HEADLINE_TEXT_FONT!, NSAttributedStringKey.foregroundColor : SystemVariables().HEADLINE_TEXT_COLOR]
 let headlineParagraphStyle = getHeadlineParagraphStyle()
@@ -129,3 +129,4 @@ func getReferencesStringFromPostData(postData : PostData) -> NSMutableAttributed
     }
     return referencesString
 }
+ **/

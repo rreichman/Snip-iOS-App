@@ -19,7 +19,7 @@ enum SnipAuthService {
 
 extension SnipAuthService: TargetType {
     var baseURL: URL {
-        return RestUtils.snipURL
+        return RestUtils.versionedApiUrl
     }
     
     var path: String {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -27,8 +27,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="724.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Richard Marcil" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHH-oH-6UX">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Richard Marcil" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHH-oH-6UX">
                         <rect key="frame" x="20" y="104" width="84" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="I7x-Ng-Tj4"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                         <color key="textColor" white="0.60999999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -117,17 +120,7 @@
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21 Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gli-8d-p8T">
                         <rect key="frame" x="219" y="600" width="92" height="18"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.63" blue="0.70999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9V7-nQ-Dx5" userLabel="Spacer">
-                        <rect key="frame" x="20" y="74" width="219" height="25"/>
-                        <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gates Foundation will pay off Nigeria’s $76 million polio debt" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAz-pe-1HY">
-                        <rect key="frame" x="20" y="20" width="205" height="54"/>
-                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="15"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="2.7750385811486922e-07" green="0.69999998807907104" blue="0.80000001192092896" alpha="1" colorSpace="deviceRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QuL-NW-ueL" customClass="VoteControl" customModule="iOSapp" customModuleProvider="target">
@@ -140,12 +133,27 @@
                             <userDefinedRuntimeAttribute type="image" keyPath="filledRightImage" value="likeFilled"/>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Title" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="none" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="AAz-pe-1HY">
+                        <rect key="frame" x="20" y="18" width="205" height="19.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" id="MxS-gn-OxW"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="84" id="PLj-gw-8sg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isPropotional" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3zE-RM-67E" userLabel="Extra Touch Area">
+                        <rect key="frame" x="20" y="37.5" width="205" height="66.5"/>
+                    </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="deviceWhite"/>
                 <constraints>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="02d-4T-c2y"/>
                     <constraint firstItem="Wyx-bg-hAq" firstAttribute="leading" secondItem="gli-8d-p8T" secondAttribute="trailing" constant="20" id="3uN-Pf-YRx"/>
-                    <constraint firstItem="9V7-nQ-Dx5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="4pe-WI-3cH"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="5Ep-8u-Aqj"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="69l-pt-MJN"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="A9O-Rj-AHd"/>
@@ -153,29 +161,29 @@
                     <constraint firstItem="QuL-NW-ueL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="CWW-Xh-HaG"/>
                     <constraint firstAttribute="trailing" secondItem="fIE-vP-4Ar" secondAttribute="trailing" constant="20" id="Cle-Fo-fGJ"/>
                     <constraint firstItem="rcf-cN-PGf" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="Fd0-RI-Cf6"/>
+                    <constraint firstItem="3zE-RM-67E" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="bottom" id="Fj0-w1-Z3C"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerY" secondItem="kD3-GU-mQq" secondAttribute="centerY" id="HDg-67-56U"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="top" secondItem="QuL-NW-ueL" secondAttribute="bottom" constant="10" id="LTL-qV-ti6"/>
                     <constraint firstItem="tJP-HP-LUx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="LVE-4p-wIV"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="rcf-cN-PGf" secondAttribute="trailing" constant="10" id="NAe-kR-03X"/>
+                    <constraint firstItem="3zE-RM-67E" firstAttribute="leading" secondItem="AAz-pe-1HY" secondAttribute="leading" id="NYw-QS-FFh"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="top" id="OEp-fJ-Umw"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="PQn-EJ-6Ai"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="leading" secondItem="QuL-NW-ueL" secondAttribute="trailing" constant="20" id="Vvx-WT-FHl"/>
-                    <constraint firstItem="AAz-pe-1HY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" priority="999" constant="20" id="ZcQ-kb-yjB"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerX" secondItem="kD3-GU-mQq" secondAttribute="centerX" id="Zjv-BY-gph"/>
                     <constraint firstAttribute="trailing" secondItem="kD3-GU-mQq" secondAttribute="trailing" constant="20" id="boE-SL-Raw"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="leading" secondItem="cHH-oH-6UX" secondAttribute="trailing" constant="5" id="bzN-Ds-0fx"/>
+                    <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" priority="999" constant="20" id="dJv-40-C7e"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="QuL-NW-ueL" secondAttribute="centerY" id="dyl-ic-kuP"/>
-                    <constraint firstItem="cHH-oH-6UX" firstAttribute="top" secondItem="9V7-nQ-Dx5" secondAttribute="bottom" constant="5" id="gTj-Fd-MUk"/>
+                    <constraint firstItem="3zE-RM-67E" firstAttribute="trailing" secondItem="AAz-pe-1HY" secondAttribute="trailing" id="gVW-Np-lhh"/>
                     <constraint firstAttribute="trailing" secondItem="Wyx-bg-hAq" secondAttribute="trailing" constant="20" id="il6-32-GBh"/>
-                    <constraint firstItem="AAz-pe-1HY" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="cHH-oH-6UX" secondAttribute="top" constant="-10" id="ini-dN-2vm"/>
                     <constraint firstAttribute="trailing" secondItem="tJP-HP-LUx" secondAttribute="trailing" constant="20" id="kKC-13-hkw"/>
-                    <constraint firstItem="9V7-nQ-Dx5" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="bottom" id="lD9-Y8-PoZ"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="2yA-X6-rnf" secondAttribute="trailing" constant="6" id="oUi-ln-LXj"/>
+                    <constraint firstItem="cHH-oH-6UX" firstAttribute="top" secondItem="3zE-RM-67E" secondAttribute="bottom" id="pA4-jt-3eo"/>
                     <constraint firstItem="tJP-HP-LUx" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="qxi-Da-dP1"/>
-                    <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="top" id="rPV-ok-DOz"/>
+                    <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="top" constant="2" id="rPV-ok-DOz"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="Wyx-bg-hAq" secondAttribute="centerY" id="tOx-AZ-hsU"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="leading" secondItem="AAz-pe-1HY" secondAttribute="trailing" id="v6Z-KA-P3n"/>
-                    <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="9V7-nQ-Dx5" secondAttribute="trailing" constant="16" id="zdk-5o-ZEC"/>
                     <constraint firstItem="QuL-NW-ueL" firstAttribute="top" secondItem="tJP-HP-LUx" secondAttribute="bottom" id="zkv-DZ-h4b"/>
                 </constraints>
             </tableViewCellContentView>
@@ -186,13 +194,13 @@
                 <outlet property="bodyTextView" destination="tJP-HP-LUx" id="FNP-Ln-UZY"/>
                 <outlet property="commentInput" destination="fIE-vP-4Ar" id="JQw-8k-nB6"/>
                 <outlet property="dateLabel" destination="bm5-ZK-pAa" id="uyZ-AN-9ol"/>
+                <outlet property="extraTouchArea" destination="3zE-RM-67E" id="1RW-JW-Kul"/>
                 <outlet property="numberOfCommentsLabel" destination="gli-8d-p8T" id="krc-T7-GcB"/>
                 <outlet property="optionsButton" destination="rcf-cN-PGf" id="Xw2-Pt-e1r"/>
                 <outlet property="postImage" destination="kD3-GU-mQq" id="M13-eo-9FU"/>
                 <outlet property="saveButton" destination="2yA-X6-rnf" id="uZl-Vu-JTe"/>
                 <outlet property="shareButton" destination="Wyx-bg-hAq" id="afN-oG-MKd"/>
                 <outlet property="titleLabel" destination="AAz-pe-1HY" id="CQ3-ZB-0Xc"/>
-                <outlet property="touchAreaView" destination="9V7-nQ-Dx5" id="Ktl-zg-zoF"/>
                 <outlet property="voteControl" destination="QuL-NW-ueL" id="3Yz-fb-a2L"/>
                 <outletCollection property="views" destination="AAz-pe-1HY" collectionClass="NSMutableArray" id="Ub7-01-Kqj"/>
                 <outletCollection property="views" destination="cHH-oH-6UX" collectionClass="NSMutableArray" id="cX7-aw-rvw"/>

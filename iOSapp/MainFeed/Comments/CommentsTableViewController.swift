@@ -9,8 +9,9 @@
 import UIKit
 
 // TODO: spread this class to another one
-class CommentsTableViewController: GenericProgramViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIGestureRecognizerDelegate
+class CommentsTableViewController: GenericProgramViewController
 {
+    /**
     @IBOutlet weak var snippetView: SnippetView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -464,7 +465,7 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     
     func getServerStringForComment(commentActionString : String) -> String
     {
-        var urlString : String = SystemVariables().URL_STRING
+        var urlString : String = ""//SystemVariables().URL_STRING
         urlString.append("comments/")
         urlString.append(commentActionString)
         urlString.append("/")
@@ -546,4 +547,5 @@ class CommentsTableViewController: GenericProgramViewController, UITableViewDele
     {
         return UITableViewAutomaticDimension
     }
+     **/
 }

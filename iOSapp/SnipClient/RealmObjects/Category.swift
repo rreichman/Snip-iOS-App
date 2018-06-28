@@ -16,7 +16,6 @@ class Category: Object {
     let params = List<CategoryParam>()
     
     dynamic var categoryName: String = ""
-    dynamic var url: String = ""
     dynamic var nextPage: Int? = nil
     
     override static func primaryKey() -> String? {
@@ -36,7 +35,6 @@ extension Category {
     static func parseJson(json: [String: Any]) throws -> Category {
         let c = Category()
         guard let cat = json["category"] as? String else { throw SerializationError.missing("category") }
-        guard let url = json["url"] as? String else { throw SerializationError.missing("url") }
         guard let topThree = json["posts"] as? [ [String: Any] ] else { throw SerializationError.missing("posts") }
         for postJson in topThree {
             let p = try Post.parseJson(json: postJson)
@@ -49,7 +47,6 @@ extension Category {
             let catParam = try CategoryParam.parseJson(param: param, value: value)
             c.params.append(catParam)
         }
-        c.url = url
         c.categoryName = cat
         return c
     }
