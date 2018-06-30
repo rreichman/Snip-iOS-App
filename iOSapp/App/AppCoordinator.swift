@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 import Crashlytics
+import SafariServices
 
 class AppCoordinator: Coordinator {
     let disposeBag: DisposeBag = DisposeBag()
@@ -34,6 +35,8 @@ class AppCoordinator: Coordinator {
                 if AppLinkUtils.shouldOpenLinkInApp(link: url) {
                     openingWithAppLink = true
                     appLink = url
+                } else {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             }
         }
@@ -57,25 +60,27 @@ class AppCoordinator: Coordinator {
         tab.showPostFromDeepLink(url: url, fromNotification: true)
     }
     
-    func continueUserActivity(userActivity : NSUserActivity) {
-        if let url = appLinkFromUserActivity(userActivity: userActivity) {
-            if AppLinkUtils.shouldOpenLinkInApp(link: url) {
-                guard let tab = self.tabCoordinator else { return }
-                tabCoordinator.showPostFromDeepLink(url: url, fromNotification: false)
-            }
-        }
-    }
-    
-    private func appLinkFromUserActivity(userActivity : NSUserActivity) -> URL? {
+    func handleDeepLink(userActivity: NSUserActivity) {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let url = userActivity.webpageURL {
-                return url
+            guard let url = userActivity.webpageURL else { return }
+            if AppLinkUtils.shouldOpenLinkInApp(link: url) {
+                print("Attempting to fetch post from deep link \(url.absoluteString)")
+                tabCoordinator.showPostFromDeepLink(url: url, fromNotification: false)
+            } else {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
-        return nil
     }
     
-    func loadMainFeed() {
+    // Refreshes the main feed after a specific time the app was in background
+    func applicationDidBecomeActive(_ fromBackground: Bool, _ longBackground: Bool) {
+        if fromBackground && longBackground {
+            guard let tab = tabCoordinator, let main = tab.mainFeedCoordinator else { return }
+            main.refreshMainFeedAfterLongBackground()
+        }
+    }
+    
+    private func loadMainFeed() {
         let realm = RealmManager.instance.getMemRealm()
         SnipRequests.instance.getMain()
             .timeout(5, scheduler: MainScheduler.asyncInstance)
@@ -112,25 +117,17 @@ class AppCoordinator: Coordinator {
             .disposed(by: disposeBag)
     }
     
-    func onPreLoadingFinished() {
+    private func onPreLoadingFinished() {
         self.tabCoordinator = TabCoordinator(rootController, openWithAppLink: self.openingWithAppLink, appLinkUrl: self.appLink)
         tabCoordinator.start()
     }
     
-    func handleDeepLink(userActivity: NSUserActivity) {
+    private func appLinkFromUserActivity(userActivity : NSUserActivity) -> URL? {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            let url = userActivity.webpageURL!
-            print("Attempting to fetch post from deep link \(url.absoluteString)")
-            tabCoordinator.showPostFromDeepLink(url: url, fromNotification: false)
+            if let url = userActivity.webpageURL {
+                return url
+            }
         }
+        return nil
     }
-    
-    // Refreshes the main feed after a specific time the app was in background
-    func applicationDidBecomeActive(_ fromBackground: Bool, _ longBackground: Bool) {
-        if fromBackground && longBackground {
-            guard let tab = tabCoordinator, let main = tab.mainFeedCoordinator else { return }
-            main.refreshMainFeedAfterLongBackground()
-        }
-    }
-    
 }

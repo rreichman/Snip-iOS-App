@@ -82,9 +82,25 @@ class MainFeedCoordinator: Coordinator {
     }
     
     func resolveAndPushAppLink(url: URL, fromNotification: Bool) {
+        var single: Single<Post>?
+        let action = AppLinkUtils.routeAppLink(link: url)
+        switch action {
+        case .openPost(let slug):
+            single = SnipRequests.instance.getPost(fromSlug: slug)
+        case .followRedirect(let url):
+            single = AppLinkRequests.instance.followRedirects(urlInSnipDomain: url)
+                .flatMap({ (slug: String) -> Single<Post> in
+                    return SnipRequests.instance.getPost(fromSlug: slug)
+                })
+        default:
+            break
+        }
+        guard let postSingle = single else {
+            print("MainFeedCoordinator Attempted to resolve and push app link but a slug could not be found")
+            return
+        }
         let realm = RealmManager.instance.getMemRealm()
-        SnipRequests.instance.getPostFromAppLink(url: url.absoluteString)
-            .observeOn(MainScheduler.instance)
+        postSingle.observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] (post) in
                 guard let s = self else {
                     print("Missing TabCoordinator or MainFeedCoordinator")
@@ -99,6 +115,16 @@ class MainFeedCoordinator: Coordinator {
             }) { (err) in
                 print("Error resolving post from deep link: \(err.localizedDescription)")
                 Crashlytics.sharedInstance().recordError(err)
+                
+                if let apiError = err as? APIError {
+                    switch apiError {
+                    case .unableToResolveAppLink(let of):
+                        print("Opening Safari instead")
+                        UIApplication.shared.open(of, options: [:], completionHandler: nil)
+                    default:
+                        break
+                    }
+                }
         }
         .disposed(by: disposeBag)
     }

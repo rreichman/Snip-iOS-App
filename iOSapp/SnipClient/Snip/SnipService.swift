@@ -11,18 +11,28 @@ import Moya
 
 enum SnipService {
     case main
-    case postQuery(params: [String: Any], page: Int?)
+    
+    // GET
+    case getPostList(params: [String: Any], page: Int?)
     case getPostImage(imageURL: String)
     case getUserProfile
+    case getSavedSnips(page: Int?)
+    case getLikedSnips(page: Int?)
+    case getAppLink(url: String)
+    case getPost(fromSlug: String)
+    
+    // POST
     case postVote(post_id: Int, vote_value: Double)
     case postSave(post_id: Int)
     case postReport(post_id: Int, reason: String, param1: String)
     case postComment(post_id: Int, parent_id: Int?, body: String)
+    
+    // PATCH
     case editComment(post_id: Int, comment_id: Int, body: String)
+    
+    // DELETE
     case deleteComment(comment_id: Int)
-    case getSavedSnips(page: Int?)
-    case getLikedSnips(page: Int?)
-    case getAppLink(url: String)
+    
 }
 
 extension SnipService: TargetType {
@@ -42,10 +52,16 @@ extension SnipService: TargetType {
         switch self {
         case .main:
             return "/posts/main/"
-        case .postQuery:
+        case .getPostList:
             return "/posts/all/"
         case .getUserProfile:
             return "/user/my-profile/"
+        case .getSavedSnips:
+            return "/posts/saved-posts/"
+        case .getLikedSnips:
+            return "/posts/my-upvotes/"
+        case .getPost(let slug):
+            return "/posts/post/\(slug)/"
         case .postVote(let post_id, _):
             return "/posts/post/\(post_id)/action/"
         case .postSave(let post_id):
@@ -56,10 +72,6 @@ extension SnipService: TargetType {
             return "/posts/comment/\(comment_id)/"
         case .deleteComment(let comment_id):
             return "/posts/comment/\(comment_id)/"
-        case .getSavedSnips:
-            return "/posts/saved-posts/"
-        case .getLikedSnips:
-            return "/posts/my-upvotes/"
         case .postReport(let post_id, _, _):
             return "/posts/post/\(post_id)/report/"
         default:
@@ -94,7 +106,7 @@ extension SnipService: TargetType {
         switch self {
         case .main:
             return .requestPlain
-        case .postQuery(var params, let page):
+        case .getPostList(var params, let page):
             if let p = page {
                 params["page"] = p
             }
@@ -119,6 +131,8 @@ extension SnipService: TargetType {
         case .getPostImage:
             return .requestPlain
         case .getUserProfile:
+            return .requestPlain
+        case .getPost:
             return .requestPlain
         case .postVote(_, let vote_value):
             let action_string = String("vote")

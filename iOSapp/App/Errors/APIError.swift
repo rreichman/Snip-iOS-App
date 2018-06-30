@@ -19,5 +19,5 @@ enum APIError: Error {
     case authNonFieldError(message: String)
     case badLogin(message: String)
     case generalError
-    case unableToResolveAppLink(of: String)
+    case unableToResolveAppLink(of: URL)
 }

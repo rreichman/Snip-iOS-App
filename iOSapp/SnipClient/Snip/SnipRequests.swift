@@ -57,7 +57,7 @@ class SnipRequests {
         if category.nextPage == -1 {
             return Single.just(category)
         }
-        return provider.rx.request(SnipService.postQuery(params: category.paramDictionary, page: category.nextPage))
+        return provider.rx.request(SnipService.getPostList(params: category.paramDictionary, page: category.nextPage))
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
@@ -92,7 +92,7 @@ class SnipRequests {
             return Single.just( (-1, []) )
         }
         
-        return provider.rx.request(SnipService.postQuery(params: params, page: nextPage))
+        return provider.rx.request(SnipService.getPostList(params: params, page: nextPage))
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
@@ -171,6 +171,21 @@ class SnipRequests {
         }
     }
     
+    func getPost(fromSlug slug: String) -> Single<Post>{
+        return provider.rx.request(SnipService.getPost(fromSlug: slug))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .mapSnipRequest()
+            .mapJSON()
+            .map { obj -> Post in
+                guard let json = obj as? [String: Any] else { throw SerializationError.invalid("JSON", obj) }
+                let post = try! Post.parseJson(json: json)
+                SnipRequests.instance.populatePostFields(for: post)
+                return post
+            }
+    }
+    
+    // MARK: Moving this logic to fetch by post slug, link parsing occurs in AppLinkUtils
+    /**
     func getPostFromAppLink(url: String) -> Single<Post> {
         return provider.rx.request(SnipService.getAppLink(url: url))
             .subscribeOn(MainScheduler.asyncInstance)
@@ -196,8 +211,9 @@ class SnipRequests {
                     throw APIError.unableToResolveAppLink(of: url)
                 }
         }
+
     }
-    
+     **/
     func populatePostFields(for post: Post) {
         getPostImage(for: post)
         /**
