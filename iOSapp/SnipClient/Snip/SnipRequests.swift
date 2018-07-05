@@ -231,11 +231,18 @@ class SnipRequests {
     // Post objects should already have an Image Object added to the realm, so no need to make one and add it here like in getUserAvatar()
     func getPostImage(for post: Post) {
         guard let image = post.image else { return }
+        guard let imageURL = URL(string: image.imageUrl) else {
+            print("Image has illegal URL (\(image.imageUrl), skipping loading")
+            try! RealmManager.instance.getMemRealm().write {
+                image.failed_loading = true
+            }
+            return
+        }
         if image.hasData {
             return
         }
         let realm = image.realm == nil ? RealmManager.instance.getMemRealm() : image.realm!
-        provider.rx.request(SnipService.getPostImage(imageURL: image.imageUrl))
+        provider.rx.request(SnipService.getPostImage(imageURL: imageURL))
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
             .mapSnipRequest()
             .map { response -> Data in
@@ -310,8 +317,7 @@ class SnipRequests {
             .disposed(by: self.disposeBag)
     }
      **/
-    
-    func fetchAndSaveLoggedInUser() {
+    func fetchUserProfile() -> Single<User> {
         return provider.rx.request(SnipService.getUserProfile)
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
@@ -321,7 +327,11 @@ class SnipRequests {
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj)}
                 let user = try User.parseJson(json: json)
                 return user
-            }
+        }
+    }
+    
+    func fetchAndSaveLoggedInUser() {
+        SnipRequests.instance.fetchUserProfile()
             .subscribe(onSuccess: { (user) in
                 print("Fetched profile for user \(user.username)")
                 let realm = RealmManager.instance.getRealm()

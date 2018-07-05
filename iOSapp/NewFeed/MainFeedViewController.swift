@@ -43,14 +43,8 @@ class MainFeedViewController: UIViewController {
     override func viewDidLoad() {
         
         self.navigationItem.title = "HOME"
-        //self.tableView.estimatedRowHeight = 0
-        //self.tableView.estimatedSectionHeaderHeight = 0
-        //self.tableView.estimatedSectionFooterHeight = 0
-        //tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.dataSource = self
         tableView.delegate = self
-        //tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        //tableView.tableFooterView = UIView(frame: CGRect.zero)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         let nib = UINib(nibName: "NewSnippetTableViewCell", bundle: nil)
         tableView.register(SnipHeaderView.self, forHeaderFooterViewReuseIdentifier: SnipHeaderView.reuseIdent)
@@ -119,58 +113,6 @@ class MainFeedViewController: UIViewController {
         }
     }
     
-    
-    /**
-    func resetTopThreeNotifications() {
-        unsubscribeFromTopThreeNotification()
-        subscribeToTopThreeNotifications()
-    }
-    
-    func unsubscribeFromTopThreeNotification() {
-        for token in self.tokens {
-            if token != nil {
-                token.invalidate()
-            }
-        }
-        self.tokens.removeAll()
-    }
-    
-    func subscribeToTopThreeNotifications() {
-        guard let categories = self.categories else { return }
-        for cat in categories {
-            let t = cat.topThreePosts.observe { [weak self, cat] (changes) in
-                guard let s = self else { return }
-                guard let _ = s.tableView else { return }
-                
-                switch changes {
-                case.update(_, let deletions, let insertions, let modifications):
-                    //print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications) ")
-                    if insertions.count > 0 {
-                        s.expandedSet.removeAll()
-                    }
-                    UIView.performWithoutAnimation {
-                        // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
-                        /**
-                         s.tableView.beginUpdates()
-                         s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
-                         with: .none)
-                         s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
-                         with: .none)
-                         
-                         s.tableView.endUpdates()
-                         **/
-                        
-                        s.tableView.reloadData()
-                    }
-                default:
-                    break
-                }
-            }
-            self.tokens.append(t)
-        }
-    }
-     **/
-    
     func bindViews(categories: Results<Category>?) {
         guard let tv = self.tableView, let results = categories else { return }
         tv.reloadData()
@@ -180,22 +122,6 @@ class MainFeedViewController: UIViewController {
         self.categories = categories
         subscribeToRealmNotifications(queryResults: categories)
         bindViews(categories: categories)
-        
-        /**
-        self.notificationToken = categories.observe { [weak self] changes in
-            guard let viewController = self else { return }
-            guard let tableView = viewController.tableView else { return }
-            switch changes {
-            case .update(_, _, _, let modifications):
-                // Query results have changed, so apply them to the UITableView
-                tableView.beginUpdates()
-                tableView.reloadSections(IndexSet(modifications), with: .automatic)
-                tableView.endUpdates()
-            default:
-                break
-            }
-        }
-         **/
     }
     
     func addRefresh() {
@@ -234,15 +160,15 @@ class MainFeedViewController: UIViewController {
     
     @objc func onNotificationPrompt() {
         delegate.onNotificationsRequested()
-        self.closeNotificationPromp()
+        self.closeNotificationPrompt()
     }
     
     @objc func onNotificationPromptClose() {
         delegate.onNotificationsDenied()
-        self.closeNotificationPromp()
+        self.closeNotificationPrompt()
     }
     
-    private func closeNotificationPromp() {
+    private func closeNotificationPrompt() {
         self.notificationPrompt.isHidden = true
         UIView.animate(withDuration: 0.25) {
             if let temp = self.tempTopConstraint {

@@ -80,6 +80,7 @@ class PostListViewController: UIViewController {
                 tv.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             }
             if posts != nil {
+                print("PostListViewController reloadData() in bindViews()")
                 tv.reloadData()
             }
         }
@@ -98,9 +99,10 @@ class PostListViewController: UIViewController {
             switch changes {
             case .initial:
                 // Results are now populated and can be accessed without blocking the UI
+                print("PostListViewController Inital results")
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
-                //print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications, array size: \(String(describing: viewController.posts?.count)) ")
+                print("notification: \(deletions.count) deletions, \(insertions.count) insertions, \(modifications.count) modifications")
                 deletions.forEach({ (deletion) in
                     if viewController.expandedSet.contains(deletion) {
                         viewController.expandedSet.remove(deletion)
@@ -109,15 +111,12 @@ class PostListViewController: UIViewController {
                 UIView.performWithoutAnimation {
                     // Just another thing that started so promising and ends so poorly. With animations broken and now update maps not even working, realm isnt really even adding any value anymore
                     /**
-                     s.tableView.beginUpdates()
-                     s.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: index) }),
-                     with: .none)
-                     s.tableView.reloadRows(at: insertions.map({ IndexPath(row: $0, section: index) }),
-                     with: .none)
-                     
-                     s.tableView.endUpdates()
-                     **/
-                    
+                    viewController.tableView.beginUpdates()
+                    viewController.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .none)
+                    viewController.tableView.insertRows(at: insertions.map({IndexPath(row: $0, section: 0)}), with: .none)
+                    viewController.tableView.deleteRows(at: deletions.map({IndexPath(row: $0, section: 0)}), with: .none)
+                    viewController.tableView.endUpdates()
+                    **/
                     viewController.tableView.reloadData()
                 }
             case .error(let error):

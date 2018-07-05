@@ -75,7 +75,8 @@ class AppCoordinator: Coordinator {
     // Refreshes the main feed after a specific time the app was in background
     func applicationDidBecomeActive(_ fromBackground: Bool, _ longBackground: Bool) {
         if fromBackground && longBackground {
-            guard let tab = tabCoordinator, let main = tab.mainFeedCoordinator else { return }
+            guard let tab = tabCoordinator, let tabVc = tab.tabController, let main = tab.mainFeedCoordinator else { return }
+            tabVc.selectedIndex = 0
             main.refreshMainFeedAfterLongBackground()
         }
     }

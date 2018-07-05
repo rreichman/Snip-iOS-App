@@ -62,6 +62,9 @@ class MainFeedCoordinator: Coordinator {
                 }
                 try! realm.write {
                     for category in catList {
+                        if let cached = realm.object(ofType: Category.self, forPrimaryKey: category.categoryName) {
+                            category.posts.append(objectsIn: cached.posts)
+                        }
                         realm.add(category, update: true)
                     }
                 }
@@ -101,15 +104,11 @@ class MainFeedCoordinator: Coordinator {
         }
         let realm = RealmManager.instance.getMemRealm()
         postSingle.observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] (post) in
-                guard let s = self else {
-                    print("Missing TabCoordinator or MainFeedCoordinator")
-                    return
-                }
+            .subscribe(onSuccess: { [unowned self] (post) in
                 try! realm.write {
                     realm.add(post, update: true)
                 }
-                s.showPostFromDeepLink(post: post)
+                self.showPostFromDeepLink(post: post)
                 
                 SnipLoggerRequests.instance.logPostDeepLink(postId: post.id, fromNotification: fromNotification)
             }) { (err) in
@@ -138,7 +137,8 @@ class MainFeedCoordinator: Coordinator {
     func resetMainFeed() {
         loadMainFeed()
         guard let main = self.mainFeedController, let nav = self.navigationController else { return }
-        navigationController.popViewController(animated: true)
+        navigationController.popToRootViewController(animated: true)
+        main.resetExpandedSet()
         main.scrollToTop()
     }
     

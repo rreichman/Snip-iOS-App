@@ -76,7 +76,7 @@ class SessionManager {
             if let token = newValue {
                 keychain.set(token, forKey: SessionManager.authTokenKey)
             } else {
-                print("authToken deleted")
+                print("Nil passed to SessionManager.authToken, authToken deleted")
                 keychain.delete(SessionManager.authTokenKey)
             }
         }
@@ -114,7 +114,6 @@ class SessionManager {
     func setLoginData(auth_token: String, user: User) {
         clearAll()
         self.authToken = auth_token
-        
         let realm = RealmManager.instance.getRealm()
         try! realm.write {
             realm.add(user, update: true)

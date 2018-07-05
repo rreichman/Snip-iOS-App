@@ -44,14 +44,38 @@ class AccountCoordinator: Coordinator {
                 print("AccountCoordinator:start() found we were logged in but SessionManager does not have a saved username")
                 profileViewController.bindData(user: nil)
                 //fetch it for next time
-                SnipRequests.instance.fetchAndSaveLoggedInUser()
+                loadMissingUserProfile()
                 return
             }
             let user = realm.object(ofType: User.self, forPrimaryKey: username)
-            profileViewController.bindData(user: user)
+            if let u = user {
+                profileViewController.bindData(user: u)
+            } else {
+                print("AccountCoordinator:start() found we were logged in but SessionManager does not have a saved user profile")
+                profileViewController.bindData(user: nil)
+                loadMissingUserProfile()
+            }
+            
         } else {
             profileViewController.bindData(user: nil)
         }
+    }
+    
+    private func loadMissingUserProfile() {
+        print("AccountCoordinator loadMissingUserProfile()")
+        SnipRequests.instance.fetchUserProfile()
+            .subscribe(onSuccess: { [unowned self] (user) in
+                print("AccountCoordinator fetched missing User profile")
+                if let auth = SessionManager.instance.authToken {
+                    SessionManager.instance.setLoginData(auth_token: auth, user: user)
+                }
+                guard let vc = self.profileViewController else { return }
+                vc.bindData(user: user)
+            }) { (err) in
+                print("AccountCoordinator error fetch missing user profile \(err)")
+                Crashlytics.sharedInstance().recordError(err)
+            }
+            .disposed(by: disposeBag)
     }
     
     func showAuthIfNeeded() {
@@ -71,6 +95,7 @@ class AccountCoordinator: Coordinator {
             let realm = RealmManager.instance.getRealm()
             guard let username = SessionManager.instance.currentLoginUsername else {
                 print("AccountCoordinator:showAuthIfNeeded() found we were logged in but SessionManager does not have a saved username")
+                loadMissingUserProfile()
                 profileViewController.bindData(user: nil)
                 return
             }

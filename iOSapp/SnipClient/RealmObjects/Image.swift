@@ -31,17 +31,23 @@ class Image: Object {
 extension Image {
     static func parseJson(json: [String: Any]) throws -> Image {
         guard let url = json["url"] as? String else { throw SerializationError.missing("url") }
-        guard let description = json["description"] as? String else { throw SerializationError.missing("description") }
-        guard let deleted = json["deleted"] as? Bool else { throw SerializationError.missing("deleted") }
-        guard let width = json["width"] as? Int else { throw SerializationError.missing("width") }
-        guard let height = json["height"] as? Int else { throw SerializationError.missing("height") }
         
         let i = Image()
+        
+        if let width = json["width"] as? Int {
+            i.imageWidth = width
+        }
+        if let height = json["height"] as? Int {
+            i.imageHeight = height
+        }
+        if let deleted = json["deleted"] as? Bool {
+            i.deleted = deleted
+        }
+        if let description = json["description"] as? String {
+            i.imageDescription = description
+        }
+        
         i.imageUrl = url
-        i.imageDescription = description
-        i.deleted = deleted
-        i.imageHeight = height
-        i.imageWidth = width
         return i
     }
     

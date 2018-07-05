@@ -14,7 +14,7 @@ enum SnipService {
     
     // GET
     case getPostList(params: [String: Any], page: Int?)
-    case getPostImage(imageURL: String)
+    case getPostImage(imageURL: URL)
     case getUserProfile
     case getSavedSnips(page: Int?)
     case getLikedSnips(page: Int?)
@@ -39,7 +39,7 @@ extension SnipService: TargetType {
     var baseURL: URL {
         switch self {
         case .getPostImage(let imageURL):
-            return URL(string: imageURL)!
+            return imageURL
         case .getAppLink(let url):
             return URL(string: url)!
         default:
