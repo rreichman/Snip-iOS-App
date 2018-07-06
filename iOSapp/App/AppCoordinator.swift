@@ -27,10 +27,10 @@ class AppCoordinator: Coordinator {
         self.window = window
         self.rootController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OpeningSplashScreenViewController") as! OpeningSplashScreenViewController
         
-        if let options = launchOptions {
-            let userActivityDictionary : [String : Any] = options[UIApplicationLaunchOptionsKey.userActivityDictionary] as! [String : Any]
-            let userActivityKey = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"]
-            let userActivity : NSUserActivity = userActivityKey as! NSUserActivity
+        if let options = launchOptions,
+            let userActivtyDictionary = options[UIApplicationLaunchOptionsKey.userActivityDictionary] as? [UIApplicationLaunchOptionsKey: Any],
+            let userActivity = userActivtyDictionary[UIApplicationLaunchOptionsKey.init(rawValue: "UIApplicationLaunchOptionsUserActivityKey")] as? NSUserActivity {
+            
             if let url = appLinkFromUserActivity(userActivity: userActivity) {
                 if AppLinkUtils.shouldOpenLinkInApp(link: url) {
                     openingWithAppLink = true
