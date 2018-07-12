@@ -749,11 +749,11 @@
 		4018402220ACBE60001DFE6E /* SnipClient */ = {
 			isa = PBXGroup;
 			children = (
-				40A6EFFB20E5993D009C65D5 /* AppLink */,
 				40676A3520DAD380002E4130 /* SnipLogger */,
 				40A1CA0120D04F7A001C26F6 /* SnipAuth */,
-				4018403720ACEBB5001DFE6E /* RealmObjects */,
 				4018402D20ACE263001DFE6E /* Snip */,
+				40A6EFFB20E5993D009C65D5 /* AppLink */,
+				4018403720ACEBB5001DFE6E /* RealmObjects */,
 				7D91DC5B1FC35D4700771820 /* MixpanelType+ToString.swift */,
 				7D6E27841FD0D12400E7C2FF /* LogInfo.swift */,
 				7D8C5C712045F8B400E53DE0 /* ReportInfo.swift */,

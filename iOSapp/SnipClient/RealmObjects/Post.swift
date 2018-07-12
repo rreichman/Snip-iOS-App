@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Crashlytics
 
 @objcMembers
 class Post: Object {
@@ -95,13 +96,19 @@ extension Post {
         
         return post
     }
+    
     static func parsePostPage(json: [String: Any]) throws -> [ Post ] {
         guard let list = json["posts"] as? [ [String: Any] ] else { throw SerializationError.missing("posts") }
         
         var parsedList: [ Post ] = []
         for postJson in list {
-            let post = try parseJson(json: postJson)
-            parsedList.append(post)
+            do {
+                let post = try parseJson(json: postJson)
+                parsedList.append(post)
+            } catch {
+                print("Error parsing post JSON \(postJson)")
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: postJson)
+            }
         }
         return parsedList
     }

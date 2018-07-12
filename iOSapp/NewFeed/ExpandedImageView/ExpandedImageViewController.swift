@@ -37,12 +37,11 @@ class ExpandedImageViewController: UIViewController {
     }
     
     @objc func backgroundTap() {
-        print("background tap")
         self.dismiss(animated: false, completion: nil)
     }
     
     @objc func imageTap() {
-        print("imageTap")
+        self.dismiss(animated: false, completion: nil)
     }
     
     func bind(imageData: Data, sourceTitle: String, sourceLink: String) {

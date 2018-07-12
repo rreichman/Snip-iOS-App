@@ -408,6 +408,8 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
         optionsButton.isUserInteractionEnabled = true
         optionsButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPostOptionsTap)))
+        postImage.isUserInteractionEnabled = true
+        postImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.imageTap)))
     }
     
     func onToggleSave(on: Bool, for post: Post) {
@@ -420,6 +422,11 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             let msg = self.shareMessage,
             let url = self.shareUrl else { return }
         delegate.share(msg: msg, url: url, sourceView: shareButton)
+    }
+    
+    @objc func imageTap() {
+        guard let post = self.post else { return }
+        ExpandedImageViewController.showExpandedImage(for: post, presentingVC: self)
     }
     
     @objc func backButtonTapped() {

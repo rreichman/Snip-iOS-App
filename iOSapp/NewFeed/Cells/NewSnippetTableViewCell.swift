@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 protocol SnipCellViewDelegate: class {
     func setExpanded(large: Bool, path: IndexPath)
@@ -133,17 +134,22 @@ class NewSnippetTableViewCell: UITableViewCell {
                 pStyle.minimumLineHeight = 20.0
                 
                 for source in data.relatedLinks {
+                    guard let url = URL(string: source.url) else {
+                        print("Post \(data.id) has an invalid related link URL \(source.url)")
+                        Crashlytics.sharedInstance().recordError(SerializationError.invalid("Related link URL", source.url), withAdditionalUserInfo: ["title": source.title, "url": source.url, "post_id": data.id, "api_url": RestUtils.snipURLString])
+                        continue
+                    }
                     let text = source.title + ", "
                     
                     let attributes: [NSAttributedStringKey : Any] =
                         [.paragraphStyle: pStyle,
                          .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
                          .font: UIFont.lato(size: 15),
-                         .link: URL(string: source.url)!]
+                         .link: url]
                     let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
                     richText.append(attributedText)
                 }
-                bodyTextView.attributedText = (data.relatedLinks.count > 0 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
+                bodyTextView.attributedText = (richText.length > 2 ? richText.attributedSubstring(from: NSMakeRange(0, richText.length - 2)) : richText)
                 bodyTextView.sizeToFit()
                 bodyTextView.layoutSubviews()
             } else {

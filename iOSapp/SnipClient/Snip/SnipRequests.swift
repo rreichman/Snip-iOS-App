@@ -178,7 +178,7 @@ class SnipRequests {
             .mapJSON()
             .map { obj -> Post in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("JSON", obj) }
-                let post = try! Post.parseJson(json: json)
+                let post = try Post.parseJson(json: json)
                 SnipRequests.instance.populatePostFields(for: post)
                 return post
             }

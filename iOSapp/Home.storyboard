@@ -54,7 +54,7 @@
                                 <rect key="frame" x="0.0" y="144" width="375" height="524"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" text="Wikipedia" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xcX-ky-Fcn" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
-                                <rect key="frame" x="20" y="729.66666666666663" width="335" height="20.666666666666629"/>
+                                <rect key="frame" x="20" y="729.66666666666674" width="335" height="20.666666666666629"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" link="YES"/>
                                 </accessibility>
@@ -273,9 +273,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNs-bM-uu4" userLabel="Post Container">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="794"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tjg-t6-nsv">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tjg-t6-nsv">
                                                     <rect key="frame" x="20" y="20" width="335" height="240"/>
-                                                    <color key="backgroundColor" white="0.50714285709999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="240" id="MQJ-tS-cLo"/>
                                                     </constraints>
@@ -336,7 +335,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8g8-S2-8gH" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="429.16666666666669" width="335" height="168.33333333333331"/>
+                                                    <rect key="frame" x="20" y="358.66666666666669" width="335" height="201.00000000000006"/>
                                                     <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="calibratedWhite"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" link="YES"/>
@@ -348,7 +347,7 @@
                                                     <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                 </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONy-lc-Ydv" customClass="VoteControl" customModule="iOSapp" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="668" width="200" height="44"/>
+                                                    <rect key="frame" x="10" y="559.66666666666663" width="200" height="152.33333333333337"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="8ms-s3-J63"/>
@@ -362,7 +361,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0mR-eW-K2A" userLabel="Share Button">
-                                                    <rect key="frame" x="331" y="678.66666666666663" width="24" height="24"/>
+                                                    <rect key="frame" x="331" y="624.66666666666663" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="NLx-tP-tc8"/>
                                                         <constraint firstAttribute="width" constant="24" id="aDA-AG-gbN"/>
