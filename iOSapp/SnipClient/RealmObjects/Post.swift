@@ -49,14 +49,22 @@ class Post: Object {
 extension Post {
     static func parseJson(json: [String: Any]) throws -> Post {
         let post = Post()
-        post.id = json["id"] as! Int
+        guard let id = json["id"] as? Int else {
+            throw SerializationError.missing("id")
+        }
+        post.id = id
         if let author = json["author"] as? [String: Any] {
             let user = try User.parseJson(json: author)
             post.author = user
         }
-        post.headline = json["title"] as! String
-        post.text = json["body"] as! String
-        //post.setImageIfExists(json: json)
+        guard let headline = json["title"] as? String else {
+            throw SerializationError.missing("title")
+        }
+        post.headline = headline
+        guard let body = json["body"] as? String else {
+            throw SerializationError.missing("body")
+        }
+        post.text = body
         
         if let rl = json["related_links"] as? [ [String: Any] ] {
             for obj in rl {

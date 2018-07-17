@@ -11,7 +11,7 @@ import Moya
 class RestUtils {
     //static let snipURLString: String = "https://staging.snip.today"
     //static let snipURL: URL = URL(string: "https://readers-dev-test.snip.today")!
-    //static let snipURLString: String = "http://localhost:8000"
+    //static let snipURLString: String = "http://10.44.110.221:8000"
     static let snipURLString: String = "https://www.snip.today"
     static let apiVersionString: String = "/api/v1"
     

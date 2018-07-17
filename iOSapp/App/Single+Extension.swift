@@ -20,7 +20,14 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
                     print("Recv Status 401, clearing auth token")
                     SessionManager.instance.logout()
                     throw APIError.badLogin(message: "Bad auth token")
+                } else if (response.statusCode == 403) {
+                    return response
                 }
+                var message = try? response.mapString()
+                if message == nil {
+                    message = "Server error"
+                }
+                throw APIError.requestError(errorMessage: message!, code: response.statusCode, response: response)
             }
             return response
         }
