@@ -10,6 +10,11 @@ import Foundation
 import RealmSwift
 import Crashlytics
 
+enum PostType {
+    case Report
+    case Explained
+}
+
 @objcMembers
 class Post: Object {
     static let dateFormatter: DateFormatter = DateFormatter()
@@ -17,6 +22,7 @@ class Post: Object {
     dynamic var author : User?
     dynamic var headline : String = ""
     dynamic var text : String = ""
+    dynamic var subheadline: String = ""
     // Perhaps store the date as something else in the future (not sure)
     dynamic var date : Date = Date()
     dynamic var timestamp: Int = 0
@@ -30,19 +36,31 @@ class Post: Object {
     dynamic var postHasBeenViewed: Bool = false
     dynamic var postHasBeenExpanded: Bool = false
     
+    dynamic var post_type_string: String = "report"
+    
     
     override static func primaryKey() -> String? {
         return "id"
     }
     
     override static func ignoredProperties() -> [String] {
-        return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded"]
+        return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded", "postType"]
     }
     
     func formattedTimeString() -> String {
         return TimeUtils.getFormattedDateString(date: self.date)
     }
     
+    var postType: PostType {
+        switch (self.post_type_string) {
+        case "report":
+            return PostType.Report
+        case "explained":
+            return PostType.Explained
+        default:
+            return PostType.Report
+        }
+    }
 }
 
 
@@ -61,6 +79,11 @@ extension Post {
             throw SerializationError.missing("title")
         }
         post.headline = headline
+        
+        if let subheadline = json["subtitle"] as? String {
+            post.subheadline = subheadline
+        }
+        
         guard let body = json["body"] as? String else {
             throw SerializationError.missing("body")
         }
@@ -84,6 +107,10 @@ extension Post {
             }
         } else {
             post.image = nil
+        }
+        
+        if let post_type = json["post_type"] as? String {
+            post.post_type_string = post_type
         }
         
         guard let vote = json["votes"] as? [String: Any] else { throw SerializationError.missing("votes")}
