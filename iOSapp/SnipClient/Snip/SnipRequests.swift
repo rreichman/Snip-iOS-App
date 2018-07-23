@@ -216,16 +216,6 @@ class SnipRequests {
      **/
     func populatePostFields(for post: Post) {
         getPostImage(for: post)
-        /**
-        for comment in post.comments {
-            if let commentAuthor = comment.writer {
-                SnipRequests.instance.getUserAvatar(for: commentAuthor)
-            }
-        }
-        if let author = post.author {
-            getUserAvatar(for: author)
-        }
-        **/
     }
     
     // Post objects should already have an Image Object added to the realm, so no need to make one and add it here like in getUserAvatar()

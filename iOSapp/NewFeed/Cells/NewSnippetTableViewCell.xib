@@ -50,8 +50,15 @@
                             <constraint firstAttribute="width" constant="100" id="x2h-uQ-Zis"/>
                         </constraints>
                     </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="f0d-76-mWe" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
+                        <rect key="frame" x="20" y="140" width="335" height="74"/>
+                        <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                    </textView>
                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tJP-HP-LUx" userLabel="BodyTextView" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="20" y="279" width="335" height="168.5"/>
+                        <rect key="frame" x="20" y="234" width="335" height="201"/>
                         <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" link="YES"/>
@@ -62,7 +69,7 @@
                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                     </textView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yA-X6-rnf" customClass="ToggleButton" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="225" y="20" width="24" height="24"/>
+                        <rect key="frame" x="53" y="20" width="196" height="22"/>
                         <state key="normal" image="savePost"/>
                         <state key="selected" image="savePost"/>
                         <userDefinedRuntimeAttributes>
@@ -86,7 +93,7 @@
                         </userDefinedRuntimeAttributes>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wyx-bg-hAq">
-                        <rect key="frame" x="331" y="596.5" width="24" height="24"/>
+                        <rect key="frame" x="331" y="521" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="6vi-8c-4yU"/>
                             <constraint firstAttribute="width" constant="24" id="chj-mQ-iVb"/>
@@ -118,13 +125,13 @@
                         <rect key="frame" x="295" y="60" width="20" height="20"/>
                     </activityIndicatorView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21 Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gli-8d-p8T">
-                        <rect key="frame" x="219" y="600" width="92" height="18"/>
+                        <rect key="frame" x="219" y="524.5" width="92" height="18"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                         <color key="textColor" red="2.7750385811486922e-07" green="0.69999998807907104" blue="0.80000001192092896" alpha="1" colorSpace="deviceRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QuL-NW-ueL" customClass="VoteControl" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="10" y="586.5" width="189" height="44"/>
+                        <rect key="frame" x="10" y="435" width="189" height="195.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="emptyLeftImage" value="dislikeEmpty"/>
@@ -134,7 +141,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Title" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="none" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="AAz-pe-1HY">
-                        <rect key="frame" x="20" y="18" width="205" height="19.5"/>
+                        <rect key="frame" x="20" y="18" width="33" height="19.5"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" id="MxS-gn-OxW"/>
                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="84" id="PLj-gw-8sg"/>
@@ -147,12 +154,13 @@
                         </userDefinedRuntimeAttributes>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3zE-RM-67E" userLabel="Extra Touch Area">
-                        <rect key="frame" x="20" y="37.5" width="205" height="66.5"/>
+                        <rect key="frame" x="20" y="37.5" width="33" height="66.5"/>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="deviceWhite"/>
                 <constraints>
                     <constraint firstItem="AAz-pe-1HY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="02d-4T-c2y"/>
+                    <constraint firstAttribute="trailing" secondItem="f0d-76-mWe" secondAttribute="trailing" constant="20" id="2Xu-wh-ky7"/>
                     <constraint firstItem="Wyx-bg-hAq" firstAttribute="leading" secondItem="gli-8d-p8T" secondAttribute="trailing" constant="20" id="3uN-Pf-YRx"/>
                     <constraint firstItem="bm5-ZK-pAa" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="5Ep-8u-Aqj"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="69l-pt-MJN"/>
@@ -163,6 +171,8 @@
                     <constraint firstItem="rcf-cN-PGf" firstAttribute="bottom" secondItem="kD3-GU-mQq" secondAttribute="bottom" id="Fd0-RI-Cf6"/>
                     <constraint firstItem="3zE-RM-67E" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="bottom" id="Fj0-w1-Z3C"/>
                     <constraint firstItem="fTT-7G-sa2" firstAttribute="centerY" secondItem="kD3-GU-mQq" secondAttribute="centerY" id="HDg-67-56U"/>
+                    <constraint firstItem="f0d-76-mWe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Iue-zB-cAO"/>
+                    <constraint firstItem="f0d-76-mWe" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="Kfj-hm-XpW"/>
                     <constraint firstItem="fIE-vP-4Ar" firstAttribute="top" secondItem="QuL-NW-ueL" secondAttribute="bottom" constant="10" id="LTL-qV-ti6"/>
                     <constraint firstItem="tJP-HP-LUx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="LVE-4p-wIV"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="rcf-cN-PGf" secondAttribute="trailing" constant="10" id="NAe-kR-03X"/>
@@ -180,10 +190,10 @@
                     <constraint firstAttribute="trailing" secondItem="tJP-HP-LUx" secondAttribute="trailing" constant="20" id="kKC-13-hkw"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="leading" secondItem="2yA-X6-rnf" secondAttribute="trailing" constant="6" id="oUi-ln-LXj"/>
                     <constraint firstItem="cHH-oH-6UX" firstAttribute="top" secondItem="3zE-RM-67E" secondAttribute="bottom" id="pA4-jt-3eo"/>
-                    <constraint firstItem="tJP-HP-LUx" firstAttribute="top" secondItem="kD3-GU-mQq" secondAttribute="bottom" constant="20" id="qxi-Da-dP1"/>
                     <constraint firstItem="kD3-GU-mQq" firstAttribute="top" secondItem="AAz-pe-1HY" secondAttribute="top" constant="2" id="rPV-ok-DOz"/>
                     <constraint firstItem="gli-8d-p8T" firstAttribute="centerY" secondItem="Wyx-bg-hAq" secondAttribute="centerY" id="tOx-AZ-hsU"/>
                     <constraint firstItem="2yA-X6-rnf" firstAttribute="leading" secondItem="AAz-pe-1HY" secondAttribute="trailing" id="v6Z-KA-P3n"/>
+                    <constraint firstItem="tJP-HP-LUx" firstAttribute="top" secondItem="f0d-76-mWe" secondAttribute="bottom" constant="20" id="vsL-op-J7Q"/>
                     <constraint firstItem="QuL-NW-ueL" firstAttribute="top" secondItem="tJP-HP-LUx" secondAttribute="bottom" id="zkv-DZ-h4b"/>
                 </constraints>
             </tableViewCellContentView>
@@ -200,6 +210,7 @@
                 <outlet property="postImage" destination="kD3-GU-mQq" id="M13-eo-9FU"/>
                 <outlet property="saveButton" destination="2yA-X6-rnf" id="uZl-Vu-JTe"/>
                 <outlet property="shareButton" destination="Wyx-bg-hAq" id="afN-oG-MKd"/>
+                <outlet property="subheadTextView" destination="f0d-76-mWe" id="3hr-GX-oCP"/>
                 <outlet property="titleLabel" destination="AAz-pe-1HY" id="CQ3-ZB-0Xc"/>
                 <outlet property="voteControl" destination="QuL-NW-ueL" id="3Yz-fb-a2L"/>
                 <outletCollection property="views" destination="AAz-pe-1HY" collectionClass="NSMutableArray" id="Ub7-01-Kqj"/>
@@ -211,6 +222,7 @@
                 <outletCollection property="views" destination="fIE-vP-4Ar" collectionClass="NSMutableArray" id="BOb-JC-bGC"/>
                 <outletCollection property="views" destination="rcf-cN-PGf" collectionClass="NSMutableArray" id="Jx9-gd-YUQ"/>
                 <outletCollection property="views" destination="fTT-7G-sa2" collectionClass="NSMutableArray" id="Bpx-I8-XSH"/>
+                <outletCollection property="views" destination="f0d-76-mWe" collectionClass="NSMutableArray" id="XcR-uo-TPd"/>
             </connections>
             <point key="canvasLocation" x="24" y="286"/>
         </tableViewCell>

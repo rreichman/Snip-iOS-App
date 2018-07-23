@@ -85,4 +85,8 @@ extension User {
         u.avatarUrl = avatar
         return u
     }
+    
+    func fullName() -> String {
+        return "\(self.first_name) \(self.last_name)"
+    }
 }

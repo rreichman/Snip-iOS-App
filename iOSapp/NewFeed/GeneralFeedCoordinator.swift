@@ -31,27 +31,16 @@ class GeneralFeedCoordinator: Coordinator {
     var disposeBag: DisposeBag = DisposeBag()
     
     var navController: UINavigationController!
-    var postListVC: PostListViewController!
+    var postListVC: FeedCollectionViewController!
     var category: Category!
     
     var delegate: GeneralFeedCoordinatorDelegate?
-    
-    fileprivate var loadingState: LoadingState {
-        get {
-            print("someone got loadingState, it is \(_loadingState)")
-            return _loadingState
-        }
-        set {
-            print("someone set loadingState to \(newValue)")
-            _loadingState = newValue
-        }
-    }
-    fileprivate var _loadingState: LoadingState = .loadingPage
+
+    //fileprivate var _loadingState: LoadingState = .loadingPage
     var postCotainer: PostContainer!
     var writer: User!
     let mode: FeedMode
     
-    var tempHack: Bool = false
     
     init(nav: UINavigationController, mode: FeedMode) {
         self.navController = nav
@@ -96,18 +85,18 @@ class GeneralFeedCoordinator: Coordinator {
     
     func start(animated: Bool = true) {
         loadFirstPage()
-        self.postListVC = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "FeedNavigationViewController") as! PostListViewController
+        self.postListVC = FeedCollectionViewController()
         self.postListVC.delegate = self
         
         switch self.mode {
         case .category:
-            self.postListVC.bindData(posts: category.posts, description: category.categoryName, writer: nil)
+            self.postListVC.bindData(feedType: .list(posts: category.posts, navTitle: category.categoryName, writer: nil))
         case .writer:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "", writer: writer)
+            self.postListVC.bindData(feedType: .list(posts: getPostListForMode(), navTitle: "", writer: writer))
         case .savedSnips:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "SAVED SNIPS", writer: nil)
+            self.postListVC.bindData(feedType: .list(posts: getPostListForMode(), navTitle: "SAVED SNIPS", writer: nil))
         case .likedSnips:
-            self.postListVC.bindData(posts: getPostListForMode(), description: "FAVORITE SNIPS", writer: nil)
+            self.postListVC.bindData(feedType: .list(posts: getPostListForMode(), navTitle: "FAVORITE SNIPS", writer: nil))
         }
         navController.pushViewController(self.postListVC, animated: animated)
     }
@@ -157,8 +146,7 @@ class GeneralFeedCoordinator: Coordinator {
         switch self.mode {
         case .category:
             if self.category.nextPage == -1 {
-                self.loadingState = .notLoading
-                return
+                self.postListVC.endOfFeed()
             }
             SnipRequests.instance.getNextPage(for: category)
                 .observeOn(MainScheduler.instance)
@@ -167,7 +155,6 @@ class GeneralFeedCoordinator: Coordinator {
                     try! realm.write {
                         realm.add(s.category, update: true)
                     }
-                    s.loadingState = .notLoading
                 }) { [weak self](err) in
                     print(err)
                     Crashlytics.sharedInstance().recordError(err)
@@ -175,13 +162,10 @@ class GeneralFeedCoordinator: Coordinator {
                     guard let s = self else { return }
                     guard let _ = s.postListVC else { return }
                     s.postListVC.endRefreshing()
-                    s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
         default:
             if self.postCotainer.nextPage == -1 {
-                self.loadingState = .notLoading
-                return
-                
+                self.postListVC.endOfFeed()
             }
             getRequestForMode()
                 .observeOn(MainScheduler.instance)
@@ -198,14 +182,12 @@ class GeneralFeedCoordinator: Coordinator {
                         }
                     }
                     
-                    s.loadingState = .notLoading
                 }) { [weak self](err) in
                     print(err)
                     Crashlytics.sharedInstance().recordError(err)
                     
                     guard let s = self else { return }
                     guard let _ = s.postListVC else { return }
-                    s.loadingState = .notLoading
                     s.postListVC.endRefreshing()
             }.disposed(by: disposeBag)
         }
@@ -229,14 +211,12 @@ class GeneralFeedCoordinator: Coordinator {
                     guard let vc = s.postListVC else { return }
                     
                     vc.endRefreshing()
-                    s.loadingState = .notLoading
                 }) { [weak self] (err) in
                     print(err)
                     Crashlytics.sharedInstance().recordError(err)
                     guard let s = self else { return }
                     guard let vc = s.postListVC else { return }
                     vc.endRefreshing()
-                    s.loadingState = .notLoading
                 }.disposed(by: self.disposeBag)
         default:
             try! realm.write {
@@ -257,14 +237,12 @@ class GeneralFeedCoordinator: Coordinator {
                         }
                     }
                     vc.endRefreshing()
-                    s.loadingState = .notLoading
                 }) { [weak self](err) in
                     print(err)
                     Crashlytics.sharedInstance().recordError(err)
                     
                     guard let s = self, let vc = s.postListVC else {return}
                     vc.endRefreshing()
-                    s.loadingState = .notLoading
                 }.disposed(by: disposeBag)
             
         }
@@ -283,12 +261,15 @@ class GeneralFeedCoordinator: Coordinator {
     }
 }
 
-extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
+extension GeneralFeedCoordinator: FeedViewDelegate {
+    
     func openInternalLink(url: URL) {
         AppLinkUtils.resolveAndPushAppLink(link: url.absoluteString, navigationController: self.navController)
     }
     
-    func viewWriterPosts(for writer: User) {
+    func showWriterPosts(writerUsername: String) {
+        let realm = RealmManager.instance.getMemRealm()
+        guard let writer = realm.object(ofType: User.self, forPrimaryKey: writerUsername) else { return }
         switch self.mode {
         case .writer:
             if self.writer.username == writer.username {
@@ -304,33 +285,31 @@ extension GeneralFeedCoordinator: FeedNavigationViewDelegate {
         
     }
     
-    func showDetail(for post: Post, startComment: Bool) {
+    func showDetail(postId: Int, startComment: Bool) {
+        let realm = RealmManager.instance.getMemRealm()
+        guard let post = realm.object(ofType: Post.self, forPrimaryKey: postId) else { return }
         pushDetailViewController(for: post, startComment)
         
     }
     
     func refreshFeed() {
-        if loadingState == .notLoading {
-            loadingState = .loadingPage
-            loadFirstPage()
-        } else {
-            postListVC.endRefreshing()
-        }
+        loadFirstPage()
         
     }
     
     func fetchNextPage() {
-        if loadingState == .notLoading {
-            loadingState = .loadingPage
-            loadNextPage()
-        }
+        loadNextPage()
     }
     
-    func onBackPressed() {
-        if tempHack {
-            navController.navigationBar.isHidden = true
-        }
-        popViewController()
-        
+    func showCategoryPosts(categoryName: String) {
+        // Pass
+    }
+    
+    func viewDidAppearForTheFirstTime() {
+        // Pass
+    }
+    
+    func showExpandedImageView(for post: Post) {
+        // Pass
     }
 }

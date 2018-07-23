@@ -118,7 +118,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yur-8m-CzC">
-                                        <rect key="frame" x="331" y="26" width="24" height="24"/>
+                                        <rect key="frame" x="331" y="26.333333333333329" width="24" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="brb-w0-iyl"/>
                                             <constraint firstAttribute="width" constant="24" id="i6x-k3-ITk"/>
@@ -160,6 +160,21 @@
             </objects>
             <point key="canvasLocation" x="665" y="-1"/>
         </scene>
+        <!--Feed Collection View Controller-->
+        <scene sceneID="1xJ-kQ-Vbn">
+            <objects>
+                <viewController storyboardIdentifier="FeedCollectionViewController" id="OOM-z8-NfA" customClass="FeedCollectionViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w1A-50-Jlm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="xOS-W0-AK7"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ndF-kD-PWa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="668" y="671"/>
+        </scene>
         <!--Post List View Controller-->
         <scene sceneID="Ajl-eg-yUX">
             <objects>
@@ -177,7 +192,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Richard Marcil" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HP1-oV-66S">
-                                            <rect key="frame" x="108.99999999999999" y="132" width="157.66666666666663" height="23"/>
+                                            <rect key="frame" x="109.00000000000001" y="132" width="157.33333333333337" height="23"/>
                                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -458,7 +473,7 @@
                                                     <rect key="frame" x="20" y="10" width="30" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReT-xs-QJ9">
-                                                            <rect key="frame" x="8" y="7.9999999999999991" width="14.333333333333336" height="14.666666666666664"/>
+                                                            <rect key="frame" x="8" y="8.3333333333333321" width="14.333333333333336" height="14.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -561,7 +576,7 @@
                                         <rect key="frame" x="0.0" y="1" width="375" height="32"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Replying to CJ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETK-2u-Jpm">
-                                                <rect key="frame" x="20" y="8" width="81.666666666666671" height="16"/>
+                                                <rect key="frame" x="20" y="8" width="81.333333333333329" height="16"/>
                                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                                                 <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>

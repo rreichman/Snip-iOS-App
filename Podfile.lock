@@ -75,6 +75,11 @@ PODS:
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GTMSessionFetcher/Core (1.1.15)
+  - IGListKit (3.4.0):
+    - IGListKit/Default (= 3.4.0)
+  - IGListKit/Default (3.4.0):
+    - IGListKit/Diffing
+  - IGListKit/Diffing (3.4.0)
   - KeychainSwift (11.0.0)
   - LatoFont (2.0.1)
   - Mixpanel-swift (2.2.2):
@@ -133,6 +138,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
   - Firebase/Performance
+  - IGListKit (~> 3.0)
   - KeychainSwift (~> 11.0)
   - LatoFont (from `https://github.com/cj-zeiger/LatoFont`, branch `master`)
   - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
@@ -174,6 +180,7 @@ SPEC REPOS:
     - FirebaseSwizzlingUtilities
     - GoogleToolboxForMac
     - GTMSessionFetcher
+    - IGListKit
     - KeychainSwift
     - Moya
     - nanopb
@@ -244,6 +251,7 @@ SPEC CHECKSUMS:
   FirebaseSwizzlingUtilities: 6c22677c50d0b6f5f0dc637c1233f13694a3003f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   LatoFont: 2bb2a5ab140299a3ccdb8bde61a8720d7bef75c7
   Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
@@ -267,6 +275,6 @@ SPEC CHECKSUMS:
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 787891e93aed1309d53897cfae2921069df999cc
+PODFILE CHECKSUM: 0ec86741620538a1614a58463b9d38bc9df9b444
 
 COCOAPODS: 1.5.3

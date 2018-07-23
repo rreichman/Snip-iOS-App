@@ -31,6 +31,7 @@ class NewSnippetTableViewCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var commentInput: UIButton!
     
+    @IBOutlet var subheadTextView: UITextViewFixed!
     @IBOutlet var extraTouchArea: UIView!
     @IBOutlet var bodyTextView: UITextViewFixed!
     @IBOutlet var saveButton: ToggleButton!
@@ -84,7 +85,7 @@ class NewSnippetTableViewCell: UITableViewCell {
         commentInput.layer.borderColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0).cgColor
         voteControl.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.0)
 
-        bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 20)
+        bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: subheadTextView.bottomAnchor, constant: 20)
         bottomConstraint.priority = .init(999.0)
         bottomConstraint.isActive = true
         addTap()
@@ -120,9 +121,18 @@ class NewSnippetTableViewCell: UITableViewCell {
         }
         voteControl.bind(voteValue: data.voteValue)
         voteControl.delegate = self
+        
+        if data.postType == PostType.Report, let subheadRichText = data.getAttributedSubheadMutable() {
+            subheadTextView.attributedText = subheadRichText
+            subheadTextView.isHidden = false
+        } else {
+            subheadTextView.text = ""
+            subheadTextView.isHidden = true
+        }
+        
         //Binding of elements that might be hidden
         if expanded {
-            if let richText = data.getAttributedBody() {
+            if let richText = data.getAttributedBodyMutable() {
                 
                 //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
                 richText.append(NSAttributedString(string: "\n"))
@@ -234,9 +244,9 @@ class NewSnippetTableViewCell: UITableViewCell {
         if large {
             bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: commentInput.bottomAnchor, constant: 20)
         } else {
-            bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 20)
+            bottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: subheadTextView.bottomAnchor, constant: 20)
         }
-        //bottomConstraint.priority = .defaultHigh
+        bottomConstraint.priority = .init(999)
         bottomConstraint.isActive = true
     }
     
@@ -270,6 +280,9 @@ class NewSnippetTableViewCell: UITableViewCell {
         extraTouchArea.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(titleTap)))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTap)))
+        
+        subheadTextView.isUserInteractionEnabled = true
+        subheadTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.titleTap)))
     }
     
     @objc func imageTap() {
@@ -324,16 +337,4 @@ extension NewSnippetTableViewCell: VoteControlDelegate {
     }
     
     
-}
-
-extension Post {
-    func getAttributedBody() -> NSMutableAttributedString? {
-        //Possibly strip paragraphs
-        let font_size: CGFloat = 15.0
-        let line_height = 20
-        let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
-        guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return nil }
-        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.0)], range: NSRange(location: 0, length: render.length))
-        return render
-    }
 }

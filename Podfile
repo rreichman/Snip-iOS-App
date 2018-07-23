@@ -31,6 +31,7 @@ target 'iOSapp' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Performance'
   pod 'Nuke'
+  pod 'IGListKit', '~> 3.0'
 
   # Pods for iOSapp
 

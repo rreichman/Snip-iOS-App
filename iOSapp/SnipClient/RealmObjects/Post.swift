@@ -18,6 +18,17 @@ enum PostType {
 @objcMembers
 class Post: Object {
     static let dateFormatter: DateFormatter = DateFormatter()
+    static let paragraphStyle: NSParagraphStyle = buildParagraphStyle()
+    static func buildParagraphStyle() -> NSMutableParagraphStyle {
+        let p = NSMutableParagraphStyle()
+        p.lineSpacing = 0
+        p.paragraphSpacing = 0
+        p.defaultTabInterval = 36
+        p.baseWritingDirection = .leftToRight
+        p.minimumLineHeight = 22
+        return p
+    }
+    static let emptyParagraph: NSAttributedString = NSAttributedString(string: "")
     dynamic var id : Int = 0
     dynamic var author : User?
     dynamic var headline : String = ""
@@ -44,7 +55,9 @@ class Post: Object {
     }
     
     override static func ignoredProperties() -> [String] {
-        return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded", "postType"]
+        return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded",
+                "postType", "_subheadlineCache", "_fullBodyCache", "subheadlineAttributedString",
+                "fullBodyAttributedString"]
     }
     
     func formattedTimeString() -> String {
@@ -61,6 +74,31 @@ class Post: Object {
             return PostType.Report
         }
     }
+    
+    var subheadlineAttributedString: NSAttributedString {
+        get {
+            let key = "\(id)\(subheadline)"
+            if let c = AttributedStringCache.attributedStringForText(keyString: key) {
+                return c
+            }
+            let result = getAttributedSubhead()
+            AttributedStringCache.setCacheValue(attributedString: result, for: key)
+            return result
+        }
+    }
+    
+    var fullBodyAttributedString: NSAttributedString {
+        get {
+            let key = "\(id)\(text)"
+            if let c = AttributedStringCache.attributedStringForText(keyString: key) {
+                return c
+            }
+            let result = getAttributedBodyWithRelatedLinks()
+            AttributedStringCache.setCacheValue(attributedString: result, for: key)
+            return result
+        }
+    }
+    
 }
 
 
@@ -196,5 +234,91 @@ extension Post {
             result.append(commentList[i])
         }
         return result
+    }
+}
+
+extension Post {
+    func getAttributedBody() -> NSAttributedString {
+        
+        if text == "" {
+            return Post.emptyParagraph
+        }
+        //Possibly strip paragraphs
+        let font_size: CGFloat = 15.0
+        let line_height = 20
+        let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
+        guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return NSAttributedString(string: "") }
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.0), NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
+        
+        return render.attributedSubstring(from: NSMakeRange(0, render.length))
+    }
+    
+    func getAttributedBodyMutable() -> NSMutableAttributedString? {
+        let s = getAttributedBody()
+        return s.mutableCopy() as! NSMutableAttributedString
+    }
+    func getAttributedSubhead() -> NSAttributedString {
+        
+        if subheadline == "" {
+            return Post.emptyParagraph
+        }
+        //Possibly strip paragraphs
+        let font_size: CGFloat = 16.0
+        let line_height = 22
+        let fixed_html = "<div style = \"line-height: \(line_height)px\">\(subheadline)</div>"
+        guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return NSAttributedString(string: "") }
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.0), NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
+        return render.attributedSubstring(from: NSMakeRange(0, render.length))
+    }
+    
+    func getAttributedSubheadMutable() -> NSMutableAttributedString? {
+        let s = getAttributedSubhead()
+        return s.mutableCopy() as! NSMutableAttributedString
+    }
+    
+    func getAttributedBodyWithRelatedLinks() -> NSAttributedString {
+        let body: NSMutableAttributedString = getAttributedBodyMutable()!
+        
+        for source in relatedLinks {
+            guard let url = URL(string: source.url) else {
+                print("Post \(id) has an invalid related link URL \(source.url)")
+                Crashlytics.sharedInstance().recordError(SerializationError.invalid("Related link URL", source.url), withAdditionalUserInfo: ["title": source.title, "url": source.url, "post_id": id, "api_url": RestUtils.snipURLString])
+                continue
+            }
+            let text = source.title + ", "
+            
+            let attributes: [NSAttributedStringKey : Any] =
+                [.paragraphStyle: Post.paragraphStyle,
+                 .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
+                 .font: UIFont.lato(size: 15),
+                 .link: url]
+            let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+            body.append(attributedText)
+        }
+        return (body.length > 2 ? body.attributedSubstring(from: NSMakeRange(0, body.length - 2)) : body)
+    }
+    
+    func asViewModel(expanded: Bool) -> PostViewModel {
+        var imageUrl: String!
+        if let im = self.image, let _ = URL(string: im.imageUrl) {
+            imageUrl = im.imageUrl
+        } else {
+            imageUrl = ""
+        }
+        return PostViewModel(
+                            id: id,
+                            title: self.headline,
+                             subhead: self.subheadlineAttributedString,
+                             body: self.fullBodyAttributedString,
+                             authorName: (self.author != nil ? self.author!.fullName() : ""),
+                             dateString: self.formattedTimeString(),
+                             saved: self.saved,
+                             imageUrl: imageUrl,
+                             voteValue: self.voteValue,
+                             urlString: self.fullURL,
+                             numberOfComments: self.comments.count,
+                             timestamp: self.timestamp.toString(),
+                             expanded: expanded,
+                             authorUsername: self.author != nil ? self.author!.username : "")
     }
 }

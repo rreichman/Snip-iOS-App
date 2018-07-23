@@ -300,7 +300,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         voteControl.bind(voteValue: data.voteValue)
         voteControl.delegate = self
         
-        if let richText = data.getAttributedBody() {
+        if let richText = data.getAttributedBodyMutable() {
             
             //Who knows if anyone really understands how Attributed Text works, it doesnt seem like there is much of anything about it on google
             richText.append(NSAttributedString(string: "\n"))

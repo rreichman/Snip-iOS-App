@@ -11,17 +11,6 @@ import UIKit
 import RealmSwift
 import Crashlytics
 
-protocol MainFeedViewDelegate: class {
-    func onCategorySelected(category: Category)
-    func refreshFeed()
-    func showDetail(for post: Post, startComment: Bool)
-    func showWriterPosts(writer: User)
-    func viewDidAppearForTheFirstTime()
-    func openInternalLink(url: URL)
-    func showExpandedImageView(for post: Post)
-    func onNotificationsRequested()
-    func onNotificationsDenied()
-}
 
 class MainFeedViewController: UIViewController {
     
@@ -30,14 +19,13 @@ class MainFeedViewController: UIViewController {
     var categories: Results<Category>?
     var tokens: [NotificationToken] = []
     var querySetToken: NotificationToken?
-    var delegate: MainFeedViewDelegate!
+    var delegate: FeedViewDelegate!
     var expandedSet = Set<IndexPath>()
     var refreshControl: UIRefreshControl = UIRefreshControl()
     
     @IBOutlet var tableViewTopConstraint: NSLayoutConstraint!
     @IBOutlet var notificationPrompt: UIView!
     @IBOutlet var notificationPromptCloseButton: UIButton!
-    
     var tempTopConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
@@ -159,12 +147,10 @@ class MainFeedViewController: UIViewController {
     }
     
     @objc func onNotificationPrompt() {
-        delegate.onNotificationsRequested()
         self.closeNotificationPrompt()
     }
     
     @objc func onNotificationPromptClose() {
-        delegate.onNotificationsDenied()
         self.closeNotificationPrompt()
     }
     
@@ -226,10 +212,11 @@ extension MainFeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        //return UITableViewAutomaticDimension
         if expandedSet.contains(indexPath) {
             return 500
         } else {
-            return 150
+            return 200
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -276,7 +263,7 @@ extension MainFeedViewController: SnipCellViewDelegate {
     }
     
     func viewWriterPost(writer: User) {
-        delegate.showWriterPosts(writer: writer)
+        delegate.showWriterPosts(writerUsername: writer.username)
     }
     
     func postOptions(for post: Post) {
@@ -284,7 +271,7 @@ extension MainFeedViewController: SnipCellViewDelegate {
     }
     
     func showDetail(for post: Post, startComment: Bool) {
-        delegate.showDetail(for: post, startComment: startComment)
+        delegate.showDetail(postId: post.id, startComment: startComment)
     }
     
     func share(msg: String, url: NSURL, sourceView: UIView) {
@@ -313,7 +300,7 @@ extension MainFeedViewController: SnipCellViewDelegate {
 
 extension MainFeedViewController: CategorySelectionDelegate {
     func onCategorySelected(category: Category) {
-        delegate.onCategorySelected(category: category)
+        delegate.showCategoryPosts(categoryName: category.categoryName)
     }
 }
 

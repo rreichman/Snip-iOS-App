@@ -20,7 +20,7 @@ class MainFeedCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController!
-    var mainFeedController: MainFeedViewController!
+    var mainFeedController: FeedCollectionViewController!
     var disposeBag: DisposeBag = DisposeBag()
     fileprivate var loadingState: LoadingState = .loadingPage
     
@@ -33,7 +33,7 @@ class MainFeedCoordinator: Coordinator {
         navigationController.navigationBar.isTranslucent = false
         navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController.navigationBar.shadowImage = UIImage()
-        mainFeedController = storyBoard.instantiateViewController(withIdentifier: "HomeFeedViewController") as! MainFeedViewController
+        mainFeedController = storyBoard.instantiateViewController(withIdentifier: "FeedCollectionViewController") as! FeedCollectionViewController
         navigationController.viewControllers = [ mainFeedController ]
         //navigationController.interactivePopGestureRecognizer?.delegate = FixBackSwipeRecognizer()
         //navigationController.interactivePopGestureRecognizer?.isEnabled = true
@@ -45,7 +45,7 @@ class MainFeedCoordinator: Coordinator {
     func start() {
         let realm = RealmManager.instance.getMemRealm()
         let categories = realm.objects(Category.self)
-        mainFeedController.bindData(categories: categories)
+        mainFeedController.bindData(feedType: .main(categories: categories))
         mainFeedController.delegate = self
         loadingState = .notLoading
         
@@ -131,7 +131,7 @@ class MainFeedCoordinator: Coordinator {
     func refreshMainFeedAfterLongBackground() {
         loadMainFeed()
         guard let main = self.mainFeedController else { return }
-        main.scrollTableViewToTop()
+        //main.scrollTableViewToTop()
     }
     
     func resetMainFeed() {
@@ -139,7 +139,7 @@ class MainFeedCoordinator: Coordinator {
         guard let main = self.mainFeedController, let nav = self.navigationController else { return }
         navigationController.popToRootViewController(animated: true)
         main.resetExpandedSet()
-        main.scrollToTop()
+        //main.scrollToTop()
     }
     
     func showAppLink() {
@@ -150,12 +150,6 @@ class MainFeedCoordinator: Coordinator {
                 appLink = nil
             }
         }
-    }
-    
-    func showNotificationBanner() {
-        guard let vc = self.mainFeedController else { return }
-        vc.showNotificationBanner()
-        
     }
     
     func showPostFromDeepLink(post: Post) {
@@ -188,14 +182,11 @@ class MainFeedCoordinator: Coordinator {
     }
 }
 
-extension MainFeedCoordinator: MainFeedViewDelegate {
-    func onNotificationsDenied() {
-        NotificationManager.instance.userClosedNotificationBanner()
+extension MainFeedCoordinator: FeedViewDelegate {
+    func fetchNextPage() {
+        // Pass: Main feed doesn't have pagination
     }
     
-    func onNotificationsRequested() {
-        NotificationManager.instance.showNotificationAccessRequest()
-    }
     
     func showExpandedImageView(for post: Post) {
         self.showExpandedImage(for: post)
@@ -207,32 +198,37 @@ extension MainFeedCoordinator: MainFeedViewDelegate {
     
     func viewDidAppearForTheFirstTime() {
         // Not showing notifications yet
-        #if MAIN
-        print("Not show notification request yet")
-        #else
-        if NotificationManager.instance.shouldShowNotificationRequest() {
-            self.showNotificationBanner()
-        }
-        #endif
+        
         self.showAppLink()
     }
     
-    func showWriterPosts(writer: User) {
-        let coord = GeneralFeedCoordinator(nav: self.navigationController, mode: .writer(writer: writer))
-        self.childCoordinators.append(coord)
-        coord.start()
+    func showWriterPosts(writerUsername: String) {
+        let realm = RealmManager.instance.getMemRealm()
         
-        SnipLoggerRequests.instance.logAuthorProfileView(authorUserName: writer.username)
+        if let writer = realm.object(ofType: User.self, forPrimaryKey: writerUsername) {
+            let coord = GeneralFeedCoordinator(nav: self.navigationController, mode: .writer(writer: writer))
+            self.childCoordinators.append(coord)
+            coord.start()
+            SnipLoggerRequests.instance.logAuthorProfileView(authorUserName: writer.username)
+        }
+        
+        
     }
-    func showDetail(for post: Post, startComment: Bool) {
-        pushDetailViewController(for: post, startComment)
+    func showDetail(postId: Int, startComment: Bool) {
+        let realm = RealmManager.instance.getMemRealm()
+        if let post = realm.object(ofType: Post.self, forPrimaryKey: postId) {
+            pushDetailViewController(for: post, startComment)
+        }
+        
     }
     
-    func onCategorySelected(category: Category) {
-        print("\(category.categoryName) selected")
-        openPostList(for: category)
-        
-        SnipLoggerRequests.instance.logCategoryView(categoryName: category.categoryName, fromDiscover: false)
+    func showCategoryPosts(categoryName: String) {
+        print("\(categoryName) selected")
+        let realm = RealmManager.instance.getMemRealm()
+        if let category = realm.object(ofType: Category.self, forPrimaryKey: categoryName) {
+            openPostList(for: category)
+            SnipLoggerRequests.instance.logCategoryView(categoryName: category.categoryName, fromDiscover: false)
+        }
     }
     func refreshFeed() {
         if loadingState != .loadingPage {

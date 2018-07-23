@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WriterHeaderCollectionCell" customModule="iOSapp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="375"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="375"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Richard Marcil" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hx5-S1-VJn">
+                        <rect key="frame" x="121.5" y="95" width="157.5" height="29"/>
+                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJo-eC-vzG" userLabel="Avatar Container">
+                        <rect key="frame" x="162.5" y="0.0" width="75" height="75"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-XO-V6M" userLabel="Initials">
+                                <rect key="frame" x="21.5" y="25.5" width="32" height="24"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UJ2-a1-def">
+                                <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="75" id="OuR-2c-1BM"/>
+                            <constraint firstItem="UJ2-a1-def" firstAttribute="centerX" secondItem="cJo-eC-vzG" secondAttribute="centerX" id="PWT-EY-Fsa"/>
+                            <constraint firstItem="UJ2-a1-def" firstAttribute="width" secondItem="cJo-eC-vzG" secondAttribute="width" id="QYx-Sb-cP6"/>
+                            <constraint firstItem="UJ2-a1-def" firstAttribute="centerY" secondItem="cJo-eC-vzG" secondAttribute="centerY" id="dbU-GK-Ux9"/>
+                            <constraint firstAttribute="height" constant="75" id="gY7-ZU-RVD"/>
+                            <constraint firstItem="UJ2-a1-def" firstAttribute="height" secondItem="cJo-eC-vzG" secondAttribute="height" id="nRm-dR-McZ"/>
+                            <constraint firstItem="wqg-XO-V6M" firstAttribute="centerY" secondItem="cJo-eC-vzG" secondAttribute="centerY" id="qjV-Kd-c5E"/>
+                            <constraint firstItem="wqg-XO-V6M" firstAttribute="centerX" secondItem="cJo-eC-vzG" secondAttribute="centerX" id="u3k-ye-q1o"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="37"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.0" green="0.69999999999999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Hx5-S1-VJn" firstAttribute="top" secondItem="cJo-eC-vzG" secondAttribute="bottom" constant="20" id="Qkl-am-nqX"/>
+                <constraint firstItem="cJo-eC-vzG" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="W30-xv-39Y"/>
+                <constraint firstItem="Hx5-S1-VJn" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="XZW-43-fTN"/>
+                <constraint firstItem="cJo-eC-vzG" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="r3Z-3u-HMM"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="avatarImageView" destination="UJ2-a1-def" id="hai-mX-fZI"/>
+                <outlet property="initalsLabel" destination="wqg-XO-V6M" id="5WR-2X-ld0"/>
+                <outlet property="nameLabel" destination="Hx5-S1-VJn" id="nfd-cb-F5T"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

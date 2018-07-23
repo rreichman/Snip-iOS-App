@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Appdelegate.didFinishLaunchingWithOptions")
         NotificationManager.instance.appLaunchCount += 1
         application.statusBarStyle = .lightContent
+        if #available(iOS 10, *) {
+            UICollectionView.appearance().isPrefetchingEnabled = false
+        }
         
         Mixpanel.initialize(token: "45b15bed6d151b50d737789c474c9b66")
         let uuid: UUID? = UIDevice.current.identifierForVendor
