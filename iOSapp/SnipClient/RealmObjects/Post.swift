@@ -135,7 +135,7 @@ extension Post {
         }
         if let imageJson = json["image"] as? [String: Any] {
             if let image = try? Image.parseJson(json: imageJson) {
-                if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
+                if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image?.imageUrl) {
                     post.image = cached_image
                 } else {
                     post.image = image
@@ -245,10 +245,10 @@ extension Post {
         }
         //Possibly strip paragraphs
         let font_size: CGFloat = 15.0
-        let line_height = 20
+        let line_height = 22
         let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
         guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return NSAttributedString(string: "") }
-        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.0), NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.50, green: 0.50, blue: 0.50, alpha: 1.0), NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
         
         return render.attributedSubstring(from: NSMakeRange(0, render.length))
     }
@@ -263,7 +263,7 @@ extension Post {
             return Post.emptyParagraph
         }
         //Possibly strip paragraphs
-        let font_size: CGFloat = 16.0
+        let font_size: CGFloat = 15.0
         let line_height = 22
         let fixed_html = "<div style = \"line-height: \(line_height)px\">\(subheadline)</div>"
         guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return NSAttributedString(string: "") }
@@ -289,7 +289,6 @@ extension Post {
             
             let attributes: [NSAttributedStringKey : Any] =
                 [.paragraphStyle: Post.paragraphStyle,
-                 .foregroundColor: UIColor(red: 0.61, green: 0.61, blue: 0.61, alpha: 1.0),
                  .font: UIFont.lato(size: 15),
                  .link: url]
             let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
@@ -299,11 +298,11 @@ extension Post {
     }
     
     func asViewModel(expanded: Bool) -> PostViewModel {
-        var imageUrl: String!
-        if let im = self.image, let _ = URL(string: im.imageUrl) {
-            imageUrl = im.imageUrl
+        var imageUrl: URL?
+        if let im = self.image {
+            imageUrl = im.imageUrlObject
         } else {
-            imageUrl = ""
+            imageUrl = nil
         }
         return PostViewModel(
                             id: id,
@@ -320,5 +319,32 @@ extension Post {
                              timestamp: self.timestamp.toString(),
                              expanded: expanded,
                              authorUsername: self.author != nil ? self.author!.username : "")
+    }
+    
+    func asDetailViewModel(activeUserUsername: String) -> PostDetailViewModel {
+        var imageUrl: URL?
+        if let im = self.image {
+            imageUrl = im.imageUrlObject
+        } else {
+            imageUrl = nil
+        }
+        
+        return PostDetailViewModel(id: self.id,
+                                   title: self.headline,
+                                   subhead: self.subheadlineAttributedString,
+                                   body: self.fullBodyAttributedString,
+                                   authorName: (self.author != nil ? self.author!.fullName() : ""),
+                                   dateString: self.formattedTimeString(),
+                                   saved: self.saved,
+                                   imageUrl: imageUrl,
+                                   voteValue: self.voteValue,
+                                   urlString: self.fullURL,
+                                   numberOfComments: self.comments.count,
+                                   authorUsername: self.author != nil ? self.author!.username : "",
+                                   comments: self.calculateCommentArray().map({ (realmComment) -> CommentViewModel in
+                                    return realmComment.asViewModel(activeUserUsername: activeUserUsername)
+                                   }),
+                                   authorAvatarUrl: self.author?.avatarUrl ?? "",
+                                   authorInitials: self.author?.initials ?? "")
     }
 }

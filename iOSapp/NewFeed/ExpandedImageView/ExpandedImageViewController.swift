@@ -8,20 +8,21 @@
 
 import Foundation
 import UIKit
+import Nuke
 
 class ExpandedImageViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var sourceLabel: UITextView!
     
-    var imageData: Data?
+    var imageUrl: URL?
     var sourceTitle: String?
     var sourceLink: String?
     
     
     override func viewDidLoad() {
         
-        self.bindView(imageData: imageData, sourceTitle: sourceTitle, sourceLink: sourceLink)
+        self.bindView(imageUrl: imageUrl, sourceTitle: sourceTitle, sourceLink: sourceLink)
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTap)))
         self.imageView.isUserInteractionEnabled = true
@@ -44,18 +45,18 @@ class ExpandedImageViewController: UIViewController {
         self.dismiss(animated: false, completion: nil)
     }
     
-    func bind(imageData: Data, sourceTitle: String, sourceLink: String) {
-        self.imageData = imageData
+    func bind(imageUrl: URL, sourceTitle: String, sourceLink: String) {
+        self.imageUrl = imageUrl
         self.sourceTitle = sourceTitle
         self.sourceLink = sourceLink
         
-        bindView(imageData: imageData, sourceTitle: sourceTitle, sourceLink: sourceLink)
+        bindView(imageUrl: imageUrl, sourceTitle: sourceTitle, sourceLink: sourceLink)
     }
     
-    func bindView(imageData: Data?, sourceTitle: String?, sourceLink: String?) {
-        guard let _ = imageData, let _ = self.imageView else { return }
-        self.imageView.image = UIImage(data: imageData!)
+    func bindView(imageUrl: URL?, sourceTitle: String?, sourceLink: String?) {
+        guard let _ = imageUrl, let _ = self.imageView else { return }
         
+        Nuke.loadImage(with: imageUrl!, into: self.imageView)
         
         guard let url = URL(string: sourceLink!) else { return }
         guard let richText = NSMutableAttributedString(htmlString: sourceTitle!) else { return }
@@ -81,12 +82,12 @@ extension ExpandedImageViewController: UIViewControllerTransitioningDelegate {
 
 extension ExpandedImageViewController {
     static func showExpandedImage(for post: Post, presentingVC: UIViewController) {
-        guard let image = post.image, let data = image.data else { return }
+        guard let image = post.image, let url = URL(string: image.imageUrl) else { return }
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ExpandedImageViewController") as! ExpandedImageViewController
         
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = vc
-        vc.bind(imageData: data, sourceTitle: image.imageDescription, sourceLink: image.imageUrl)
+        vc.bind(imageUrl: url, sourceTitle: image.imageDescription, sourceLink: image.imageUrl)
         presentingVC.present(vc, animated: false, completion: nil)
     }
 }

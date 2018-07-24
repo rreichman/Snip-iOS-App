@@ -20,6 +20,7 @@ class PostContentCollectionCell: UICollectionViewCell, ListBindable {
     weak var delegate: PostInteractionDelegate?
     
     private var viewModel: PostContentViewModel?
+    private var bodyTextViewHeightConstraint: NSLayoutConstraint?
     
     func bindViewModel(_ viewModel: Any) {
         guard let viewModel = viewModel as? PostContentViewModel else { return }
@@ -38,7 +39,29 @@ class PostContentCollectionCell: UICollectionViewCell, ListBindable {
         commentButton.setTitle((viewModel.numberOfComments > 0 ? "Write a comment" : "Be the first to comment!"), for: .normal)
         voteControlView.bind(voteValue: viewModel.voteValue)
         voteControlView.delegate = self
-        bodyTextView.attributedText = viewModel.body
+        bindBodyText(bodyText: viewModel.body)
+    }
+    
+    func bindBodyText(bodyText: NSAttributedString) {
+        guard let _ = self.viewModel, let _ = self.bodyTextView else {
+            return
+        }
+        self.bodyTextViewHeightConstraint?.isActive = false
+        let width = UIScreen.main.bounds.width
+        /**
+         Content Cell
+         Top Padding 0
+         Body - Variable
+         Vote View 44
+         Padding 10
+         Comment Input 64
+         Padding 10
+         **/
+        let bodyTextViewHeight = TextSize.sizeAttributed(bodyText, font: UIFont.lato(size: 15), width: width, insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)).height
+        self.bodyTextViewHeightConstraint = self.bodyTextView.heightAnchor.constraint(equalToConstant: bodyTextViewHeight)
+        self.bodyTextViewHeightConstraint!.isActive = true
+        
+        self.bodyTextView.attributedText = bodyText
     }
     
     override func awakeFromNib() {

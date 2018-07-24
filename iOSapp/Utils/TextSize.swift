@@ -12,7 +12,7 @@ public struct TextSize {
         let insets: UIEdgeInsets
         
         fileprivate var hashValue: Int {
-            return text.hashValue ^ Int(width) ^ Int(insets.top) ^ Int(insets.left) ^ Int(insets.bottom) ^ Int(insets.right)
+            return text.hashValue ^ Int(width) ^ Int(insets.top) ^ Int(insets.left) ^ Int(insets.bottom) ^ Int(insets.right) ^ Int(font.pointSize)
         }
     }
     
@@ -56,5 +56,5 @@ public struct TextSize {
 }
 
 private func ==(lhs: TextSize.CacheEntry, rhs: TextSize.CacheEntry) -> Bool {
-    return lhs.width == rhs.width && lhs.insets == rhs.insets && lhs.text == rhs.text
+    return lhs.width == rhs.width && lhs.insets == rhs.insets && lhs.text == rhs.text && lhs.font.pointSize == rhs.font.pointSize
 }

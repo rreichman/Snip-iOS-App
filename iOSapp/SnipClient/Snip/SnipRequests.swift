@@ -11,10 +11,12 @@ import Moya
 import RxSwift
 import Crashlytics
 import RealmSwift
+import Nuke
 
 class SnipRequests {
     
     static let instance = SnipRequests()
+    let preheater = ImagePreheater(pipeline: ImagePipeline.shared)
     
     let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestResultClosure) in
             do {
@@ -37,18 +39,21 @@ class SnipRequests {
             .subscribeOn(MainScheduler.asyncInstance)
             .mapSnipRequest()
             .mapJSON()
-            .map { [weak self] obj -> [Category] in
+            .map { [unowned self] obj -> [Category] in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("invalid json response", obj) }
                 guard let jsonList = json["posts_data"] as? [ [String: Any] ] else { throw SerializationError.missing("posts_data") }
                 let categories = try Category.parseJsonList(json: jsonList)
-                guard let sr = self else {
-                    return categories
-                }
-                for cat in categories {
-                    for post in cat.topThreePosts {
-                        sr.populatePostFields(for: post)
-                    }
-                }
+                let requests: [ImageRequest?] = categories.flatMap({ (cat) -> [ImageRequest?] in
+                    return cat.topThreePosts.map({ (post) -> ImageRequest? in
+                        guard let url = post.image?.imageUrlObject else {
+                            return nil
+                        }
+                        var request = ImageRequest(url: url)
+                        request.priority = .low
+                        return request
+                    })
+                })
+                self.preheater.startPreheating(with: requests.filter( { $0 != nil } ) as! [ImageRequest])
                 return categories
         }
     }
@@ -73,16 +78,14 @@ class SnipRequests {
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
                 let realm = RealmManager.instance.getMemRealm()
-                for post in page {
-                    try! realm.write {
-                        realm.add(post, update: true)
-                        if category.posts.index(of: post) == nil {
-                            category.posts.append(post)
-                        }
-                    }
-                    s.populatePostFields(for: post)
+                let add_set = page.filter({ (post) -> Bool in
+                    return category.posts.index(of: post) == nil
+                })
+                try! realm.write {
+                    realm.add(page, update: true)
+                    category.posts.append(objectsIn: add_set)
+                    category.nextPage = next_page
                 }
-                category.nextPage = next_page
                 return category
             }
     }
@@ -105,14 +108,8 @@ class SnipRequests {
                 } else {
                     next_page = -1
                 }
-                guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
-                var result: [ Post ] = []
-                for post in page {
-                    s.populatePostFields(for: post)
-                    result.append(post)
-                }
-                return (next_page, result)
+                return (next_page, page)
         }
     }
     
@@ -135,12 +132,7 @@ class SnipRequests {
                 }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
-                var results: [ Post ] = []
-                for post in page {
-                    s.populatePostFields(for: post)
-                    results.append(post)
-                }
-                return (next_page, results)
+                return (next_page, page)
         }
     }
     func getLikedSnips(nextPage: Int?) -> Single<(Int, [ Post ])> {
@@ -162,12 +154,7 @@ class SnipRequests {
                 }
                 guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
-                var results: [ Post ] = []
-                for post in page {
-                    s.populatePostFields(for: post)
-                    results.append(post)
-                }
-                return (next_page, results)
+                return (next_page, page)
         }
     }
     
@@ -215,7 +202,7 @@ class SnipRequests {
     }
      **/
     func populatePostFields(for post: Post) {
-        getPostImage(for: post)
+        //getPostImage(for: post)
     }
     
     // Post objects should already have an Image Object added to the realm, so no need to make one and add it here like in getUserAvatar()

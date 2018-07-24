@@ -15,9 +15,9 @@ import UIKit
 import Fabric
 import Crashlytics
 import Mixpanel
-import FacebookCore
-import FBSDKCoreKit
-import FacebookLogin
+//import FacebookCore
+//import FBSDKCoreKit
+//import FacebookLogin
 import RealmSwift
 import UserNotifications
 import Firebase
@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var coordinator: AppCoordinator!
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         print("AppDelegate.open with url \(url.absoluteString)")
-        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String?, annotation: options[.annotation])
+        return true
+        //return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String?, annotation: options[.annotation])
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -62,8 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print("app init done \(Date())")
         Fabric.with([Crashlytics.self])
-        
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
+        //return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func application(_ application: UIApplication,
@@ -100,8 +101,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         print("AppDelegate.applicationDidBecomeActive")
         
-        FBSDKAppEvents.activateApp()
-        AppEventsLogger.activate(application)
+        //FBSDKAppEvents.activateApp()
+        //AppEventsLogger.activate(application)
         //Logger().logAppBecameActive()
         
         let currentTime : Date = Date()

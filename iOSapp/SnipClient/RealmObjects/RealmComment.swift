@@ -65,4 +65,17 @@ extension RealmComment {
         
         return comment
     }
+    
+    func asViewModel(activeUserUsername: String) -> CommentViewModel {
+        return CommentViewModel(body: self.body,
+                                id: self.id,
+                                level: self.level,
+                                writerUsername: self.writer?.username ?? "",
+                                writerName: self.writer?.fullName() ?? "",
+                                writerInitials: self.writer?.initials ?? "",
+                                parentId: self.parent?.id,
+                                dateString: self.formattedTimeString(),
+                                avatarUrlString: self.writer?.avatarUrl ?? "",
+                                activeUserUsername: activeUserUsername)
+    }
 }

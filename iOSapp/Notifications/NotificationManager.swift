@@ -73,6 +73,7 @@ class NotificationManager {
     func shouldShowNotificationRequest() -> Bool {
         #if MAIN
         print("Not show notification request yet")
+        return false
         #else
         return !self.haveNotificationAccess && self.appLaunchCount > 0 && !self.userDidOptOutOfNotifications
         #endif

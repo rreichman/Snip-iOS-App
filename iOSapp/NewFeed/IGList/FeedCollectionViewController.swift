@@ -25,6 +25,7 @@ protocol PostInteractionDelegate: class {
     func setVoteValue(postId: Int, value: Double)
     func sharePost(postTitle: String, postUrlString: String, sourceView: UIView)
     func showPostOptions(postId: Int)
+    func showExpandedImage(postId: Int)
 }
 
 protocol FeedViewDelegate: class {
@@ -73,7 +74,6 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
             }
         case .list:
             guard let list = self.postList else { return [] }
-            print("mapListToData postList.count \(list.count)")
             for p in list {
                 result.append(p.asViewModel(expanded: self.expandedSet.contains(p.id)))
             }
@@ -82,13 +82,15 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
     }
     
     func performUpdates() {
-        if let a = self.adapter{
-            UIView.animate(withDuration: 4.0) {
-                a.performUpdates(animated: true, completion: nil)
+        assert(Thread.isMainThread)
+        if let a = self.adapter {
+            a.performUpdates(animated: true) { (success) in
+                print("BATCH: COMPLETITION realm_set:\(self.postList?.count ?? 0) diff_set:\(self.data.count) success: \(success)")
             }
-            
         }
     }
+    
+ 
     
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         var result: [ListDiffable] = []
@@ -151,11 +153,6 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
                 loading = false
             }
             self.categoryList = results
-            self.notificationToken = results.observe({ [unowned self](changes) in
-                self.refreshControl?.endRefreshing()
-                self.loading = false
-                self.performUpdates()
-            })
         case .list(let postList, let navTitle, let writerOptional):
             if postList.count > 0 {
                 self.loading = false
@@ -166,13 +163,9 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
             if let w = writerOptional, let view = self.collectionView {
                 view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
-            
-            self.notificationToken = postList.observe({ [unowned self] (changes) in
-                self.refreshControl?.endRefreshing()
-                self.loading = false
-                self.performUpdates()
-            })
         }
+        
+        startNotification()
         self.feedViewType = feedType
         self.showNotificationRequest = NotificationManager.instance.shouldShowNotificationRequest()
         performUpdates()
@@ -185,7 +178,7 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         let updater = ListAdapterUpdater()
-        let adapter = ListAdapter(updater: updater, viewController: self)
+        let adapter = ListAdapter(updater: updater, viewController: self, workingRangeSize: 2)
         self.view.addSubview(collectionView)
         adapter.collectionView = collectionView
         adapter.dataSource = self
@@ -216,6 +209,56 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
             if let d = self.delegate {
                 d.viewDidAppearForTheFirstTime()
             }
+        }
+        startNotification()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        endNotfication()
+    }
+    
+    private func startNotification() {
+        print("starting notifications")
+        if self.notificationToken != nil {
+            // Already subscribed to updates
+            return
+        }
+        
+        switch self.feedViewType {
+        case .list:
+            guard let postList = self.postList else { return }
+            self.notificationToken = postList.observe({ [unowned self] (changes) in
+                assert(Thread.isMainThread)
+                print("BATCH: BEFORE_PERFORM_UPDATE realm_set:\(self.postList?.count ?? 0) diff_set:\(self.data.count)")
+                switch changes {
+                case .initial(let type):
+                    print("BATCH: Initial notification, \(type)")
+                case .update(let type, let deletions, let insertions, let modifications):
+                    print("BATCH: UPDATE notification del:\(deletions.count), insert:\(insertions.count)")
+                case .error(let err):
+                    print("BATCH: Notification error \(err)")
+                    fatalError()
+                }
+                self.refreshControl?.endRefreshing()
+                self.loading = false
+                self.performUpdates()
+            })
+        case .main:
+            guard let results = self.categoryList else { return }
+            self.notificationToken = results.observe({ [unowned self](changes) in
+                assert(Thread.isMainThread)
+                self.refreshControl?.endRefreshing()
+                self.loading = false
+                self.performUpdates()
+            })
+        }
+    }
+    
+    private func endNotfication() {
+        print("ending notifications")
+        if let token = self.notificationToken {
+            token.invalidate()
+            self.notificationToken = nil
         }
     }
     
@@ -291,6 +334,12 @@ extension FeedCollectionViewController: NotificationPromptDelegate {
 }
 
 extension FeedCollectionViewController: PostInteractionDelegate {
+    func showExpandedImage(postId: Int) {
+        let realm = RealmManager.instance.getMemRealm()
+        guard let post = realm.object(ofType: Post.self, forPrimaryKey: postId) else { return }
+        ExpandedImageViewController.showExpandedImage(for: post, presentingVC: self)
+    }
+    
     func showPostOptions(postId: Int) {
         PostStateManager.instance.handleSnippetMenuButtonClicked(snippetID: postId, viewController: self)
     }

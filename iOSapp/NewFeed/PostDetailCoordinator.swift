@@ -18,7 +18,7 @@ enum PostDisplayMode {
 class PostDetailCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
-    var viewController: PostDetailViewController!
+    var viewController: PostDetailCollectionViewController!
     var navigationController: UINavigationController!
     var post: Post!
     var displayMode: PostDisplayMode
@@ -31,9 +31,9 @@ class PostDetailCoordinator: Coordinator {
     }
     
     func start() {
-        viewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
+        viewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "PostDetailCollectionViewController") as! PostDetailCollectionViewController
         viewController.delegate = self
-        viewController.bind(data: post, mode: displayMode)
+        viewController.bindData(data: post, displayMode: displayMode)
         navigationController.pushViewController(viewController, animated: true)
     }
     func pushLoginSignUp() {
@@ -92,8 +92,8 @@ extension PostDetailCoordinator: AuthCoordinatorDelegate {
     }
     
     func onCancel() {
-        guard let vc = viewController, let input = vc.commentText else { return }
-        input.resignFirstResponder()
+        //guard let vc = viewController, let input = vc.commentText else { return }
+        //input.resignFirstResponder()
     }
     
     func onSuccessfulLogin(profile: User) {

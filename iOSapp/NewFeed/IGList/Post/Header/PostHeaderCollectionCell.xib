@@ -52,12 +52,14 @@
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bjJ-eW-h6g" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
                         <rect key="frame" x="16" y="130" width="343" height="148"/>
-                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                        <color key="tintColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                     </textView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Title" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="none" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="tFc-OW-Nhf">
-                        <rect key="frame" x="16" y="20" width="213" height="19.5"/>
+                        <rect key="frame" x="16" y="17" width="213" height="19.5"/>
                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -91,11 +93,12 @@
                         </userDefinedRuntimeAttributes>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXZ-8g-UMX">
-                        <rect key="frame" x="238" y="104" width="16" height="16"/>
+                        <rect key="frame" x="230" y="100" width="24" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="16" id="cma-fB-0Qv"/>
-                            <constraint firstAttribute="width" constant="16" id="d74-18-dT7"/>
+                            <constraint firstAttribute="height" constant="24" id="cma-fB-0Qv"/>
+                            <constraint firstAttribute="width" constant="24" id="d74-18-dT7"/>
                         </constraints>
+                        <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                         <state key="normal" image="downArrow"/>
                     </button>
                 </subviews>
@@ -110,11 +113,11 @@
                 <constraint firstItem="o4X-1E-h36" firstAttribute="leading" secondItem="jXZ-8g-UMX" secondAttribute="trailing" constant="5" id="Pu4-Mi-BCr"/>
                 <constraint firstItem="UW0-Wf-pZf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="Qcf-xv-9Ne"/>
                 <constraint firstAttribute="trailing" secondItem="o4X-1E-h36" secondAttribute="trailing" constant="16" id="SPe-J1-TDz"/>
-                <constraint firstItem="tFc-OW-Nhf" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="top" id="VVE-O9-hkt"/>
+                <constraint firstItem="tFc-OW-Nhf" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="top" constant="-3" id="VVE-O9-hkt"/>
                 <constraint firstAttribute="trailing" secondItem="bjJ-eW-h6g" secondAttribute="trailing" constant="16" id="Vmc-og-FRK"/>
-                <constraint firstItem="o4X-1E-h36" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" priority="999" constant="20" id="Wy6-yf-LmF"/>
+                <constraint firstItem="o4X-1E-h36" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="Wy6-yf-LmF"/>
                 <constraint firstItem="UiA-Z8-pg3" firstAttribute="centerY" secondItem="UW0-Wf-pZf" secondAttribute="centerY" id="alT-pA-FTa"/>
-                <constraint firstItem="bjJ-eW-h6g" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="bottom" constant="10" id="c8O-dH-ZE1"/>
+                <constraint firstItem="bjJ-eW-h6g" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="bottom" constant="10" placeholder="YES" id="c8O-dH-ZE1"/>
                 <constraint firstItem="jXZ-8g-UMX" firstAttribute="centerY" secondItem="UW0-Wf-pZf" secondAttribute="centerY" id="du2-bV-jju"/>
                 <constraint firstItem="tFc-OW-Nhf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="gJE-gK-zZT"/>
                 <constraint firstItem="bjJ-eW-h6g" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="iew-Rw-Y96"/>

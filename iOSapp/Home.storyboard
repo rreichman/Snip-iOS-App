@@ -175,6 +175,21 @@
             </objects>
             <point key="canvasLocation" x="668" y="671"/>
         </scene>
+        <!--Post Detail Collection View Controller-->
+        <scene sceneID="qog-PO-9EH">
+            <objects>
+                <viewController storyboardIdentifier="PostDetailCollectionViewController" id="zYj-lC-e26" customClass="PostDetailCollectionViewController" customModule="iOSapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l7P-2l-2s5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="oxR-Sl-Koe"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hd2-ls-CC0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1353" y="668"/>
+        </scene>
         <!--Post List View Controller-->
         <scene sceneID="Ajl-eg-yUX">
             <objects>

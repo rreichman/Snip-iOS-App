@@ -25,6 +25,8 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
     private var viewModel: PostHeaderViewModel?
     private var topConstraint: NSLayoutConstraint?
     private var bottomConstratint: NSLayoutConstraint?
+    private var titleLabelHeightConstraint: NSLayoutConstraint?
+    private var subheadlineHeightConstraint: NSLayoutConstraint?
     
     func viewInit() {
         for view in self.views {
@@ -41,16 +43,16 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
     
     func bindView() {
         guard let viewModel = self.viewModel, let _ = self.postImage else { return }
-        titleLabel.text = viewModel.title
+        bindTitleView(titleText: viewModel.title)
         authorLabel.text = viewModel.authorName
         dateLabel.text = viewModel.dateString
         
-        if let url = URL(string: viewModel.imageUrl) {
+        if let url = viewModel.imageUrl {
             Nuke.loadImage(with: url, into: postImage)
         } else {
             postImage.image = nil
         }
-        subheadTextView.attributedText = viewModel.subheadline
+        bindSubheadline(subheadlineText: viewModel.subheadline)
         
         postImage.clipsToBounds = true
         postImage.contentMode = .scaleAspectFill
@@ -58,8 +60,56 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         saveToggleButton.bind(on_state: viewModel.saved) { [unowned self](value) in
             self.savePost()
         }
+    }
+    
+    func bindTitleView(titleText: String) {
+        self.titleLabelHeightConstraint?.isActive = false
         
+        let titleLabelInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 146)
+        let width = UIScreen.main.bounds.width
+        //let authorLabelHeight = 16
+        let titleTextSize = TextSize.size(titleText, font: UIFont.latoBold(size: 16), width: width, insets: titleLabelInsets)
+        if titleTextSize.height > 86 {
+            self.titleLabel.baselineAdjustment = .none
+            self.titleLabel.adjustsFontSizeToFitWidth = true
+            var size = titleTextSize
+            var font: CGFloat = 16
+            while size.height > 86 {
+                font = font - 1
+                size = TextSize.size(titleText, font: UIFont.latoBold(size: font), width: width, insets: titleLabelInsets)
+            }
+            self.titleLabel.font = UIFont.latoBold(size: font)
+            self.titleLabelHeightConstraint = self.titleLabel.heightAnchor.constraint(equalToConstant: size.height)
+            self.titleLabelHeightConstraint!.isActive = true
+            self.titleLabel.text = titleText
+            print("1313: Font adjusted down to \(font) for title \(titleText)")
+        } else {
+            self.titleLabel.font = UIFont.latoBold(size: 16)
+            self.titleLabel.text = titleText
+        }
         
+    }
+    
+    func bindSubheadline(subheadlineText: NSAttributedString) {
+        guard let model = self.viewModel, let _ = self.subheadTextView else {
+            return
+        }
+        self.subheadlineHeightConstraint?.isActive = false
+        let width = UIScreen.main.bounds.width
+        /**
+         Heading Cell
+         Top Padding - 20
+         Image height - 100
+         Padding - 5
+         Subheadline height - Variable
+         Bottom padding - 0
+         **/
+        let subheadlineHeight = TextSize.sizeAttributed(subheadlineText, font: UIFont.lato(size: 15), width: width, insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)).height
+        
+        self.subheadlineHeightConstraint = self.subheadTextView.heightAnchor.constraint(equalToConstant: subheadlineHeight)
+        self.subheadlineHeightConstraint!.isActive = true
+        
+        self.subheadTextView.attributedText = subheadlineText
     }
     
     override func awakeFromNib() {
@@ -69,6 +119,7 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         addGestureRecognizers()
         
         self.contentView.backgroundColor = UIColor(white:0.97, alpha:1.0)
+        self.subheadTextView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 125).isActive = true
         postImage.layer.cornerRadius = 4
     }
     

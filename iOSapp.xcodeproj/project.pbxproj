@@ -77,6 +77,16 @@
 		4018404320AD05CE001DFE6E /* FeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018404220AD05CE001DFE6E /* FeedTests.swift */; };
 		401F43A820B35601003BECFE /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401F43A720B35601003BECFE /* PostListViewController.swift */; };
 		401F43AA20B37D2A003BECFE /* GeneralFeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */; };
+		401FAD6221065F81002B6663 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD6121065F81002B6663 /* Queue.swift */; };
+		401FAD6521067488002B6663 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD6421067488002B6663 /* PostDetailViewModel.swift */; };
+		401FAD68210674A2002B6663 /* PostDetailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD66210674A2002B6663 /* PostDetailCollectionCell.swift */; };
+		401FAD69210674A2002B6663 /* PostDetailCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 401FAD67210674A2002B6663 /* PostDetailCollectionCell.xib */; };
+		401FAD6B210674B3002B6663 /* PostDetailSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD6A210674B3002B6663 /* PostDetailSectionController.swift */; };
+		401FAD6E210674CC002B6663 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD6D210674CC002B6663 /* CommentViewModel.swift */; };
+		401FAD71210674DF002B6663 /* CommentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD6F210674DF002B6663 /* CommentCollectionCell.swift */; };
+		401FAD72210674DF002B6663 /* CommentCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 401FAD70210674DF002B6663 /* CommentCollectionCell.xib */; };
+		401FAD752106801D002B6663 /* PostExpandedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD742106801D002B6663 /* PostExpandedViewModel.swift */; };
+		401FAD7721068C2B002B6663 /* PostDetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401FAD7621068C2B002B6663 /* PostDetailCollectionViewController.swift */; };
 		403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D120AE03E700E4BF8B /* CategoryParam.swift */; };
 		403505D420AE07DD00E4BF8B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403505D320AE07DD00E4BF8B /* Image.swift */; };
 		40356A4021027A5500203AFE /* TextSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40356A3F21027A5500203AFE /* TextSize.swift */; };
@@ -304,6 +314,16 @@
 		4018404220AD05CE001DFE6E /* FeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTests.swift; sourceTree = "<group>"; };
 		401F43A720B35601003BECFE /* PostListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
 		401F43A920B37D2A003BECFE /* GeneralFeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralFeedCoordinator.swift; sourceTree = "<group>"; };
+		401FAD6121065F81002B6663 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		401FAD6421067488002B6663 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		401FAD66210674A2002B6663 /* PostDetailCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionCell.swift; sourceTree = "<group>"; };
+		401FAD67210674A2002B6663 /* PostDetailCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailCollectionCell.xib; sourceTree = "<group>"; };
+		401FAD6A210674B3002B6663 /* PostDetailSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailSectionController.swift; sourceTree = "<group>"; };
+		401FAD6D210674CC002B6663 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		401FAD6F210674DF002B6663 /* CommentCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionCell.swift; sourceTree = "<group>"; };
+		401FAD70210674DF002B6663 /* CommentCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCollectionCell.xib; sourceTree = "<group>"; };
+		401FAD742106801D002B6663 /* PostExpandedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExpandedViewModel.swift; sourceTree = "<group>"; };
+		401FAD7621068C2B002B6663 /* PostDetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionViewController.swift; sourceTree = "<group>"; };
 		403505D120AE03E700E4BF8B /* CategoryParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryParam.swift; sourceTree = "<group>"; };
 		403505D320AE07DD00E4BF8B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		40356A3F21027A5500203AFE /* TextSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSize.swift; sourceTree = "<group>"; };
@@ -764,6 +784,7 @@
 				7D820EAE1FCD19DB00404FA2 /* UITextView+Placeholder.swift */,
 				239F4FB42093A94500093B58 /* Coordinator.swift */,
 				7D0CC8A8207DA9770047A501 /* GenericNavigationController.swift */,
+				401FAD6121065F81002B6663 /* Queue.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -867,6 +888,38 @@
 				405F1D3520B75F380066CD94 /* PostContainer.swift */,
 			);
 			path = RealmObjects;
+			sourceTree = "<group>";
+		};
+		401FAD6321067478002B6663 /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				401FAD73210674F0002B6663 /* Post */,
+				401FAD6C210674B9002B6663 /* CommentSection */,
+				401FAD6421067488002B6663 /* PostDetailViewModel.swift */,
+				401FAD66210674A2002B6663 /* PostDetailCollectionCell.swift */,
+				401FAD67210674A2002B6663 /* PostDetailCollectionCell.xib */,
+				401FAD6A210674B3002B6663 /* PostDetailSectionController.swift */,
+				401FAD742106801D002B6663 /* PostExpandedViewModel.swift */,
+				401FAD7621068C2B002B6663 /* PostDetailCollectionViewController.swift */,
+			);
+			path = PostDetail;
+			sourceTree = "<group>";
+		};
+		401FAD6C210674B9002B6663 /* CommentSection */ = {
+			isa = PBXGroup;
+			children = (
+				401FAD6D210674CC002B6663 /* CommentViewModel.swift */,
+				401FAD6F210674DF002B6663 /* CommentCollectionCell.swift */,
+				401FAD70210674DF002B6663 /* CommentCollectionCell.xib */,
+			);
+			path = CommentSection;
+			sourceTree = "<group>";
+		};
+		401FAD73210674F0002B6663 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		40356A4B2103236D00203AFE /* Header */ = {
@@ -1002,6 +1055,7 @@
 		40DC8A13210157B6005D0DDB /* IGList */ = {
 			isa = PBXGroup;
 			children = (
+				401FAD6321067478002B6663 /* PostDetail */,
 				40D9ECED210569C2009E8967 /* WriterHeader */,
 				40D9ECEA210548F8009E8967 /* Spinner */,
 				40D9ECE121053DF9009E8967 /* NotificationPrompt */,
@@ -1183,7 +1237,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Ran Reichman";
 				TargetAttributes = {
 					7D0047F31F997E3E00B02D1A = {
@@ -1241,12 +1295,14 @@
 				7DAD9293203E303600337922 /* CommentView.xib in Resources */,
 				405B04CE20DC756800203265 /* Wallet.storyboard in Resources */,
 				40356A4A2102C9B800203AFE /* SectionHeaderCollectionCell.xib in Resources */,
+				401FAD72210674DF002B6663 /* CommentCollectionCell.xib in Resources */,
 				40D9ECF3210569E4009E8967 /* WriterHeaderCollectionCell.xib in Resources */,
 				7DD073BA20771B9D001D24BD /* BackHeaderView.xib in Resources */,
 				405B04CA20DC752E00203265 /* Home.storyboard in Resources */,
 				7D1EC476203F928D004B7B44 /* UserImage.xib in Resources */,
 				7D160E8320649DB500D41279 /* ProfileView.xib in Resources */,
 				4018402A20ACCC2A001DFE6E /* NewSnippetTableViewCell.xib in Resources */,
+				401FAD69210674A2002B6663 /* PostDetailCollectionCell.xib in Resources */,
 				230AE450209405E3001A05DC /* ShareAddressView.xib in Resources */,
 				7DD073BE20784D7D001D24BD /* SettingsMember.xib in Resources */,
 				40D9ECE721053E2D009E8967 /* NotificationPromptCollectionCell.xib in Resources */,
@@ -1485,6 +1541,7 @@
 				236C11DC209D3CD20026E476 /* Single+Extension.swift in Sources */,
 				4018403620ACEB39001DFE6E /* MainFeedViewController.swift in Sources */,
 				238CF2FF2097CFAA00B80DEB /* ShareAddressPresentationController.swift in Sources */,
+				401FAD6E210674CC002B6663 /* CommentViewModel.swift in Sources */,
 				403505D220AE03E700E4BF8B /* CategoryParam.swift in Sources */,
 				40D9ECF2210569E4009E8967 /* WriterHeaderCollectionCell.swift in Sources */,
 				7D5C43471FBA6FF900551E49 /* Utils.swift in Sources */,
@@ -1514,6 +1571,7 @@
 				403505D420AE07DD00E4BF8B /* Image.swift in Sources */,
 				236C11D0209D357C0026E476 /* APIError.swift in Sources */,
 				7D160E872064A14D00D41279 /* ProfileView.swift in Sources */,
+				401FAD68210674A2002B6663 /* PostDetailCollectionCell.swift in Sources */,
 				40676A3920DAD39F002E4130 /* SnipLoggerRequests.swift in Sources */,
 				4018402C20ACDFC6001DFE6E /* CategoryData.swift in Sources */,
 				7D93CAE71FD8F6B60044C246 /* CachedData.swift in Sources */,
@@ -1559,11 +1617,13 @@
 				40356A4021027A5500203AFE /* TextSize.swift in Sources */,
 				23F3586D20A2546A00FC6C60 /* GasRequests.swift in Sources */,
 				7DD073B82076DA30001D24BD /* SettingsViewController.swift in Sources */,
+				401FAD7721068C2B002B6663 /* PostDetailCollectionViewController.swift in Sources */,
 				40A1CA0720D051C0001C26F6 /* RestUtils.swift in Sources */,
 				4018403B20ACEBDC001DFE6E /* Category.swift in Sources */,
 				236C11CA209D26180026E476 /* DateFmt.swift in Sources */,
 				40A7D4AB20D4747E0081DDBC /* FixBackSwipeRecognizer.swift in Sources */,
 				40356A492102C9B800203AFE /* SectionHeaderCollectionCell.swift in Sources */,
+				401FAD6221065F81002B6663 /* Queue.swift in Sources */,
 				230D45552097FDE70004FBC4 /* GasSetting.swift in Sources */,
 				40F444DA20D9ED9200593FCA /* NotificationManager.swift in Sources */,
 				4071069020D36E26006DED24 /* DynamicImageView.swift in Sources */,
@@ -1622,12 +1682,15 @@
 				7DA1A94D1FCB7CC200ABB0C4 /* Comment.swift in Sources */,
 				2337A9F0209D09680090CFDA /* UserWallet.swift in Sources */,
 				23F3586F20A255B600FC6C60 /* GasData.swift in Sources */,
+				401FAD71210674DF002B6663 /* CommentCollectionCell.swift in Sources */,
 				7DC58874206B021300BFA5AD /* LoginViewController.swift in Sources */,
 				7D1EC478203F92A6004B7B44 /* UserImage.swift in Sources */,
+				401FAD6521067488002B6663 /* PostDetailViewModel.swift in Sources */,
 				7DDA3D9D206C5DAE00960252 /* SignupViewController.swift in Sources */,
 				40E4B39220AE3C84000EA9F6 /* TabCoordinator.swift in Sources */,
 				7DA35D0B1FA70B7A006306FD /* AppCache.swift in Sources */,
 				40A1CA0320D04F8F001C26F6 /* SnipAuthService.swift in Sources */,
+				401FAD752106801D002B6663 /* PostExpandedViewModel.swift in Sources */,
 				40A1CA0520D04F99001C26F6 /* SnipAuthRequests.swift in Sources */,
 				239F4FBB2093F37500093B58 /* SendTransactionCoordinator.swift in Sources */,
 				237561EA208AA4E800D8018F /* ImportWalletViewController.swift in Sources */,
@@ -1643,6 +1706,7 @@
 				40816AAE20CF58180062D891 /* AuthCoordinator.swift in Sources */,
 				40D9ECE92105404C009E8967 /* NotificationPromptViewModel.swift in Sources */,
 				405F1D3620B75F380066CD94 /* PostContainer.swift in Sources */,
+				401FAD6B210674B3002B6663 /* PostDetailSectionController.swift in Sources */,
 				237561EC208AA50500D8018F /* NewWalletViewController.swift in Sources */,
 				4071068E20D36008006DED24 /* ExpandedImageViewController.swift in Sources */,
 				4018403120ACE287001DFE6E /* SnipRequests.swift in Sources */,
@@ -1715,6 +1779,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1722,6 +1787,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1827,6 +1893,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1834,6 +1901,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1881,6 +1949,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1888,6 +1957,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

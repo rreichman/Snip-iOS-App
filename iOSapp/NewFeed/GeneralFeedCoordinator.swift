@@ -171,15 +171,13 @@ class GeneralFeedCoordinator: Coordinator {
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, result) in
                     guard let s = self else {return}
-
+                    let add_set = result.filter({ (post) -> Bool in
+                        return s.postCotainer.posts.index(of: post) == nil
+                    })
                     try! realm.write {
                         s.postCotainer.nextPage = nextPage
-                        for newPost in result {
-                            if s.postCotainer.posts.index(of: newPost) == nil {
-                                realm.add(newPost, update: true)
-                                s.postCotainer.posts.append(newPost)
-                            }
-                        }
+                        realm.add(result, update: true)
+                        s.postCotainer.posts.append(objectsIn: add_set)
                     }
                     
                 }) { [weak self](err) in
@@ -227,14 +225,13 @@ class GeneralFeedCoordinator: Coordinator {
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: {[weak self] (nextPage, results) in
                     guard let s = self, let vc = s.postListVC else {return}
+                    let add_set = results.filter({ (post) -> Bool in
+                        return s.postCotainer.posts.index(of: post) == nil
+                    })
                     try! realm.write {
                         s.postCotainer.nextPage = nextPage
-                        for newPost in results {
-                            if s.postCotainer.posts.index(of: newPost) == nil {
-                                realm.add(newPost, update: true)
-                                s.postCotainer.posts.append(newPost)
-                            }
-                        }
+                        realm.add(results, update: true)
+                        s.postCotainer.posts.append(objectsIn: add_set)
                     }
                     vc.endRefreshing()
                 }) { [weak self](err) in

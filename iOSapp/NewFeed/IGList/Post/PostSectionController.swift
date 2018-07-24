@@ -64,11 +64,11 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
              Heading Cell
              Top Padding - 20
              Image height - 100
-             Padding - 10
+             Padding - 5
              Subheadline height - Variable
              Bottom padding - 0
             **/
-            let height = TextSize.sizeAttributed(viewModel.subheadline, font: UIFont.lato(size: 16.0), width: width, insets: textInsets).height
+            let height = TextSize.sizeAttributed(viewModel.subheadline, font: UIFont.lato(size: 15.0), width: width, insets: textInsets).height
             return CGSize(width: width, height: height + 125)
         case is PostContentViewModel:
             guard let viewModel = viewModel as? PostContentViewModel else { fatalError() }
@@ -76,10 +76,11 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
              Content Cell
              Top Padding 0
              Body - Variable
+             Padding - 10
              Vote View 44
              Padding 10
              Comment Input 64
-             Padding 20
+             Padding 10
             **/
             let height = TextSize.sizeAttributed(viewModel.body, font: UIFont.lato(size: 15.0), width: width, insets: textInsets).height
             return CGSize(width: width, height: height + 138)
@@ -102,6 +103,7 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         dataSource = self
         transitionDelegate = self
+        workingRangeDelegate = self
         minimumLineSpacing = 4
         minimumInteritemSpacing = 4
     }
@@ -116,5 +118,21 @@ extension PostSectionController: IGListTransitionDelegate {
     func listAdapter(_ listAdapter: ListAdapter!, customizedFinalLayoutAttributes attributes: UICollectionViewLayoutAttributes!, sectionController: ListSectionController!, at index: Int) -> UICollectionViewLayoutAttributes! {
         return attributes
     }
+}
+
+extension PostSectionController: ListWorkingRangeDelegate {
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerWillEnterWorkingRange sectionController: ListSectionController) {
+        guard let controller = sectionController as? PostSectionController else {
+            fatalError()
+        }
+        
+        
+    }
+    
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerDidExitWorkingRange sectionController: ListSectionController) {
+        //pass
+    }
+    
+    
 }
 
