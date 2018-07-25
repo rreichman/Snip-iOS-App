@@ -83,10 +83,13 @@ class PostDetailSectionController: ListBindingSectionController<PostDetailViewMo
              Stack View: 18
              padding: 10
              
-             left insets: 16 leading, width: 30,  10 trailing
+             left insets: 16 leading, width: 30,  10 trailing, indent: (10 * comment level)
              right insets: 16 trailing
              **/
-            let bodyHeight = TextSize.size(model.body, font: UIFont.lato(size: 15), width: width, insets: UIEdgeInsets(top: 0, left: 56, bottom: 0, right: 16)).height
+            
+            let leftIndet: CGFloat = CGFloat.init(integerLiteral: 56 + (10 * model.level))
+            // Add 10 becuase TextSize can't manage different line heights in the same text string
+            let bodyHeight = TextSize.size(model.body, font: UIFont.lato(size: 15), width: width, insets: UIEdgeInsets(top: 0, left: leftIndet, bottom: 0, right: 16)).height + 10
             
             return CGSize(width: width, height: bodyHeight + 71)
         default:
@@ -102,5 +105,23 @@ class PostDetailSectionController: ListBindingSectionController<PostDetailViewMo
     override init() {
         super.init()
         dataSource = self
+    }
+    
+    func scrollToComment(index: Int, scrollPosition: UICollectionViewScrollPosition, andimated: Bool) {
+        if let context = collectionContext, let model = self.model, index < model.comments.count {
+            context.scroll(to: self, at: index + 1, scrollPosition: scrollPosition, animated: andimated)
+        }
+    }
+    
+    func scrollToCommentId(commentId: Int, scrollPosition: UICollectionViewScrollPosition, andimated: Bool) {
+        if let context = collectionContext, let model = self.model {
+            let index = model.comments.index { (commentViewModel: CommentViewModel) -> Bool in
+                return commentViewModel.id == commentId
+            }
+            if let i = index {
+                context.scroll(to: self, at: i + 1, scrollPosition: scrollPosition, animated: andimated)
+            }
+            
+        }
     }
 }

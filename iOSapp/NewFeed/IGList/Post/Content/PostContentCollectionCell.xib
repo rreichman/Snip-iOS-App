@@ -45,10 +45,10 @@
                         <state key="normal" image="shareIcon"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CyQ-oR-2DT">
-                        <rect key="frame" x="16" y="249" width="343" height="64"/>
+                        <rect key="frame" x="16" y="249" width="343" height="32"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="64" placeholder="YES" id="bBO-gS-iKQ"/>
+                            <constraint firstAttribute="height" constant="32" placeholder="YES" id="bBO-gS-iKQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                         <inset key="titleEdgeInsets" minX="22" minY="10" maxX="0.0" maxY="10"/>

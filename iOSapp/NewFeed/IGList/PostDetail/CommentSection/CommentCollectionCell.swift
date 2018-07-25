@@ -11,8 +11,8 @@ import IGListKit
 import Nuke
 
 protocol CommentCollectionDelegate: class {
-    func replyToComment(parentCommentId: Int)
-    func editComment(commentId: Int)
+    func replyToComment(parentCommentId: Int, replyAuthorName: String)
+    func editComment(commentId: Int, commentBody: String)
     func deleteComment(commentId: Int)
 }
 
@@ -26,15 +26,18 @@ class CommentCollectionCell: UICollectionViewCell, ListBindable {
     @IBOutlet var replyLabel: UILabel!
     @IBOutlet var deleteLabel: UILabel!
     @IBOutlet var editLabel: UILabel!
+    @IBOutlet var avatarContainerView: UIView!
     
     var model: CommentViewModel?
     var commentDelegate: CommentCollectionDelegate?
+    var indentConstraint: NSLayoutConstraint!
     
     func bindViewModel(_ viewModel: Any) {
         guard let model = viewModel as? CommentViewModel else { fatalError() }
         self.model = model
         bindView()
     }
+    
     
     func bindView() {
         guard let model = self.model, let _ = self.commentLabel else { return }
@@ -66,28 +69,41 @@ class CommentCollectionCell: UICollectionViewCell, ListBindable {
         } else {
             replyLabel.isHidden = false
         }
+        
+        self.indentConstraint.constant = CGFloat.init(integerLiteral: 16 + (model.level * 10))
+            
+        
     }
     
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.indentConstraint = self.avatarContainerView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
+        self.indentConstraint.isActive = true
+        addGestureRecognizers()
     }
     
     func addGestureRecognizers() {
         self.replyLabel.isUserInteractionEnabled = true
         self.replyLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(replyToComment)))
+        
+        self.editLabel.isUserInteractionEnabled = true
+        self.editLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editComment)))
+        
+        self.deleteLabel.isUserInteractionEnabled = true
+        self.deleteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteComment)))
     }
     
     @objc func replyToComment() {
         guard let delegate = self.commentDelegate, let model = self.model else { return }
-        delegate.replyToComment(parentCommentId: model.id)
+        delegate.replyToComment(parentCommentId: model.id, replyAuthorName: model.writerName)
         
     }
     
     @objc func editComment() {
         guard let delegate = self.commentDelegate, let model = self.model else { return }
-        delegate.editComment(commentId: model.id)
+        delegate.editComment(commentId: model.id, commentBody: model.body)
     }
     
     @objc func deleteComment() {

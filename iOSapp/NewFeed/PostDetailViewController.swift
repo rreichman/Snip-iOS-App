@@ -11,7 +11,7 @@ import UIKit
 import RealmSwift
 import Nuke
 
-enum CommentInputMode {
+fileprivate enum OldCommentInputMode {
     case reply
     case edit
     case none
@@ -68,7 +68,7 @@ class PostDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     var replyComment: RealmComment?
     var editComment: RealmComment?
     var deleteComment: RealmComment?
-    var inputMode: CommentInputMode = .none
+    fileprivate var inputMode: OldCommentInputMode = .none
     
     override func viewDidLoad() {
         tableView.dataSource = self

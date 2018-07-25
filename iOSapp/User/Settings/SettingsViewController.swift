@@ -18,60 +18,78 @@ protocol SettingsViewDelegate: class {
 class SettingsViewController : GenericProgramViewController
 {
     
-    @IBOutlet weak var firstSetting: SettingsMember!
-    @IBOutlet weak var secondSetting: SettingsMember!
-    @IBOutlet weak var thirdSetting: SettingsMember!
+    @IBOutlet var stackView: UIStackView!
+    var firstSetting: SettingsMember!
+    var secondSetting: SettingsMember!
+    var thirdSetting: SettingsMember!
+    var notificationSettings: SettingsMember?
     
     var delegate: SettingsViewDelegate!
+    
+    var settings: [SettingsMember] = []
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.navigationItem.title = "Settings".uppercased()
         
         
-        designSettings()
-        setButtons()
-        //whiteBackArrow()
+        viewInit()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
-    func designSettings()
+    func viewInit()
     {
+        firstSetting = SettingsMember()
         firstSetting.imageView.image = #imageLiteral(resourceName: "myAccount")
         firstSetting.textView.attributedText = LoginDesignUtils.shared.PRIVACY_POLICY_STRING
+        firstSetting.isUserInteractionEnabled = true
+        firstSetting.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(privacyPolicyClicked)))
+        self.settings.append(firstSetting)
+        addSettingsToStack(memeber: firstSetting)
+        secondSetting = SettingsMember()
         secondSetting.imageView.image = #imageLiteral(resourceName: "terms")
         secondSetting.textView.attributedText = LoginDesignUtils.shared.TERMS_OF_SERVICE_STRING
+        self.settings.append(secondSetting)
+        addSettingsToStack(memeber: secondSetting)
+        secondSetting.isUserInteractionEnabled = true
+        secondSetting.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(termsOfServiceClicked)))
+        thirdSetting = SettingsMember()
         thirdSetting.imageView.image = #imageLiteral(resourceName: "logout")
         thirdSetting.textView.attributedText = LoginDesignUtils.shared.LOGOUT_STRING
-        
-    }
-    
-    func setButtons()
-    {
-        let privacyPolicyClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.privacyPolicyClicked(sender:)))
-        firstSetting.isUserInteractionEnabled = true
-        firstSetting.addGestureRecognizer(privacyPolicyClickRecognizer)
-        
-        let termsOfServiceClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.termsOfServiceClicked(sender:)))
-        secondSetting.isUserInteractionEnabled = true
-        secondSetting.addGestureRecognizer(termsOfServiceClickRecognizer)
-        
-        let logoutClickRecognizer : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.logoutClicked(sender:)))
         thirdSetting.isUserInteractionEnabled = true
-        thirdSetting.addGestureRecognizer(logoutClickRecognizer)
+        thirdSetting.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoutClicked)))
+        self.settings.append(thirdSetting)
+        addSettingsToStack(memeber: thirdSetting)
+        if !NotificationManager.instance.haveNotificationAccess {
+            let notification = SettingsMember()
+            notification.imageView.image = #imageLiteral(resourceName: "notification")
+            notification.textView.attributedText = LoginDesignUtils.shared.NOTIFICATION_STRING
+            notification.isUserInteractionEnabled = true
+            notification.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(notificationsRequested)))
+            self.settings.append(notification)
+            self.notificationSettings = notification
+            addSettingsToStack(memeber: notification)
+        }
     }
     
-    @objc func privacyPolicyClicked(sender: UITapGestureRecognizer)
+    private func addSettingsToStack(memeber: SettingsMember) {
+        memeber.heightAnchor.constraint(equalToConstant: 61).isActive = true
+        self.stackView.addArrangedSubview(memeber)
+        memeber.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 0).isActive = true
+        memeber.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: 0).isActive = true
+    }
+    
+    @objc func privacyPolicyClicked()
     {
         UIApplication.shared.open(URL(string: SystemVariables().PRIVACY_POLICY_URL)!, options: [:], completionHandler: nil)
     }
     
-    @objc func termsOfServiceClicked(sender: UITapGestureRecognizer)
+    @objc func termsOfServiceClicked()
     {
         UIApplication.shared.open(URL(string: SystemVariables().TERMS_OF_SERVICE_URL)!, options: [:], completionHandler: nil)
     }
     
-    @objc func logoutClicked(sender: UITapGestureRecognizer)
+    @objc func logoutClicked()
     {
         print("in logout")
         if (SessionManager.instance.loggedIn)
@@ -90,6 +108,11 @@ class SettingsViewController : GenericProgramViewController
         }
     }
     
+    @objc func notificationsRequested() {
+        NotificationManager.instance.showNotificationAccessRequest()
+        self.notificationSettings?.isHidden = true
+    }
+    
     func operateLogout(action: UIAlertAction)
     {
         delegate.onLogoutRequested()
@@ -98,20 +121,5 @@ class SettingsViewController : GenericProgramViewController
     
     @objc func backButtonTapped() {
         delegate.backRequested()
-    }
-    
-    private func whiteBackArrow() {
-        let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 44, height: 44)
-        menuBtn.imageEdgeInsets = UIEdgeInsetsMake(14, 0, 14, 26)
-        menuBtn.setImage(UIImage(named:"whiteBackArrow"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(backButtonTapped), for: UIControlEvents.touchUpInside)
-        menuBtn.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-        let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 44)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
-        currHeight?.isActive = true
-        self.navigationItem.leftBarButtonItem = menuBarItem
     }
 }

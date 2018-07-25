@@ -24,6 +24,9 @@ final class PostViewModel: ListDiffable {
     let numberOfComments: Int
     let timestamp: String
     let authorUsername: String
+    let postType: PostType
+    let emptyBody: Bool
+    let emptySubhead: Bool
     
     //View State
     let saved: Bool
@@ -31,7 +34,7 @@ final class PostViewModel: ListDiffable {
     let expanded: Bool
     
     
-    init(id: Int, title: String, subhead: NSAttributedString, body: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: String, voteValue: Double, urlString: String, numberOfComments: Int, timestamp: String, expanded: Bool = false, authorUsername: String) {
+    init(id: Int, title: String, subhead: NSAttributedString, body: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: String, voteValue: Double, urlString: String, numberOfComments: Int, timestamp: String, expanded: Bool = false, authorUsername: String, postType: PostType, emptyBody: Bool, emptySubhead: Bool) {
         self.id = id
         self.title = title
         self.subhead = subhead
@@ -46,6 +49,9 @@ final class PostViewModel: ListDiffable {
         self.timestamp = timestamp
         self.expanded = expanded
         self.authorUsername = authorUsername
+        self.postType = postType
+        self.emptyBody = emptyBody
+        self.emptySubhead = emptySubhead
     }
     
     func diffIdentifier() -> NSObjectProtocol {

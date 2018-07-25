@@ -51,7 +51,7 @@
                         </constraints>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bjJ-eW-h6g" customClass="UITextViewFixed" customModule="iOSapp" customModuleProvider="target">
-                        <rect key="frame" x="16" y="130" width="343" height="148"/>
+                        <rect key="frame" x="16" y="130" width="343" height="70"/>
                         <color key="tintColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
@@ -101,15 +101,21 @@
                         <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                         <state key="normal" image="downArrow"/>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7o-ow-wa7">
+                        <rect key="frame" x="16" y="185" width="343" height="18"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
+                        <color key="textColor" white="0.65000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="o4X-1E-h36" firstAttribute="leading" secondItem="hz7-Dv-o0s" secondAttribute="trailing" constant="5" id="0Xk-Bb-pym"/>
                 <constraint firstItem="hz7-Dv-o0s" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="top" id="0cw-pu-GS9"/>
                 <constraint firstItem="o4X-1E-h36" firstAttribute="leading" secondItem="tFc-OW-Nhf" secondAttribute="trailing" constant="30" id="G7g-yH-MIa"/>
-                <constraint firstItem="bjJ-eW-h6g" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" priority="999" constant="-20" placeholder="YES" id="H1V-0Y-2So"/>
                 <constraint firstItem="UiA-Z8-pg3" firstAttribute="bottom" secondItem="o4X-1E-h36" secondAttribute="bottom" id="IhC-s1-Gj6"/>
                 <constraint firstItem="UW0-Wf-pZf" firstAttribute="bottom" secondItem="o4X-1E-h36" secondAttribute="bottom" id="M3b-gR-Mpl"/>
+                <constraint firstItem="I7o-ow-wa7" firstAttribute="top" secondItem="bjJ-eW-h6g" secondAttribute="bottom" constant="-15" id="Miu-gY-7qf"/>
                 <constraint firstItem="o4X-1E-h36" firstAttribute="leading" secondItem="jXZ-8g-UMX" secondAttribute="trailing" constant="5" id="Pu4-Mi-BCr"/>
                 <constraint firstItem="UW0-Wf-pZf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="Qcf-xv-9Ne"/>
                 <constraint firstAttribute="trailing" secondItem="o4X-1E-h36" secondAttribute="trailing" constant="16" id="SPe-J1-TDz"/>
@@ -118,8 +124,10 @@
                 <constraint firstItem="o4X-1E-h36" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="Wy6-yf-LmF"/>
                 <constraint firstItem="UiA-Z8-pg3" firstAttribute="centerY" secondItem="UW0-Wf-pZf" secondAttribute="centerY" id="alT-pA-FTa"/>
                 <constraint firstItem="bjJ-eW-h6g" firstAttribute="top" secondItem="o4X-1E-h36" secondAttribute="bottom" constant="10" placeholder="YES" id="c8O-dH-ZE1"/>
+                <constraint firstAttribute="trailing" secondItem="I7o-ow-wa7" secondAttribute="trailing" constant="16" id="dSa-RJ-m1y"/>
                 <constraint firstItem="jXZ-8g-UMX" firstAttribute="centerY" secondItem="UW0-Wf-pZf" secondAttribute="centerY" id="du2-bV-jju"/>
                 <constraint firstItem="tFc-OW-Nhf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="gJE-gK-zZT"/>
+                <constraint firstItem="I7o-ow-wa7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="hHY-9C-Urn"/>
                 <constraint firstItem="bjJ-eW-h6g" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="iew-Rw-Y96"/>
                 <constraint firstItem="UiA-Z8-pg3" firstAttribute="leading" secondItem="UW0-Wf-pZf" secondAttribute="trailing" constant="5" id="kpG-N0-JXR"/>
             </constraints>
@@ -130,6 +138,7 @@
                 <outlet property="dateLabel" destination="UiA-Z8-pg3" id="jfo-bQ-jbz"/>
                 <outlet property="postImage" destination="o4X-1E-h36" id="97i-z8-BaC"/>
                 <outlet property="postOptionsButton" destination="jXZ-8g-UMX" id="Knc-oA-3LE"/>
+                <outlet property="readMoreLabel" destination="I7o-ow-wa7" id="0Dr-Yv-rP8"/>
                 <outlet property="saveToggleButton" destination="hz7-Dv-o0s" id="Sys-Yv-YXM"/>
                 <outlet property="subheadTextView" destination="bjJ-eW-h6g" id="zEb-Fo-BBV"/>
                 <outlet property="titleLabel" destination="tFc-OW-Nhf" id="V7v-DB-4Gk"/>
@@ -138,6 +147,7 @@
                 <outletCollection property="views" destination="o4X-1E-h36" collectionClass="NSMutableArray" id="H1a-ib-ncT"/>
                 <outletCollection property="views" destination="bjJ-eW-h6g" collectionClass="NSMutableArray" id="sNA-kS-ehl"/>
                 <outletCollection property="views" destination="tFc-OW-Nhf" collectionClass="NSMutableArray" id="7Vs-pM-fZa"/>
+                <outletCollection property="views" destination="I7o-ow-wa7" collectionClass="NSMutableArray" id="SaE-4x-0VC"/>
             </connections>
             <point key="canvasLocation" x="194.5" y="-72"/>
         </collectionViewCell>

@@ -17,7 +17,7 @@ class PostDetailViewModel: ListDiffable {
     let body: NSAttributedString
     let authorName: String
     let dateString: String
-    let imageUrl: URL?
+    let imageUrl: String
     let urlString: String
     let numberOfComments: Int
     let authorUsername: String
@@ -30,7 +30,7 @@ class PostDetailViewModel: ListDiffable {
     let voteValue: Double
     
     
-    init(id: Int, title: String, subhead: NSAttributedString, body: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: URL?, voteValue: Double, urlString: String, numberOfComments: Int, authorUsername: String, comments: [CommentViewModel], authorAvatarUrl: String, authorInitials: String) {
+    init(id: Int, title: String, subhead: NSAttributedString, body: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: String, voteValue: Double, urlString: String, numberOfComments: Int, authorUsername: String, comments: [CommentViewModel], authorAvatarUrl: String, authorInitials: String) {
         self.id = id
         self.title = title
         self.subhead = subhead

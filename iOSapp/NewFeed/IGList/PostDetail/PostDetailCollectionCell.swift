@@ -40,7 +40,7 @@ class PostDetailCollectionCell: UICollectionViewCell, ListBindable {
     
     func bindView() {
         guard let _ = self.bodyTextView, let model = self.model else { return }
-        if let url = model.imageUrl {
+        if let url = URL(string: model.imageUrl) {
             self.postImageView.isHidden = false
             Nuke.loadImage(with: url, into: self.postImageView)
         } else {
@@ -82,6 +82,7 @@ class PostDetailCollectionCell: UICollectionViewCell, ListBindable {
         constrainTextViews()
     }
     
+    
     func constrainTextViews() {
         guard let model = self.model, let _ = self.bodyTextView else { return }
         let width = UIScreen.main.bounds.width
@@ -99,7 +100,7 @@ class PostDetailCollectionCell: UICollectionViewCell, ListBindable {
         
         let bodyY = subheadY + subheadHeight
         self.bodyTextView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: bodyY).isActive = true
-        let bodyHeight = TextSize.sizeAttributed(model.body, font: UIFont.lato(size: 14), width: width, insets: insets).height
+        let bodyHeight = TextSize.sizeAttributed(model.body, font: UIFont.lato(size: 14), width: width, insets: insets).height + 10
         
         bodyTextView.heightAnchor.constraint(equalToConstant: bodyHeight).isActive = true
     }
@@ -137,4 +138,13 @@ class PostDetailCollectionCell: UICollectionViewCell, ListBindable {
         delegate.showWritersPosts(writerUserName: model.authorUsername)
     }
 
+}
+
+extension PostDetailCollectionCell: VoteControlDelegate {
+    func voteValueSet(to: Double) {
+        guard let model = self.model else { return }
+        self.delegate?.setVoteValue(postId: model.id, value: to)
+    }
+    
+    
 }

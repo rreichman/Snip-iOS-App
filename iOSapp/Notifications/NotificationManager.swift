@@ -66,24 +66,34 @@ class NotificationManager {
         }
     }
     
+    private let _userDidDenyRequest: String = "userDidDenyRequest"
+    var userDidDenyRequest: Bool {
+        get {
+            return userdefaults.bool(forKey: self._userDidDenyRequest)
+        }
+        set {
+            userdefaults.set(newValue, forKey: self._userDidDenyRequest)
+            userdefaults.synchronize()
+        }
+    }
+    
     init() {
         userdefaults = UserDefaults.standard
     }
     
     func shouldShowNotificationRequest() -> Bool {
-        #if MAIN
-        print("Not show notification request yet")
-        return false
-        #else
-        return !self.haveNotificationAccess && self.appLaunchCount > 0 && !self.userDidOptOutOfNotifications
-        #endif
+        return !self.haveNotificationAccess && self.appLaunchCount > 0 && !self.userDidOptOutOfNotifications && !self.userDidDenyRequest
+    }
+    
+    func shouldShowNotificationSetting() -> Bool {
+        return !self.haveNotificationAccess && !self.userDidDenyRequest
     }
     
     func userClosedNotificationBanner() {
         self.userDidOptOutOfNotifications = true
     }
     
-    func showNotificationAccessRequest() {
+    func showNotificationAccessRequest(completion: ((Bool) -> Void)? = nil) {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
@@ -91,13 +101,19 @@ class NotificationManager {
                 print("Reuqested authorization from notification center")
                 if let e = error {
                     print("Error requesting authorization \(e)")
+                    completion?(false)
                     return
                 }
                 if granted {
                     print("Request granted, registering for notifications")
                     self.haveNotificationAccess = true
+                    completion?(true)
                 } else {
                     print("Request not granted")
+                    self.haveNotificationAccess = false
+                    self.userDidDenyRequest = true
+                    //self.userDidOptOutOfNotifications = true
+                    completion?(false)
                 }
         })
     }

@@ -29,16 +29,23 @@ class SettingsMember: UIView
     }
     
     func xibSetup() {
-        contentView = loadViewFromNib()
+        let contentView = loadViewFromNib()!
         
         // use bounds not frame or it'll be offset
-        contentView!.frame = bounds
-        
+        contentView.frame = bounds
+        addSubview(contentView)
+        let g = self.safeAreaLayoutGuide
+        contentView.topAnchor.constraint(equalTo: g.topAnchor).isActive = true
+        contentView.leadingAnchor.constraint(equalTo: g.leadingAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: g.bottomAnchor).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: g.trailingAnchor).isActive = true
         // Make the view stretch with containing view
-        contentView!.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
-        addSubview(contentView!)
+        
+        self.contentView = contentView
     }
     
     func loadViewFromNib() -> UIView! {

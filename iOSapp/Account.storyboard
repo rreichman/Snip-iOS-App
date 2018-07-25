@@ -188,46 +188,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4O-xs-j3g" customClass="SettingsMember" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="20" width="375" height="61"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="61" id="lad-hk-Bdd"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jvf-0A-jSx" customClass="SettingsMember" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="81" width="375" height="61"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="61" id="Gp5-Pg-HcW"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecf-rc-6Uv" customClass="SettingsMember" customModule="iOSapp">
-                                <rect key="frame" x="0.0" y="142" width="375" height="61"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="61" id="LW5-JW-0ng"/>
-                                </constraints>
-                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kvX-QD-dG9">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="jvf-0A-jSx" firstAttribute="top" secondItem="V4O-xs-j3g" secondAttribute="bottom" id="AAK-xi-Tdp"/>
-                            <constraint firstItem="Ecf-rc-6Uv" firstAttribute="leading" secondItem="lVx-av-e4K" secondAttribute="leading" id="GzT-nD-HXb"/>
-                            <constraint firstItem="jvf-0A-jSx" firstAttribute="leading" secondItem="lVx-av-e4K" secondAttribute="leading" id="MzD-HE-UZc"/>
-                            <constraint firstItem="lVx-av-e4K" firstAttribute="trailing" secondItem="V4O-xs-j3g" secondAttribute="trailing" id="TRO-Hx-DLq"/>
-                            <constraint firstItem="lVx-av-e4K" firstAttribute="top" secondItem="V4O-xs-j3g" secondAttribute="top" id="XAT-15-V84"/>
-                            <constraint firstItem="Ecf-rc-6Uv" firstAttribute="top" secondItem="jvf-0A-jSx" secondAttribute="bottom" id="g11-Bs-2P1"/>
-                            <constraint firstAttribute="trailing" secondItem="Ecf-rc-6Uv" secondAttribute="trailing" id="jTf-8w-nI0"/>
-                            <constraint firstItem="V4O-xs-j3g" firstAttribute="leading" secondItem="lVx-av-e4K" secondAttribute="leading" id="spL-x5-JOl"/>
-                            <constraint firstItem="jvf-0A-jSx" firstAttribute="trailing" secondItem="lVx-av-e4K" secondAttribute="trailing" id="syi-Gp-JcJ"/>
+                            <constraint firstItem="lVx-av-e4K" firstAttribute="trailing" secondItem="kvX-QD-dG9" secondAttribute="trailing" id="GWZ-Gh-As2"/>
+                            <constraint firstItem="kvX-QD-dG9" firstAttribute="leading" secondItem="lVx-av-e4K" secondAttribute="leading" id="guk-jc-DCd"/>
+                            <constraint firstItem="kvX-QD-dG9" firstAttribute="top" secondItem="lVx-av-e4K" secondAttribute="top" id="sEh-Fz-ONC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lVx-av-e4K"/>
                     </view>
                     <connections>
-                        <outlet property="firstSetting" destination="V4O-xs-j3g" id="dIC-8X-5EE"/>
-                        <outlet property="secondSetting" destination="jvf-0A-jSx" id="PRM-ey-bKL"/>
-                        <outlet property="thirdSetting" destination="Ecf-rc-6Uv" id="O3H-dW-5Ua"/>
+                        <outlet property="stackView" destination="kvX-QD-dG9" id="av3-JS-zvN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ol0-A5-qrr" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -36,8 +36,8 @@ class NotificationPromptController: ListSectionController {
         let insets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 50)
         let labelHeight = TextSize.size(promptMessage, font: UIFont.lato(size: 15), width: width, insets: insets).height
         
-        // Top and Bottom padding of 10
-        return CGSize(width: width, height: labelHeight + 20)
+        // Top and Bottom padding of 20
+        return CGSize(width: width, height: labelHeight + 40)
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {

@@ -615,7 +615,7 @@
                                             <constraint firstAttribute="height" constant="32" id="uvw-9c-JDL"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Write a comment… " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uhd-9J-RBP">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Write a comment… " textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uhd-9J-RBP">
                                         <rect key="frame" x="20" y="33" width="291" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="hhC-h7-mHk"/>

@@ -25,7 +25,7 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
         self.model = object
         
         var results: [ListDiffable] = [
-            PostHeaderViewModel(id: object.id, title: object.title, subheadline: object.subhead, authorName: object.authorName, dateString: object.dateString, saved: object.saved, imageUrl: object.imageUrl, expanded: object.expanded, authorUsername: object.authorUsername, postUrl: object.urlString)]
+            PostHeaderViewModel(id: object.id, title: object.title, subheadline: object.subhead, authorName: object.authorName, dateString: object.dateString, saved: object.saved, imageUrl: object.imageUrl, expanded: object.expanded, authorUsername: object.authorUsername, postUrl: object.urlString, postType: object.postType, emptyBody: object.emptyBody, emptySubhead: object.emptySubhead)]
         if object.expanded {
             results.append(PostContentViewModel(id: object.id, body: object.body, numberOfComments: object.numberOfComments, postUrl: object.urlString, voteValue: object.voteValue, expanded: object.expanded, authorUsername: object.authorUsername, title: object.title))
         }
@@ -64,26 +64,34 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
              Heading Cell
              Top Padding - 20
              Image height - 100
-             Padding - 5
+             Padding - 10
              Subheadline height - Variable
-             Bottom padding - 0
+             Subtract 15 for no reason
+             Only if report:
+             Padding -15
+             Readmore Label 18
+             Bottom Padding 10
             **/
             let height = TextSize.sizeAttributed(viewModel.subheadline, font: UIFont.lato(size: 15.0), width: width, insets: textInsets).height
-            return CGSize(width: width, height: height + 125)
+            var baseHeight: CGFloat = 115
+            if !viewModel.expanded && viewModel.postType == PostType.Report && !viewModel.emptySubhead {
+                baseHeight += 13
+            }
+            return CGSize(width: width, height: height + baseHeight)
         case is PostContentViewModel:
             guard let viewModel = viewModel as? PostContentViewModel else { fatalError() }
             /**
              Content Cell
              Top Padding 0
-             Body - Variable
+             Body - Variable (+10 to account for TextSize calculation limitations)
              Padding - 10
              Vote View 44
              Padding 10
-             Comment Input 64
-             Padding 10
+             Comment Input 32
+             Padding 20
             **/
             let height = TextSize.sizeAttributed(viewModel.body, font: UIFont.lato(size: 15.0), width: width, insets: textInsets).height
-            return CGSize(width: width, height: height + 138)
+            return CGSize(width: width, height: height + 126)
         default:
             return CGSize(width: width, height: 200)
         }
@@ -105,7 +113,7 @@ class PostSectionController : ListBindingSectionController<PostViewModel>, ListB
         transitionDelegate = self
         workingRangeDelegate = self
         minimumLineSpacing = 4
-        minimumInteritemSpacing = 4
+        minimumInteritemSpacing = 0
     }
 }
 

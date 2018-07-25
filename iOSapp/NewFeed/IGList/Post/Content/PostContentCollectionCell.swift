@@ -58,7 +58,7 @@ class PostContentCollectionCell: UICollectionViewCell, ListBindable {
          Padding 10
          **/
         let bodyTextViewHeight = TextSize.sizeAttributed(bodyText, font: UIFont.lato(size: 15), width: width, insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)).height
-        self.bodyTextViewHeightConstraint = self.bodyTextView.heightAnchor.constraint(equalToConstant: bodyTextViewHeight)
+        self.bodyTextViewHeightConstraint = self.bodyTextView.heightAnchor.constraint(equalToConstant: bodyTextViewHeight + 10)
         self.bodyTextViewHeightConstraint!.isActive = true
         
         self.bodyTextView.attributedText = bodyText
@@ -76,10 +76,11 @@ class PostContentCollectionCell: UICollectionViewCell, ListBindable {
         
         addGestureRecognizers()
         self.contentView.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
-        commentButton.layer.cornerRadius = 14
+        commentButton.layer.cornerRadius = 16
         commentButton.layer.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
         commentButton.layer.borderWidth = 1
         commentButton.titleLabel?.contentMode = .center
+        bodyTextView.tintColor = UIColor(white: 0.5, alpha: 1.0)
     }
     
     @objc func expandPost() {

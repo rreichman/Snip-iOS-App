@@ -114,6 +114,7 @@ PODS:
   - RxTest (4.1.2):
     - RxSwift (~> 4.0)
   - SipHash (1.2.1)
+  - SwiftLint (0.25.1)
   - TrezorCrypto (0.0.5)
   - TrustCore (0.0.7):
     - BigInt
@@ -151,6 +152,7 @@ DEPENDENCIES:
   - RxCocoa (~> 4.0)
   - RxSwift (~> 4.0)
   - RxTest
+  - SwiftLint
   - TrustCore (~> 0.0.7)
   - TrustKeystore (~> 0.4.0)
   - TrustWeb3Provider (from `https://github.com/TrustWallet/trust-web3-provider`, branch `master`)
@@ -195,6 +197,7 @@ SPEC REPOS:
     - RxSwift
     - RxTest
     - SipHash
+    - SwiftLint
     - TrezorCrypto
     - TrustCore
     - TrustKeystore
@@ -269,12 +272,13 @@ SPEC CHECKSUMS:
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxTest: e634f15fd2c2cd0e0120132ef7a4f7be69ad0393
   SipHash: b26918dbe6925368d4322374371437c62c9038e2
+  SwiftLint: ce933681be10c3266e82576dad676fa815a602e9
   TrezorCrypto: ecef681446bf02af6248d3b5e394026d7e766e56
   TrustCore: 688df9a241008cf9cfa3842ec8ef28777a8b7534
   TrustKeystore: fdd5936098af80b9478122bbd3a89477a5389298
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
 
-PODFILE CHECKSUM: 0ec86741620538a1614a58463b9d38bc9df9b444
+PODFILE CHECKSUM: 6ff3b9f72d1d3a137c4ee49d07ae91cb29e4f8fc
 
 COCOAPODS: 1.5.3

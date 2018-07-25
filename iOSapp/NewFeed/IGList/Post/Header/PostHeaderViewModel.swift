@@ -16,7 +16,7 @@ class PostHeaderViewModel: ListDiffable {
     
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         guard let obj = object as? PostHeaderViewModel else { return false }
-        return saved == obj.saved && imageUrl == obj.imageUrl && expanded == self.expanded
+        return saved == obj.saved && imageUrl == obj.imageUrl && expanded == obj.expanded
     }
     
     let id: Int
@@ -29,8 +29,11 @@ class PostHeaderViewModel: ListDiffable {
     let expanded: Bool
     let authorUsername: String
     let postUrl: String
+    let postType: PostType
+    let emptyBody: Bool
+    let emptySubhead: Bool
     
-    init(id: Int, title: String, subheadline: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: String, expanded: Bool, authorUsername: String, postUrl: String) {
+    init(id: Int, title: String, subheadline: NSAttributedString, authorName: String, dateString: String, saved: Bool, imageUrl: String, expanded: Bool, authorUsername: String, postUrl: String, postType: PostType, emptyBody: Bool, emptySubhead: Bool) {
         self.id = id
         self.title = title
         self.subheadline = subheadline
@@ -41,5 +44,8 @@ class PostHeaderViewModel: ListDiffable {
         self.expanded = expanded
         self.authorUsername = authorUsername
         self.postUrl = postUrl
+        self.postType = postType
+        self.emptyBody = emptyBody
+        self.emptySubhead = emptySubhead
     }
 }

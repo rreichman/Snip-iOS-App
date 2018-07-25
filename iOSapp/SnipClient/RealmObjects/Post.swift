@@ -18,8 +18,7 @@ enum PostType {
 @objcMembers
 class Post: Object {
     static let dateFormatter: DateFormatter = DateFormatter()
-    static let paragraphStyle: NSParagraphStyle = buildParagraphStyle()
-    static func buildParagraphStyle() -> NSMutableParagraphStyle {
+    static let paragraphStyle: NSParagraphStyle = {
         let p = NSMutableParagraphStyle()
         p.lineSpacing = 0
         p.paragraphSpacing = 0
@@ -27,7 +26,17 @@ class Post: Object {
         p.baseWritingDirection = .leftToRight
         p.minimumLineHeight = 22
         return p
-    }
+    }()
+    static let relatedLinkParagraphStyle: NSParagraphStyle = {
+        let p = NSMutableParagraphStyle()
+        p.lineSpacing = 0
+        p.paragraphSpacing = 0
+        p.defaultTabInterval = 36
+        p.baseWritingDirection = .leftToRight
+        p.minimumLineHeight = 32
+        return p
+    }()
+    
     static let emptyParagraph: NSAttributedString = NSAttributedString(string: "")
     dynamic var id : Int = 0
     dynamic var author : User?
@@ -57,7 +66,7 @@ class Post: Object {
     override static func ignoredProperties() -> [String] {
         return ["dateFormatter", "postHasBeenViewed", "postHasBeenExpanded",
                 "postType", "_subheadlineCache", "_fullBodyCache", "subheadlineAttributedString",
-                "fullBodyAttributedString"]
+                "fullBodyAttributedString", "emptyBody", "emptySubhead"]
     }
     
     func formattedTimeString() -> String {
@@ -65,7 +74,7 @@ class Post: Object {
     }
     
     var postType: PostType {
-        switch (self.post_type_string) {
+        switch (self.post_type_string.lowercased()) {
         case "report":
             return PostType.Report
         case "explained":
@@ -73,6 +82,14 @@ class Post: Object {
         default:
             return PostType.Report
         }
+    }
+    
+    var emptyBody: Bool {
+        return self.text.count == 0
+    }
+    
+    var emptySubhead: Bool {
+        return self.subheadline.count == 0
     }
     
     var subheadlineAttributedString: NSAttributedString {
@@ -135,7 +152,7 @@ extension Post {
         }
         if let imageJson = json["image"] as? [String: Any] {
             if let image = try? Image.parseJson(json: imageJson) {
-                if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image?.imageUrl) {
+                if let cached_image = RealmManager.instance.getMemRealm().object(ofType: Image.self, forPrimaryKey: image.imageUrl) {
                     post.image = cached_image
                 } else {
                     post.image = image
@@ -246,9 +263,10 @@ extension Post {
         //Possibly strip paragraphs
         let font_size: CGFloat = 15.0
         let line_height = 22
+        let bodyColor = (self.postType == .Report && !self.emptySubhead) ? UIColor(white: 0.4, alpha: 1.0) : UIColor(white: 0.2, alpha: 1.0)
         let fixed_html = "<div style = \"line-height: \(line_height)px\">\(text)</div>"
         guard let render = NSMutableAttributedString(htmlString: fixed_html) else { return NSAttributedString(string: "") }
-        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: UIColor(red: 0.50, green: 0.50, blue: 0.50, alpha: 1.0), NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
+        render.addAttributes([NSAttributedStringKey.font: UIFont.lato(size: font_size), NSAttributedStringKey.foregroundColor: bodyColor, NSAttributedStringKey.paragraphStyle: Post.paragraphStyle], range: NSRange(location: 0, length: render.length))
         
         return render.attributedSubstring(from: NSMakeRange(0, render.length))
     }
@@ -285,25 +303,25 @@ extension Post {
                 Crashlytics.sharedInstance().recordError(SerializationError.invalid("Related link URL", source.url), withAdditionalUserInfo: ["title": source.title, "url": source.url, "post_id": id, "api_url": RestUtils.snipURLString])
                 continue
             }
-            let text = source.title + ", "
-            
+            let text = source.title
             let attributes: [NSAttributedStringKey : Any] =
-                [.paragraphStyle: Post.paragraphStyle,
+                [.paragraphStyle: Post.relatedLinkParagraphStyle,
                  .font: UIFont.lato(size: 15),
-                 .link: url]
+                 .link: url,
+                 .underlineStyle: 1]
+            let spaceAttributes: [NSAttributedStringKey : Any] =
+                [.paragraphStyle: Post.relatedLinkParagraphStyle,
+                 .font: UIFont.lato(size: 15)]
             let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
             body.append(attributedText)
+            body.append(NSMutableAttributedString(string: ", ", attributes: spaceAttributes))
         }
         return (body.length > 2 ? body.attributedSubstring(from: NSMakeRange(0, body.length - 2)) : body)
     }
     
     func asViewModel(expanded: Bool) -> PostViewModel {
-        var imageUrl: URL?
-        if let im = self.image {
-            imageUrl = im.imageUrlObject
-        } else {
-            imageUrl = nil
-        }
+        let imageUrl: String = self.image?.imageUrl ?? ""
+        
         return PostViewModel(
                             id: id,
                             title: self.headline,
@@ -318,17 +336,14 @@ extension Post {
                              numberOfComments: self.comments.count,
                              timestamp: self.timestamp.toString(),
                              expanded: expanded,
-                             authorUsername: self.author != nil ? self.author!.username : "")
+                             authorUsername: self.author != nil ? self.author!.username : "",
+                             postType: self.postType,
+                             emptyBody: self.emptyBody,
+                             emptySubhead: self.emptySubhead)
     }
     
     func asDetailViewModel(activeUserUsername: String) -> PostDetailViewModel {
-        var imageUrl: URL?
-        if let im = self.image {
-            imageUrl = im.imageUrlObject
-        } else {
-            imageUrl = nil
-        }
-        
+        let imageUrl: String = self.image?.imageUrl ?? ""
         return PostDetailViewModel(id: self.id,
                                    title: self.headline,
                                    subhead: self.subheadlineAttributedString,

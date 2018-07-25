@@ -56,6 +56,7 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
     
     var data: [ListDiffable] = []
     let spinToken = "spinner"
+    let paddingToken = "padding"
     var loading = false
     var _endOfFeed = false
     
@@ -84,7 +85,7 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
     func performUpdates() {
         assert(Thread.isMainThread)
         if let a = self.adapter {
-            a.performUpdates(animated: true) { (success) in
+            a.performUpdates(animated: false) { (success) in
                 print("BATCH: COMPLETITION realm_set:\(self.postList?.count ?? 0) diff_set:\(self.data.count) success: \(success)")
             }
         }
@@ -94,11 +95,16 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
     
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         var result: [ListDiffable] = []
-        
-        if showNotificationRequest {
-            result.append(NotificationPromptViewModel())
+        switch self.feedViewType {
+        case .main:
+            if showNotificationRequest {
+                result.append(NotificationPromptViewModel())
+            }
+            result.append(paddingToken + "header" as ListDiffable)
+        case .list(_, _, let writer):
+            let ident = (writer == nil ? "header" : "header-blue")
+            result.append(paddingToken + ident as ListDiffable)
         }
-        
         if let writer = self.writer {
             result.append(WriterHeaderViewModel(writerName: writer.fullName(), writerUsername: writer.username, avatarUrl: writer.avatarUrl, initials: writer.initials))
         }
@@ -107,16 +113,40 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
         
         if loading {
             result.append(spinToken as ListDiffable)
+        } else {
+            result.append(paddingToken + "footer" as ListDiffable)
         }
         self.data = result
         return result
     }
     
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if let obj = object as? String, obj == spinToken {
-            return spinnerSectionController()
-        }
         switch object {
+        case is String:
+            guard let string = object as? String else { fatalError() }
+            if string == spinToken {
+                return spinnerSectionController()
+            } else if string.starts(with: self.paddingToken) {
+                switch self.feedViewType {
+                case .main:
+                    return paddingSectionController(height: 20, backgroundColor: UIColor(white: 0.97, alpha: 1.0))
+                case .list:
+                    if string.contains("header") {
+                        if string.contains("blue") {
+                            return paddingSectionController(height: 20, backgroundColor: UIColor(red: 0.0, green: 0.7, blue: 0.8, alpha: 1.0))
+                        } else {
+                            return paddingSectionController(height: 20, backgroundColor: UIColor(white: 0.97, alpha: 1.0))
+                        }
+                    } else if string.contains("footer") {
+                        return paddingSectionController(height: 20, backgroundColor: UIColor(white: 0.97, alpha: 1.0))
+                    } else {
+                        fatalError()
+                    }
+                }
+                
+            } else {
+                fatalError()
+            }
         case is PostViewModel:
             let p = PostSectionController()
             p.delegate = self
@@ -153,6 +183,7 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
                 loading = false
             }
             self.categoryList = results
+            self.navigationItem.title = "HOME"
         case .list(let postList, let navTitle, let writerOptional):
             if postList.count > 0 {
                 self.loading = false
@@ -178,21 +209,22 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         let updater = ListAdapterUpdater()
-        let adapter = ListAdapter(updater: updater, viewController: self, workingRangeSize: 2)
+        let adapter = ListAdapter(updater: updater, viewController: self)
         self.view.addSubview(collectionView)
         adapter.collectionView = collectionView
         adapter.dataSource = self
         adapter.scrollViewDelegate = self
         
         self.collectionView = collectionView
+        /**
         if self.writer != nil {
            self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         } else {
             self.collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-        }
+        } **/
         
         self.adapter = adapter
-        collectionView.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
+        collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         self.view.backgroundColor = UIColor(white: 0.90, alpha: 1.0)
         
         let refreshControl = UIRefreshControl()
@@ -284,7 +316,7 @@ class FeedCollectionViewController: UIViewController, ListAdapterDataSource, UIS
         let distance = scrollView.contentSize.height - (targetContentOffset.pointee.y + scrollView.bounds.height)
         switch self.feedViewType {
         case .list:
-            if !_endOfFeed && !loading && distance < 200 {
+            if !_endOfFeed && !loading && distance < 500 {
                 loading = true
                 performUpdates()
                 if let d = self.delegate {

@@ -42,6 +42,7 @@ class LoginDesignUtils
     let PRIVACY_POLICY_STRING = NSAttributedString(string: "Privacy Policy", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
     let TERMS_OF_SERVICE_STRING = NSAttributedString(string: "Terms Of Service", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
     let LOGOUT_STRING = NSAttributedString(string: "Logout", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
+    let NOTIFICATION_STRING = NSAttributedString(string: "Enable Notifications", attributes: SETTINGS_MEMBER_DESCRIPTION_ATTRIBUTES)
     
     let LOGIN_STRING = NSAttributedString(string: "Login", attributes: HEADLINE_ATTRIBUTES)
     let LOGIN_STRING_BOTTOM = NSAttributedString(string: "Log In", attributes: HEADLINE_ATTRIBUTES)

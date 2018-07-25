@@ -112,13 +112,14 @@
                 <constraint firstItem="J0N-5Y-KTN" firstAttribute="leading" secondItem="hpZ-jO-KiK" secondAttribute="trailing" constant="10" id="AWk-kp-Ye4"/>
                 <constraint firstAttribute="trailing" secondItem="KeW-zV-FFl" secondAttribute="trailing" constant="16" id="AY6-bW-CrT"/>
                 <constraint firstAttribute="trailing" secondItem="J0N-5Y-KTN" secondAttribute="trailing" constant="16" id="Bv9-BP-ngx"/>
-                <constraint firstItem="hpZ-jO-KiK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="mhM-Kp-lj2"/>
+                <constraint firstItem="hpZ-jO-KiK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" placeholder="YES" id="mhM-Kp-lj2"/>
                 <constraint firstItem="AII-d9-LWK" firstAttribute="top" secondItem="J0N-5Y-KTN" secondAttribute="bottom" constant="10" id="q0l-bj-xWQ"/>
                 <constraint firstItem="J0N-5Y-KTN" firstAttribute="top" secondItem="KeW-zV-FFl" secondAttribute="bottom" constant="5" id="vU4-KV-st1"/>
                 <constraint firstItem="hpZ-jO-KiK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="w8J-W2-Ifi"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
+                <outlet property="avatarContainerView" destination="hpZ-jO-KiK" id="Tb1-6T-WGT"/>
                 <outlet property="avatarImageView" destination="vYj-VL-Dhy" id="pgm-df-ocE"/>
                 <outlet property="commentLabel" destination="J0N-5Y-KTN" id="fQa-KR-H3e"/>
                 <outlet property="dateLabel" destination="FIs-d4-iBb" id="1sb-FW-hyf"/>

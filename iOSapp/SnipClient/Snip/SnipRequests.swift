@@ -43,9 +43,9 @@ class SnipRequests {
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("invalid json response", obj) }
                 guard let jsonList = json["posts_data"] as? [ [String: Any] ] else { throw SerializationError.missing("posts_data") }
                 let categories = try Category.parseJsonList(json: jsonList)
-                let requests: [ImageRequest?] = categories.flatMap({ (cat) -> [ImageRequest?] in
+                /**let requests: [ImageRequest?] = categories.flatMap({ (cat) -> [ImageRequest?] in
                     return cat.topThreePosts.map({ (post) -> ImageRequest? in
-                        guard let url = post.image?.imageUrlObject else {
+                        guard let urlString = post.image?.imageUrl, let url = URL(string: urlString) else {
                             return nil
                         }
                         var request = ImageRequest(url: url)
@@ -54,6 +54,7 @@ class SnipRequests {
                     })
                 })
                 self.preheater.startPreheating(with: requests.filter( { $0 != nil } ) as! [ImageRequest])
+ **/
                 return categories
         }
     }
@@ -67,7 +68,7 @@ class SnipRequests {
             .mapSnipRequest()
             .mapJSON()
             .observeOn(MainScheduler.instance)
-            .map { [weak self] obj in
+            .map { [unowned self] obj in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
                 var next_page: Int!
                 if let next_page_maybe = json["next_page"] as? Int  {
@@ -75,7 +76,6 @@ class SnipRequests {
                 } else {
                     next_page = -1
                 }
-                guard let s = self else { throw SerializationError.missing("self") }
                 let page = try Post.parsePostPage(json: json)
                 let realm = RealmManager.instance.getMemRealm()
                 let add_set = page.filter({ (post) -> Bool in
@@ -86,8 +86,21 @@ class SnipRequests {
                     category.posts.append(objectsIn: add_set)
                     category.nextPage = next_page
                 }
+                //self.preheater.startPreheating(with: SnipRequests.buildImageRequests(posts: page))
                 return category
             }
+    }
+    
+    private static func buildImageRequests(posts: [Post]) -> [ImageRequest] {
+        return posts.compactMap({ (post) -> ImageRequest? in
+            guard let image = post.image, let url = URL(string: image.imageUrl) else {
+                return nil
+            }
+            var request = ImageRequest(url: url)
+            request.priority = .low
+            
+            return request
+        })
     }
     
     func getPostPageForQuery(params: [String: String], nextPage: Int?) -> Single< (Int, [ Post ]) > {
@@ -100,7 +113,7 @@ class SnipRequests {
             .mapSnipRequest()
             .mapJSON()
             .observeOn(MainScheduler.instance)
-            .map { [weak self] obj in
+            .map { [unowned self] obj in
                 guard let json = obj as? [String: Any] else { throw SerializationError.invalid("json", obj) }
                 var next_page: Int!
                 if let next_page_maybe = json["next_page"] as? Int  {
@@ -109,6 +122,7 @@ class SnipRequests {
                     next_page = -1
                 }
                 let page = try Post.parsePostPage(json: json)
+                //self.preheater.startPreheating(with: SnipRequests.buildImageRequests(posts: page))
                 return (next_page, page)
         }
     }

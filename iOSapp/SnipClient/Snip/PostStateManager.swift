@@ -81,11 +81,11 @@ class PostStateManager {
 }
 
 extension PostStateManager: SnipCellDataDelegate {
-    func onVoteAciton(newVoteValue: Double, for post: Post) {
+    internal func onVoteAciton(newVoteValue: Double, for post: Post) {
         postVoteState(newVoteValue: newVoteValue, for: post)
     }
     
-    func onSaveAciton(saved: Bool, for post: Post) {
+    internal func onSaveAciton(saved: Bool, for post: Post) {
         postSavePost(saved: saved, for: post)
     }
     

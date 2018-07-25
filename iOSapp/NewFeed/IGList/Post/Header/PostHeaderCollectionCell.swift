@@ -19,6 +19,7 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
     @IBOutlet var postOptionsButton: UIButton!
     @IBOutlet var views: [UIView]!
     
+    @IBOutlet var readMoreLabel: UILabel!
     @IBOutlet var saveToggleButton: ToggleButton!
     weak var delegate: PostInteractionDelegate?
     
@@ -47,7 +48,7 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         authorLabel.text = viewModel.authorName
         dateLabel.text = viewModel.dateString
         
-        if let url = viewModel.imageUrl {
+        if let url = URL(string: viewModel.imageUrl) {
             Nuke.loadImage(with: url, into: postImage)
         } else {
             postImage.image = nil
@@ -59,6 +60,25 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         
         saveToggleButton.bind(on_state: viewModel.saved) { [unowned self](value) in
             self.savePost()
+        }
+        if viewModel.expanded {
+            readMoreLabel.isHidden = true
+        } else {
+            switch viewModel.postType {
+            case .Explained:
+                readMoreLabel.isHidden = true
+            case .Report:
+                if viewModel.emptySubhead {
+                    readMoreLabel.isHidden = true
+                } else {
+                    readMoreLabel.isHidden = false
+                    if viewModel.emptyBody {
+                        readMoreLabel.text = "Expand"
+                    } else {
+                        readMoreLabel.text = "Read More"
+                    }
+                }
+            }
         }
     }
     
@@ -82,7 +102,6 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
             self.titleLabelHeightConstraint = self.titleLabel.heightAnchor.constraint(equalToConstant: size.height)
             self.titleLabelHeightConstraint!.isActive = true
             self.titleLabel.text = titleText
-            print("1313: Font adjusted down to \(font) for title \(titleText)")
         } else {
             self.titleLabel.font = UIFont.latoBold(size: 16)
             self.titleLabel.text = titleText
@@ -120,6 +139,7 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         
         self.contentView.backgroundColor = UIColor(white:0.97, alpha:1.0)
         self.subheadTextView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 125).isActive = true
+        self.subheadTextView.tintColor = UIColor(white: 0.2, alpha: 1.0)
         postImage.layer.cornerRadius = 4
     }
     
@@ -141,6 +161,11 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         }
     }
     
+    @objc func expandPostImage() {
+        guard let model = self.viewModel else { return }
+        self.delegate?.showExpandedImage(postId: model.id)
+    }
+    
     func savePost() {
         if let d = self.delegate, let model = self.viewModel {
             d.savePost(postId: model.id)
@@ -157,5 +182,11 @@ class PostHeaderCollectionCell: UICollectionViewCell, ListBindable {
         authorLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showWritersPosts)))
         
         postOptionsButton.addTarget(self, action: #selector(postOptionsAction), for: .touchUpInside)
+        
+        postImage.isUserInteractionEnabled = true
+        postImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(expandPostImage)))
+        
+        readMoreLabel.isUserInteractionEnabled = true
+        readMoreLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(expandPostAction)))
     }
 }
